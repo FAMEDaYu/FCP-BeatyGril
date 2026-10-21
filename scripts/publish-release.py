@@ -15,10 +15,10 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
  def redirect_request(self,*args,**kwargs):return None
 opener=urllib.request.build_opener(NoRedirect,urllib.request.HTTPSHandler(context=ssl.create_default_context(cafile='/etc/ssl/cert.pem')))
 def request(path,method='GET',body=None,headers=None):
- assert path.startswith('/wp-json/') and '\n' not in path
+ assert path.startswith(('/wp/v2/','/dayu-publisher/v1/')) and '\n' not in path
  h={'Authorization':auth,'Accept':'application/json'};h.update(headers or {})
  if isinstance(body,dict):body=json.dumps(body,ensure_ascii=False).encode();h['Content-Type']='application/json'
- req=urllib.request.Request('https://dayu.media'+path,data=body,headers=h,method=method)
+ req=urllib.request.Request('https://dayu.media/wp-json'+path,data=body,headers=h,method=method)
  with opener.open(req,timeout=180) as f:return json.load(f)
 def upload(name,path,mime):
  if name in state:return state[name]
@@ -30,7 +30,7 @@ def upload(name,path,mime):
    with urllib.request.urlopen(item['source_url'],context=ssl.create_default_context(cafile='/etc/ssl/cert.pem'),timeout=90) as r:data=r.read()
    if hashlib.sha256(data).digest()==hashlib.sha256(path.read_bytes()).digest():
     state[name]={'id':item['id'],'url':item['source_url']};save();return state[name]
- result=request('/wp/v2/media','POST',path.read_bytes(),{'Content-Type':mime,'Content-Disposition':"attachment; filename*=UTF-8''"+urllib.parse.quote(filename)})
+ result=request('/wp/v2/media','POST',path.read_bytes(),{'Content-Type':mime,'Content-Disposition':'attachment; filename="'+filename+'"'})
  state[name]={'id':result['id'],'url':result['source_url']};save();return state[name]
 status=request('/dayu-publisher/v1/status');assert status['can_publish'] and status['can_upload'] and 'seo' in status['fields']
 source=upload('source',ROOT/'build/Dayu-Portrait-1.2.0-source.zip','application/zip')
