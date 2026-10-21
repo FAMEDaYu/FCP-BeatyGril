@@ -1,0 +1,54 @@
+{
+  "version": "1.0.4",
+  "build": "6",
+  "mainBundleID": "com.dayu.beatygril",
+  "pluginBundleID": "com.dayu.beatygril.fxplug",
+  "sourceCommit": "e03e460a9b3e5ad489aad24095485ba10ceb987d",
+  "notarization": {
+    "status": "Accepted",
+    "id": "8eb96294-5935-49ff-a487-3c4f60c27395",
+    "message": "Processing complete"
+  },
+  "architectures": "x86_64 arm64",
+  "inventoryRoots": [
+    "/Users/dayu/Documents/PaintFCP",
+    "/Users/dayu/Library/Developer/Xcode/DerivedData",
+    "/Users/dayu/Downloads",
+    "/Users/dayu/Desktop",
+    "/Applications",
+    "/Library/Plug-Ins/FxPlug",
+    "/tmp/paintfcp-build-20261021"
+  ],
+  "appCopiesBeforeCleanup": [
+    "/Users/dayu/Documents/PaintFCP/build/delivery/previous-beatygril.app",
+    "/Library/Plug-Ins/FxPlug/beatygril.app",
+    "/tmp/paintfcp-build-20261021/Build/Products/Release/beatygril.app"
+  ],
+  "inventoryErrors": [],
+  "appCopiesAfterCleanup": [
+    "/Library/Plug-Ins/FxPlug/beatygril.app"
+  ],
+  "temporaryBuildRemoved": true,
+  "previousBackupRemoved": true,
+  "notarizationZipRemoved": true,
+  "registry": "com.dayu.beatygril.fxplug(1.1)\n\t            Path = /Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit\n\t            UUID = 6E26839B-7A7D-4BF9-B3EA-EA0F0F35F54D\n\t       Timestamp = 2026-10-21 10:43:01 +0000\n\t   Parent Bundle = /Library/Plug-Ins/FxPlug/beatygril.app\n\t    Display Name = 大鱼人像美化\n\t      Short Name = beatygril XPC Service\n\t     Parent Name = beatygril\n\t        Platform = macOS\n\n (1 plug-in)",
+  "hostValidation": {
+    "Motion": "1.0.4 formal plugin loaded real-video project and produced beauty + primary tracking box; playhead changed across source positions; no offline analysis enabled in project. Native explicit OSC click test incomplete due user interaction.",
+    "FCP": "Template input/brightness passed native tests before realtime alignment; 1.0.4 automatic-follow native FCP test not yet performed.",
+    "handoff": "User explicitly requested to operate Motion/FCP for self-testing; automation ceased."
+  },
+  "installedFinalChecks": {
+    "signature": {
+      "exit": 0,
+      "output": ""
+    },
+    "ticket": {
+      "exit": 0,
+      "output": "Processing: /Library/Plug-Ins/FxPlug/beatygril.app\nThe validate action worked!\n"
+    },
+    "gatekeeper": {
+      "exit": 0,
+      "output": "/Library/Plug-Ins/FxPlug/beatygril.app: accepted\nsource=Notarized Developer ID\n"
+    }
+  }
+}

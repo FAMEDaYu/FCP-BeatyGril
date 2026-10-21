@@ -27,7 +27,7 @@ git switch --detach v1.0.4
 
 ## 1.0.4 恢复入口
 
-最终交付标签为 `v1.0.4`，工作分支为 `main`；本次实际编译和独立恢复测试的代码节点为完整 SHA `22cd96a772f84895aacd5ccc1ef24e0711e933fa`。最终标签还包含验证文档。需要精确恢复已测试源码时可执行 `git switch --detach 22cd96a772f84895aacd5ccc1ef24e0711e933fa`。两者都保留初始模板及全部中间提交。
+最终交付标签为 `v1.0.4`，工作分支为 `main`；本次实际编译和独立恢复测试的代码节点为完整 SHA `e03e460a9b3e5ad489aad24095485ba10ceb987d`。最终标签还包含验证文档。需要精确恢复已测试源码时可执行 `git switch --detach e03e460a9b3e5ad489aad24095485ba10ceb987d`。两者都保留初始模板及全部中间提交。
 
 依赖：Xcode27.1、FxPlug SDK4.3.4、PluginManager1.7.4，系统最低macOS13；Metal与Vision由系统提供。SDK头文件/链接存根安装到 `/Library/Developer/SDKs/FxPlug.sdk/Library/Frameworks`，可执行运行框架在 `/Library/Developer/Frameworks`；不要把SDK链接存根当运行框架嵌入APP。两者属于需重新安装的Apple外部依赖，仓库不保存证书/私钥或登录凭据。
 

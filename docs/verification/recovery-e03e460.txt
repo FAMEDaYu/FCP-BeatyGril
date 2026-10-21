@@ -1,0 +1,18 @@
+独立远端恢复验收：通过
+源码节点：e03e460a9b3e5ad489aad24095485ba10ceb987d
+远程：https://dayu.media/git/dayu/paintfcp-fxplug.git
+远程 main 与节点精确一致。
+
+新临时克隆 detached 检出：51 个跟踪文件逐 byte/blob/模式一致。
+必要 9 项资源完整（包含标准 Drop Zone.tiff、NASA astronaut fixture 与授权说明）。
+git fsck --full --strict 通过；无 LFS 指针、无子模块。
+
+完整离屏检查 380：Beauty49 + Face116 + Host117 + OSC98，零失败。
+Host、OSC 均使用 AddressSanitizer，通过。
+xcodebuild -list 通过；未构建 APP。
+
+工作区相对源码节点的预期文档差异：
+- 无
+checkpoint.py 模式 100644；python3 scripts/checkpoint.py --help 已通过。
+未修改源码、提交、安装、启动 APP 或操作宿主 UI。
+本次临时克隆已清理。

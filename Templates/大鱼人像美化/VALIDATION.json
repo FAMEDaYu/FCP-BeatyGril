@@ -26,7 +26,7 @@
   "hostValidation": {
     "date": "2026-10-21",
     "FCP": "Restored input-chain template shows supplied real video; effect parameters and forward analysis responded in independent QA project.",
-    "Motion": "Real-video ordinary project played with midtone=0.5 and brightness=0.75; face boxes followed changing positions.",
-    "scope": "1.0.3 render/brightness smoke passed; 1.0.4 automatic geometry alignment and canvas event native verification pending."
+    "Motion": "1.0.4 installed formal app loaded the real-video QA project and rendered brightness/geometry with a primary box at different playhead positions; offline tracking disabled.",
+    "scope": "Original input-chain/brightness native regression passed; 1.0.4 FCP automatic-follow and explicit OSC native click tests remain pending because user took over Motion/FCP self-testing. Offline 380 checks passed; no exhaustive occlusion/identity equivalence claim."
   }
 }

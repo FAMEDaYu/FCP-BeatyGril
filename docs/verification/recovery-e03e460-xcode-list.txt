@@ -1,0 +1,21 @@
+Arguments: ["xcodebuild", "-list", "-project", "beatygril/beatygril.xcodeproj"]
+Environment additions: {}
+Exit code: 0
+
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -list -project beatygril/beatygril.xcodeproj
+
+Information about project "beatygril":
+    Targets:
+        Wrapper Application
+        XPC Service
+
+    Build Configurations:
+        Debug
+        Release
+
+    If no build configuration is specified and -scheme is not passed then "Release" is used.
+
+    Schemes:
+        Wrapper Application
+        XPC Service

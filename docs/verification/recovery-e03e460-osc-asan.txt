@@ -1,0 +1,26 @@
+Arguments: ["zsh", "scripts/test-osc.sh"]
+Environment additions: {"PAINTFCP_OSC_ASAN": "1"}
+Exit code: 0
+
+OSC adapter: 98 checks, 0 failures
+
+2026-10-21 18:42:57.862 osc-tests[1236:5276552] PGFaceOSC point-write desired=(0.25,0.75) setter=(0.25,0.75) readback=(0.25,0.75) mode=normalized verified=1
+2026-10-21 18:42:57.887 osc-tests[1236:5276552] PGFaceOSC coordinates selection=(0.25,0.75) objectBounds=(-100,-50,200,100) canvas=(80,180) surface=320x240 origin=0
+2026-10-21 18:42:58.633 osc-tests[1236:5276552] PGFaceOSC point-write desired=(0.8,0.3) setter=(1152,-432) readback=(0.8,0.3) mode=centered-pixels verified=1
+2026-10-21 18:42:58.633 osc-tests[1236:5276552] PGFaceOSC coordinates selection=(0.7,0.4) objectBounds=(-1920,-1080,3840,2160) canvas=(152,78) surface=320x240 origin=0
+2026-10-21 18:42:58.734 osc-tests[1236:5276552] PGFaceOSC point-write desired=(0.8,0.3) setter=(0.8,0.3) readback=(0.12345,0.87654) mode=normalized verified=0
+2026-10-21 18:42:58.734 osc-tests[1236:5276552] PGFaceOSC point-write desired=(0.75,0.25) setter=(0.75,0.25) readback=(0.75,0.25) mode=normalized verified=1
+2026-10-21 18:42:58.734 osc-tests[1236:5276552] PGFaceOSC coordinates selection=(0.75,0.25) objectBounds=(-100,-50,200,100) canvas=(160,60) surface=320x240 origin=0
+2026-10-21 18:42:58.813 osc-tests[1236:5276552] PGFaceOSC point-write desired=(0.625,0.375) setter=(0.625,0.375) readback=(0.625,0.375) mode=normalized verified=1
+2026-10-21 18:42:58.813 osc-tests[1236:5276552] PGFaceOSC coordinates selection=(0.625,0.375) objectBounds=(-100,-50,200,100) canvas=(240,60) surface=320x240 origin=0
+2026-10-21 18:42:58.892 osc-tests[1236:5276552] PGFaceOSC point-write desired=(0.25,0.75) setter=(0.25,0.75) readback=(0.25,0.75) mode=normalized verified=1
+2026-10-21 18:42:58.892 osc-tests[1236:5276552] PGFaceOSC coordinates selection=(0.25,0.75) objectBounds=(-100,-50,200,100) canvas=(144,180) surface=320x240 origin=0
+2026-10-21 18:42:58.976 osc-tests[1236:5276552] PGFaceOSC point-write desired=(0.5,0.5) setter=(0.5,0.5) readback=(0.5,0.5) mode=normalized verified=1
+2026-10-21 18:42:58.977 osc-tests[1236:5276552] PGFaceOSC coordinates selection=(0,1) objectBounds=(-100,-50,200,100) canvas=(100,140) surface=320x240 origin=0
+2026-10-21 18:42:59.070 osc-tests[1236:5276552] PGFaceOSC coordinates selection=(0.25,0.75) objectBounds=(-100,-50,200,100) canvas=(nan,nan) surface=320x240 origin=0
+2026-10-21 18:42:59.137 osc-tests[1236:5276552] PGFaceOSC point-write desired=(0.5,0.5) setter=(0.5,0.5) readback=(0.5,0.5) mode=normalized verified=1
+2026-10-21 18:42:59.137 osc-tests[1236:5276552] PGFaceOSC coordinates selection=(0.25,0.75) objectBounds=(-100,-50,200,100) canvas=(inf,nan) surface=320x240 origin=0
+2026-10-21 18:42:59.206 osc-tests[1236:5276552] PGFaceOSC point-write desired=(0.5,0.5) setter=(0.5,0.5) readback=(0.5,0.5) mode=normalized verified=1
+2026-10-21 18:42:59.206 osc-tests[1236:5276552] PGFaceOSC coordinates selection=(0.25,0.75) objectBounds=(-100,-50,200,100) canvas=(80,nan) surface=320x240 origin=0
+2026-10-21 18:42:59.265 osc-tests[1236:5276552] PGFaceOSC point-write desired=(0.5,0.5) setter=(0.5,0.5) readback=(0.5,0.5) mode=normalized verified=1
+2026-10-21 18:42:59.265 osc-tests[1236:5276552] PGFaceOSC point-write desired=(0.5,0.5) setter=(0.5,0.5) readback=(0.5,0.5) mode=normalized verified=1

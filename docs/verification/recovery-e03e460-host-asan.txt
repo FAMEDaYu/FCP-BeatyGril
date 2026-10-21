@@ -1,0 +1,9 @@
+Arguments: ["zsh", "scripts/test-host.sh"]
+Environment additions: {"PAINTFCP_HOST_ASAN": "1"}
+Exit code: 0
+
+Default IOSurface maximum byte difference: 0
+Alternate destination tag maximum byte difference: 0
+Host adapter: 117 checks, 0 failures
+
+2026-10-21 18:42:58.460 host-tests[1241:5276594] FBBA: creating VNFaceBBoxAligner from VNFaceDetectorRevision2: VNFaceDetectorRevision2

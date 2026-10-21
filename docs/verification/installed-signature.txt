@@ -1,0 +1,24 @@
+Executable=/Library/Plug-Ins/FxPlug/beatygril.app/Contents/MacOS/beatygril
+Identifier=com.dayu.beatygril
+Format=app bundle with Mach-O universal (x86_64 arm64)
+CodeDirectory v=20500 size=478 flags=0x10000(runtime) hashes=4+7 location=embedded
+Hash type=sha256 size=32
+CandidateCDHash sha256=b77375a5d7c6d5d866ff21bfdc3ce85412dc1d0b
+CandidateCDHashFull sha256=b77375a5d7c6d5d866ff21bfdc3ce85412dc1d0b463ff47fe896a52640762b4f
+Hash choices=sha256
+CMSDigest=b77375a5d7c6d5d866ff21bfdc3ce85412dc1d0b463ff47fe896a52640762b4f
+CMSDigestType=2
+CDHash=b77375a5d7c6d5d866ff21bfdc3ce85412dc1d0b
+Signature size=8968
+Authority=Developer ID Application: zhong luo (B3W25FX5H5)
+Authority=Developer ID Certification Authority
+Authority=Apple Root CA
+Timestamp=Oct 21, 2026 at 18:42:32
+Notarization Ticket=stapled
+Info.plist entries=22
+TeamIdentifier=B3W25FX5H5
+Runtime Version=27.0.0
+Sealed Resources version=2 rules=13 files=4
+Internal requirements count=1 size=180
+Total signatures=1
+Chosen signature=1
