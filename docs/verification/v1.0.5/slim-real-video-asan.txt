@@ -1,0 +1,2 @@
+2026-10-21 20:20:01.427 slim-asan[6677:5410585] FBBA: creating VNFaceBBoxAligner from VNFaceDetectorRevision2: VNFaceDetectorRevision2
+PASS: 264 slim alignment checks; maximum UV oracle error 1.09828022e-05

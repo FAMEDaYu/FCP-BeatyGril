@@ -12,7 +12,7 @@
 ```sh
 git clone https://dayu.media/git/dayu/paintfcp-fxplug.git
 cd paintfcp-fxplug
-git switch --detach v1.0.4
+git switch --detach v1.0.5
 ```
 
 需要继续编辑时，基于该提交创建新分支。安装 Xcode 与 Apple FxPlug 4 SDK；盘点版本和构建入口见 README.md。SDK/framework 为 Apple 外部开发依赖，应重新安装匹配版本。证书、私钥和公证凭据需从独立加密备份恢复或重新申请；Git 不包含它们。
@@ -40,3 +40,11 @@ FCP模板从 `Templates/大鱼人像美化/` 恢复，将 `.moef` 和 `Drop Zone
 ## 瘦脸与侧脸问题的分析节点
 
 `v1.0.4`之后的分析提交包含`docs/analysis/脸型变形与转脸分析.md`、`slim-pose-report.json`、REA证据包及独立Vision离线检测工具`scripts/inspect-face-geometry.m`。产品源码与安装版没有因该分析改变；已查明的问题仍存在于1.0.4。复现检测工具的依赖与命令见分析文档，用户视频、完整人脸坐标和帧图保留本地，不是产品恢复依赖。
+
+## 1.0.5 当前恢复入口
+
+当前发布标签为 `v1.0.5`，APP版本1.0.5、build7。签名构建的完整源码SHA为 `abe97ed0cbd5a2b5ffda6ebdb486d3bff9170964`；最终标签还包含交付脚本恢复修正及验证记录，产品源码与该SHA一致。该节点已从独立远端克隆恢复，69文件及9项必要资源完整、389项核心测试通过。主工作区另通过604项完整回归及同一用户视频11帧的264项瘦脸ASan场景。
+
+从最终标签恢复后，关闭Motion/FCP，运行 `python3 scripts/deliver.py --wait-for-hosts --user-tests` 可完成签名公证安装、只读宿主退出等待、静态发现及副本清理；它不会操作宿主界面。若上次因非产品错误在Accepted且stapled后停止，可加 `--resume-prepared`，脚本必须重新核对签名CDHash、版本、票据及产品源码未变才会继续。缺少原staging或回执时应完整重新构建，不能伪造回执。
+
+1.0.5瘦脸需要完整76点；旧离线记录缺该字段时保留其余功能并跳过瘦脸。关闭使用跟踪数据可使用当前帧自动76点，或重新分析生成新记录。没有引入原版metallib或CoreML模型，运行只依赖本产品及Apple系统框架。最终安装、配套模板和扫描范围见验证记录。

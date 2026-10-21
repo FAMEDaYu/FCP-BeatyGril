@@ -1,0 +1,11 @@
+Independent remote recovery test
+Target: abe97ed0cbd5a2b5ffda6ebdb486d3bff9170964
+Command: zsh scripts/test.sh
+Exit code: 0
+
+Beauty renderer: 49 checks, 0 failures (Metal).
+Face processing: 116 checks passed
+PASS: 224 slim alignment checks; maximum UV oracle error 1.09828022e-05
+
+2026-10-21 20:20:38.246 face-tests[7122:5413459] FBBA: creating VNFaceBBoxAligner from VNFaceDetectorRevision2: VNFaceDetectorRevision2
+2026-10-21 20:20:40.227 slim-tests[7129:5413512] FBBA: creating VNFaceBBoxAligner from VNFaceDetectorRevision2: VNFaceDetectorRevision2

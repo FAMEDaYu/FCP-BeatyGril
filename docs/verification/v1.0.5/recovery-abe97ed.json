@@ -1,0 +1,740 @@
+{
+  "target": "abe97ed0cbd5a2b5ffda6ebdb486d3bff9170964",
+  "remote": "https://dayu.media/git/dayu/paintfcp-fxplug.git",
+  "startedAt": "2026-10-21T12:20:32.822716+00:00",
+  "temporaryClone": "/var/folders/t4/kbc10sqs43b0rjf3nfh51nmw0000gn/T/paintfcp-recovery-abe97ed-um2yk1vm/clone",
+  "scope": "Independent source recovery plus scripts/test.sh only; no APP build, host execution/UI, installation, root source changes, commit, host/OSC ASan or delivery-lock operation.",
+  "cloneHead": "abe97ed0cbd5a2b5ffda6ebdb486d3bff9170964",
+  "files": {
+    "count": 69,
+    "allByteBlobAndModeEqual": true,
+    "entries": [
+      {
+        "path": ".gitignore",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "d2bca6e38076bb5f7574cc7781eadef27b41d9ff",
+        "bytes": 490,
+        "sha256": "34e63260d343569ad4d5a1ffd6c15647da5a7da2b8940dc93f6d987c7fec474e",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "README.md",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "d0282233a2a630f2a00a7bd1e3342ba4f3a0791a",
+        "bytes": 3167,
+        "sha256": "3f1d5c727a335ef862837db92a57ba684424e802cbdee4d64f6bdae069e43076",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "RECOVERY.md",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "d97c7731d0a3d349c72982ad156a581ef6a03a87",
+        "bytes": 4183,
+        "sha256": "2f310d4b5f4df318b8b522963c3f1bbe35c1e2a3b3ed85a112d59fc10205c36a",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "Templates/大鱼人像美化/Drop Zone.tiff",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "6d15c98bc221f999514f197ff67a7145836e6a38",
+        "bytes": 420128,
+        "sha256": "a7f8e3a2a431dbb3ce9e777040bb55e701cfe9ab9632e8cbb10359732bc8692e",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "Templates/大鱼人像美化/PARAMETERS.json",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "df2c01f370e6ee639d2950774fe8020742802c17",
+        "bytes": 9815,
+        "sha256": "bb561b0dfff90223f0925a60ec05b28518e22163a6bf7922c4efc6d155ddbabb",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "Templates/大鱼人像美化/README.md",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "46cf59f6b4500b32c5a203a63a79a491a2202cdf",
+        "bytes": 4420,
+        "sha256": "c57ef81f43271d566a0488385d5f6b8e492142bae0860049bcbf943206b0c567",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "Templates/大鱼人像美化/VALIDATION.json",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "63aa4f2ce4e1e72ce8b255d5f98fe209e2354c09",
+        "bytes": 1872,
+        "sha256": "558ac5ff3bee28e6d3df41cc5ffd9a43cd51fca2fd001fff8641260c327e351d",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "Templates/大鱼人像美化/大鱼人像美化.moef",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "f68569a62b399cf7ad1ee2b33427372fc9b6b913",
+        "bytes": 22996,
+        "sha256": "ba08de6916cd837b3733aa0c6fcb78f2e8224431d25e1310089ae67d18445f2d",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril.xcodeproj/project.pbxproj",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "db5251bf3c337b865621e771a4b28690214f1c8e",
+        "bytes": 22986,
+        "sha256": "e9b9be100e53003f6bba96658d3a36078bb607236958e43aec6ed59f8c73ce32",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril.xcodeproj/project.xcworkspace/contents.xcworkspacedata",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "919434a6254f0e9651f402737811be6634a03e9c",
+        "bytes": 135,
+        "sha256": "7f3b00b5c3fdb45242d7b87e1e5c4e25d1fa8129a16c94295ecc4e8ea2235c5f",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Plugin/Info.plist",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "95542fa8c27e6770b9266389f0aa34027053e31f",
+        "bytes": 3030,
+        "sha256": "865f1775fb476ff1f22556141b41b25d3569c05e4aa1d2450cccdcb06de6aa4c",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Plugin/PGBeautyRenderer.h",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "a0a6965c837072e6d837a98b701d59b1cc139655",
+        "bytes": 1410,
+        "sha256": "4e9b663c47261e4feceb7ab38c25171b65f36c14417d82a8b7c49ee3201492d3",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Plugin/PGBeautyRenderer.m",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "4c9fc6fbb1dc1f2c4048a16435f554cae9f2ca74",
+        "bytes": 17132,
+        "sha256": "00b52b1f22c1e875f137ee4ea90f50d6caa38db277bebd0da538d0ba7e66072b",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Plugin/PGBeautyTypes.h",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "e1cd3ef21f37b831cdaa7d9f52211cafaf243994",
+        "bytes": 1149,
+        "sha256": "6ea8005accc22f85fe8be1b73bf6e89a5b37ffd6e97460d4f6dd69d55eaf33cc",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Plugin/PGFaceProcessor.h",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "0b861830a6e9652d81ccfe62f2ce758febee449f",
+        "bytes": 2178,
+        "sha256": "a3448bd75fd278c9702f079f55637ba2c26bc820bdbb81f49fb3a3d0e2a4aba5",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Plugin/PGFaceProcessor.m",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "08c1e85455da07203e4ee30a5410fb10cb9e78c7",
+        "bytes": 42670,
+        "sha256": "445aac56a8ff7332c3b94c6ad5b37b9e412af757995a8332ae2e70066d348d7e",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Plugin/PGFaceSelectOSC.m",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "ae0aa7ce1c2de355b2c1cb890314a0de689df81a",
+        "bytes": 11630,
+        "sha256": "d5e1dd1db6825730803ddc3f21b588cd548cbbacc60760aa45ad9e2feedae307",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Plugin/PGParameterIDs.h",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "4cc0e20af1e659f1e8e666fabe01003c06cfd885",
+        "bytes": 932,
+        "sha256": "8fdfa2021131317ce09532d27fd6f34fb0b505f7b17c561819336ad2a06c42cc",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Plugin/beatygrilPlugIn.h",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "12dca07a744c064d5d474e0294304ca29055a077",
+        "bytes": 347,
+        "sha256": "4f00716328c9237b79cc58153ba47d8ac8ddc1786939cb206bd37b01e3b6397e",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Plugin/beatygrilPlugIn.m",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "3f148956b32770c7db5b0df97700fd96f7e20025",
+        "bytes": 24193,
+        "sha256": "b8f4326ed3eb2de74770e4ea266d09ebe4aea70428a4511f0ec501a0cd89b247",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Plugin/en.lproj/InfoPlist.strings",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "9a5f27348a39c8e3ee50cffc2fb359c78a1319c8",
+        "bytes": 85,
+        "sha256": "1b1cd5b74690bd5a74cf2b0a0c068bbc2c3462c5e9fe5ca3e61541bcbd451a7a",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Plugin/en.lproj/Localizable.strings",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "7f52f3dd719cb4f94e24867e36114cb061ef0b92",
+        "bytes": 132,
+        "sha256": "b3036a2339b97ebf264516e1e534351d1ceb64f45942595508f4d67d07b07769",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Plugin/main.m",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "34d50d3f8cdf438d3508d0aa94e3f2d20e45f962",
+        "bytes": 114,
+        "sha256": "5b812ddb1ef171fe075e4faf13d761935ca73ecbba1be0bd9d4802a64a7759cd",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Wrapper Application/AppDelegate.h",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "f3f8e19cfe057114c2289ff37c01c2e6e1aa7ed0",
+        "bytes": 167,
+        "sha256": "3fc6516be93176f90c2deb17332c9cf98e670458a33fbad4fe7b8f367ec9494f",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Wrapper Application/AppDelegate.m",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "1cb56f073356dd30add33415117bf4c24fdc4ef0",
+        "bytes": 3003,
+        "sha256": "acef6ade6591c039cd8b3e603f83d6d06f64da9709a0385b73c8588e824fe6de",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Wrapper Application/Base.lproj/MainMenu.xib",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "57d03a50e249d189c5fa0a4602c5ec846f06612d",
+        "bytes": 50614,
+        "sha256": "7f0945bc5903a658550b712267870edecbdf1b73ac83c71f1358468f40c1ab1d",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Wrapper Application/Info.plist",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "a1fe6cdcfe8e41f2de4ee07525e192e52723d760",
+        "bytes": 1084,
+        "sha256": "7b3ff213b68dda774306a96835cf4743e3998e23dd7ac4b20cbdb3cf709d7b8b",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Wrapper Application/SandboxEntitlements.entitlements",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "852fa1a4728ae4789e3bca55dd07caef3b41f2a5",
+        "bytes": 240,
+        "sha256": "b746c74b201e6af4e0864fbd1f4f629f96156a7ec4b7208bc995d0a5089bb592",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Wrapper Application/en.lproj/Credits.rtf",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "da779d0f6bec11568066e347a01ccef0308488b2",
+        "bytes": 264,
+        "sha256": "ec846e198df85720e8443abb810334411b5690386f3062f90208c23b8575f28a",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Wrapper Application/en.lproj/InfoPlist.strings",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "beatygril/beatygril/Wrapper Application/main.m",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "99ad4384792f9b2050e0755c07522c0dab9b4b86",
+        "bytes": 112,
+        "sha256": "5c3dc97a53d0379af0e0ce75c5541f33c47f2da115d2d0018cfba003d185a63d",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/analysis/REA-分析与复刻说明.md",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "6581570f9d140ef8d0e00f19d9285d44a6ae3813",
+        "bytes": 10519,
+        "sha256": "ee64e260fd9261856047096570b8fed308284b3a02cd0dd892f3ceda6a5482ab",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/analysis/auto-follow-report.json",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "e60d6d055a513ab8e9c21d2b39460c9d0698e1d3",
+        "bytes": 15665,
+        "sha256": "1a0c91efcaee058f331f6a7446bea8794af1dcf9120f5c2585f249b188d038e3",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/analysis/beauty-preview.png",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "35ace472cb42629b01b3e05660cb7be8b9711fd7",
+        "bytes": 617622,
+        "sha256": "37aa97855915a49ff1f225a9e1fa9d8bcbed0be5f4109b6835ba4db17f9113f6",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/analysis/face-preview.png",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "9a5bab3ad706b95ac32875352d16d6580dcd48ab",
+        "bytes": 713552,
+        "sha256": "6cc662cbb2b554a0dd8c926d94a0d819506ac76710d9c09c2d3d7f808fbf686b",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/analysis/rea-auto-tracking.json",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "2f5738f934f0ce89780cf4535c7257b54a397bef",
+        "bytes": 2883488,
+        "sha256": "dc1007f3798fade5e454bb2ef0b58e4cfe2bb0256948c364070fd9af70a97377",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/analysis/rea-host.json",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "9de443173a74668f0a2dced3426dae20549a16dd",
+        "bytes": 10111,
+        "sha256": "141866459948b19d5378de2f6534de333c795e317416f2ac6c9fdc86c94dd61a",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/analysis/rea-plugin.json",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "79bcafbcfeda694ed466d95f81f30eb622a95a0b",
+        "bytes": 343165,
+        "sha256": "dda6e450915e1054653c28addfed5254c678dccf14ee66643d508e7087c1f0c1",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/analysis/rea-slim-pose.json",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "249eb3678b20c378e0d73239e0949cc86c2af436",
+        "bytes": 343127,
+        "sha256": "5f4a2dfe5796ce72bb3d022a85a42cd5ed0eceb0cd0655041812126ebec7933a",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/analysis/reference-template-parameters.json",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "9947e2ff182a146bc4c9120dfff7eacc8cca9c0c",
+        "bytes": 1608,
+        "sha256": "026e47e8ecbd9a967d8b8aabddac2a370479a43b9e1a7a7728b5b01a5002f006",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/analysis/slim-pose-report.json",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "755e0dfcb6eef016e932415ad8c391b97f8de575",
+        "bytes": 8724,
+        "sha256": "512d22abc2b08860adb64c38efa0f8e3474b45e3dbd19cb81406b1d9e7060f06",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/analysis/脸型变形与转脸分析.md",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "b98271ebd17b745d2e16e6357578eac6a757c1c1",
+        "bytes": 8789,
+        "sha256": "0121d022e4ba430b9fd62b9a13da5b84d03866eb0d541e64e4da3204730c03cf",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/verification/installed-signature.txt",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "78fc46fd6aee5443af9eeb53a97502d0251cf2a9",
+        "bytes": 988,
+        "sha256": "add93ef0fa60cd32ed766c965e6f2869f56b4da65030e774e76d133b02ef7aec",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/verification/live-face-asan.txt",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "b92d565bec7a49444b638437b4ae8e7400ce90f6",
+        "bytes": 219,
+        "sha256": "b956e0fe7a3fccdd8eff8788807c0aaf60da56aa1cb153087f25234cc156c27d",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/verification/notarization.json",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "86d17c6738b9e0aa6f92583ffc798c2e6b6bece1",
+        "bytes": 98,
+        "sha256": "91b4f5e239a50467bde83b8c40c1c1809f85cd4eb4b1f1091e1b2197c11a79b6",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/verification/recovery-e03e460-beauty-face.txt",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "2c6f0b5e7f7dedf9571d6da6ce67303bf34faedc",
+        "bytes": 298,
+        "sha256": "45698c80fdfc68c2dc68be59ba03380aa6e8194731d4858dc009f827dd06e226",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/verification/recovery-e03e460-host-asan.txt",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "7eeed088f0dad0564aa166232aedb9ae47a56dd0",
+        "bytes": 380,
+        "sha256": "65d0226f95e882702484849997fde558fae7af418e9243702f789b1e2fcacf14",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/verification/recovery-e03e460-osc-asan.txt",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "7abde29290bfea1e475af387899fb3160a60cc95",
+        "bytes": 3336,
+        "sha256": "2e326d2fc0eb5d2cdd9f07e2318dfd17a41d346a82f383b05b51f416ffdacdb3",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/verification/recovery-e03e460-xcode-list.txt",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "e90278ec1aedf6a1176682ec1037e49ba2f588c1",
+        "bytes": 570,
+        "sha256": "ff9ffb300caac840f4e64f97f24712e319af9bbe4cee1dbbd79b0a5caa1432d1",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/verification/recovery-e03e460.json",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "ecd24b6f35c893c3637dc4e268d0acabb4d09967",
+        "bytes": 25360,
+        "sha256": "559839e989fb4fa9589847632975a6d4d8548c00e6ad5b87bdba736bb3e1daf3",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/verification/recovery-e03e460.txt",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "ed81f4abdeada50c1afb2ac866d3cc79fd6579d9",
+        "bytes": 846,
+        "sha256": "3931beb81cf475ce1c44e5b90c8e9101abb1a7ba20b657d72090b6e7662530cc",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/verification/release-receipt.json",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "e53f21de9e8ea68a40f435cf9e3d1a0d95499bde",
+        "bytes": 2454,
+        "sha256": "07ba4f5bbba101a49d4579c0b79fbce0dad70a1e4b5887e61e052741c49486ee",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/verification/v1.0.5/core-tests.txt",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "76d29d91672ec631950b2f3ada1db39db4c877ac",
+        "bytes": 427,
+        "sha256": "408910aeedcf0155bc31ef43ca6e8994d9348f8fbdc0c25eb8a43ce89965e081",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/verification/v1.0.5/host-tests.txt",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "3e1c1c6b7c104995a2656e142671759634352525",
+        "bytes": 271,
+        "sha256": "c727d9d56a0b46a4cdbc79d24eeedc589e5984b38144f28ccf017f4d65f504f7",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/verification/v1.0.5/osc-tests.txt",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "c9c618896ca3ee0c2a943979103ab3b42335c7e0",
+        "bytes": 3229,
+        "sha256": "5e443009bc39635d01a1f6276b48170fe9da73c088646425c6ed140d87ba4518",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "docs/验证记录.md",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "2d2d97b0e13e876bc8ddf65aedf671cbeead8b6b",
+        "bytes": 9154,
+        "sha256": "8ece9ba47c81980a781ab00b73c961bd32c1acec2e09811f348375e162e29661",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "scripts/checkpoint.py",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "8248d1732aceed377d28cdae02873057f442474b",
+        "bytes": 2218,
+        "sha256": "3c27b0e603dd2d94512f611cec97bd9afe5809aea0f5a4bb213995d2e23366f8",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "scripts/deliver.py",
+        "mode": "100755",
+        "kind": "blob",
+        "blob": "b20e2149f84307afd6198df71f967f4facb444bb",
+        "bytes": 10848,
+        "sha256": "dc5df519aaabc695adddff8e9087dcb6c6e9861036ab0efccf242a5fe12e0b78",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "scripts/inspect-face-geometry.m",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "d075cf7c8c9a23b9bd01bbcbc31da89fea84d5d3",
+        "bytes": 6613,
+        "sha256": "a2c54e7297f9f94e9c56c0b29f9ce607756705f2005c1f13e10996bc26c24b66",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "scripts/test-host.sh",
+        "mode": "100755",
+        "kind": "blob",
+        "blob": "ef9c7f6436e3d1babbf272e9d329d65ec6c395cb",
+        "bytes": 1129,
+        "sha256": "7f55ed6de05e6cc59884fb7c96062676bd086f4ac745ae847511eacb12316467",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "scripts/test-osc.sh",
+        "mode": "100755",
+        "kind": "blob",
+        "blob": "ffaed0b8d449eef6acf2fb352d9fea10fc1649fd",
+        "bytes": 941,
+        "sha256": "ed405cd214ce252641074d0ef0a12c4cc0faf3e1869fe92716a98fff7f9ac517",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "scripts/test.sh",
+        "mode": "100755",
+        "kind": "blob",
+        "blob": "f13ba656929fe34b43c143bdfeb4a208c44c7428",
+        "bytes": 932,
+        "sha256": "3ca9cb120b452a0c402debbe5d3399fa4996e0ea0882253470791494815d530d",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "tests/beauty_render_tests.m",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "24050fb3a2630693253202ae1525c280f4f144eb",
+        "bytes": 16870,
+        "sha256": "b04eb2f0d78faec13bbdd2a3286cc74c46c2f536358c7c1c3d5d03c54daa868c",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "tests/face_tests.m",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "9fe21ddd021d1a2517fa8b75d7a65532f6fefedb",
+        "bytes": 33180,
+        "sha256": "0350abe9f206fc371f697c993f5dea420d512259f16947c7a1167569843b215a",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "tests/fixtures/ATTRIBUTION.txt",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "6e439ab97256952b0acd1eef0e1c1b4ab3ea015c",
+        "bytes": 498,
+        "sha256": "8823ad8aed1a5c1bdda93946e4b5ed24cd542e996a2b8087517cf62f7f4f2a84",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "tests/fixtures/astronaut.png",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "834cda0012478c5edc8d43bade96d315dedeaab4",
+        "bytes": 791555,
+        "sha256": "88431cd9653ccd539741b555fb0a46b61558b301d4110412b5bc28b5e3ea6cb5",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "tests/host_adapter_tests.m",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "8091c1523eb0b05295c391e20637c931d681e049",
+        "bytes": 30363,
+        "sha256": "77131c770222d3b404204fb04bf47cf943885eeff6acfc7498d59feb28eb1e73",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "tests/osc_tests.m",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "66fff5f78f8e0ba08026e53375b184a460a29162",
+        "bytes": 22495,
+        "sha256": "a3199147e32facd63373b53f77840408411b04436fb1dd42e2fb71023c8f2f8a",
+        "byteBlobAndModeEqual": true
+      },
+      {
+        "path": "tests/slim_tests.m",
+        "mode": "100644",
+        "kind": "blob",
+        "blob": "3f7654f14e642f72ee57c2a5c3e92df39fe7346a",
+        "bytes": 12759,
+        "sha256": "701b52d7f803b44680586c215e5a351e4dc67661e5ea1a56ca5038567cd34cd6",
+        "byteBlobAndModeEqual": true
+      }
+    ]
+  },
+  "requiredResources": [
+    {
+      "path": "Templates/大鱼人像美化/大鱼人像美化.moef",
+      "exists": true,
+      "bytes": 22996
+    },
+    {
+      "path": "Templates/大鱼人像美化/Drop Zone.tiff",
+      "exists": true,
+      "bytes": 420128
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/Base.lproj/MainMenu.xib",
+      "exists": true,
+      "bytes": 50614
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/en.lproj/Credits.rtf",
+      "exists": true,
+      "bytes": 264
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/en.lproj/InfoPlist.strings",
+      "exists": true,
+      "bytes": 0
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/en.lproj/InfoPlist.strings",
+      "exists": true,
+      "bytes": 85
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/en.lproj/Localizable.strings",
+      "exists": true,
+      "bytes": 132
+    },
+    {
+      "path": "tests/fixtures/astronaut.png",
+      "exists": true,
+      "bytes": 791555
+    },
+    {
+      "path": "tests/fixtures/ATTRIBUTION.txt",
+      "exists": true,
+      "bytes": 498
+    }
+  ],
+  "gitFsck": {
+    "args": [
+      "git",
+      "fsck",
+      "--full",
+      "--strict"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "submodules": {
+    "args": [
+      "git",
+      "submodule",
+      "status",
+      "--recursive"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "lfsPointers": [],
+  "remoteMain": {
+    "args": [
+      "git",
+      "ls-remote",
+      "origin",
+      "refs/heads/main"
+    ],
+    "returncode": 0,
+    "stdout": "abe97ed0cbd5a2b5ffda6ebdb486d3bff9170964\trefs/heads/main\n",
+    "stderr": ""
+  },
+  "processorUnchangedFromEc22": {
+    "commit": "ec22f1b2cf541d02e7ffbd5cc4edbc4d0cd97311",
+    "equal": true
+  },
+  "test": {
+    "args": [
+      "zsh",
+      "scripts/test.sh"
+    ],
+    "returncode": 0,
+    "stdout": "Beauty renderer: 49 checks, 0 failures (Metal).\nFace processing: 116 checks passed\nPASS: 224 slim alignment checks; maximum UV oracle error 1.09828022e-05\n",
+    "stderr": "2026-10-21 20:20:38.246 face-tests[7122:5413459] FBBA: creating VNFaceBBoxAligner from VNFaceDetectorRevision2: VNFaceDetectorRevision2\n2026-10-21 20:20:40.227 slim-tests[7129:5413512] FBBA: creating VNFaceBBoxAligner from VNFaceDetectorRevision2: VNFaceDetectorRevision2\n",
+    "elapsedSeconds": 3.384
+  },
+  "testCounts": {
+    "beauty": 49,
+    "face": 116,
+    "slim": 224
+  },
+  "testTotal": 389,
+  "cloneTrackedWorktreeClean": true,
+  "passed": true,
+  "temporaryCloneRemoved": true,
+  "completedAt": "2026-10-21T12:20:40.364542+00:00"
+}

@@ -27,6 +27,14 @@
     "date": "2026-10-21",
     "FCP": "Restored input-chain template shows supplied real video; effect parameters and forward analysis responded in independent QA project.",
     "Motion": "1.0.4 installed formal app loaded the real-video QA project and rendered brightness/geometry with a primary box at different playhead positions; offline tracking disabled.",
-    "scope": "1.0.5 native visual QA is reserved for user self-testing; no Motion/FCP UI operations in the slimming repair. Historical input/brightness validation remains scoped to prior releases."
+    "scope": "1.0.5 native visual QA is reserved for user self-testing; no Motion/FCP UI operations in the slimming repair. Historical input/brightness validation remains scoped to prior releases.",
+    "version105": "Formal 1.0.5 (7) signed/notarized/stapled/installed and PluginKit formal path verified. User closed hosts before replacement; no Motion/FCP UI operated. Native visual testing pending user."
+  },
+  "slimValidation": {
+    "offlineFullChecks": 604,
+    "slimChecks": 224,
+    "extraRealVideoASanChecks": 264,
+    "sampledVideoFrames": 11,
+    "maxUVOracleError": 1.09828022e-05
   }
 }

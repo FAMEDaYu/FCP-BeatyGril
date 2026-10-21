@@ -381,5 +381,21 @@
     "full_native_visual_equivalence": "unverified; screenshots are not a synchronized isolated-parameter capture",
     "product_fix": "not changed by this analysis; installed 1.0.4 retains the reported issue"
   },
-  "host_boundary": "User controls Motion/FCP; no UI interaction, host shutdown, app install or plug-in replacement in this analysis."
+  "host_boundary": "User controls Motion/FCP; no UI interaction, host shutdown, app install or plug-in replacement in this analysis.",
+  "followup_implementation": {
+    "version": "1.0.5 (7)",
+    "signed_source_commit": "abe97ed0cbd5a2b5ffda6ebdb486d3bff9170964",
+    "status": "signed_notarized_installed_user_visual_qa_pending",
+    "landmarks": "explicit revision3 / 76 constellation, points76 persisted and stabilized",
+    "warp": "17 sequential UV pins, .025 * pixel-size gain, original thin bbox term removed",
+    "offline_checks": 604,
+    "extra_real_video_asan_checks": 264,
+    "real_video_frames": 11,
+    "max_uv_oracle_error": 1.09828022e-05,
+    "limitations": [
+      "Other eight controls retain prior approximations",
+      "Fast multi-face overlapping resampling order is not equivalent to the original single fragment",
+      "Full native Motion/FCP visual comparison reserved for user"
+    ]
+  }
 }

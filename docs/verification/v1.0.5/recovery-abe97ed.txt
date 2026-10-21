@@ -1,0 +1,9 @@
+独立恢复验收：通过
+源码节点：abe97ed0cbd5a2b5ffda6ebdb486d3bff9170964
+远程：https://dayu.media/git/dayu/paintfcp-fxplug.git
+远程 main 与节点一致。
+全部 69 个跟踪文件逐 byte/blob/模式一致；9 项必要资源完整。
+git fsck --full --strict 通过；无 LFS 指针、无子模块。
+独立 clone 内 scripts/test.sh：Beauty 49、Face 116、Slim 224；共 389 检查通过。
+未重复 Host/OSC ASan；未构建 APP、启动宿主、操作 UI、安装、修改源码、提交或操作交付锁。
+本次临时 clone 已清理。

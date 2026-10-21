@@ -1,0 +1,32 @@
+{
+  "version": "1.0.5",
+  "build": "7",
+  "uiOperations": 0,
+  "template": {
+    "path": "/Users/dayu/Movies/Motion Templates.localized/Effects.localized/大鱼/大鱼人像美化/大鱼人像美化.moef",
+    "sha256": "ba08de6916cd837b3733aa0c6fcb78f2e8224431d25e1310089ae67d18445f2d",
+    "resourceVerified": true
+  },
+  "codesign": "",
+  "xcrun": "Processing: /Library/Plug-Ins/FxPlug/beatygril.app\nThe validate action worked!",
+  "spctl": "/Library/Plug-Ins/FxPlug/beatygril.app: accepted\nsource=Notarized Developer ID",
+  "Contents/MacOS/beatygril": "x86_64 arm64",
+  "Contents/PlugIns/beatygril XPC Service.pluginkit/Contents/MacOS/beatygril XPC Service": "x86_64 arm64",
+  "duplicateInventory": {
+    "scopes": [
+      "/Users/dayu/Documents/PaintFCP",
+      "/Users/dayu/Library/Developer/Xcode/DerivedData",
+      "/Users/dayu/Desktop",
+      "/Users/dayu/Downloads",
+      "/Applications",
+      "/Library/Plug-Ins/FxPlug",
+      "/Users/dayu/Library/Plug-Ins/FxPlug"
+    ],
+    "matchingOuterApps": [
+      "/Library/Plug-Ins/FxPlug/beatygril.app"
+    ],
+    "errors": []
+  },
+  "discovery": "     com.dayu.beatygril.fxplug(1.1)\tF419A538-F395-459D-9984-AC46EAB5E83D\t2026-10-21 12:23:23 +0000\t/Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit\n (1 plug-in)\n",
+  "status": "installed_verified_user_visual_tests_pending"
+}
