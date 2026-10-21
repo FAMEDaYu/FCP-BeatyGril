@@ -78,6 +78,9 @@ try:
     print('Building universal Release…',flush=True)
     run(['xcodebuild','-project','beatygril/beatygril.xcodeproj','-scheme','Wrapper Application','-configuration','Release','-derivedDataPath',str(staging),'-destination','generic/platform=macOS','build'],logs/'build.log')
     plugin=app/'Contents/PlugIns/beatygril XPC Service.pluginkit'
+    # Xcode can register a fresh build. Remove this known generated path before
+    # lengthy signing/notarization while a user may still be testing the old app.
+    run(['pluginkit','-r',str(plugin)])
     for framework in sorted((plugin/'Contents/Frameworks').glob('*.framework')):
         run(['codesign','--force','--timestamp','--options','runtime','--sign',identity,str(framework)])
     run(['codesign','--force','--timestamp','--options','runtime','--sign',identity,str(plugin)])
