@@ -9,10 +9,24 @@
 @property NSUInteger scalarWrites;
 @property (strong) NSDictionary *actionBefore;
 @property (strong) NSDictionary *undoValues;
+@property BOOL parameterAPIsRequireAction;
+@property BOOL actionRequiresView;
+@property NSUInteger invalidActionSenders;
+@property (weak) id lastActionSender;
 @end
 @implementation PGInspectorTestAPI
+- (id)apiForProtocol:(Protocol *)protocol {
+    NSString *name=NSStringFromProtocol(protocol);
+    if(_parameterAPIsRequireAction && !self.actionDepth &&
+       ([name isEqual:@"FxParameterRetrievalAPI_v6"] || [name isEqual:@"FxParameterSettingAPI_v5"]))return nil;
+    return [super apiForProtocol:protocol];
+}
 - (void)guard {if(!self.actionDepth)_accessViolations++;}
-- (void)startAction:(id)sender {if(!self.actionDepth)_actionBefore=[self.values copy];[super startAction:sender];}
+- (void)startAction:(id)sender {
+    _lastActionSender=sender;
+    if(_actionRequiresView && ![sender isKindOfClass:NSView.class]){_invalidActionSenders++;return;}
+    if(!self.actionDepth)_actionBefore=[self.values copy];[super startAction:sender];
+}
 - (void)endAction:(id)sender {if(self.actionDepth==1 && ![self.values isEqual:_actionBefore])_undoValues=_actionBefore;[super endAction:sender];}
 - (CMTime)currentTime {[self guard];return [super currentTime];}
 - (BOOL)getCustomParameterValue:(NSObject **)v fromParameter:(UInt32)i atTime:(CMTime)t {[self guard];return [super getCustomParameterValue:v fromParameter:i atTime:t];}
@@ -143,9 +157,26 @@ static void ViewInteractionTests(void) {
         for(NSView *card in view.subviews)if(!card.hidden)Check(NSMaxY(card.frame)<=NSHeight(view.bounds)+1 && NSMaxX(card.frame)<=NSWidth(view.bounds)+1,@"every visible card and footer remains inside the panel at all inspector widths");
     }
 }
+static void HostHandshakeTests(void) {
+    PGInspectorTestAPI *api=[PGInspectorTestAPI new];beatygrilPlugIn *plugin=[[beatygrilPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
+    api.values[@(PGMidtone)]=@.5;
+    api.parameterAPIsRequireAction=YES;api.actionRequiresView=YES;
+    PGInspectorView *view=(PGInspectorView *)[plugin createViewForParameterID:PGInspectorPanel];[view refreshFromHost];
+    Check(view.controller.available && Near([view.controller.state valueForParameter:PGMidtone],.5),@"an action-scoped host connects and reads the actual template values");
+    Check(api.lastActionSender==view && api.invalidActionSenders==0,@"custom parameter actions identify their actual inspector NSView");
+    NSSlider *brightness=(NSSlider *)FindControl(view,NSSlider.class,@"肤色亮度");
+    Check(brightness.enabled,@"action-scoped parameter APIs do not leave the whole native panel disabled");
+    brightness.doubleValue=.42;Fire(brightness);PGInspectorState *saved=api.values[@(PGInspectorPanel)];
+    Check(saved.hasEdits && Near([saved valueForParameter:PGBrightness],.42),@"a connected native control writes through the action-scoped setting API");
+    [api.disabledAPIs addObject:@"FxParameterSettingAPI_v5"];[view refreshFromHost];
+    Check(!view.controller.available && api.actionDepth==0 && api.actionStarts==api.actionEnds,@"a genuinely missing setting API closes the already-started host action");
+    [api.disabledAPIs removeObject:@"FxParameterSettingAPI_v5"];[view refreshFromHost];
+    Check(view.controller.available && brightness.enabled,@"a later host connection restores controls after a transient API failure");
+    Check(api.accessViolations==0 && api.actionDepth==0 && api.actionStarts==api.actionEnds,@"action-scoped connection, edits, failure and reconnection remain balanced");
+}
 int main(int argc,const char **argv) {@autoreleasepool {
     [NSApplication sharedApplication];[NSApp setActivationPolicy:NSApplicationActivationPolicyProhibited];
-    RegistrationTests();ModelTests();ControllerTests();ViewInteractionTests();
+    RegistrationTests();ModelTests();ControllerTests();ViewInteractionTests();HostHandshakeTests();
     if(argc>2) {
         NSData *inner=[NSData dataWithContentsOfFile:@(argv[1])],*outer=[NSData dataWithContentsOfFile:@(argv[2])];NSError *error=nil;
         NSKeyedUnarchiver *reader=[[NSKeyedUnarchiver alloc]initForReadingFromData:inner error:&error];reader.requiresSecureCoding=YES;

@@ -1,6 +1,7 @@
 #import "PGInspectorState.h"
 #import <math.h>
 #import <stddef.h>
+#import <os/log.h>
 
 NSArray<NSDictionary *> *PGInspectorControls(void) {
     static NSArray *controls; static dispatch_once_t once;
@@ -129,6 +130,9 @@ PGBeautySettings PGSettingsWithInspectorState(PGBeautySettings s,PGInspectorStat
 @property (nonatomic) BOOL interacting;
 @property (nonatomic) NSTimeInterval pendingUntil;
 @property (nonatomic) CMTime pendingTime;
+@property (nonatomic, strong) id activeSender;
+@property (nonatomic) BOOL reportedConnection;
+@property (nonatomic) BOOL reportedMissingAction;
 @end
 @implementation PGInspectorController
 - (instancetype)initWithAPIManager:(id<PROAPIAccessing>)manager {
@@ -138,13 +142,34 @@ PGBeautySettings PGSettingsWithInspectorState(PGBeautySettings s,PGInspectorStat
 - (BOOL)start {
     if(_interacting)return YES;
     _action=[_manager apiForProtocol:@protocol(FxCustomParameterActionAPI_v4)];
-    id retrieval=[_manager apiForProtocol:@protocol(FxParameterRetrievalAPI_v6)];
-    id setting=[_manager apiForProtocol:@protocol(FxParameterSettingAPI_v5)];
-    _available=_action && retrieval && setting;
-    if(!_available){_statusMessage=@"等待宿主连接";return NO;}
-    [_action startAction:self];_interacting=YES;return YES;
+    if(!_action){
+        _available=NO;_statusMessage=@"等待宿主连接";
+        if(!_reportedMissingAction){os_log(OS_LOG_DEFAULT,"PGInspector action API unavailable manager=%{public}d viewSender=%{public}d onMain=%{public}d",_manager!=nil,_actionSender!=nil,NSThread.isMainThread);_reportedMissingAction=YES;}
+        return NO;
+    }
+    // A native host can expose parameter APIs only after the custom view's
+    // action has established its document context. Never gate startAction on
+    // those APIs being available before entering the action.
+    BOOL readBefore=NO,writeBefore=NO;
+    if(!_reportedConnection){
+        readBefore=[_manager apiForProtocol:@protocol(FxParameterRetrievalAPI_v6)]!=nil;
+        writeBefore=[_manager apiForProtocol:@protocol(FxParameterSettingAPI_v5)]!=nil;
+    }
+    _activeSender=_actionSender ?: self;
+    [_action startAction:_activeSender];_interacting=YES;
+    @try {
+        id retrieval=[_manager apiForProtocol:@protocol(FxParameterRetrievalAPI_v6)];
+        id setting=[_manager apiForProtocol:@protocol(FxParameterSettingAPI_v5)];
+        _available=retrieval && setting;
+        if(!_reportedConnection){
+            os_log(OS_LOG_DEFAULT,"PGInspector connection readBefore=%{public}d writeBefore=%{public}d readInAction=%{public}d writeInAction=%{public}d viewSender=%{public}d onMain=%{public}d",readBefore,writeBefore,retrieval!=nil,setting!=nil,[_activeSender isKindOfClass:NSView.class],NSThread.isMainThread);
+            _reportedConnection=YES;
+        }
+        if(!_available){_statusMessage=@"等待宿主连接";[self finish];return NO;}
+    } @catch(NSException *exception) {[self finish];@throw exception;}
+    return YES;
 }
-- (void)finish {if(_interacting){_interacting=NO;[_action endAction:self];_action=nil;}}
+- (void)finish {if(_interacting){_interacting=NO;[_action endAction:_activeSender];_action=nil;_activeSender=nil;}}
 - (void)readAtTime:(CMTime)time {
     if(_pendingUntil && CMTimeCompare(time,_pendingTime)!=0)_pendingUntil=0;
     id<FxParameterRetrievalAPI_v6> api=[_manager apiForProtocol:@protocol(FxParameterRetrievalAPI_v6)];
@@ -241,5 +266,5 @@ PGBeautySettings PGSettingsWithInspectorState(PGBeautySettings s,PGInspectorStat
         ok=[self commit:[PGInspectorState stateWithValues:values disabledParameters:disabled hasEdits:YES]];
     } @finally {if(owned)[self finish];}return ok;
 }
-- (void)dealloc {if(_interacting)[_action endAction:self];}
+- (void)dealloc {if(_interacting)[_action endAction:_activeSender];}
 @end

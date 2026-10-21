@@ -293,7 +293,7 @@ static PGInspectorGlyphButton *PGUIButton(NSString *glyph, NSColor *accent, id t
 - (instancetype)initWithAPIManager:(id<PROAPIAccessing>)manager { return [self initWithController:[[PGInspectorController alloc]initWithAPIManager:manager]]; }
 - (instancetype)initWithController:(PGInspectorController *)controller {
     if((self=[super initWithFrame:NSMakeRect(0,0,320,100)])){
-        _controller=controller;self.appearance=[NSAppearance appearanceNamed:NSAppearanceNameDarkAqua];
+        _controller=controller;_controller.actionSender=self;self.appearance=[NSAppearance appearanceNamed:NSAppearanceNameDarkAqua];
         NSArray *sections=@[@"smooth",@"color",@"shape",@"more"],*headings=@[@"磨皮",@"美白",@"瘦脸",@"更多设置"];
         NSArray *colors=@[PGUIColor(.28,.83,.96,1),PGUIColor(.34,.89,.84,1),PGUIColor(.59,.69,.98,1),PGUIColor(.54,.64,.76,1)];
         NSMutableArray *cards=[NSMutableArray new];

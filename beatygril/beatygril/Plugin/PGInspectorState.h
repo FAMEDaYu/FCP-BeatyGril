@@ -30,6 +30,8 @@ FOUNDATION_EXPORT PGBeautySettings PGSettingsWithInspectorState(PGBeautySettings
 @property (nonatomic, strong, readonly) PGInspectorState *state;
 @property (nonatomic, readonly) BOOL available;
 @property (nonatomic, copy, readonly) NSString *statusMessage;
+/// The actual custom inspector view identifies the action to the native host.
+@property (nonatomic, weak, nullable) NSView *actionSender;
 - (instancetype)initWithAPIManager:(id<PROAPIAccessing>)manager;
 - (void)refresh;
 - (void)documentDidChange;

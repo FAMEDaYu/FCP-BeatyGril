@@ -1,0 +1,6 @@
+FAIL: an action-scoped host connects and reads the actual template values
+FAIL: custom parameter actions identify their actual inspector NSView
+FAIL: action-scoped parameter APIs do not leave the whole native panel disabled
+FAIL: a connected native control writes through the action-scoped setting API
+FAIL: a later host connection restores controls after a transient API failure
+Inspector: 141 checks, 5 failures

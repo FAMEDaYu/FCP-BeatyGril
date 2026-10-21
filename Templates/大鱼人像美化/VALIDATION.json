@@ -1,6 +1,6 @@
 {
-  "version": "1.1.0",
-  "sha256": "e1c0cff1dd3541ed97cab2cb39a76ad4f28dc659b3be7991cc7ac92dd8ea090b",
+  "version": "1.1.1",
+  "sha256": "7090c1fbe0d8310c0b092f7c56f72e9c3fe6503aa38753f3fd8d7adcbd9a27b3",
   "filterUUID": "FB14B0E6-59B2-4836-916F-CD0C559E9241",
   "publishedFunctionalControls": 1,
   "informationalControls": 2,
@@ -58,10 +58,10 @@
   "legacyValuesPreserved": true,
   "publishOSC": 0,
   "currentHostValidation": {
-    "version": "1.1.0",
-    "Motion": "pending user",
-    "FCP": "pending user",
-    "scope": "No Motion/FCP launch, quit, activation, UI operation or native save was performed. XML structure and standalone archive checks do not establish custom inspector loading."
+    "version": "1.1.1",
+    "Motion": "pending native retest",
+    "FCP": "1.1.0 reproduced: all parameter controls disabled and status waiting for host connection; 1.1.1 retest pending",
+    "scope": "User authorized Motion/FCP interaction for this regression investigation."
   },
   "customParameter": {
     "id": 210,
@@ -156,14 +156,14 @@
   },
   "automatedInspectorValidation": {
     "scope": "offscreen AppKit inspector, real production controller and mocked host callbacks; no Motion/FCP UI",
-    "fullChecks": 1039,
+    "fullChecks": 1046,
     "counts": {
       "beauty": 49,
       "face": 116,
       "thinChin": 394,
       "hostAdapterASan": 248,
       "oscASan": 98,
-      "inspectorASan": 134
+      "inspectorASan": 141
     },
     "nativeVisualQA": "pending user",
     "manualAnalysisUI": "removed; legacy IDs hidden and buttons disabled",
@@ -188,19 +188,9 @@
     "archives": "Own PGInspectorState secure payload; Foundation outer and inner decode and Motion alphabet roundtrip tested"
   },
   "installation": {
-    "version": "1.1.0",
-    "build": "9",
-    "status": "installed",
-    "appPath": "/Library/Plug-Ins/FxPlug/beatygril.app",
-    "templateAndSourceResourceByteVerified": true,
-    "signatureVerified": true,
-    "notarization": "Accepted",
-    "stapleValidated": true,
-    "gatekeeperAccepted": true,
-    "formalPluginKitPathVerified": true,
-    "UIOperated": false,
-    "hostTerminationPerformed": false,
-    "nativeLoadAndVisualQA": "pending user",
-    "receipt": "../../docs/verification/v1.1.0/installed-verification.json"
+    "version": "1.1.1",
+    "build": "10",
+    "status": "pending",
+    "previousInstalledVersion": "1.1.0"
   }
 }
