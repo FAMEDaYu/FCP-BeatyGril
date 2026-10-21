@@ -24,7 +24,7 @@ FCP 发布列表仅保留作者、网站两个空绑定展示项，以及一个�
 
 作者与网站仍是同一个Rig下的两个无受控参数菜单：“FCP 版本作者→／大鱼先森Media”和“更多模板浏览器访问→／dayu.media”。仅展示信息，不改变渲染。
 
-建议安装位置：`~/Movies/Motion Templates.localized/Effects.localized/大鱼/大鱼人像美化/`。本轮不安装模板，不操作Motion/FCP，由主任务完成正式交付，用户自测原生面板。
+正式安装位置：`~/Movies/Motion Templates.localized/Effects.localized/大鱼/大鱼人像美化/`。1.1.0模板和占位TIFF已同步并逐字节核验，配套APP已正式签名、公证、安装；没有操作Motion/FCP界面，用户自测原生面板。
 
 ## 验证边界与历史修复
 

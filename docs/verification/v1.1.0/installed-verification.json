@@ -1,0 +1,91 @@
+{
+  "version": "1.1.0",
+  "build": "9",
+  "date": "2026-10-21T15:03:33.815750+00:00",
+  "sourceCommit": "f79d24eb0185f31feaae58b83b632f92dcb3ca91",
+  "uiOperations": false,
+  "hostTerminationPerformed": false,
+  "nativeVisualQA": "pending user",
+  "installationPath": "/Library/Plug-Ins/FxPlug/beatygril.app",
+  "codesign": {
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "staple": {
+    "exitCode": 0,
+    "stdout": "Processing: /Library/Plug-Ins/FxPlug/beatygril.app\nThe validate action worked!",
+    "stderr": ""
+  },
+  "gatekeeper": {
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": "/Library/Plug-Ins/FxPlug/beatygril.app: accepted\nsource=Notarized Developer ID"
+  },
+  "identity": [
+    {
+      "path": "/Library/Plug-Ins/FxPlug/beatygril.app",
+      "bundleIdentifier": "com.dayu.beatygril",
+      "version": "1.1.0",
+      "build": "9",
+      "archs": "x86_64 arm64",
+      "signature": "Executable=/Library/Plug-Ins/FxPlug/beatygril.app/Contents/MacOS/beatygril\nIdentifier=com.dayu.beatygril\nFormat=app bundle with Mach-O universal (x86_64 arm64)\nCodeDirectory v=20500 size=478 flags=0x10000(runtime) hashes=4+7 location=embedded\nHash type=sha256 size=32\nCandidateCDHash sha256=3611af053e7fa8c0969e2bb6f600b7e9775b1f00\nCandidateCDHashFull sha256=3611af053e7fa8c0969e2bb6f600b7e9775b1f000a0142f2f50b833a1fc2b494\nHash choices=sha256\nCMSDigest=3611af053e7fa8c0969e2bb6f600b7e9775b1f000a0142f2f50b833a1fc2b494\nCMSDigestType=2\nCDHash=3611af053e7fa8c0969e2bb6f600b7e9775b1f00\nSignature size=8968\nAuthority=Developer ID Application: zhong luo (B3W25FX5H5)\nAuthority=Developer ID Certification Authority\nAuthority=Apple Root CA\nTimestamp=Oct 21, 2026 at 22:53:52\nNotarization Ticket=stapled\nInfo.plist entries=22\nTeamIdentifier=B3W25FX5H5\nRuntime Version=27.0.0\nSealed Resources version=2 rules=13 files=4\nInternal requirements count=1 size=180\nTotal signatures=1\nChosen signature=1"
+    },
+    {
+      "path": "/Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit",
+      "bundleIdentifier": "com.dayu.beatygril.fxplug",
+      "version": "1.1.0",
+      "build": "9",
+      "archs": "x86_64 arm64",
+      "signature": "Executable=/Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit/Contents/MacOS/beatygril XPC Service\nIdentifier=com.dayu.beatygril.fxplug\nFormat=bundle with Mach-O universal (x86_64 arm64)\nCodeDirectory v=20500 size=837 flags=0x10000(runtime) hashes=19+3 location=embedded\nHash type=sha256 size=32\nCandidateCDHash sha256=c9b6ba40f307b1e1134890cae999a46b7c51750b\nCandidateCDHashFull sha256=c9b6ba40f307b1e1134890cae999a46b7c51750b599514a0e5858a1fc9618926\nHash choices=sha256\nCMSDigest=c9b6ba40f307b1e1134890cae999a46b7c51750b599514a0e5858a1fc9618926\nCMSDigestType=2\nCDHash=c9b6ba40f307b1e1134890cae999a46b7c51750b\nSignature size=8969\nAuthority=Developer ID Application: zhong luo (B3W25FX5H5)\nAuthority=Developer ID Certification Authority\nAuthority=Apple Root CA\nTimestamp=Oct 21, 2026 at 22:53:51\nInfo.plist entries=26\nTeamIdentifier=B3W25FX5H5\nRuntime Version=27.0.0\nSealed Resources version=2 rules=13 files=4\nInternal requirements count=1 size=188\nTotal signatures=1\nChosen signature=1"
+    }
+  ],
+  "template": {
+    "installedWithHostsClosed": true,
+    "files": [
+      {
+        "path": "/Users/dayu/Movies/Motion Templates.localized/Effects.localized/大鱼/大鱼人像美化/大鱼人像美化.moef",
+        "bytes": 23073,
+        "sha256": "e1c0cff1dd3541ed97cab2cb39a76ad4f28dc659b3be7991cc7ac92dd8ea090b"
+      },
+      {
+        "path": "/Users/dayu/Movies/Motion Templates.localized/Effects.localized/大鱼/大鱼人像美化/Drop Zone.tiff",
+        "bytes": 420128,
+        "sha256": "a7f8e3a2a431dbb3ce9e777040bb55e701cfe9ab9632e8cbb10359732bc8692e"
+      }
+    ],
+    "publicationCount": 3,
+    "manualAnalysisPublished": false
+  },
+  "discovery": "com.dayu.beatygril.fxplug(1.1)\tDA452CD1-7B7F-4F15-9C52-09270028E946\t2026-10-21 15:02:07 +0000\t/Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit\n (1 plug-in)",
+  "duplicateInventory": {
+    "scopes": [
+      "/Users/dayu/Documents/PaintFCP",
+      "/Users/dayu/.codex/worktrees",
+      "/Users/dayu/Library/Developer/Xcode/DerivedData",
+      "/Users/dayu/Desktop",
+      "/Users/dayu/Downloads",
+      "/Applications",
+      "/Library/Plug-Ins/FxPlug",
+      "/Users/dayu/Library/Plug-Ins/FxPlug",
+      "/private/tmp/paintfcp-chin-smoke.rfco16hq",
+      "/private/tmp/paintfcp-format-probe.PsxvYQ",
+      "/private/tmp/paintfcp-live-review.ItH4EG",
+      "/private/tmp/paintfcp-rea.b3j9Te",
+      "/private/tmp/paintfcp-slim-field.6fDdJj",
+      "/private/tmp/paintfcp-slim-smoke.3ncdDe",
+      "/private/tmp/paintfcp-y-review.KpPi8T"
+    ],
+    "matchingOuterApps": [
+      "/Library/Plug-Ins/FxPlug/beatygril.app"
+    ],
+    "errors": [],
+    "scopeNote": "Bounded scan of project, worktrees, known build locations, Applications and FxPlug directories; not all mounted volumes."
+  },
+  "generatedCopyCleanup": {
+    "/Users/dayu/Documents/PaintFCP/build/delivery/previous-beatygril.app": true,
+    "/tmp/paintfcp-build-20261021": true,
+    "/Users/dayu/Documents/PaintFCP/build/delivery/notarization.zip": true
+  },
+  "status": "installed, formal identity/ticket/discovery/template verified; user native QA pending"
+}

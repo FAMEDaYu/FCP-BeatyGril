@@ -186,5 +186,21 @@
       "explicit numeric input is never skipped due to stale UI cache"
     ],
     "archives": "Own PGInspectorState secure payload; Foundation outer and inner decode and Motion alphabet roundtrip tested"
+  },
+  "installation": {
+    "version": "1.1.0",
+    "build": "9",
+    "status": "installed",
+    "appPath": "/Library/Plug-Ins/FxPlug/beatygril.app",
+    "templateAndSourceResourceByteVerified": true,
+    "signatureVerified": true,
+    "notarization": "Accepted",
+    "stapleValidated": true,
+    "gatekeeperAccepted": true,
+    "formalPluginKitPathVerified": true,
+    "UIOperated": false,
+    "hostTerminationPerformed": false,
+    "nativeLoadAndVisualQA": "pending user",
+    "receipt": "../../docs/verification/v1.1.0/installed-verification.json"
   }
 }

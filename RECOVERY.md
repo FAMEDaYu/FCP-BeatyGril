@@ -12,7 +12,7 @@
 ```sh
 git clone https://dayu.media/git/dayu/paintfcp-fxplug.git
 cd paintfcp-fxplug
-git switch --detach v1.0.6
+git switch --detach v1.1.0
 ```
 
 需要继续编辑时，基于该提交创建新分支。安装 Xcode 与 Apple FxPlug 4 SDK；盘点版本和构建入口见 README.md。SDK/framework 为 Apple 外部开发依赖，应重新安装匹配版本。证书、私钥和公证凭据需从独立加密备份恢复或重新申请；Git 不包含它们。
@@ -69,4 +69,8 @@ FCP模板从 `Templates/大鱼人像美化/` 恢复，将 `.moef` 和 `Drop Zone
 
 兼容边界：未编辑面板时读取旧文档原参数；首次编辑会把当前数值采集为完整面板状态。旧版各项独立关键帧曲线尚未自动迁移为新面板关键帧，不宣称编辑前后任意旧动画逐帧等价。面板本身的数值插值与开关保持已做离屏验证，实际宿主关键帧交互仍待用户测试。
 
-1.1.0签名构建源码为完整SHA`f79d24eb0185f31feaae58b83b632f92dcb3ca91`，源码工作区在构建时干净。该节点已独立从大鱼远程克隆，111文件的bytes/blob/mode及16项必要资源一致，strict/full fsck、134项Inspector ASan和模板审计通过，无LFS或子模块，临时克隆已清理。报告见`docs/verification/v1.1.0/recovery-f79d24e.json`。Apple公证Accepted（ce26be63-9dcd-436a-bcb5-bd294fcc92a9）和票据验证已通过；当前等待用户自行退出宿主，正式安装版仍为1.0.6。
+1.1.0签名构建源码为完整SHA`f79d24eb0185f31feaae58b83b632f92dcb3ca91`，源码工作区在构建时干净。该节点已独立从大鱼远程克隆，111文件的bytes/blob/mode及16项必要资源一致，strict/full fsck、134项Inspector ASan和模板审计通过，无LFS或子模块，临时克隆已清理。报告见`docs/verification/v1.1.0/recovery-f79d24e.json`。Apple公证Accepted（ce26be63-9dcd-436a-bcb5-bd294fcc92a9）和票据验证已通过；安装前曾等待用户自行退出宿主，随后完成下述正式替换。
+
+1.1.0（9）现已安装到固定正式路径；APP与嵌套插件为arm64/x86_64通用版本，Developer ID团队、可信时间戳、Hardened Runtime、严格签名、公证票据、Gatekeeper及PluginKit正式路径全部核验通过。配套`.moef` SHA256为`e1c0cff1dd3541ed97cab2cb39a76ad4f28dc659b3be7991cc7ac92dd8ea090b`，和TIFF一起同步到正式模板目录并逐字节核对。本次临时/旧APP及公证ZIP已清理；扫描范围和回执在`docs/verification/v1.1.0/`。最终恢复标签为`v1.1.0`，后续记录提交不改变签名产品源码f79d24e。原生UI和视觉仍由用户自测。
+
+交付偏好（2026-10-21用户明确更新）：后续本产品安装需释放Motion时，可直接结束Motion进程，不再重复请求保存退出；用户说明不在Motion里进行工作。保持不自动操作Motion/FCP界面的约定。本次检查时两个宿主已经退出，没有执行强退。

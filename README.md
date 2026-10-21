@@ -41,4 +41,6 @@ xcodebuild -project beatygril/beatygril.xcodeproj -scheme 'Wrapper Application' 
 
 使用AppKit自绘卡片、滑块和开关，原生数值输入、肤色圆点、单项/分组启停及重置。FCP仅发布自定义面板210和两项版权信息，撤掉平铺参数与手动分析板块。新面板使用独立NSSecureCoding状态对象完整保存设置，支持复制、撤销数据和数值插值；未编辑时保持旧文档参数值。旧分析数据不参与实时渲染。
 
-`./scripts/test-inspector.sh`验证参数路由、保存恢复、事务、绕过/重置和离屏布局；`python3 scripts/inspector-template.py audit Templates/大鱼人像美化/大鱼人像美化.moef`验证模板自定义数据和发布入口。离屏截图和模拟宿主检查不能替代Motion/FCP的实际嵌入、键盘/VoiceOver和工程重开验收，仍由用户自测。完整1039项回归通过，Inspector/宿主适配/OSC启用ASan。离屏演示图见[面板预览](docs/verification/v1.1.0/inspector-preview.png)。1.1.0（9）已通过正式签名、Apple公证和票据验证；当前等待用户自行退出Motion/FCP后安装。签名源码`f79d24eb0185f31feaae58b83b632f92dcb3ca91`的111文件及16项必要资源已独立远端恢复核验，clone内134项Inspector ASan和模板审计通过。
+`./scripts/test-inspector.sh`验证参数路由、保存恢复、事务、绕过/重置和离屏布局；`python3 scripts/inspector-template.py audit Templates/大鱼人像美化/大鱼人像美化.moef`验证模板自定义数据和发布入口。离屏截图和模拟宿主检查不能替代Motion/FCP的实际嵌入、键盘/VoiceOver和工程重开验收，仍由用户自测。完整1039项回归通过，Inspector/宿主适配/OSC启用ASan。离屏演示图见[面板预览](docs/verification/v1.1.0/inspector-preview.png)。1.1.0（9）已完成通用Release正式签名、Apple公证、票据粘附、唯一正式目录安装及配套模板同步。签名源码`f79d24eb0185f31feaae58b83b632f92dcb3ca91`的111文件及16项必要资源已独立远端恢复核验，clone内134项Inspector ASan和模板审计通过。
+
+正式安装回执见`docs/verification/v1.1.0/installed-verification.json`，恢复标签为`v1.1.0`。签名、票据、Gatekeeper、双架构身份、PluginKit正式路径及配套模板字节核验通过；已清理本次临时APP、旧APP备份和公证ZIP。有界扫描只发现正式路径的产品外层APP，未把该范围表述为所有卷的完整扫描。未操作Motion/FCP界面，实际面板嵌入与工程重开由用户自测。
