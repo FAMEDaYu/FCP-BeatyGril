@@ -1,11 +1,11 @@
 {
-  "version": "1.0.6",
-  "sha256": "30ca8edf36801264c5de2c753c40b720aba8052633620713a12401098fcd2409",
+  "version": "1.1.0",
+  "sha256": "e1c0cff1dd3541ed97cab2cb39a76ad4f28dc659b3be7991cc7ac92dd8ea090b",
   "filterUUID": "FB14B0E6-59B2-4836-916F-CD0C559E9241",
-  "publishedFunctionalControls": 46,
+  "publishedFunctionalControls": 1,
   "informationalControls": 2,
   "hiddenTrackingSlots": 3,
-  "publishedPathsResolved": 48,
+  "publishedPathsResolved": 3,
   "sourceType": 3,
   "sourceMedia": "510000006",
   "clip": "510000006",
@@ -22,14 +22,6 @@
     "previousFootageCount": 0,
     "problem": "Previous generated template removed the standard source clip and could not establish the native effect-source input chain. XML/reference checks did not validate FCP timeline replacement.",
     "change": "Restored the user-owned reference template clip/footage skeleton with new unique IDs; restored the Source Media link; bundled standard Drop Zone.tiff; filter, publications and Type=3/Drop Zone=1 preserved."
-  },
-  "hostValidation": {
-    "date": "2026-10-21",
-    "FCP": "Restored input-chain template shows supplied real video; effect parameters and forward analysis responded in independent QA project.",
-    "Motion": "1.0.4 installed formal app loaded the real-video QA project and rendered brightness/geometry with a primary box at different playhead positions; offline tracking disabled.",
-    "scope": "1.0.6 coordinate/chin repair native visual QA is reserved for user self-testing; no Motion/FCP UI operations. Historical host tests remain scoped to their versions.",
-    "version105": "Formal 1.0.5 (7) signed/notarized/stapled/installed and PluginKit formal path verified. User closed hosts before replacement; no Motion/FCP UI operated. Native visual testing pending user.",
-    "version106": "Formal 1.0.6 (8) universal Release signed/notarized/stapled/installed, identity/Gatekeeper/formal PluginKit path verified. User closed hosts; companion moef and TIFF synchronized and byte-verified. Generated outer APPs and notarization ZIP removed. No Motion/FCP UI operations; native visual QA pending user."
   },
   "slimValidation": {
     "offlineFullChecks": 604,
@@ -51,5 +43,115 @@
     "maxByteErrorVsIndependentCIReference": 2,
     "maxUVOracleError": 1.09828022e-05,
     "nativeVisualQA": "pending user"
+  },
+  "historicalHostValidation": {
+    "date": "2026-10-21",
+    "FCP": "Restored input-chain template shows supplied real video; effect parameters and forward analysis responded in independent QA project.",
+    "Motion": "1.0.4 installed formal app loaded the real-video QA project and rendered brightness/geometry with a primary box at different playhead positions; offline tracking disabled.",
+    "scope": "1.0.6 coordinate/chin repair native visual QA is reserved for user self-testing; no Motion/FCP UI operations. Historical host tests remain scoped to their versions.",
+    "version105": "Formal 1.0.5 (7) signed/notarized/stapled/installed and PluginKit formal path verified. User closed hosts before replacement; no Motion/FCP UI operated. Native visual testing pending user.",
+    "version106": "Formal 1.0.6 (8) universal Release signed/notarized/stapled/installed, identity/Gatekeeper/formal PluginKit path verified. User closed hosts; companion moef and TIFF synchronized and byte-verified. Generated outer APPs and notarization ZIP removed. No Motion/FCP UI operations; native visual QA pending user."
+  },
+  "totalPublished": 3,
+  "hiddenCompatibilityParameters": 49,
+  "legacyGroupPathsPreserved": true,
+  "legacyValuesPreserved": true,
+  "publishOSC": 0,
+  "currentHostValidation": {
+    "version": "1.1.0",
+    "Motion": "pending user",
+    "FCP": "pending user",
+    "scope": "No Motion/FCP launch, quit, activation, UI operation or native save was performed. XML structure and standalone archive checks do not establish custom inspector loading."
+  },
+  "customParameter": {
+    "id": 210,
+    "channel": "./210",
+    "name": "",
+    "flags": "12901679104",
+    "flagsOrigin": "Observed original custom parameter native structure, without copying its data blob",
+    "class": "PGInspectorState",
+    "schema": 1,
+    "hasEdits": false,
+    "valueCount": 30,
+    "disabledCount": 0,
+    "classes": [
+      "NSDictionary",
+      "NSSet",
+      "PGInspectorState"
+    ],
+    "innerBytes": 935,
+    "innerSHA256": "257540ac6079756a76f3d31dff1b9bca2b33393962057927791316965495ab60",
+    "outerBytes": 1127,
+    "outerSHA256": "95d5f1e2c35c40e9f1234b1480894bcc0ee68c0822c9bd3f7c04338062e6a26b",
+    "encodedCharacters": 1516,
+    "encodingAlphabet": "*-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+    "envelope": "8-byte big-endian outer archive length, byte 0x2a, outer NSKeyedArchiver payload, zero padding to 3-byte boundary, custom base64 alphabet",
+    "outerTopKeys": [
+      "BlindDataObject",
+      "DataIsLegacy"
+    ],
+    "innerTopKey": "Custom Data",
+    "legacyFlag": false,
+    "defaultEqualsCurrent": true,
+    "exactEncodeDecodeRoundtrip": true,
+    "outerSecureDecodeRoundtrip": true,
+    "vendorClassesOrBlobReused": false,
+    "emptyDataValueFallback": "not established and not relied upon",
+    "nativeLoadStatus": "pending user"
+  },
+  "publicationTransition": {
+    "previousFunctionalControls": 46,
+    "currentFunctionalControls": 1,
+    "informationControls": 2,
+    "manualAnalysisPublished": false,
+    "retainedForCompatibility": [
+      45,
+      46,
+      50,
+      51,
+      52,
+      53,
+      60,
+      61,
+      62
+    ],
+    "oldParameterPathsUnchanged": true
+  },
+  "xmlFlagPolicy": {
+    "scalarBooleanString": "12905938976; complete observed hidden native flags",
+    "point": "12905943072; complete observed hidden native point flags",
+    "groupPopupButton": "existing private XML flags retained; no guessed bit patch",
+    "pluginHiddenRegistration": "verified in current source: kFxParameterFlag_HIDDEN for all legacy groups, numeric/point/popup/string parameters; commands additionally disabled"
+  },
+  "nonVisualAcceptance": {
+    "XMLAndReferences": "pass: own codec audit and ae-to-motion audit_motion.py",
+    "mediaClosure": "pass: Source Media/clip/footage/relative TIFF and media SHA256",
+    "publications": "pass: exactly two copyright menus plus empty-name ./210",
+    "copyrightBindings": "pass: complete Rig/widget trees unchanged from baseline, own audit resolves menus/publications",
+    "selection": "pass: 0 selected content objects; project focus",
+    "customArchiveStructure": "pass: exact inner bytes, own class/schema/values; Foundation outer secure decode",
+    "customHostInstantiation": "pending user"
+  },
+  "semanticPreservation": {
+    "inverseDiffPassed": true,
+    "allowedChanges": [
+      "description/version",
+      "46 native functional publications replaced by custom210",
+      "custom210 own state archive",
+      "observed scalar/point/string hidden flags",
+      "publish OSC value 1 to 0"
+    ],
+    "otherStructureAndLegacyValuesUnchanged": true
+  },
+  "reproducibleCodec": {
+    "script": "../../scripts/inspector-template.py",
+    "commands": [
+      "python3 scripts/inspector-template.py audit \"Templates/大鱼人像美化/大鱼人像美化.moef\"",
+      "python3 scripts/inspector-template.py encode --inner build/ui-analysis/PGInspectorState-default-inner.bplist --text-output build/ui-analysis/panel-value.txt"
+    ],
+    "ownRoundtrip": "pass",
+    "malformedOrVendorArchiveRejectionCases": 5,
+    "foundationOuterSecureDecode": "pass",
+    "innerClassDecode": "model generates own archive; structure decoded and exact generated bytes preserved; native host instantiation pending user"
   }
 }

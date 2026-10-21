@@ -1,9 +1,28 @@
 {
-  "version": "1.0.2",
+  "version": "1.1.0",
   "pluginUUID": "FB14B0E6-59B2-4836-916F-CD0C559E9241",
   "filterObject": "510000005",
-  "visiblePublished": 46,
+  "visiblePublished": 1,
   "parameters": [
+    {
+      "id": 210,
+      "name": "",
+      "channel": "./210",
+      "kind": "custom-archive",
+      "class": "PGInspectorState",
+      "published": true,
+      "hasEdits": false,
+      "schema": 1,
+      "templateFlags": "12901679104",
+      "panelCards": [
+        "磨皮",
+        "美白",
+        "瘦脸"
+      ],
+      "secondarySection": "更多",
+      "valueStorage": "Own secure keyed archive; Custom Data inside BlindDataObject, DataIsLegacy=false",
+      "nativeLoadingValidation": "pending user"
+    },
     {
       "id": 70,
       "name": "启用磨皮",
@@ -12,7 +31,9 @@
       "kind": "bool",
       "default": 1,
       "value": 1,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 1,
@@ -22,7 +43,9 @@
       "kind": "float",
       "default": 1,
       "value": 1,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 12,
@@ -32,7 +55,9 @@
       "kind": "float",
       "default": 0,
       "value": 0.5,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 3,
@@ -42,7 +67,9 @@
       "kind": "float",
       "default": 8,
       "value": 8,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 30,
@@ -52,7 +79,9 @@
       "kind": "bool",
       "default": 1,
       "value": 1,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 71,
@@ -62,7 +91,9 @@
       "kind": "bool",
       "default": 1,
       "value": 1,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 42,
@@ -72,7 +103,9 @@
       "kind": "popup",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12901744656"
     },
     {
       "id": 2,
@@ -82,7 +115,9 @@
       "kind": "float",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 14,
@@ -92,7 +127,9 @@
       "kind": "float",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 15,
@@ -102,7 +139,9 @@
       "kind": "float",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 41,
@@ -112,7 +151,9 @@
       "kind": "float",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 31,
@@ -122,7 +163,9 @@
       "kind": "float",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 32,
@@ -132,7 +175,9 @@
       "kind": "float",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 73,
@@ -142,7 +187,9 @@
       "kind": "bool",
       "default": 1,
       "value": 1,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 17,
@@ -152,7 +199,9 @@
       "kind": "float",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 4,
@@ -162,7 +211,9 @@
       "kind": "float",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 72,
@@ -172,7 +223,9 @@
       "kind": "bool",
       "default": 1,
       "value": 1,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 18,
@@ -182,7 +235,9 @@
       "kind": "float",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 33,
@@ -192,7 +247,9 @@
       "kind": "float",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 22,
@@ -202,7 +259,9 @@
       "kind": "float",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 23,
@@ -212,7 +271,9 @@
       "kind": "float",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 24,
@@ -222,7 +283,9 @@
       "kind": "float",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 25,
@@ -232,7 +295,9 @@
       "kind": "float",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 26,
@@ -242,7 +307,9 @@
       "kind": "float",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 27,
@@ -252,7 +319,9 @@
       "kind": "float",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 28,
@@ -262,7 +331,9 @@
       "kind": "float",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 29,
@@ -272,7 +343,9 @@
       "kind": "float",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 20,
@@ -282,7 +355,9 @@
       "kind": "bool",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 21,
@@ -292,7 +367,9 @@
       "kind": "point",
       "default": 0.5,
       "value": 0.5,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905943072"
     },
     {
       "id": 39,
@@ -302,7 +379,9 @@
       "kind": "bool",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 40,
@@ -312,7 +391,9 @@
       "kind": "float",
       "default": 1.8,
       "value": 1.8,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 45,
@@ -322,7 +403,9 @@
       "kind": "bool",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 46,
@@ -332,7 +415,9 @@
       "kind": "popup",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12901744656"
     },
     {
       "id": 50,
@@ -342,7 +427,9 @@
       "kind": "button",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": null
     },
     {
       "id": 51,
@@ -352,7 +439,9 @@
       "kind": "button",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": null
     },
     {
       "id": 52,
@@ -362,7 +451,9 @@
       "kind": "button",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": null
     },
     {
       "id": 53,
@@ -372,7 +463,9 @@
       "kind": "status",
       "default": "选择画面中的人脸后开始分析",
       "value": "选择画面中的人脸后开始分析",
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 19,
@@ -382,7 +475,9 @@
       "kind": "bool",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 35,
@@ -392,7 +487,9 @@
       "kind": "bool",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 7,
@@ -402,7 +499,9 @@
       "kind": "float",
       "default": 148,
       "value": 148,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 8,
@@ -412,7 +511,9 @@
       "kind": "float",
       "default": 0.6,
       "value": 0.6,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 9,
@@ -422,7 +523,9 @@
       "kind": "float",
       "default": 0.4,
       "value": 0.4,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 10,
@@ -432,7 +535,9 @@
       "kind": "bool",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 43,
@@ -442,7 +547,9 @@
       "kind": "bool",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 44,
@@ -452,7 +559,9 @@
       "kind": "popup",
       "default": 0,
       "value": 0,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12901744656"
     },
     {
       "id": 5,
@@ -462,7 +571,9 @@
       "kind": "float",
       "default": 1,
       "value": 1,
-      "published": true
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 60,
@@ -470,7 +581,9 @@
       "channel": "./60",
       "kind": "hidden-string",
       "value": "",
-      "published": false
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 61,
@@ -478,7 +591,9 @@
       "channel": "./61",
       "kind": "hidden-string",
       "value": "",
-      "published": false
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     },
     {
       "id": 62,
@@ -486,7 +601,9 @@
       "channel": "./62",
       "kind": "hidden-string",
       "value": "",
-      "published": false
+      "published": false,
+      "hiddenCompatibility": true,
+      "templateFlags": "12905938976"
     }
   ],
   "effectSource": {
@@ -498,5 +615,43 @@
     "dropZone": 1,
     "path": "Drop Zone.tiff",
     "resourceBundled": true
+  },
+  "informationalPublished": 2,
+  "totalPublished": 3,
+  "legacyDefinitionCount": 49,
+  "legacyGroupsPreserved": [
+    100,
+    101,
+    102,
+    103,
+    104,
+    105
+  ],
+  "nativeHiddenPolicy": "All legacy groups and parameters remain registered with SDK kFxParameterFlag_HIDDEN. Known scalar/point/string hidden XML flags are copied from observed native structures; group/popup/button private flags are preserved.",
+  "publishSettings": [
+    {
+      "object": "510000011",
+      "channel": "./2/100",
+      "name": "FCP 版本作者→"
+    },
+    {
+      "object": "510000012",
+      "channel": "./2/100",
+      "name": "更多模板浏览器访问→"
+    },
+    {
+      "object": "510000005",
+      "channel": "./210",
+      "name": ""
+    }
+  ],
+  "defaults": {
+    "legacyMidtoneDefault": 0,
+    "legacyMidtoneValue": 0.5,
+    "customStateHasEdits": false,
+    "initialEffectiveMidtone": 0.5,
+    "publishOSC": 0,
+    "manualAnalysisVisible": false,
+    "trackingMode": "automatic primary realtime follow"
   }
 }

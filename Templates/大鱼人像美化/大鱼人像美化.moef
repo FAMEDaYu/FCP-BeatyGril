@@ -46,7 +46,7 @@
 		<flags>1</flags>
 	</template>
 	<build />
-	<description>大鱼人像美化 1.0.6：人像磨皮、肤色、脸型、五官保护和三目标人脸跟踪。模板中频磨皮默认为50%。</description>
+	<description>大鱼人像美化 1.1.0：磨皮、美白、瘦脸三卡片自定义面板，自动选择主体并实时跟随。模板局部磨皮默认为50%。</description>
 	<scene>
 		<sceneSettings>
 			<width>1920</width>
@@ -82,52 +82,7 @@
 			<version>2</version>
 			<target object="510000011" channel="./2/100" name="FCP 版本作者→" />
 			<target object="510000012" channel="./2/100" name="更多模板浏览器访问→" />
-			<target object="510000005" channel="./100/70" name="启用磨皮" />
-			<target object="510000005" channel="./100/1" name="磨皮强度" />
-			<target object="510000005" channel="./100/12" name="中频磨皮" />
-			<target object="510000005" channel="./100/3" name="磨皮半径" />
-			<target object="510000005" channel="./100/30" name="保护五官" />
-			<target object="510000005" channel="./101/71" name="启用肤色" />
-			<target object="510000005" channel="./101/42" name="肤色风格" />
-			<target object="510000005" channel="./101/2" name="肤色提亮" />
-			<target object="510000005" channel="./101/14" name="肤色色相" />
-			<target object="510000005" channel="./101/15" name="肤色饱和度" />
-			<target object="510000005" channel="./101/41" name="均匀肤色" />
-			<target object="510000005" channel="./101/31" name="牙齿美白" />
-			<target object="510000005" channel="./101/32" name="眼睛提亮" />
-			<target object="510000005" channel="./102/73" name="启用细节" />
-			<target object="510000005" channel="./102/17" name="高频细节平滑" />
-			<target object="510000005" channel="./102/4" name="锐化" />
-			<target object="510000005" channel="./103/72" name="启用脸型" />
-			<target object="510000005" channel="./103/18" name="瘦脸" />
-			<target object="510000005" channel="./103/33" name="大眼" />
-			<target object="510000005" channel="./103/22" name="短脸" />
-			<target object="510000005" channel="./103/23" name="窄脸" />
-			<target object="510000005" channel="./103/24" name="下巴" />
-			<target object="510000005" channel="./103/25" name="V 脸" />
-			<target object="510000005" channel="./103/26" name="下颌" />
-			<target object="510000005" channel="./103/27" name="颧骨" />
-			<target object="510000005" channel="./103/28" name="小头" />
-			<target object="510000005" channel="./103/29" name="小头范围" />
-			<target object="510000005" channel="./104/20" name="只处理选中人脸" />
-			<target object="510000005" channel="./104/21" name="选脸位置" />
-			<target object="510000005" channel="./104/39" name="多人高速模式" />
-			<target object="510000005" channel="./104/40" name="防跳脸范围" />
-			<target object="510000005" channel="./104/45" name="使用跟踪数据" />
-			<target object="510000005" channel="./104/46" name="跟踪目标" />
-			<target object="510000005" channel="./104/50" name="向前分析" />
-			<target object="510000005" channel="./104/51" name="向后分析" />
-			<target object="510000005" channel="./104/52" name="清除当前目标" />
-			<target object="510000005" channel="./104/53" name="跟踪状态" />
-			<target object="510000005" channel="./104/19" name="显示人脸框" />
-			<target object="510000005" channel="./104/35" name="显示跟踪框" />
-			<target object="510000005" channel="./105/7" name="蒙版阈值" />
-			<target object="510000005" channel="./105/8" name="蒙版柔度" />
-			<target object="510000005" channel="./105/9" name="边缘保护" />
-			<target object="510000005" channel="./105/10" name="预览蒙版" />
-			<target object="510000005" channel="./105/43" name="反转蒙版" />
-			<target object="510000005" channel="./105/44" name="蒙版通道" />
-			<target object="510000005" channel="./105/5" name="整体混合" />
+			<target object="510000005" channel="./210" name="" />
 		</publishSettings>
 		<currentFrame>0 1 1 0</currentFrame>
 		<currentObject>510000001</currentObject>
@@ -298,72 +253,81 @@
 					<parameter name="Width" id="313" flags="8589934610" default="1" value="1920" />
 					<parameter name="Height" id="314" flags="8589934610" default="1" value="1080" />
 				</parameter>
-				<filter name="大鱼人像美化" id="510000005" factoryID="6" pluginUUID="FB14B0E6-59B2-4836-916F-CD0C559E9241" pluginVersion="1.0.6" pluginName="大鱼人像美化" pluginDynamicParams="0">
+				<filter name="大鱼人像美化" id="510000005" factoryID="6" pluginUUID="FB14B0E6-59B2-4836-916F-CD0C559E9241" pluginVersion="1.1.0" pluginName="大鱼人像美化" pluginDynamicParams="0">
 					<timing in="0 1 1 0" out="299 30 1 0" offset="0 1 1 0" />
 					<baseFlags>8589934608</baseFlags>
+					<parameter name="" id="210" flags="12901679104">
+						<numberOfKeypoints>1</numberOfKeypoints>
+						<keypoint>
+							<time>0 0 0 0</time>
+							<value />
+						</keypoint>
+						<defaultVal>********-4QeMb-gOLBoA11I*E61-*I4-klM75NZQbBdPqtN743mMqVdRaJmJ0FoPr-M74xWOaJXR5AG**44c3wE1otHGqJtNKF-QaBcOLNZQh660Ec9L2FVR437QolZNq3XSJwE1o7gOKtYF43oMIxWOaJXR6*0U*4X1EsDJGFiRKlgHl21dq7kP4ZnR1*kp*20*kE3-UQ8K0FqNL7nOKxiKGFVQaBcOLNZQZEYR4xkK0FjMadZMrFn2U*-Ve-T2*xCIohZSKJYEL7XO4ZqNL9F0*ZPErJnR4xh62FVR44**OwE8EgA3pZOKplRLZxUMK7XN4JaNqVdOahgPKtjQ53mQrFpRbRsSLdvUMG5JGFiRKlgpEoC1l*F2VAI3FNKRa3gRKJnJWFXP43nQpNZN4ZoNKFKQqBcNKpVK4FdQq3WP4JYU*8*8*UE*M*aolUN1VctK3RCImtfNLZnKYtH9axWOaJXR5Cj2-sP5-oS5m*V6WAY7GMb80Ye8mkh9WwkAH6nB1IqBnW**s*2U*K*-c*5U*W*0M*8U*i*16*BU*u*1s*EU-4*2c*HU-G*3M*KU-S*46*NU-e*4s*QU-q*5c*TU00j2-suCnguCncuCXd1CncuCXcuCXcuCncvCXcuCXdJCXe*6M*WU08*6M*WU04*6M*VU04*6s*WU04*6M*VU04*6M*VU04*6M*WU04*6c*VU04*6M*VU04*76*VU04*7F*d2-sEFl*P2*IE6l*M2*6E6-*c22ME2V*R2-cE1l*22-QE1-*e22UE5l*-20QE5-*F2-YE1V*1202E3WA**********0Azw********0AzzAnAk****0B*6********B7wTLtzKWFXP43nQqtVPKJM74BgMLBnNLBQHZB2OKBoOKxiML7tcbu*K2tHHq7eNKBooVYCUcCUU0TGT5q3VZJCIpBZR883UB7wTMW7Ll*EI2R7PbBkNKBoPr7HR43oNO88U3wE23-5GKtnQ4JXR4xmIrFVR4I*0**F*-c*7**d*16*Bk-7*2k*K*-O*6M*X*0L*7s*dE0g*9A*j*0y*A**kE11*AI*n*1I*Bw-**20*EE--U26*Ec-1*2C*F*-2U2I*FM-4*2O*Fk-5U2U*G6-7*2a*GU-8U2g*Gs-A*2m*HE-BU2s*Hc-D*3R*Jw-ME3X*KI-Nk3d*Kg-PE3j*L2-Qk3p*LQ-SE3v*Lo-Tk4-*MA-VE45*MY-Wk4B*Mw-YE4H*NI-Zk4N*Ng-bE4T*O2-ck4Z*OQ-eE4f*Oo-fk4l*PA-hE4r*PY-ik4x*Pw-kE51*QI-lk57*Qg-nE5D*R2-ok5J*RQ-s*5d*T6-yk6**Ug03*6V*WE09E6m*XA0BE6u*Y*0Ek76*Zg0LU********6-*********6g*******************7l0**6*-2*4U*Y*0Y*AU*r*2Y*HU-P*4o*Pk-l*5I*SkEa*********U2*********2*******************-0Q*</defaultVal>
+						<dataValue>********-4QeMb-gOLBoA11I*E61-*I4-klM75NZQbBdPqtN743mMqVdRaJmJ0FoPr-M74xWOaJXR5AG**44c3wE1otHGqJtNKF-QaBcOLNZQh660Ec9L2FVR437QolZNq3XSJwE1o7gOKtYF43oMIxWOaJXR6*0U*4X1EsDJGFiRKlgHl21dq7kP4ZnR1*kp*20*kE3-UQ8K0FqNL7nOKxiKGFVQaBcOLNZQZEYR4xkK0FjMadZMrFn2U*-Ve-T2*xCIohZSKJYEL7XO4ZqNL9F0*ZPErJnR4xh62FVR44**OwE8EgA3pZOKplRLZxUMK7XN4JaNqVdOahgPKtjQ53mQrFpRbRsSLdvUMG5JGFiRKlgpEoC1l*F2VAI3FNKRa3gRKJnJWFXP43nQpNZN4ZoNKFKQqBcNKpVK4FdQq3WP4JYU*8*8*UE*M*aolUN1VctK3RCImtfNLZnKYtH9axWOaJXR5Cj2-sP5-oS5m*V6WAY7GMb80Ye8mkh9WwkAH6nB1IqBnW**s*2U*K*-c*5U*W*0M*8U*i*16*BU*u*1s*EU-4*2c*HU-G*3M*KU-S*46*NU-e*4s*QU-q*5c*TU00j2-suCnguCncuCXd1CncuCXcuCXcuCncvCXcuCXdJCXe*6M*WU08*6M*WU04*6M*VU04*6s*WU04*6M*VU04*6M*VU04*6M*WU04*6c*VU04*6M*VU04*76*VU04*7F*d2-sEFl*P2*IE6l*M2*6E6-*c22ME2V*R2-cE1l*22-QE1-*e22UE5l*-20QE5-*F2-YE1V*1202E3WA**********0Azw********0AzzAnAk****0B*6********B7wTLtzKWFXP43nQqtVPKJM74BgMLBnNLBQHZB2OKBoOKxiML7tcbu*K2tHHq7eNKBooVYCUcCUU0TGT5q3VZJCIpBZR883UB7wTMW7Ll*EI2R7PbBkNKBoPr7HR43oNO88U3wE23-5GKtnQ4JXR4xmIrFVR4I*0**F*-c*7**d*16*Bk-7*2k*K*-O*6M*X*0L*7s*dE0g*9A*j*0y*A**kE11*AI*n*1I*Bw-**20*EE--U26*Ec-1*2C*F*-2U2I*FM-4*2O*Fk-5U2U*G6-7*2a*GU-8U2g*Gs-A*2m*HE-BU2s*Hc-D*3R*Jw-ME3X*KI-Nk3d*Kg-PE3j*L2-Qk3p*LQ-SE3v*Lo-Tk4-*MA-VE45*MY-Wk4B*Mw-YE4H*NI-Zk4N*Ng-bE4T*O2-ck4Z*OQ-eE4f*Oo-fk4l*PA-hE4r*PY-ik4x*Pw-kE51*QI-lk57*Qg-nE5D*R2-ok5J*RQ-s*5d*T6-yk6**Ug03*6V*WE09E6m*XA0BE6u*Y*0Ek76*Zg0LU********6-*********6g*******************7l0**6*-2*4U*Y*0Y*AU*r*2Y*HU-P*4o*Pk-l*5I*SkEa*********U2*********2*******************-0Q*</dataValue>
+					</parameter>
 					<parameter name="磨皮" id="100" flags="8589938704">
-						<parameter name="启用磨皮" id="70" flags="12901679120" default="1" value="1" />
-						<parameter name="磨皮强度" id="1" flags="12901679120" default="1" value="1" />
-						<parameter name="中频磨皮" id="12" flags="12901679120" default="0" value="0.5" />
-						<parameter name="磨皮半径" id="3" flags="12901679120" default="8" value="8" />
-						<parameter name="保护五官" id="30" flags="12901679120" default="1" value="1" />
+						<parameter name="启用磨皮" id="70" flags="12905938976" default="1" value="1" />
+						<parameter name="磨皮强度" id="1" flags="12905938976" default="1" value="1" />
+						<parameter name="中频磨皮" id="12" flags="12905938976" default="0" value="0.5" />
+						<parameter name="磨皮半径" id="3" flags="12905938976" default="8" value="8" />
+						<parameter name="保护五官" id="30" flags="12905938976" default="1" value="1" />
 					</parameter>
 					<parameter name="肤色" id="101" flags="8589938704">
-						<parameter name="启用肤色" id="71" flags="12901679120" default="1" value="1" />
+						<parameter name="启用肤色" id="71" flags="12905938976" default="1" value="1" />
 						<parameter name="肤色风格" id="42" flags="12901744656" default="0" value="0" />
-						<parameter name="肤色提亮" id="2" flags="12901679120" default="0" value="0" />
-						<parameter name="肤色色相" id="14" flags="12901679120" default="0" value="0" />
-						<parameter name="肤色饱和度" id="15" flags="12901679120" default="0" value="0" />
-						<parameter name="均匀肤色" id="41" flags="12901679120" default="0" value="0" />
-						<parameter name="牙齿美白" id="31" flags="12901679120" default="0" value="0" />
-						<parameter name="眼睛提亮" id="32" flags="12901679120" default="0" value="0" />
+						<parameter name="肤色提亮" id="2" flags="12905938976" default="0" value="0" />
+						<parameter name="肤色色相" id="14" flags="12905938976" default="0" value="0" />
+						<parameter name="肤色饱和度" id="15" flags="12905938976" default="0" value="0" />
+						<parameter name="均匀肤色" id="41" flags="12905938976" default="0" value="0" />
+						<parameter name="牙齿美白" id="31" flags="12905938976" default="0" value="0" />
+						<parameter name="眼睛提亮" id="32" flags="12905938976" default="0" value="0" />
 					</parameter>
 					<parameter name="细节" id="102" flags="8589938704">
-						<parameter name="启用细节" id="73" flags="12901679120" default="1" value="1" />
-						<parameter name="高频细节平滑" id="17" flags="12901679120" default="0" value="0" />
-						<parameter name="锐化" id="4" flags="12901679120" default="0" value="0" />
+						<parameter name="启用细节" id="73" flags="12905938976" default="1" value="1" />
+						<parameter name="高频细节平滑" id="17" flags="12905938976" default="0" value="0" />
+						<parameter name="锐化" id="4" flags="12905938976" default="0" value="0" />
 					</parameter>
 					<parameter name="脸型" id="103" flags="8589938704">
-						<parameter name="启用脸型" id="72" flags="12901679120" default="1" value="1" />
-						<parameter name="瘦脸" id="18" flags="12901679120" default="0" value="0" />
-						<parameter name="大眼" id="33" flags="12901679120" default="0" value="0" />
-						<parameter name="短脸" id="22" flags="12901679120" default="0" value="0" />
-						<parameter name="窄脸" id="23" flags="12901679120" default="0" value="0" />
-						<parameter name="下巴" id="24" flags="12901679120" default="0" value="0" />
-						<parameter name="V 脸" id="25" flags="12901679120" default="0" value="0" />
-						<parameter name="下颌" id="26" flags="12901679120" default="0" value="0" />
-						<parameter name="颧骨" id="27" flags="12901679120" default="0" value="0" />
-						<parameter name="小头" id="28" flags="12901679120" default="0" value="0" />
-						<parameter name="小头范围" id="29" flags="12901679120" default="0" value="0" />
+						<parameter name="启用脸型" id="72" flags="12905938976" default="1" value="1" />
+						<parameter name="瘦脸" id="18" flags="12905938976" default="0" value="0" />
+						<parameter name="大眼" id="33" flags="12905938976" default="0" value="0" />
+						<parameter name="短脸" id="22" flags="12905938976" default="0" value="0" />
+						<parameter name="窄脸" id="23" flags="12905938976" default="0" value="0" />
+						<parameter name="下巴" id="24" flags="12905938976" default="0" value="0" />
+						<parameter name="V 脸" id="25" flags="12905938976" default="0" value="0" />
+						<parameter name="下颌" id="26" flags="12905938976" default="0" value="0" />
+						<parameter name="颧骨" id="27" flags="12905938976" default="0" value="0" />
+						<parameter name="小头" id="28" flags="12905938976" default="0" value="0" />
+						<parameter name="小头范围" id="29" flags="12905938976" default="0" value="0" />
 					</parameter>
 					<parameter name="人脸选择与跟踪" id="104" flags="8589938704">
-						<parameter name="只处理选中人脸" id="20" flags="12901679120" default="0" value="0" />
-						<parameter name="选脸位置" id="21" flags="12901683200">
+						<parameter name="只处理选中人脸" id="20" flags="12905938976" default="0" value="0" />
+						<parameter name="选脸位置" id="21" flags="12905943072">
 							<foldFlags>15</foldFlags>
-							<parameter name="X" id="1" flags="12901679120" default="0.5" value="0.5" />
-							<parameter name="Y" id="2" flags="12901679120" default="0.5" value="0.5" />
+							<parameter name="X" id="1" flags="12905938976" default="0.5" value="0.5" />
+							<parameter name="Y" id="2" flags="12905938976" default="0.5" value="0.5" />
 						</parameter>
-						<parameter name="多人高速模式" id="39" flags="12901679120" default="0" value="0" />
-						<parameter name="防跳脸范围" id="40" flags="12901679120" default="1.8" value="1.8" />
-						<parameter name="使用跟踪数据" id="45" flags="12901679120" default="0" value="0" />
+						<parameter name="多人高速模式" id="39" flags="12905938976" default="0" value="0" />
+						<parameter name="防跳脸范围" id="40" flags="12905938976" default="1.8" value="1.8" />
+						<parameter name="使用跟踪数据" id="45" flags="12905938976" default="0" value="0" />
 						<parameter name="跟踪目标" id="46" flags="12901744656" default="0" value="0" />
 						<parameter name="向前分析" id="50" />
 						<parameter name="向后分析" id="51" />
 						<parameter name="清除当前目标" id="52" />
-						<parameter name="跟踪状态" id="53" flags="12889161760">
+						<parameter name="跟踪状态" id="53" flags="12905938976">
 							<text>选择画面中的人脸后开始分析</text>
 						</parameter>
-						<parameter name="显示人脸框" id="19" flags="12901679120" default="0" value="0" />
-						<parameter name="显示跟踪框" id="35" flags="12901679120" default="0" value="0" />
+						<parameter name="显示人脸框" id="19" flags="12905938976" default="0" value="0" />
+						<parameter name="显示跟踪框" id="35" flags="12905938976" default="0" value="0" />
 					</parameter>
 					<parameter name="蒙版与输出" id="105" flags="8589938704">
-						<parameter name="蒙版阈值" id="7" flags="12901679120" default="148" value="148" />
-						<parameter name="蒙版柔度" id="8" flags="12901679120" default="0.6" value="0.6" />
-						<parameter name="边缘保护" id="9" flags="12901679120" default="0.4" value="0.4" />
-						<parameter name="预览蒙版" id="10" flags="12901679120" default="0" value="0" />
-						<parameter name="反转蒙版" id="43" flags="12901679120" default="0" value="0" />
+						<parameter name="蒙版阈值" id="7" flags="12905938976" default="148" value="148" />
+						<parameter name="蒙版柔度" id="8" flags="12905938976" default="0.6" value="0.6" />
+						<parameter name="边缘保护" id="9" flags="12905938976" default="0.4" value="0.4" />
+						<parameter name="预览蒙版" id="10" flags="12905938976" default="0" value="0" />
+						<parameter name="反转蒙版" id="43" flags="12905938976" default="0" value="0" />
 						<parameter name="蒙版通道" id="44" flags="12901744656" default="0" value="0" />
-						<parameter name="整体混合" id="5" flags="12901679120" default="1" value="1" />
+						<parameter name="整体混合" id="5" flags="12905938976" default="1" value="1" />
 					</parameter>
 					<parameter name="分析数据" id="60" flags="12905938976">
 						<text />
@@ -377,7 +341,7 @@
 					<parameter name="混合" id="10001" flags="12884901888" default="1" value="1" />
 					<parameter name="Flip" id="10002" flags="12889161760" default="0" value="0" />
 					<parameter name="Input Points" id="10003" flags="12889161760" default="1" value="1" />
-					<parameter name="发布 OSC" id="10005" flags="12901679104" default="0" value="1" />
+					<parameter name="发布 OSC" id="10005" flags="12901679104" default="0" value="0" />
 				</filter>
 			</scenenode>
 			<aspectRatio>1</aspectRatio>

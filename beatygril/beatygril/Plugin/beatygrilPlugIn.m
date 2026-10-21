@@ -2,6 +2,8 @@
 #import "PGParameterIDs.h"
 #import "PGBeautyRenderer.h"
 #import "PGFaceProcessor.h"
+#import "PGInspectorState.h"
+#import "PGInspectorView.h"
 #import <Metal/Metal.h>
 #import <IOSurface/IOSurface.h>
 #import <stddef.h>
@@ -90,7 +92,6 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
 @property BOOL analyzing;
 @property BOOL analysisForward;
 @property (strong) NSArray<NSString *> *loadedTracks;
-@property uint32_t compatibleTrackMask;
 @property BOOL reportedRender;
 @end
 
@@ -120,8 +121,8 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
         PGSlider spec=PGSliders[i]; if (spec.identifier!=identifier) continue;
         NSString *name=[NSString stringWithUTF8String:spec.name];
         float value=*(float *)((uint8_t *)&defaults+spec.offset);
-        if (spec.percent) return [api addPercentSliderWithName:name parameterID:identifier defaultValue:value parameterMin:spec.min parameterMax:spec.max sliderMin:spec.min sliderMax:spec.max delta:spec.step parameterFlags:kFxParameterFlag_DEFAULT];
-        return [api addFloatSliderWithName:name parameterID:identifier defaultValue:value parameterMin:spec.min parameterMax:spec.max sliderMin:spec.min sliderMax:spec.max delta:spec.step parameterFlags:kFxParameterFlag_DEFAULT];
+        if (spec.percent) return [api addPercentSliderWithName:name parameterID:identifier defaultValue:value parameterMin:spec.min parameterMax:spec.max sliderMin:spec.min sliderMax:spec.max delta:spec.step parameterFlags:kFxParameterFlag_HIDDEN];
+        return [api addFloatSliderWithName:name parameterID:identifier defaultValue:value parameterMin:spec.min parameterMax:spec.max sliderMin:spec.min sliderMax:spec.max delta:spec.step parameterFlags:kFxParameterFlag_HIDDEN];
     }
     return NO;
 }
@@ -129,36 +130,46 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
     id<FxParameterCreationAPI_v5> api=[_apiManager apiForProtocol:@protocol(FxParameterCreationAPI_v5)];
     if (!api) return PGFail(error,@"无法取得 FxPlug 参数创建接口。");
     __block BOOL ok=YES;
+    ok=[api addCustomParameterWithName:@"" parameterID:PGInspectorPanel
+                         defaultValue:[PGInspectorState stateWithValues:@{} disabledParameters:[NSSet set] hasEdits:NO]
+                       parameterFlags:kFxParameterFlag_CUSTOM_UI|kFxParameterFlag_USE_FULL_VIEW_WIDTH]&&ok;
     void (^slider)(UInt32)=^(UInt32 identifier){ok=[self addSlider:identifier api:api]&&ok;};
-    void (^toggle)(NSString *,UInt32,BOOL)=^(NSString *name,UInt32 identifier,BOOL value){ok=[api addToggleButtonWithName:name parameterID:identifier defaultValue:value parameterFlags:kFxParameterFlag_DEFAULT]&&ok;};
-    void (^group)(NSString *,UInt32)=^(NSString *name,UInt32 identifier){ok=[api startParameterSubGroup:name parameterID:identifier parameterFlags:kFxParameterFlag_DEFAULT]&&ok;};
+    void (^toggle)(NSString *,UInt32,BOOL)=^(NSString *name,UInt32 identifier,BOOL value){ok=[api addToggleButtonWithName:name parameterID:identifier defaultValue:value parameterFlags:kFxParameterFlag_HIDDEN]&&ok;};
+    void (^group)(NSString *,UInt32)=^(NSString *name,UInt32 identifier){ok=[api startParameterSubGroup:name parameterID:identifier parameterFlags:kFxParameterFlag_HIDDEN]&&ok;};
     void (^end)(void)=^{ok=[api endParameterSubGroup]&&ok;};
     group(@"磨皮",100); toggle(@"启用磨皮",PGSmoothingEnabled,YES);
     slider(PGAmount); slider(PGMidtone); slider(PGRadius); toggle(@"保护五官",PGFeatureProtect,YES); end();
     group(@"肤色",101); toggle(@"启用肤色",PGColorEnabled,YES);
-    ok=[api addPopupMenuWithName:@"肤色风格" parameterID:PGTonePreset defaultValue:0 menuEntries:@[@"原色",@"自然白",@"冷白",@"暖白",@"红润白",@"小麦",@"古铜"] parameterFlags:0]&&ok;
+    ok=[api addPopupMenuWithName:@"肤色风格" parameterID:PGTonePreset defaultValue:0 menuEntries:@[@"原色",@"自然白",@"冷白",@"暖白",@"红润白",@"小麦",@"古铜"] parameterFlags:kFxParameterFlag_HIDDEN]&&ok;
     slider(PGBrightness); slider(PGHue); slider(PGSaturation); slider(PGEvenTone); slider(PGTeeth); slider(PGEyeBright); end();
     group(@"细节",102); toggle(@"启用细节",PGDetailEnabled,YES); slider(PGHighPass); slider(PGSharpness); end();
     group(@"脸型",103); toggle(@"启用脸型",PGShapeEnabled,YES);
     UInt32 shape[]={PGThin,PGBigEye,PGShort,PGNarrow,PGChin,PGVFace,PGJaw,PGCheekbone,PGSmallHead,PGSmallHeadRange};
     for(NSUInteger i=0;i<sizeof(shape)/sizeof(UInt32);i++) slider(shape[i]); end();
     group(@"人脸选择与跟踪",104); toggle(@"只处理选中人脸",PGSingleFace,NO);
-    ok=[api addPointParameterWithName:@"选脸位置" parameterID:PGSelection defaultX:.5 defaultY:.5 parameterFlags:0]&&ok;
+    ok=[api addPointParameterWithName:@"选脸位置" parameterID:PGSelection defaultX:.5 defaultY:.5 parameterFlags:kFxParameterFlag_HIDDEN]&&ok;
     toggle(@"多人高速模式",PGFastMulti,NO); slider(PGJumpGuard);
     toggle(@"使用跟踪数据",PGTrackEnabled,NO);
-    ok=[api addPopupMenuWithName:@"跟踪目标" parameterID:PGTarget defaultValue:0 menuEntries:@[@"目标 1",@"目标 2",@"目标 3"] parameterFlags:kFxParameterFlag_NOT_ANIMATABLE]&&ok;
-    ok=[api addPushButtonWithName:@"向前分析" parameterID:PGAnalyzeForward selector:@selector(analyzeForward) parameterFlags:0]&&ok;
-    ok=[api addPushButtonWithName:@"向后分析" parameterID:PGAnalyzeBackward selector:@selector(analyzeBackward) parameterFlags:0]&&ok;
-    ok=[api addPushButtonWithName:@"清除当前目标" parameterID:PGClearTrack selector:@selector(clearTracking) parameterFlags:0]&&ok;
-    ok=[api addStringParameterWithName:@"跟踪状态" parameterID:PGStatus defaultValue:@"选择画面中的人脸后开始分析" parameterFlags:kFxParameterFlag_NOT_ANIMATABLE|kFxParameterFlag_DISABLED]&&ok;
+    ok=[api addPopupMenuWithName:@"跟踪目标" parameterID:PGTarget defaultValue:0 menuEntries:@[@"目标 1",@"目标 2",@"目标 3"] parameterFlags:kFxParameterFlag_NOT_ANIMATABLE|kFxParameterFlag_HIDDEN]&&ok;
+    ok=[api addPushButtonWithName:@"向前分析" parameterID:PGAnalyzeForward selector:@selector(analyzeForward) parameterFlags:kFxParameterFlag_HIDDEN|kFxParameterFlag_DISABLED]&&ok;
+    ok=[api addPushButtonWithName:@"向后分析" parameterID:PGAnalyzeBackward selector:@selector(analyzeBackward) parameterFlags:kFxParameterFlag_HIDDEN|kFxParameterFlag_DISABLED]&&ok;
+    ok=[api addPushButtonWithName:@"清除当前目标" parameterID:PGClearTrack selector:@selector(clearTracking) parameterFlags:kFxParameterFlag_HIDDEN|kFxParameterFlag_DISABLED]&&ok;
+    ok=[api addStringParameterWithName:@"跟踪状态" parameterID:PGStatus defaultValue:@"自动人脸跟随" parameterFlags:kFxParameterFlag_NOT_ANIMATABLE|kFxParameterFlag_DISABLED|kFxParameterFlag_HIDDEN]&&ok;
     toggle(@"显示人脸框",PGFaceBoxes,NO); toggle(@"显示跟踪框",PGTrackBoxes,NO); end();
     group(@"蒙版与输出",105); slider(PGThreshold); slider(PGSoftness); slider(PGEdgeProtect);
     toggle(@"预览蒙版",PGShowMask,NO); toggle(@"反转蒙版",PGInvertMask,NO);
-    ok=[api addPopupMenuWithName:@"蒙版通道" parameterID:PGDebugChannel defaultValue:0 menuEntries:@[@"皮肤",@"牙齿",@"眼睛"] parameterFlags:0]&&ok;
+    ok=[api addPopupMenuWithName:@"蒙版通道" parameterID:PGDebugChannel defaultValue:0 menuEntries:@[@"皮肤",@"牙齿",@"眼睛"] parameterFlags:kFxParameterFlag_HIDDEN]&&ok;
     slider(PGMix); end();
     for(UInt32 identifier=PGTrackData1;identifier<=PGTrackData3;identifier++)
         ok=[api addStringParameterWithName:@"分析数据" parameterID:identifier defaultValue:@"" parameterFlags:kFxParameterFlag_HIDDEN|kFxParameterFlag_NOT_ANIMATABLE]&&ok;
     return ok ? YES : PGFail(error,@"宿主未能创建完整的人像美化参数。");
+}
+- (NSView *)createViewForParameterID:(UInt32)identifier {
+    return identifier==PGInspectorPanel ? [[PGInspectorView alloc] initWithAPIManager:_apiManager] : nil;
+}
+- (Class)classForCustomParameterID:(UInt32)identifier {return identifier==PGInspectorPanel?PGInspectorState.class:Nil;}
+- (NSSet<Class> *)classesForCustomParameterID:(UInt32)identifier {
+    return identifier==PGInspectorPanel?[NSSet setWithObjects:PGInspectorState.class,NSDictionary.class,NSNumber.class,NSSet.class,nil]:[NSSet set];
 }
 - (PGBeautySettings)settingsAtTime:(CMTime)time {
     PGBeautySettings s=PGBeautyDefaults();
@@ -192,6 +203,13 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
     enabled=YES; [api getBoolValue:&enabled fromParameter:PGShapeEnabled atTime:time];
     if(!enabled) s.faceThin=s.faceBigEye=s.faceShort=s.faceNarrow=s.faceChin=s.faceV=s.faceJaw=s.faceCheekbone=s.faceSmallHead=0;
     if(s.fastMultiFace) s.singleFace=0;
+    NSObject *panel=nil;
+    [api getCustomParameterValue:&panel fromParameter:PGInspectorPanel atTime:time];
+    if([panel isKindOfClass:PGInspectorState.class])s=PGSettingsWithInspectorState(s,(PGInspectorState *)panel);
+    // The current product follows faces automatically. Old manual-analysis and
+    // debug values remain saved for document compatibility, but cannot silently
+    // override live geometry or leave an invisible mask/selection mode active.
+    s.trackingEnabled=0;s.singleFace=0;s.showMask=0;s.invertMask=0;s.debugChannel=0;s.showFaceBoxes=0;
     return s;
 }
 - (NSArray<NSString *> *)trackStrings {
@@ -207,7 +225,7 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
     if(!state) return PGFail(error,@"缺少渲染状态输出位置。");
     if(![_apiManager apiForProtocol:@protocol(FxParameterRetrievalAPI_v6)]) return PGFail(error,@"无法读取宿主参数。");
     PGBeautySettings s=[self settingsAtTime:time];
-    *state=[NSPropertyListSerialization dataWithPropertyList:@{@"settings":[NSData dataWithBytes:&s length:sizeof(s)],@"tracks":[self trackStrings]} format:NSPropertyListBinaryFormat_v1_0 options:0 error:error];
+    *state=[NSPropertyListSerialization dataWithPropertyList:@{@"settings":[NSData dataWithBytes:&s length:sizeof(s)],@"tracks":@[@"",@"",@""]} format:NSPropertyListBinaryFormat_v1_0 options:0 error:error];
     return *state!=nil;
 }
 - (BOOL)destinationImageRect:(FxRect *)rect sourceImages:(NSArray<FxImageTile *> *)sources destinationImage:(FxImageTile *)destination pluginState:(NSData *)state atTime:(CMTime)time error:(NSError **)error {
@@ -237,6 +255,7 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
         if(![plist isKindOfClass:NSDictionary.class]||![plist[@"settings"] isKindOfClass:NSData.class]||[plist[@"settings"] length]!=sizeof(PGBeautySettings)) return PGFail(error,@"渲染状态版本无效。");
         PGBeautySettings s;[plist[@"settings"] getBytes:&s length:sizeof(s)];
         if(s.version!=1) return PGFail(error,@"此版本不支持保存的渲染状态。");
+        s.trackingEnabled=0;s.singleFace=0;
         CIImage *input=PGImageFromTile(sources.firstObject); if(!input) return PGFail(error,@"无法读取 IOSurface。");
         @synchronized(self) {
             if(!_reportedRender) {
@@ -255,21 +274,6 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
             NSArray *tracks=plist[@"tracks"];
             if(![tracks isKindOfClass:NSArray.class]||tracks.count!=3) return PGFail(error,@"跟踪状态无效。");
             for(id track in tracks) if(![track isKindOfClass:NSString.class]) return PGFail(error,@"跟踪记录无效。");
-            if(![_loadedTracks isEqualToArray:tracks]) {
-                _compatibleTrackMask=0;
-                for(NSUInteger i=0;i<3;i++) {
-                    NSData *data=[[NSData alloc] initWithBase64EncodedString:tracks[i] options:0];
-                    BOOL compatible=PGCompatibleHostTrack(data);
-                    if(compatible) _compatibleTrackMask |= 1u<<i;
-                    [_faceProcessor setTrackingData:compatible?data:nil forTarget:i];
-                }
-                _loadedTracks=[tracks copy];
-            }
-            // Previous releases did not record which image-axis contract their
-            // analysis used. Never replay potentially inverted coordinates.
-            // Preserve the user's saved data and use realtime follow until they
-            // reanalyze that target under this coordinate contract.
-            if(s.trackingEnabled && !(_compatibleTrackMask & (1u<<MIN(s.targetIndex,2)))) s.trackingEnabled=0;
             NSError *stageError=nil;
             PGFaceFrame *frame=[_faceProcessor processImage:input settings:s time:time error:&stageError];
             if(!frame) { os_log_error(PGRenderLog(), "face processing failed: %{public}@",stageError); if(error)*error=stageError; return NO; }

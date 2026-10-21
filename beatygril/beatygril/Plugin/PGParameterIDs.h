@@ -13,5 +13,6 @@ enum {
     PGAnalyzeForward=50, PGAnalyzeBackward=51, PGClearTrack=52, PGStatus=53,
     PGTrackData1=60, PGTrackData2=61, PGTrackData3=62,
     PGSmoothingEnabled=70, PGColorEnabled=71, PGShapeEnabled=72,
-    PGDetailEnabled=73, PGHelp=74
+    PGDetailEnabled=73, PGHelp=74,
+    PGInspectorPanel=210
 };

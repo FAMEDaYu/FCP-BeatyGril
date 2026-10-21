@@ -15,8 +15,9 @@ xcrun clang "${compiler_extra[@]}" -fobjc-arc -fmodules -Wall -Wextra -Wno-unuse
   -I "$plugin_dir" -F "$sdk_frameworks" -F "$runtime_frameworks" \
   -Wl,-rpath,"$runtime_frameworks" \
   "$plugin_dir/PGBeautyRenderer.m" "$plugin_dir/PGFaceProcessor.m" \
+  "$plugin_dir/PGInspectorState.m" "$plugin_dir/PGInspectorView.m" \
   "$plugin_dir/beatygrilPlugIn.m" tests/host_adapter_tests.m \
-  -framework Foundation -framework CoreImage -framework CoreGraphics \
+  -framework Foundation -framework AppKit -framework CoreImage -framework CoreGraphics \
   -framework CoreMedia -framework CoreVideo -framework IOSurface -framework Metal \
   -framework Vision -framework ImageIO -framework FxPlug -framework PluginManager \
   -o "$output_dir/host-tests"

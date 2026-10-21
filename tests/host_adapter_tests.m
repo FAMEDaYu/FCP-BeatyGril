@@ -9,6 +9,7 @@
 #import "PGParameterIDs.h"
 #import "PGFaceProcessor.h"
 #import "PGBeautyRenderer.h"
+#import "PGInspectorState.h"
 #include <math.h>
 
 // This adapter simulates host callbacks, but uses real IOSurface buffers and the
@@ -28,6 +29,9 @@
 @property BOOL rejectAnalysis;
 @property BOOL targetAtCurrentTime;
 @property UInt32 rejectedWriteParameter;
+@property NSUInteger actionDepth;
+@property NSUInteger actionStarts;
+@property NSUInteger actionEnds;
 @end
 
 @implementation PGHostAPI
@@ -73,6 +77,9 @@
 - (BOOL)addStringParameterWithName:(NSString *)name parameterID:(UInt32)identifier defaultValue:(NSString *)value parameterFlags:(FxParameterFlags)flags {
     return [self define:identifier kind:@"string" value:value flags:flags extra:@{@"name":name}];
 }
+- (BOOL)addCustomParameterWithName:(NSString *)name parameterID:(UInt32)identifier defaultValue:(NSObject<NSSecureCoding,NSCopying> *)value parameterFlags:(FxParameterFlags)flags {
+    return [self define:identifier kind:@"custom" value:[value copy] flags:flags extra:@{@"name":name}];
+}
 - (BOOL)startParameterSubGroup:(NSString *)name parameterID:(UInt32)identifier parameterFlags:(FxParameterFlags)flags {
     _depth++;
     return [self define:identifier kind:@"group" value:nil flags:flags extra:@{@"name":name}];
@@ -104,6 +111,17 @@
     _values[@(identifier)] = value; return YES;
 }
 - (BOOL)setBoolValue:(BOOL)value toParameter:(UInt32)identifier atTime:(CMTime)time { _lastSetBoolTime = time; _values[@(identifier)] = @(value); return YES; }
+- (BOOL)getCustomParameterValue:(NSObject **)value fromParameter:(UInt32)identifier atTime:(CMTime)time {
+    NSObject *object=_values[@(identifier)];if(![object isKindOfClass:PGInspectorState.class])return NO;
+    *value=[(PGInspectorState *)object copy];return YES;
+}
+- (BOOL)setCustomParameterValue:(NSObject<NSSecureCoding,NSCopying> *)value toParameter:(UInt32)identifier atTime:(CMTime)time {
+    if(identifier==_rejectedWriteParameter)return NO;_values[@(identifier)]=[value copy];return YES;
+}
+- (BOOL)setFloatValue:(double)value toParameter:(UInt32)identifier atTime:(CMTime)time {_values[@(identifier)]=@(value);return YES;}
+- (BOOL)setIntValue:(int)value toParameter:(UInt32)identifier atTime:(CMTime)time {_values[@(identifier)]=@(value);return YES;}
+- (void)startAction:(id)sender {_actionStarts++;_actionDepth++;}
+- (void)endAction:(id)sender {_actionEnds++;if(_actionDepth)_actionDepth--;}
 - (CMTime)currentTime { return _hostTime; }
 - (BOOL)startForwardAnalysis:(FxAnalysisLocation)location error:(NSError **)error {
     _forwardRequests++; return !_rejectAnalysis;
@@ -393,10 +411,10 @@ static void TrackingCoordinateTests(NSDictionary *archive, NSDictionary *hostVal
     trustedAPI.values = [values mutableCopy]; trustedAPI.values[@(PGTrackData3)] = [trustedTrack base64EncodedStringWithOptions:0];
     Check(Render(trusted, output, @[source], Snapshot(trusted,time), time, nil, NULL), @"fresh plugin restores a marked coordinate archive");
     NSData *trustedBytes = SurfaceBytes(output);
-    PGBeautySettings tracked = [trusted settingsAtTime:time];
+    PGBeautySettings tracked = [trusted settingsAtTime:time]; tracked.trackingEnabled=1;
     NSData *expectedSaved = ImageBytes(context, ProcessedReference(portrait,tracked,time,trustedTrack));
-    Check(expectedSaved.length && MaximumDifference(trustedBytes,expectedSaved) <= 1, @"marked saved geometry matches independent exact-time archive replay");
-    Check(MaximumDifference(trustedBytes,expectedLive) > 5, @"forged marked geometry is observably different, making the legacy non-replay assertion meaningful");
+    Check(expectedSaved.length && MaximumDifference(trustedBytes,expectedLive) <= 4 && MeanDifference(trustedBytes,expectedLive) < .005, @"automatic adapter ignores even marked saved geometry and uses the current face");
+    Check(MaximumDifference(expectedSaved,expectedLive) > 5, @"direct archive replay would visibly differ, making the automatic non-replay assertion meaningful");
 
     // Reanalysis of an unmarked target starts a fresh compatible archive.
     [legacy analyzeForward];
@@ -437,7 +455,7 @@ int main(int argc, const char *argv[]) {
         PGHostAPI *api = [PGHostAPI new]; beatygrilPlugIn *plugin = [[beatygrilPlugIn alloc] initWithAPIManager:api];
         NSError *error = nil;
         Check([plugin addParametersWithError:&error] && !error, @"host creates complete parameter set");
-        UInt32 identifiers[] = {PGAmount,PGBrightness,PGRadius,PGSharpness,PGMix,PGThreshold,PGSoftness,PGEdgeProtect,PGShowMask,PGMidtone,PGHue,PGSaturation,PGHighPass,PGThin,PGFaceBoxes,PGSingleFace,PGSelection,PGShort,PGNarrow,PGChin,PGVFace,PGJaw,PGCheekbone,PGSmallHead,PGSmallHeadRange,PGFeatureProtect,PGTeeth,PGEyeBright,PGBigEye,PGTrackBoxes,PGFastMulti,PGJumpGuard,PGEvenTone,PGTonePreset,PGInvertMask,PGDebugChannel,PGTrackEnabled,PGTarget,PGAnalyzeForward,PGAnalyzeBackward,PGClearTrack,PGStatus,PGTrackData1,PGTrackData2,PGTrackData3,PGSmoothingEnabled,PGColorEnabled,PGShapeEnabled,PGDetailEnabled};
+        UInt32 identifiers[] = {PGAmount,PGBrightness,PGRadius,PGSharpness,PGMix,PGThreshold,PGSoftness,PGEdgeProtect,PGShowMask,PGMidtone,PGHue,PGSaturation,PGHighPass,PGThin,PGFaceBoxes,PGSingleFace,PGSelection,PGShort,PGNarrow,PGChin,PGVFace,PGJaw,PGCheekbone,PGSmallHead,PGSmallHeadRange,PGFeatureProtect,PGTeeth,PGEyeBright,PGBigEye,PGTrackBoxes,PGFastMulti,PGJumpGuard,PGEvenTone,PGTonePreset,PGInvertMask,PGDebugChannel,PGTrackEnabled,PGTarget,PGAnalyzeForward,PGAnalyzeBackward,PGClearTrack,PGStatus,PGTrackData1,PGTrackData2,PGTrackData3,PGSmoothingEnabled,PGColorEnabled,PGShapeEnabled,PGDetailEnabled,PGInspectorPanel};
         for (NSUInteger i = 0; i < sizeof(identifiers) / sizeof(UInt32); i++) Check(api.definitions[@(identifiers[i])] != nil, [NSString stringWithFormat:@"required parameter %u exists", identifiers[i]]);
         Check(api.depth == 0 && !api.duplicate && api.definitions.count == sizeof(identifiers) / sizeof(UInt32) + 6, @"parameter groups close and IDs are unique");
         Check([api.values[@(PGMidtone)] doubleValue] == 0 && [api.values[@(PGMix)] doubleValue] == 1, @"default detail and mix form identity filter");
