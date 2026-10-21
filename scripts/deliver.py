@@ -2,11 +2,12 @@
 """Release, notarize and install the unique FxPlug app under its delivery lock.
 The final prompt keeps the lock held while native-host validation is performed.
 """
-import argparse, datetime, json, os, pathlib, plistlib, shutil, subprocess, sys, time
+import argparse, datetime, json, os, pathlib, plistlib, re, shutil, subprocess, sys, time
 root=pathlib.Path(__file__).resolve().parent.parent
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--wait-for-hosts',action='store_true',help='After notarization, retain the delivery lock and wait for Motion/FCP to exit naturally before installing; never control or quit either host.')
 parser.add_argument('--user-tests',action='store_true',help='After non-UI installed-app verification, record native effect QA as pending user testing and clean known generated copies without the interactive validation prompt.')
+parser.add_argument('--resume-prepared',action='store_true',help='Resume an already Accepted and stapled staged app after checking its recorded signature, version and unchanged product source.')
 args=parser.parse_args()
 bundle_id='com.dayu.beatygril'
 lock=pathlib.Path('/Users/dayu/.codex/app-delivery-locks')/(bundle_id+'.lock')
@@ -60,6 +61,13 @@ def require_product(path):
     info=plistlib.loads((path/'Contents/Info.plist').read_bytes())
     if info.get('CFBundleIdentifier')!=bundle_id:raise RuntimeError('Generated/installed app identity mismatch: '+str(path))
     return info
+def unregister_generated_plugin(plugin):
+    # Removing an already absent registration can return 1. Establish absence
+    # by discovery rather than turning that idempotent state into a failure.
+    removed=subprocess.run(['pluginkit','-r',str(plugin)],capture_output=True,text=True)
+    info=plistlib.loads((plugin/'Contents/Info.plist').read_bytes())
+    discovered=run(['pluginkit','-m','-A','-D','-v','-i',info['CFBundleIdentifier']])
+    if str(plugin) in discovered:raise RuntimeError('Generated plug-in is still discoverable: '+removed.stderr)
 def cleanup_known_products():
     removed=[]
     if previous.exists():
@@ -70,40 +78,62 @@ def cleanup_known_products():
     if archive.exists():archive.unlink();removed.append(str(archive))
     return removed
 try:
-    receipt['source']={'commit':run(['git','rev-parse','HEAD']).strip(),
-                       'trackedWorktreeChanges':run(['git','status','--porcelain','--untracked-files=no']).splitlines()}
-    save_receipt('building')
-    identities=run(['security','find-identity','-v','-p','codesigning',keychain])
-    if identity not in identities:raise RuntimeError('Valid Developer ID Application identity is unavailable')
-    print('Building universal Release…',flush=True)
-    run(['xcodebuild','-project','beatygril/beatygril.xcodeproj','-scheme','Wrapper Application','-configuration','Release','-derivedDataPath',str(staging),'-destination','generic/platform=macOS','build'],logs/'build.log')
+    delivery_source={'commit':run(['git','rev-parse','HEAD']).strip(),
+                     'trackedWorktreeChanges':run(['git','status','--porcelain','--untracked-files=no']).splitlines()}
     plugin=app/'Contents/PlugIns/beatygril XPC Service.pluginkit'
-    # Xcode can register a fresh build. Remove this known generated path before
-    # lengthy signing/notarization while a user may still be testing the old app.
-    run(['pluginkit','-r',str(plugin)])
-    for framework in sorted((plugin/'Contents/Frameworks').glob('*.framework')):
-        run(['codesign','--force','--timestamp','--options','runtime','--sign',identity,str(framework)])
-    run(['codesign','--force','--timestamp','--options','runtime','--sign',identity,str(plugin)])
-    run(['codesign','--force','--timestamp','--options','runtime','--entitlements',str(root/'beatygril/beatygril/Wrapper Application/SandboxEntitlements.entitlements'),'--sign',identity,str(app)])
-    run(['codesign','--verify','--deep','--strict',str(app)])
-    info=require_product(app)
-    receipt['version']=info.get('CFBundleShortVersionString');receipt['build']=info.get('CFBundleVersion')
-    receipt['stagingSignature']=subprocess.run(['codesign','-dvvv',str(app)],capture_output=True,text=True,check=True).stderr
-    run(['ditto','-c','-k','--keepParent',str(app),str(archive)])
-    print('Submitting signed app to Apple notarization…',flush=True)
-    response=run(['xcrun','notarytool','submit',str(archive),'--keychain-profile','codex-dayu-notary-B3W25FX5H5','--keychain',keychain,'--wait','--output-format','json'])
-    (logs/'notarization.json').write_text(response)
-    result=json.loads(response)
-    receipt['notarization']=result
-    if result.get('status')!='Accepted':
-        if result.get('id'):
-            (logs/'notarization-details.json').write_text(run(['xcrun','notarytool','log',result['id'],'--keychain-profile','codex-dayu-notary-B3W25FX5H5','--keychain',keychain]))
-        raise RuntimeError('Apple did not accept notarization; original installed app retained')
-    run(['xcrun','stapler','staple',str(app)])
-    run(['xcrun','stapler','validate',str(app)])
+    if args.resume_prepared:
+        old_receipt=json.loads(receipt_path.read_text())
+        result=old_receipt.get('notarization',{})
+        if result.get('status')!='Accepted':raise RuntimeError('No Accepted staged notarization to resume')
+        info=require_product(app)
+        run(['codesign','--verify','--deep','--strict',str(app)])
+        run(['xcrun','stapler','validate',str(app)])
+        signature=subprocess.run(['codesign','-dvvv',str(app)],capture_output=True,text=True,check=True).stderr
+        expected=re.search(r'^CDHash=(.+)$',old_receipt.get('stagingSignature',''),re.M)
+        actual=re.search(r'^CDHash=(.+)$',signature,re.M)
+        if not expected or not actual or expected.group(1)!=actual.group(1):raise RuntimeError('Prepared signature hash changed')
+        if info.get('CFBundleShortVersionString')!=old_receipt.get('version') or info.get('CFBundleVersion')!=old_receipt.get('build'):raise RuntimeError('Prepared version changed')
+        source_commit=old_receipt.get('source',{}).get('commit')
+        if not source_commit or run(['git','diff',source_commit,'--','beatygril']).strip():raise RuntimeError('Product source changed since prepared build')
+        receipt.update(old_receipt);receipt.pop('failure',None)
+        receipt['resumedBy']=delivery_source
+        receipt['options']={'waitForHosts':args.wait_for_hosts,'userTests':args.user_tests,'resumePrepared':True}
+        receipt['nativeEffectQA']={'status':'pending_user' if args.user_tests else 'pending_operator','performedByScript':False}
+        save_receipt('resuming_prepared')
+        print('Previously Accepted and stapled Release verified; resuming installation.',flush=True)
+    else:
+        receipt['source']=delivery_source
+        save_receipt('building')
+        identities=run(['security','find-identity','-v','-p','codesigning',keychain])
+        if identity not in identities:raise RuntimeError('Valid Developer ID Application identity is unavailable')
+        print('Building universal Release…',flush=True)
+        run(['xcodebuild','-project','beatygril/beatygril.xcodeproj','-scheme','Wrapper Application','-configuration','Release','-derivedDataPath',str(staging),'-destination','generic/platform=macOS','build'],logs/'build.log')
+        # Xcode can register a fresh build. Remove this known generated path before
+        # lengthy signing/notarization while a user may still be testing the old app.
+        unregister_generated_plugin(plugin)
+        for framework in sorted((plugin/'Contents/Frameworks').glob('*.framework')):
+            run(['codesign','--force','--timestamp','--options','runtime','--sign',identity,str(framework)])
+        run(['codesign','--force','--timestamp','--options','runtime','--sign',identity,str(plugin)])
+        run(['codesign','--force','--timestamp','--options','runtime','--entitlements',str(root/'beatygril/beatygril/Wrapper Application/SandboxEntitlements.entitlements'),'--sign',identity,str(app)])
+        run(['codesign','--verify','--deep','--strict',str(app)])
+        info=require_product(app)
+        receipt['version']=info.get('CFBundleShortVersionString');receipt['build']=info.get('CFBundleVersion')
+        receipt['stagingSignature']=subprocess.run(['codesign','-dvvv',str(app)],capture_output=True,text=True,check=True).stderr
+        run(['ditto','-c','-k','--keepParent',str(app),str(archive)])
+        print('Submitting signed app to Apple notarization…',flush=True)
+        response=run(['xcrun','notarytool','submit',str(archive),'--keychain-profile','codex-dayu-notary-B3W25FX5H5','--keychain',keychain,'--wait','--output-format','json'])
+        (logs/'notarization.json').write_text(response)
+        result=json.loads(response)
+        receipt['notarization']=result
+        if result.get('status')!='Accepted':
+            if result.get('id'):
+                (logs/'notarization-details.json').write_text(run(['xcrun','notarytool','log',result['id'],'--keychain-profile','codex-dayu-notary-B3W25FX5H5','--keychain',keychain]))
+            raise RuntimeError('Apple did not accept notarization; original installed app retained')
+        run(['xcrun','stapler','staple',str(app)])
+        run(['xcrun','stapler','validate',str(app)])
     # Keep a prepared build out of host discovery while the user still has the
     # old installed version open. This removes only this known staging path.
-    run(['pluginkit','-r',str(plugin)])
+    unregister_generated_plugin(plugin)
     save_receipt('prepared',signingVerified=True,stapleValidated=True,stagingPluginUnregistered=True)
     # A live host retains its old XPC/OSC connection. Replacing the bundle while
     # that connection exists can deadlock host shutdown or select stale code.
@@ -129,7 +159,7 @@ try:
         run(['pluginkit','-a',str(installed/'Contents/PlugIns/beatygril XPC Service.pluginkit')])
         # Xcode may register its build product. Only the installed plugin should
         # be discoverable while native host validation is in progress.
-        run(['pluginkit','-r',str(plugin)])
+        unregister_generated_plugin(plugin)
         installed_plugin=installed/'Contents/PlugIns/beatygril XPC Service.pluginkit'
         plugin_info=plistlib.loads((installed_plugin/'Contents/Info.plist').read_bytes())
         discovered=run(['pluginkit','-m','-A','-D','-v','-i',plugin_info['CFBundleIdentifier']])
