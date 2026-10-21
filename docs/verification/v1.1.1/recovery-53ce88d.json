@@ -1,0 +1,1645 @@
+{
+  "target": "53ce88dd15983e9397ab08f5ec9ad608fce5d0b5",
+  "remote": "https://dayu.media/git/dayu/paintfcp-fxplug.git",
+  "startedAt": "2026-10-21T15:22:25.625620+00:00",
+  "temporaryClone": "/var/folders/t4/kbc10sqs43b0rjf3nfh51nmw0000gn/T/paintfcp-v111-recovery-2_rek62l/checkout",
+  "scope": {
+    "cloneTrackedContentAndModes": true,
+    "gitFsckStrictFull": true,
+    "requiredResources": true,
+    "inspectorChecks": 141,
+    "inspectorASan": true,
+    "templateCodecAudit": true,
+    "core559Repeated": false,
+    "appBuilt": false,
+    "hostsLaunchedOrOperated": false,
+    "installedOrSigned": false,
+    "rootSourceModified": false
+  },
+  "passed": true,
+  "cloneHead": "53ce88dd15983e9397ab08f5ec9ad608fce5d0b5",
+  "remoteMain": "53ce88dd15983e9397ab08f5ec9ad608fce5d0b5\trefs/heads/main",
+  "trackedFiles": 125,
+  "files": [
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "d2bca6e38076bb5f7574cc7781eadef27b41d9ff",
+      "bytes": 490,
+      "sha256": "34e63260d343569ad4d5a1ffd6c15647da5a7da2b8940dc93f6d987c7fec474e",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "cd7b94358d9b7ec45bc2e4ae34c7327a9d8c4bc7",
+      "bytes": 5832,
+      "sha256": "02999d4397a9e2e0f3ac32ffe6b2c14a836b1ad9386436a6cf6b61aca75b8b82",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "RECOVERY.md",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "ee49acc2c5bc79076994edac4782e332711efaef",
+      "bytes": 9903,
+      "sha256": "53caf825c372da1a277a4762e03aa6a96ff98c8c12af4a2d8726afcd99e9c111",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "Templates/大鱼人像美化/Drop Zone.tiff",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "6d15c98bc221f999514f197ff67a7145836e6a38",
+      "bytes": 420128,
+      "sha256": "a7f8e3a2a431dbb3ce9e777040bb55e701cfe9ab9632e8cbb10359732bc8692e",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "Templates/大鱼人像美化/PARAMETERS.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "0b9ccd4d7e487955e06f22f4a6d5a50145b1c895",
+      "bytes": 14952,
+      "sha256": "e71ab50270dd5b2dc4ab76e1ede52e1646dd0ac93b0f7f793fee8725e97f2066",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "Templates/大鱼人像美化/README.md",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "cc81c48be2f94dbbcbe72fdc2f303e968f7e0d50",
+      "bytes": 4046,
+      "sha256": "b3477c3c8c9db013ec44e8545cc848b062c507bbca8daac6fc07d7d05a4be6de",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "Templates/大鱼人像美化/VALIDATION.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "d88c13740cf365afdfb780d1771131201c1197fe",
+      "bytes": 8669,
+      "sha256": "b914759e9c2670b049eb1554b4368855158bc2b0c2a149e136ccdbf7f969c437",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "Templates/大鱼人像美化/大鱼人像美化.moef",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "f2bfe8f825b6aa4a3b5d1fde83d4ac3f505a6c7a",
+      "bytes": 23073,
+      "sha256": "7090c1fbe0d8310c0b092f7c56f72e9c3fe6503aa38753f3fd8d7adcbd9a27b3",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril.xcodeproj/project.pbxproj",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "17e015f6d7744c50dff3aca43701ae1b90734b9d",
+      "bytes": 23083,
+      "sha256": "d1afc593065bd33122a8e8ba10b1825d3309866545c3f9739e2ea06c9584974c",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril.xcodeproj/project.xcworkspace/contents.xcworkspacedata",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "919434a6254f0e9651f402737811be6634a03e9c",
+      "bytes": 135,
+      "sha256": "7f3b00b5c3fdb45242d7b87e1e5c4e25d1fa8129a16c94295ecc4e8ea2235c5f",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/Info.plist",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "71c5bb9f27a02bdaa08de5f614af7aae395d8f8b",
+      "bytes": 3031,
+      "sha256": "f271d98cd78e6d0121dfa1378beae03d9d298a22d4220fa0d5e37d20130dd781",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGBeautyRenderer.h",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "a0a6965c837072e6d837a98b701d59b1cc139655",
+      "bytes": 1410,
+      "sha256": "4e9b663c47261e4feceb7ab38c25171b65f36c14417d82a8b7c49ee3201492d3",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGBeautyRenderer.m",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "4c9fc6fbb1dc1f2c4048a16435f554cae9f2ca74",
+      "bytes": 17132,
+      "sha256": "00b52b1f22c1e875f137ee4ea90f50d6caa38db277bebd0da538d0ba7e66072b",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGBeautyTypes.h",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "e1cd3ef21f37b831cdaa7d9f52211cafaf243994",
+      "bytes": 1149,
+      "sha256": "6ea8005accc22f85fe8be1b73bf6e89a5b37ffd6e97460d4f6dd69d55eaf33cc",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGFaceProcessor.h",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "0b861830a6e9652d81ccfe62f2ce758febee449f",
+      "bytes": 2178,
+      "sha256": "a3448bd75fd278c9702f079f55637ba2c26bc820bdbb81f49fb3a3d0e2a4aba5",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGFaceProcessor.m",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "639a5994405c94b2d0bcef7fc06d04fec83bbf30",
+      "bytes": 43816,
+      "sha256": "fe4f2a6fc28799cc9b81832baaa2d6739320bde9def175ecc8a4494d004d6b28",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGFaceSelectOSC.m",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "ae0aa7ce1c2de355b2c1cb890314a0de689df81a",
+      "bytes": 11630,
+      "sha256": "d5e1dd1db6825730803ddc3f21b588cd548cbbacc60760aa45ad9e2feedae307",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGInspectorState.h",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "20e8ec2136e8599c5192d0cc6a1aee7998be9f0f",
+      "bytes": 2170,
+      "sha256": "b2070ac33d83f36f76933c919a3e2825516548d499a07373c5c5734bd70a7c39",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGInspectorState.m",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "1fe45096b078206d2d4b8ce97d3ee033072cccac",
+      "bytes": 17971,
+      "sha256": "16be8841ee770cc3b2723926e94366e639c3e6dfd1ea56937df32e8d216bada0",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGInspectorView.h",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "90ca9bcbba506a764395d45548989276071dd524",
+      "bytes": 571,
+      "sha256": "56a442e44ebd5a9b5211014c8960bba85f9cee98f6000702515aedc51c1e2f69",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGInspectorView.m",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "4e3be2109bca7c27d9f7aec52c95eecffa6a5e59",
+      "bytes": 27878,
+      "sha256": "fa50e5cba590f8d64f334aef2a542fec96fcc100f93c11ec75d5d74923eefd5f",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGParameterIDs.h",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "2786f25aa3febe04365b037723862f6b5bd0f05c",
+      "bytes": 958,
+      "sha256": "87bcbbd3d3dabf3f2d7205cf6f1b70fa2b5c7997e9a66ed037e91227849761b7",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/beatygrilPlugIn.h",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "83e3d222dedde9412229f7f02b1847792e8718c0",
+      "bytes": 377,
+      "sha256": "941b81873c2fdcfcae37c424700dbd2a14957d05b752246677ba8f793f0b04ad",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/beatygrilPlugIn.m",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "97470c0565613acd2af61158cc1b8a72aa303d96",
+      "bytes": 27322,
+      "sha256": "0ffdc3dae7f0a47fd4b5d53651df52b5762940ad15f0c6ffc97922a70a02fb42",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/en.lproj/InfoPlist.strings",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "9a5f27348a39c8e3ee50cffc2fb359c78a1319c8",
+      "bytes": 85,
+      "sha256": "1b1cd5b74690bd5a74cf2b0a0c068bbc2c3462c5e9fe5ca3e61541bcbd451a7a",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/en.lproj/Localizable.strings",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "7f52f3dd719cb4f94e24867e36114cb061ef0b92",
+      "bytes": 132,
+      "sha256": "b3036a2339b97ebf264516e1e534351d1ceb64f45942595508f4d67d07b07769",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/main.m",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "34d50d3f8cdf438d3508d0aa94e3f2d20e45f962",
+      "bytes": 114,
+      "sha256": "5b812ddb1ef171fe075e4faf13d761935ca73ecbba1be0bd9d4802a64a7759cd",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/AppDelegate.h",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "f3f8e19cfe057114c2289ff37c01c2e6e1aa7ed0",
+      "bytes": 167,
+      "sha256": "3fc6516be93176f90c2deb17332c9cf98e670458a33fbad4fe7b8f367ec9494f",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/AppDelegate.m",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "1cb56f073356dd30add33415117bf4c24fdc4ef0",
+      "bytes": 3003,
+      "sha256": "acef6ade6591c039cd8b3e603f83d6d06f64da9709a0385b73c8588e824fe6de",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/Base.lproj/MainMenu.xib",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "57d03a50e249d189c5fa0a4602c5ec846f06612d",
+      "bytes": 50614,
+      "sha256": "7f0945bc5903a658550b712267870edecbdf1b73ac83c71f1358468f40c1ab1d",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/Info.plist",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "f2c29c193ae5f32024a02a79e6b8604507adf898",
+      "bytes": 1085,
+      "sha256": "773ba53541571d1c50fc8bf71965bec5151466e37d9faad9729675179e088df7",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/SandboxEntitlements.entitlements",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "852fa1a4728ae4789e3bca55dd07caef3b41f2a5",
+      "bytes": 240,
+      "sha256": "b746c74b201e6af4e0864fbd1f4f629f96156a7ec4b7208bc995d0a5089bb592",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/en.lproj/Credits.rtf",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "da779d0f6bec11568066e347a01ccef0308488b2",
+      "bytes": 264,
+      "sha256": "ec846e198df85720e8443abb810334411b5690386f3062f90208c23b8575f28a",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/en.lproj/InfoPlist.strings",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/main.m",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "99ad4384792f9b2050e0755c07522c0dab9b4b86",
+      "bytes": 112,
+      "sha256": "5c3dc97a53d0379af0e0ce75c5541f33c47f2da115d2d0018cfba003d185a63d",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/analysis/REA-分析与复刻说明.md",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "6581570f9d140ef8d0e00f19d9285d44a6ae3813",
+      "bytes": 10519,
+      "sha256": "ee64e260fd9261856047096570b8fed308284b3a02cd0dd892f3ceda6a5482ab",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/analysis/auto-follow-report.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "e60d6d055a513ab8e9c21d2b39460c9d0698e1d3",
+      "bytes": 15665,
+      "sha256": "1a0c91efcaee058f331f6a7446bea8794af1dcf9120f5c2585f249b188d038e3",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/analysis/beauty-preview.png",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "35ace472cb42629b01b3e05660cb7be8b9711fd7",
+      "bytes": 617622,
+      "sha256": "37aa97855915a49ff1f225a9e1fa9d8bcbed0be5f4109b6835ba4db17f9113f6",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/analysis/chin-report.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "b8aa2bbc6cb8706ec2d84ee92f70c082be0616d2",
+      "bytes": 2873,
+      "sha256": "4de8733880af4cfaba93dbfb9d4c3d4feea32395648ab900575f4cad563f9506",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/analysis/face-preview.png",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "9a5bab3ad706b95ac32875352d16d6580dcd48ab",
+      "bytes": 713552,
+      "sha256": "6cc662cbb2b554a0dd8c926d94a0d819506ac76710d9c09c2d3d7f808fbf686b",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/analysis/rea-auto-tracking.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "2f5738f934f0ce89780cf4535c7257b54a397bef",
+      "bytes": 2883488,
+      "sha256": "dc1007f3798fade5e454bb2ef0b58e4cfe2bb0256948c364070fd9af70a97377",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/analysis/rea-chin.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "ec98c683c0204e8bb31b4ce1766cc51637b88e7b",
+      "bytes": 13877,
+      "sha256": "180f56b03039518af5a9f77599c4cd2bf9b14a61cb2334e8815a59fff05616df",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/analysis/rea-host.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "9de443173a74668f0a2dced3426dae20549a16dd",
+      "bytes": 10111,
+      "sha256": "141866459948b19d5378de2f6534de333c795e317416f2ac6c9fdc86c94dd61a",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/analysis/rea-image-orientation.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "ba9774364a665c7afc4c7606bc651a2d00e3b5c3",
+      "bytes": 381285,
+      "sha256": "783a9176401b57ed617a61892bc0da08bef0378a54610b3a86b282672aeda888",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/analysis/rea-plugin.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "79bcafbcfeda694ed466d95f81f30eb622a95a0b",
+      "bytes": 343165,
+      "sha256": "dda6e450915e1054653c28addfed5254c678dccf14ee66643d508e7087c1f0c1",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/analysis/rea-slim-pose.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "249eb3678b20c378e0d73239e0949cc86c2af436",
+      "bytes": 343127,
+      "sha256": "5f4a2dfe5796ce72bb3d022a85a42cd5ed0eceb0cd0655041812126ebec7933a",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/analysis/reference-template-parameters.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "9947e2ff182a146bc4c9120dfff7eacc8cca9c0c",
+      "bytes": 1608,
+      "sha256": "026e47e8ecbd9a967d8b8aabddac2a370479a43b9e1a7a7728b5b01a5002f006",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/analysis/slim-pose-report.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "1db6ae9bd4f1351e66c8f833bda9393e3da58910",
+      "bytes": 9510,
+      "sha256": "1d38f246960486bb2b4b97c22b489c62b3d9e2dbc6b9a1241952f8923a19a5a4",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/analysis/下巴与坐标分析.md",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "3bc5aee73603c872ef7442b07c75127439d4d034",
+      "bytes": 6226,
+      "sha256": "c1867da31d975b295d7b462abd7a98da1e9456424ea6b447c6dc40c291b3637f",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/analysis/脸型变形与转脸分析.md",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "42bf39d1a235632e8a34c3fa7110c7bc8559fb3a",
+      "bytes": 9394,
+      "sha256": "8a16f7701ea2d1004f58d9fbe93122827d40afc9556916bab1bec5ab48bf3972",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/installed-signature.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "78fc46fd6aee5443af9eeb53a97502d0251cf2a9",
+      "bytes": 988,
+      "sha256": "add93ef0fa60cd32ed766c965e6f2869f56b4da65030e774e76d133b02ef7aec",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/live-face-asan.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "b92d565bec7a49444b638437b4ae8e7400ce90f6",
+      "bytes": 219,
+      "sha256": "b956e0fe7a3fccdd8eff8788807c0aaf60da56aa1cb153087f25234cc156c27d",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/notarization.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "86d17c6738b9e0aa6f92583ffc798c2e6b6bece1",
+      "bytes": 98,
+      "sha256": "91b4f5e239a50467bde83b8c40c1c1809f85cd4eb4b1f1091e1b2197c11a79b6",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/recovery-e03e460-beauty-face.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "2c6f0b5e7f7dedf9571d6da6ce67303bf34faedc",
+      "bytes": 298,
+      "sha256": "45698c80fdfc68c2dc68be59ba03380aa6e8194731d4858dc009f827dd06e226",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/recovery-e03e460-host-asan.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "7eeed088f0dad0564aa166232aedb9ae47a56dd0",
+      "bytes": 380,
+      "sha256": "65d0226f95e882702484849997fde558fae7af418e9243702f789b1e2fcacf14",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/recovery-e03e460-osc-asan.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "7abde29290bfea1e475af387899fb3160a60cc95",
+      "bytes": 3336,
+      "sha256": "2e326d2fc0eb5d2cdd9f07e2318dfd17a41d346a82f383b05b51f416ffdacdb3",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/recovery-e03e460-xcode-list.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "e90278ec1aedf6a1176682ec1037e49ba2f588c1",
+      "bytes": 570,
+      "sha256": "ff9ffb300caac840f4e64f97f24712e319af9bbe4cee1dbbd79b0a5caa1432d1",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/recovery-e03e460.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "ecd24b6f35c893c3637dc4e268d0acabb4d09967",
+      "bytes": 25360,
+      "sha256": "559839e989fb4fa9589847632975a6d4d8548c00e6ad5b87bdba736bb3e1daf3",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/recovery-e03e460.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "ed81f4abdeada50c1afb2ac866d3cc79fd6579d9",
+      "bytes": 846,
+      "sha256": "3931beb81cf475ce1c44e5b90c8e9101abb1a7ba20b657d72090b6e7662530cc",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/release-receipt.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "e53f21de9e8ea68a40f435cf9e3d1a0d95499bde",
+      "bytes": 2454,
+      "sha256": "07ba4f5bbba101a49d4579c0b79fbce0dad70a1e4b5887e61e052741c49486ee",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.5/core-tests.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "76d29d91672ec631950b2f3ada1db39db4c877ac",
+      "bytes": 427,
+      "sha256": "408910aeedcf0155bc31ef43ca6e8994d9348f8fbdc0c25eb8a43ce89965e081",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.5/delivery-receipt.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "0bc3fedabf83cdddc2b28204e45193d7ee268864",
+      "bytes": 3714,
+      "sha256": "5c26aaa043e968284afd9748d4f563b354f4a63d8ec8464c1edc911761cd6c36",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.5/host-tests.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "3e1c1c6b7c104995a2656e142671759634352525",
+      "bytes": 271,
+      "sha256": "c727d9d56a0b46a4cdbc79d24eeedc589e5984b38144f28ccf017f4d65f504f7",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.5/installed-discovery.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "1d622a5489046ae31682dbce99f17ab435db7968",
+      "bytes": 200,
+      "sha256": "60791b375880f39ee5d9e39fc47ac973701c28367b02a0a02d4c1c7e2f58a784",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.5/installed-signature.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "e187bd1163f873f409be3a40ea95b5902494b209",
+      "bytes": 988,
+      "sha256": "9fe71339911482938f3e4af5584911c94c3d9c80b54a4c534d59905b019fe056",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.5/installed-verification.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "4557bc7f8f53ba4283dfe9dac3a0fe03b2a1a14f",
+      "bytes": 1376,
+      "sha256": "1b8a51bf8b4642d485cb7731fc71c2c65736b5c60d742124a50e0cbd2b0efd2e",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.5/notarization.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "fd81f72ba3bdb8f27b44a85fafd8b55eb90713cb",
+      "bytes": 98,
+      "sha256": "77bb451ccce2dcf31382015bf6addb557400a20fce0560d442e222254a075057",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.5/osc-tests.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "c9c618896ca3ee0c2a943979103ab3b42335c7e0",
+      "bytes": 3229,
+      "sha256": "5e443009bc39635d01a1f6276b48170fe9da73c088646425c6ed140d87ba4518",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.5/recovery-abe97ed-test.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "03d86b12b2426c0b26eee320efab6a133a4f147d",
+      "bytes": 553,
+      "sha256": "f6296c73b6f94573d239fc627ec21e6eb6518b2b5ec35e44660097aeca923f8b",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.5/recovery-abe97ed.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "9e3278418a588f6ba83f47c30792306f8bc2dda9",
+      "bytes": 26143,
+      "sha256": "74eef3111d9207b86d62e0019545cca4a595597d2ea40f60efdcfdf455902e87",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.5/recovery-abe97ed.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "96837e1cfb2ac5102b008b7133324cc04b423aef",
+      "bytes": 566,
+      "sha256": "3f59d5be5984fe89376a5eb4cce46888ffd5886fe058303620708999bcaf496d",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.5/slim-real-video-asan.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "0adc11ae33571e14a09302f6bb02c1fa82e1ff99",
+      "bytes": 207,
+      "sha256": "2828625fd5bc45a8e0c6e06b1c033e394e5dbc0ff4570200eed673067330f2d7",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.6/anatomical-summary.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "a6c0ab3ba191a83090a6784607a23015442a6d60",
+      "bytes": 566,
+      "sha256": "de8fb5f975ad44b47a672899e079d21eb8444d3ad40babe336c43e6bf267b545",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.6/core-tests.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "c5b30862d71601a1929c897ec232bc4e5e59da41",
+      "bytes": 427,
+      "sha256": "a7a955927f6e03f3a2337b1384f0456724dbd2ec324ef678ceaeebc1c9b51aeb",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.6/delivery-receipt.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "ca60856382225c2be7ca361278f7127bc9a4a797",
+      "bytes": 3573,
+      "sha256": "623e2c12075861e871e3b458dfde4a6e154d3be265d52b5011be04d186a420ed",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.6/host-negative-control.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "fd904777740728405cc9b39cb44baecfa6002179",
+      "bytes": 4206,
+      "sha256": "d3564b892dfcf58ccce0a4f648afb20493feb50d8eac76e1f1434817e0ea093d",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.6/host-tests.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "6d9e2d7e251c0ccfaee602ca70435408d6dbfa75",
+      "bytes": 1565,
+      "sha256": "4f07103a1732baa5c483863e7cfeb913219e20fa185214923522b8be3eb87aa1",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.6/installed-discovery.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "fda2720728c751947eb3bb4ad45b01666896b00c",
+      "bytes": 200,
+      "sha256": "23faa17aff5e2d62d84f88b665f5fa7ddb977c691e278e4dee1a16859ade6f4a",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.6/installed-signature.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "69585e53289f540e65cec9d3dc19088f1c0dbba0",
+      "bytes": 988,
+      "sha256": "516da2ca2597f321ebb9645b4bddf9eef1dbfc8fdc8f0c0358bdb7fd23e15c2c",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.6/installed-verification.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "ed0ff99d1e2e6e4af9547f76c0c95ecc1b88417f",
+      "bytes": 4916,
+      "sha256": "7048c144b35f08c9d8bb237f7b2a530f1f8156472e380ec66e252f64d64b9345",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.6/notarization.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "64df08e4d05e6fca94dc8b0f751617f81d41e471",
+      "bytes": 98,
+      "sha256": "9c11532cfb4b6bc44b595144e3244db294abe1506513db165a5e31aee09d39f3",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.6/osc-tests.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "5b42805af91bf0f7aa331508a71859ce85b6d7d2",
+      "bytes": 3249,
+      "sha256": "a3c8c92fb194705c11b360aeb2cb36e555866d3bae811fc4415af1ca92176e76",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.6/recovery-ad54726-core-tests.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "73b0beb986ca5c280588c9f83295916349d08079",
+      "bytes": 429,
+      "sha256": "b6b9ed4b3af54249d18ce2ff9f544b97176a0309ccf5b5612f6eda5ad3afd273",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.6/recovery-ad54726-fsck.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.6/recovery-ad54726.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "e40dc0529c3800ff2d7773d58a1dc7c4ff112bec",
+      "bytes": 40689,
+      "sha256": "5558a5a0eeaf75d153faae6c1b93ebb4d9e368c63d07e671689112e0f4ade49a",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.6/recovery-ad54726.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "6085bca675afcfc2dd273a10c3d838507d26ffaa",
+      "bytes": 1293,
+      "sha256": "6d065604f892fe5e84f88e62606a095f7aa98b5afba1af766870a3810e900b6f",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.0.6/slim-chin-real-video-asan.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "900c6e4a1d44c7add54878214fd08c171ec86158",
+      "bytes": 213,
+      "sha256": "16144bf293087ba68359a6d278c99165038d6990458f4acb951367df8055db3d",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.0/core-tests.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "e46c2c620898fab9a56d4f44b57c0d51e3fce72f",
+      "bytes": 429,
+      "sha256": "fc0e9447e4ff539576292d848e3b3d0a8a7685b640ccf8dd8b7dbb5d463ed0e5",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.0/delivery-receipt.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "7aa60897d2becdd86974da29dfb7bf1079a96d19",
+      "bytes": 3573,
+      "sha256": "42a7e10eddc8248b4fc890a07c14091578ede411747f6f22c124ac6b75ec10ec",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.0/host-tests.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "b01837aa3ef0305527a9165a096a3c856232a156",
+      "bytes": 1565,
+      "sha256": "09765a58fdf74d475f3a0a0fc46392064605a88c52eb745383c5fd97665f2535",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.0/inspector-preview.png",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "422a58cbe2b625c564935296c64e42645cccc1e5",
+      "bytes": 493938,
+      "sha256": "f02c434eb770c6643580eb6eb6eaa05507d1472750765203a8f041bf7d6803d4",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.0/inspector-tests.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "abeccc2498147394739c07d74a15fbe9f328603c",
+      "bytes": 34,
+      "sha256": "46b76266299eb865ab1af6a9eed5b16bc15fd9bd89013eda7e2e87729e3e5270",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.0/installed-discovery.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "835e4d8e65d7aa31787c6bd63f09e23b522ae995",
+      "bytes": 200,
+      "sha256": "755bbe7625e579dfef5199a9e5913d1e80785d06c771fbe9db2e98366ffe9b5c",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.0/installed-signature.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "fe24464d2d29837a420fcd3214a4034f07958007",
+      "bytes": 988,
+      "sha256": "530b40438c3897aad9b5b3e4bb718dcaaee615e9d84ba8f7d9ffd9da17a4c02c",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.0/installed-verification.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "cdab391803108f9f18caf64ad88adcf9bc5e39b5",
+      "bytes": 5390,
+      "sha256": "1d109638b59822bd3dde497fbe2249d5484592b4cdca324fe747cba64e7505ac",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.0/notarization.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "a39f9adfa33d9d2c5808e7687225bdfa8ac12ed5",
+      "bytes": 98,
+      "sha256": "29965471dd9efe99437ee5d200646bfb917a1018f0ccfd7b6a865ea10796b7ae",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.0/osc-tests.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "b2138625f672278e6737298c46db1a444675a451",
+      "bytes": 3249,
+      "sha256": "c21e458dc1d39fd8b065afea813d58cb52d627085c09b475fa7f91fe3d7a868e",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.0/recovered-inspector-tests-asan.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "abeccc2498147394739c07d74a15fbe9f328603c",
+      "bytes": 34,
+      "sha256": "46b76266299eb865ab1af6a9eed5b16bc15fd9bd89013eda7e2e87729e3e5270",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.0/recovered-template-audit.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "43160e09b3afccb874dab10ca2c903ab59c46f89",
+      "bytes": 1735,
+      "sha256": "33fb58f2208fddf8d4ae57880c5653ff27a33f4c98b04c94ed9ff5b3e4f96291",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.0/recovery-f79d24e.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "493b7753f24289779e0b77f2467cb1f52ad6423c",
+      "bytes": 51237,
+      "sha256": "247bce418cbf8e68f4da6a741b4f6af30f5076c0596bbc47c56fb04003f601d7",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.0/recovery-f79d24e.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "0f8c867ed66e8939374a024ccda5bb908b5c72a9",
+      "bytes": 492,
+      "sha256": "7f9ba9b210055cef8d7a321bc56fa09c0957fdb4f8aad11b2e710b269517d20a",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.0/template-audit.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "43160e09b3afccb874dab10ca2c903ab59c46f89",
+      "bytes": 1735,
+      "sha256": "33fb58f2208fddf8d4ae57880c5653ff27a33f4c98b04c94ed9ff5b3e4f96291",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.0/ui-validation.json",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "4a68b344cdc71945e3ba2bf5a20f0c0ebbd16a08",
+      "bytes": 1183,
+      "sha256": "03ef2f2378f264bde71080792fa24fa4614894916c82205fa12faad4692131f2",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.1/core-tests.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "45a9615b9b29dd7d009ab6a5e43dfe49667e9b6b",
+      "bytes": 429,
+      "sha256": "a5a32ca73802d28a088d3c32d88189df2424815b44ce6568eab0c19728c16945",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.1/host-tests.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "fd28b15384ab61cc55837207019addbd6d0cbfed",
+      "bytes": 1565,
+      "sha256": "9f29ef85c3732c56eab1c8a09b608416b71418485127a1d3105b41d58b076bd9",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.1/inspector-before-fix.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "7accdd446bb78b18f6c21bc320767e539d2a3cb3",
+      "bytes": 414,
+      "sha256": "baa0802640559da29d376b053d6fd071388acc82285fb3c34ce4d693624e5856",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.1/inspector-tests.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "080b3cafeefb0b4b3e38b86759c82729fde090af",
+      "bytes": 34,
+      "sha256": "d1508b9072328ee901d2d09fddfc0f16c161a77dc74e374f260047bac6fa5f2b",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/verification/v1.1.1/osc-tests.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "8b804539da30ab9d40688ae54bb4eafe24668301",
+      "bytes": 3249,
+      "sha256": "820ab54c4b0c85bb5a7cdbdd79061396c20861eeb7560bf81fecbcaa707247e5",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "docs/验证记录.md",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "312824c7b8fe1f13b7ecf33a620f795985b4762d",
+      "bytes": 18687,
+      "sha256": "2431a466b91c1a5de505d54e3b8076759244da0833719bc8019c7d75ec830726",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "scripts/checkpoint.py",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "8248d1732aceed377d28cdae02873057f442474b",
+      "bytes": 2218,
+      "sha256": "3c27b0e603dd2d94512f611cec97bd9afe5809aea0f5a4bb213995d2e23366f8",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "scripts/deliver.py",
+      "mode": "100755",
+      "actualMode": "100755",
+      "blob": "b3d04d62b1a673c33eb9c91ebf6a54ab19b6fb8e",
+      "bytes": 13444,
+      "sha256": "5c390ab63aa94a978ac75145ade33c2a4de54c1808a511436419a8fbf4b31c8a",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "scripts/inspect-face-geometry.m",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "d075cf7c8c9a23b9bd01bbcbc31da89fea84d5d3",
+      "bytes": 6613,
+      "sha256": "a2c54e7297f9f94e9c56c0b29f9ce607756705f2005c1f13e10996bc26c24b66",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "scripts/inspector-template.py",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "e079861994162d06ca5b5fb57f618cdc6e619709",
+      "bytes": 12103,
+      "sha256": "f2956fc983f860d585c9ad2a25644ba1ef8dad07d8a1fb5babe4c9ea28b9c145",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "scripts/test-host.sh",
+      "mode": "100755",
+      "actualMode": "100755",
+      "blob": "4964af978d9c8feb6da2e6bd9c081c4334d818ad",
+      "bytes": 1216,
+      "sha256": "b4196edb0331b3cb93458603587000a5d3ce02130c799cf6cb6169cdeab0bb31",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "scripts/test-inspector.sh",
+      "mode": "100755",
+      "actualMode": "100755",
+      "blob": "b4392774ad72f2be36a5c032df4bf79fcd5d6445",
+      "bytes": 1415,
+      "sha256": "2db586f0a83da8150f14823374d2d5d53043b58ce481bf4f3eb9c53e077c23b3",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "scripts/test-osc.sh",
+      "mode": "100755",
+      "actualMode": "100755",
+      "blob": "ffaed0b8d449eef6acf2fb352d9fea10fc1649fd",
+      "bytes": 941,
+      "sha256": "ed405cd214ce252641074d0ef0a12c4cc0faf3e1869fe92716a98fff7f9ac517",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "scripts/test.sh",
+      "mode": "100755",
+      "actualMode": "100755",
+      "blob": "f13ba656929fe34b43c143bdfeb4a208c44c7428",
+      "bytes": 932,
+      "sha256": "3ca9cb120b452a0c402debbe5d3399fa4996e0ea0882253470791494815d530d",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "tests/beauty_render_tests.m",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "24050fb3a2630693253202ae1525c280f4f144eb",
+      "bytes": 16870,
+      "sha256": "b04eb2f0d78faec13bbdd2a3286cc74c46c2f536358c7c1c3d5d03c54daa868c",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "tests/face_tests.m",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "1f37a526f7507d4ebbf729e5e7f3793a38921a6f",
+      "bytes": 33252,
+      "sha256": "12e30c4a137bc8f6164b768f48afb084697386c80977573996b64ad03cbe14d4",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "tests/fixtures/ATTRIBUTION.txt",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "6e439ab97256952b0acd1eef0e1c1b4ab3ea015c",
+      "bytes": 498,
+      "sha256": "8823ad8aed1a5c1bdda93946e4b5ed24cd542e996a2b8087517cf62f7f4f2a84",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "tests/fixtures/astronaut.png",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "834cda0012478c5edc8d43bade96d315dedeaab4",
+      "bytes": 791555,
+      "sha256": "88431cd9653ccd539741b555fb0a46b61558b301d4110412b5bc28b5e3ea6cb5",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "tests/host_adapter_tests.m",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "c85ad80349988e3c0179c231934edd351a04cf1a",
+      "bytes": 48159,
+      "sha256": "b42a70db1d001763639ed752f7f68bd4ee23d8e4c76afbf65fb326d6cd5bd28c",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "tests/inspector_tests.m",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "d60577e745275b4712dbbf4c7f277f0d754ddaca",
+      "bytes": 21683,
+      "sha256": "5c08d6d16ba155eea6c9cf4a4bff8751c4c9ab9605b16cd025f0440c02934904",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "tests/osc_tests.m",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "66fff5f78f8e0ba08026e53375b184a460a29162",
+      "bytes": 22495,
+      "sha256": "a3199147e32facd63373b53f77840408411b04436fb1dd42e2fb71023c8f2f8a",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    },
+    {
+      "path": "tests/slim_tests.m",
+      "mode": "100644",
+      "actualMode": "100644",
+      "blob": "cdfe27f69b51c3a077d51965a30cfbc528708eda",
+      "bytes": 16949,
+      "sha256": "d18601ebd8d7d80a172ff852c96d80705698041b6bc2e670c8aac1ae6b7fb3e8",
+      "bytesMatchGitBlob": true,
+      "computedBlobMatchesTree": true,
+      "modeMatchesTree": true
+    }
+  ],
+  "allTrackedBytesBlobsModesMatch": true,
+  "lfsPointerFiles": [],
+  "submodules": [],
+  "lfsAttributes": [],
+  "gitmodulesPresent": false,
+  "workspaceDifferencesFromFrozenSHA": [],
+  "gitFsck": {
+    "exitCode": 0,
+    "output": ""
+  },
+  "requiredResources": [
+    {
+      "path": "Templates/大鱼人像美化/大鱼人像美化.moef",
+      "exists": true,
+      "bytes": 23073,
+      "sha256": "7090c1fbe0d8310c0b092f7c56f72e9c3fe6503aa38753f3fd8d7adcbd9a27b3"
+    },
+    {
+      "path": "Templates/大鱼人像美化/Drop Zone.tiff",
+      "exists": true,
+      "bytes": 420128,
+      "sha256": "a7f8e3a2a431dbb3ce9e777040bb55e701cfe9ab9632e8cbb10359732bc8692e"
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/Base.lproj/MainMenu.xib",
+      "exists": true,
+      "bytes": 50614,
+      "sha256": "7f0945bc5903a658550b712267870edecbdf1b73ac83c71f1358468f40c1ab1d"
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/en.lproj/Credits.rtf",
+      "exists": true,
+      "bytes": 264,
+      "sha256": "ec846e198df85720e8443abb810334411b5690386f3062f90208c23b8575f28a"
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/en.lproj/InfoPlist.strings",
+      "exists": true,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/en.lproj/InfoPlist.strings",
+      "exists": true,
+      "bytes": 85,
+      "sha256": "1b1cd5b74690bd5a74cf2b0a0c068bbc2c3462c5e9fe5ca3e61541bcbd451a7a"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/en.lproj/Localizable.strings",
+      "exists": true,
+      "bytes": 132,
+      "sha256": "b3036a2339b97ebf264516e1e534351d1ceb64f45942595508f4d67d07b07769"
+    },
+    {
+      "path": "tests/fixtures/astronaut.png",
+      "exists": true,
+      "bytes": 791555,
+      "sha256": "88431cd9653ccd539741b555fb0a46b61558b301d4110412b5bc28b5e3ea6cb5"
+    },
+    {
+      "path": "tests/fixtures/ATTRIBUTION.txt",
+      "exists": true,
+      "bytes": 498,
+      "sha256": "8823ad8aed1a5c1bdda93946e4b5ed24cd542e996a2b8087517cf62f7f4f2a84"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGInspectorState.h",
+      "exists": true,
+      "bytes": 2170,
+      "sha256": "b2070ac33d83f36f76933c919a3e2825516548d499a07373c5c5734bd70a7c39"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGInspectorState.m",
+      "exists": true,
+      "bytes": 17971,
+      "sha256": "16be8841ee770cc3b2723926e94366e639c3e6dfd1ea56937df32e8d216bada0"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGInspectorView.h",
+      "exists": true,
+      "bytes": 571,
+      "sha256": "56a442e44ebd5a9b5211014c8960bba85f9cee98f6000702515aedc51c1e2f69"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGInspectorView.m",
+      "exists": true,
+      "bytes": 27878,
+      "sha256": "fa50e5cba590f8d64f334aef2a542fec96fcc100f93c11ec75d5d74923eefd5f"
+    },
+    {
+      "path": "scripts/inspector-template.py",
+      "exists": true,
+      "bytes": 12103,
+      "sha256": "f2956fc983f860d585c9ad2a25644ba1ef8dad07d8a1fb5babe4c9ea28b9c145"
+    },
+    {
+      "path": "tests/inspector_tests.m",
+      "exists": true,
+      "bytes": 21683,
+      "sha256": "5c08d6d16ba155eea6c9cf4a4bff8751c4c9ab9605b16cd025f0440c02934904"
+    },
+    {
+      "path": "scripts/test-inspector.sh",
+      "exists": true,
+      "bytes": 1415,
+      "sha256": "2db586f0a83da8150f14823374d2d5d53043b58ce481bf4f3eb9c53e077c23b3"
+    }
+  ],
+  "frameworkReferences": {
+    "AppKit.framework": true,
+    "FxPlug.framework": true,
+    "PluginManager.framework": true
+  },
+  "additionalSystemFrameworks": {
+    "CoreImage": "module imports in source; not an explicit PBX framework entry",
+    "Vision": "module imports in source; not an explicit PBX framework entry",
+    "IOSurface": "module imports in source; not an explicit PBX framework entry",
+    "Metal": "module imports in source; not an explicit PBX framework entry"
+  },
+  "verificationNotes": [
+    "AppKit/FxPlug/PluginManager explicit PBX references and system-framework module imports are preserved. UI source membership uses the Xcode filesystem-synchronized XPC Service target, not duplicated literal filename references.",
+    "Recovery tests use the installed local Xcode/FxPlug SDK/runtime dependencies. Those external frameworks and signing credentials are not claimed to be bundled in Git."
+  ],
+  "uiSourceProjectReferences": {
+    "mechanism": "PBXFileSystemSynchronizedRootGroup",
+    "target": "XPC Service",
+    "sources": [
+      "Plugin/PGInspectorState.m",
+      "Plugin/PGInspectorView.m"
+    ],
+    "excludedFromPluginTarget": false,
+    "explicitNameOccurrenceCountIsNotMembershipTest": true
+  },
+  "inspectorTestOutputTail": "Inspector: 141 checks, 0 failures\n",
+  "inspectorTestCountParse": [
+    [
+      "141",
+      "0"
+    ]
+  ],
+  "inspectorTests": {
+    "checks": 141,
+    "failures": 0,
+    "ASan": true,
+    "exitCode": 0,
+    "log": "inspector-tests-asan.txt"
+  },
+  "interactionSourceInspection": {
+    "review": "pass: focused clone-source inspection plus action-gated host mock regression",
+    "controllerPath": "beatygril/beatygril/Plugin/PGInspectorState.m",
+    "startMethodLines": [
+      142,
+      171
+    ],
+    "startActionLine": 159,
+    "availabilityGateLine": 163,
+    "preActionQueries": "Lines154-155 collect one-time diagnostic booleans only; they do not return, gate, read parameter values, or prevent entering startAction.",
+    "actualViewSender": "PGInspectorView initWithController: assigns controller.actionSender=self; start snapshots that view as activeSender and uses the same sender for endAction.",
+    "viewInitLines": [
+      294,
+      296
+    ],
+    "controlEventChain": "NSSlider target/action -> PGInspectorRow.sliderChanged: -> PGInspectorView.writeValue:parameter: -> PGInspectorController.setValue:forParameter: -> beginInteraction/start -> custom and mirrored parameter writes.",
+    "mockCoverage": "HostHandshakeTests denies retrieval/setting APIs outside a started action and rejects non-NSView senders. Real view refresh, slider writes, unavailable-setting failure and reconnection are exercised.",
+    "offscreenTestScope": "A standalone activation-prohibited AppKit test process creates actual NSView/NSControl instances and dispatches actions. No Motion/FCP or displayed native host UI was launched.",
+    "nativeHostLoadingAndInteraction": "Not verified by this recovery task; parent performs native acceptance separately."
+  },
+  "templateAudit": {
+    "status": "structure_verified_native_loading_pending",
+    "templateSHA256": "7090c1fbe0d8310c0b092f7c56f72e9c3fe6503aa38753f3fd8d7adcbd9a27b3",
+    "pluginVersion": "1.1.1",
+    "publications": [
+      {
+        "object": "510000011",
+        "channel": "./2/100",
+        "name": "FCP 版本作者→"
+      },
+      {
+        "object": "510000012",
+        "channel": "./2/100",
+        "name": "更多模板浏览器访问→"
+      },
+      {
+        "object": "510000005",
+        "channel": "./210",
+        "name": ""
+      }
+    ],
+    "parameterPathsResolved": 50,
+    "sourceMediaClosed": true,
+    "mediaSHA256": "a7f8e3a2a431dbb3ce9e777040bb55e701cfe9ab9632e8cbb10359732bc8692e",
+    "customState": {
+      "class": "PGInspectorState",
+      "schema": 1,
+      "hasEdits": false,
+      "values": {
+        "41": 0.0,
+        "30": 1.0,
+        "71": 1.0,
+        "27": 0.0,
+        "5": 1.0,
+        "35": 0.0,
+        "24": 0.0,
+        "2": 0.0,
+        "32": 0.0,
+        "40": 1.7999999523162842,
+        "70": 1.0,
+        "18": 0.0,
+        "29": 0.0,
+        "26": 0.0,
+        "15": 0.0,
+        "4": 0.0,
+        "23": 0.0,
+        "12": 0.0,
+        "42": 0.0,
+        "72": 1.0,
+        "31": 0.0,
+        "1": 1.0,
+        "39": 0.0,
+        "28": 0.0,
+        "17": 0.0,
+        "25": 0.0,
+        "14": 0.0,
+        "3": 8.0,
+        "33": 0.0,
+        "22": 0.0
+      },
+      "disabled": [],
+      "classes": [
+        "NSDictionary",
+        "NSSet",
+        "PGInspectorState"
+      ],
+      "innerBytes": 935,
+      "innerSHA256": "257540ac6079756a76f3d31dff1b9bca2b33393962057927791316965495ab60",
+      "outerBytes": 1127,
+      "outerSHA256": "95d5f1e2c35c40e9f1234b1480894bcc0ee68c0822c9bd3f7c04338062e6a26b",
+      "encodedCharacters": 1516,
+      "exactTextRoundtrip": true
+    },
+    "nativeLoading": "pending user; no host executed"
+  },
+  "clonePostChecksTrackedDiff": "",
+  "temporaryCloneRemoved": true,
+  "completedAt": "2026-10-21T15:22:32.713864+00:00"
+}

@@ -1,0 +1,13 @@
+Target: 53ce88dd15983e9397ab08f5ec9ad608fce5d0b5
+Remote: https://dayu.media/git/dayu/paintfcp-fxplug.git
+Passed: True
+Tracked files: 125
+All tracked bytes/blob IDs/modes: True
+Git fsck --strict --full: 0
+LFS/submodules: [] / []
+Inspector tests: {'checks': 141, 'failures': 0, 'ASan': True, 'exitCode': 0, 'log': 'inspector-tests-asan.txt'}
+Template audit: structure_verified_native_loading_pending
+Core 559 tests not repeated; no APP build/host/UI/sign/install.
+Temporary clone removed: True
+Focused handshake review: PASS. startAction line159 precedes actual availability gate line163; pre-action API queries are diagnostics only. View init assigns its own NSView as actionSender; same sender balances endAction.
+Offscreen AppKit controls and action-gated/requires-view host mock covered; native Motion/FCP acceptance remains outside this task.

@@ -1,0 +1,8 @@
+Timestamp               Ty Process[PID:TID]
+2026-10-21 23:24:07.867 Df beatygril XPC Service[22755:570e44] PGInspector connection readBefore=0 writeBefore=0 readInAction=1 writeInAction=1 viewSender=1 onMain=1
+2026-10-21 23:26:03.703 Df beatygril XPC Service[22755:570e44] PGInspector connection readBefore=0 writeBefore=0 readInAction=1 writeInAction=1 viewSender=1 onMain=1
+2026-10-21 23:29:21.518 Df beatygril XPC Service[22755:570e44] PGInspector connection readBefore=0 writeBefore=0 readInAction=1 writeInAction=1 viewSender=1 onMain=1
+2026-10-21 23:29:43.237 Df beatygril XPC Service[22755:570e44] PGInspector connection readBefore=0 writeBefore=0 readInAction=1 writeInAction=1 viewSender=1 onMain=1
+2026-10-21 23:33:38.371 Df beatygril XPC Service[22755:570e44] PGInspector connection readBefore=0 writeBefore=0 readInAction=1 writeInAction=1 viewSender=1 onMain=1
+2026-10-21 23:37:47.022 Df beatygril XPC Service[22755:570e44] PGInspector connection readBefore=0 writeBefore=0 readInAction=1 writeInAction=1 viewSender=1 onMain=1
+2026-10-21 23:38:06.329 Df beatygril XPC Service[22755:570e44] PGInspector connection readBefore=0 writeBefore=0 readInAction=1 writeInAction=1 viewSender=1 onMain=1

@@ -1,0 +1,11 @@
+{
+  "installedVersionRetained": "1.1.1 (10)",
+  "reason": "API handshake confirmed native; broader UI and new short/jaw fixes continue in next build; not tagged as final release",
+  "removedKnownGeneratedPaths": [
+    "/Users/dayu/Documents/PaintFCP/build/delivery/previous-beatygril.app",
+    "/tmp/paintfcp-build-20261021/Build/Products/Release/beatygril.app",
+    "/tmp/paintfcp-build-20261021",
+    "/Users/dayu/Documents/PaintFCP/build/delivery/notarization.zip"
+  ],
+  "UIOperatedByCleanup": false
+}
