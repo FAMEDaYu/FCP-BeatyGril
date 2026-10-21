@@ -1,13 +1,11 @@
-//
-//  beatygrilPlugIn.h
-//  beatygril
-//
-//  Created by dayu on 2026/10/21.
-//
-
 #import <Foundation/Foundation.h>
 #import <FxPlug/FxPlugSDK.h>
+#import "PGBeautyTypes.h"
 
-@interface beatygrilPlugIn : NSObject <FxTileableEffect>
-@property (assign) id<PROAPIAccessing> apiManager;
+@interface beatygrilPlugIn : NSObject <FxTileableEffect, FxAnalyzer>
+@property (nonatomic, assign) id<PROAPIAccessing> apiManager;
+- (PGBeautySettings)settingsAtTime:(CMTime)time;
+- (void)analyzeForward;
+- (void)analyzeBackward;
+- (void)clearTracking;
 @end

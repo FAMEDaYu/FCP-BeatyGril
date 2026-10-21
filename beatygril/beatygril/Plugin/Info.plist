@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>beatygrilXPCService</string>
+	<string>大鱼人像美化</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -48,7 +48,7 @@
 	<array>
 		<dict>
 			<key>groupName</key>
-			<string>beatygril Group</string>
+			<string>大鱼</string>
 			<key>uuid</key>
 			<string>0461C6B0-B8B7-4DE8-B882-03C635553ECB</string>
 		</dict>
@@ -59,19 +59,40 @@
 			<key>className</key>
 			<string>beatygrilPlugIn</string>
 			<key>displayName</key>
-			<string>beatygril::FxPlug Name</string>
+			<string>大鱼人像美化</string>
 			<key>group</key>
 			<string>0461C6B0-B8B7-4DE8-B882-03C635553ECB</string>
 			<key>infoString</key>
-			<string>beatygril::FxPlug Description</string>
+			<string>人像磨皮、肤色、脸型和人脸跟踪</string>
 			<key>protocolNames</key>
 			<array>
 				<string>FxFilter</string>
+				<string>FxAnalyzer</string>
 			</array>
 			<key>uuid</key>
 			<string>FB14B0E6-59B2-4836-916F-CD0C559E9241</string>
 			<key>version</key>
 			<string>1.0</string>
+		</dict>
+		<dict>
+			<key>className</key>
+			<string>PGFaceSelectOSC</string>
+			<key>displayName</key>
+			<string>人脸选择</string>
+			<key>group</key>
+			<string>0461C6B0-B8B7-4DE8-B882-03C635553ECB</string>
+			<key>uuid</key>
+			<string>E0E432C8-3D71-4ABA-B006-E7F519E06C87</string>
+			<key>version</key>
+			<string>1.0</string>
+			<key>protocolNames</key>
+			<array>
+				<string>FxOnScreenControl</string>
+			</array>
+			<key>supportedPlugins</key>
+			<array>
+				<string>FB14B0E6-59B2-4836-916F-CD0C559E9241</string>
+			</array>
 		</dict>
 	</array>
 	<key>XPCService</key>
@@ -88,5 +109,7 @@
 			<true/>
 		</dict>
 	</dict>
+	<key>LSMinimumSystemVersion</key>
+	<string>12.0</string>
 </dict>
 </plist>
