@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-21",
+  "target_sha256": "f01e8c0b7e2676b2961950b0e48efdd2589af218e4b36de7d39f5d1c76852bfb",
+  "claim_type": "static CPU assembly/constants and Metal AIR reconstruction, independently tested; no native-host observation",
+  "chin_pins": [
+    [
+      68,
+      38
+    ],
+    [
+      67,
+      37
+    ],
+    [
+      66,
+      36
+    ]
+  ],
+  "chin_parameter_index": 5,
+  "signed_slider_range": [
+    -1,
+    1
+  ],
+  "positive_scale": 0.04,
+  "negative_scale": 0.02,
+  "cpu_evidence": [
+    "ev_640ccb714c5ce00d3864844af319fc574d223810dde08443d2ef2e8f1e989c47",
+    "ev_8bc31392c07788d2482546121297c3f177d527282275ef21fd3e5edef9921544"
+  ],
+  "air_sha256": "f97705b88f5491057df2117aef457ffca84e11020574cd57742b0670db4484d8",
+  "air_file_local_ignored": "build/pose-analysis/face-thin.air.txt",
+  "coordinate_contract": "Vision normalized y-up; upload pins and sampling coordinate converted once to y-down UV, result returned to CI y-up",
+  "gain": "clamp(280/max(length((P75-P59)*imageSize),2*length((P67-(P74+P60)/2)*imageSize),1),1,2.25)",
+  "pin_formula": "q=clamp(q-(anchor-origin)*ratio*clamp(1-distance(q,origin)/distance(anchor,origin),0,1),0,1)",
+  "positive_visual_direction": "chin toward lower lip (shorter)",
+  "negative_visual_direction": "chin away from lower lip (longer)",
+  "verification": {
+    "beauty": 49,
+    "face": 116,
+    "thin_chin": 394,
+    "failures": 0,
+    "maximum_uv_oracle_error": 1.09828022e-05
+  },
+  "limitations": [
+    "Seven other shape controls remain approximations.",
+    "Combined analytic controls and multi-face resampling order is not fully reference equivalent.",
+    "FxPlug adapter imageOrigin handling is under separate investigation.",
+    "Motion/FCP final visual validation is reserved for user."
+  ]
+}

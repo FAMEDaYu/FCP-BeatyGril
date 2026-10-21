@@ -323,7 +323,8 @@ int main(int argc, const char *argv[]) {
             *controls[i] = 1;
             PGFaceFrame *warped = [processor processImage:image settings:changed time:kCMTimeZero error:&error];
             BOOL changedPixels=![Pixels(context, warped.image) isEqualToData:base];
-            Check(warped != nil && (i==0 ? !changedPixels : changedPixels), i==0 ? @"thin safely skips a face with no indexed landmarks" : [@"geometry control changes pixels: " stringByAppendingString:names[i]]);
+            BOOL requiresPoints=(i==0 || i==4);
+            Check(warped != nil && (requiresPoints ? !changedPixels : changedPixels), requiresPoints ? @"thin/chin safely skip a face with no indexed landmarks" : [@"geometry control changes pixels: " stringByAppendingString:names[i]]);
             Check(CGRectEqualToRect(warped.image.extent, image.extent), @"warp preserves image extent");
         }
         settings.faceShort = 0.8;
