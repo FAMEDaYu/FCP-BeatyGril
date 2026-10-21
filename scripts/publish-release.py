@@ -3,7 +3,7 @@
 Secrets are read from macOS Keychain into memory; no auth material is persisted.
 """
 from pathlib import Path
-import base64,hashlib,html,json,mimetypes,ssl,subprocess,urllib.error,urllib.parse,urllib.request,uuid
+import base64,hashlib,html,json,mimetypes,ssl,subprocess,urllib.error,urllib.parse,urllib.request,uuid,zipfile
 ROOT=Path(__file__).resolve().parent.parent
 STATE=ROOT/'build/publish-operation.json';STATE.parent.mkdir(exist_ok=True)
 state=json.loads(STATE.read_text()) if STATE.exists() else {'operation':str(uuid.uuid4())}
@@ -32,6 +32,10 @@ def upload(name,path,mime):
     state[name]={'id':item['id'],'url':item['source_url']};save();return state[name]
  result=request('/wp/v2/media','POST',path.read_bytes(),{'Content-Type':mime,'Content-Disposition':'attachment; filename="'+filename+'"'})
  state[name]={'id':result['id'],'url':result['source_url']};save();return state[name]
+source_zip=ROOT/'build/Dayu-Portrait-1.2.0-source.zip'
+assert zipfile.is_zipfile(source_zip), 'Build a valid reviewed source ZIP before any upload'
+with zipfile.ZipFile(source_zip) as z:
+ assert z.testzip() is None and any(n.endswith('/Wrapper Application/AppDelegate.m') for n in z.namelist())
 status=request('/dayu-publisher/v1/status');assert status['can_publish'] and status['can_upload'] and 'seo' in status['fields']
 source=upload('source',ROOT/'build/Dayu-Portrait-1.2.0-source.zip','application/zip')
 card=upload('card',ROOT/'beatygril/beatygril/Wrapper Application/Resources/LauncherInfo.png','image/png')
