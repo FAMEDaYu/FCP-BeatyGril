@@ -15,7 +15,7 @@
     title.font=[NSFont systemFontOfSize:28 weight:NSFontWeightSemibold];[stack addArrangedSubview:title];
     NSTextField *subtitle=[NSTextField labelWithString:@"beatygril  ·  FxPlug 4"];
     subtitle.textColor=NSColor.secondaryLabelColor;[stack addArrangedSubview:subtitle];
-    NSTextField *description=[NSTextField wrappingLabelWithString:@"在 Motion 的滤镜资源库中选择「大鱼 → 大鱼人像美化」。Final Cut Pro 的效果浏览器中也可使用配套效果。\n\n磨皮、肤色、细节和脸型可分别开关。启用「只处理选中人脸」后，在检视器调整选脸位置，或直接点击画面选脸。选定目标后可向前、向后分析并将跟踪数据保存在工程中。"];
+    NSTextField *description=[NSTextField wrappingLabelWithString:@"在 Motion 的滤镜资源库中选择「大鱼 → 大鱼人像美化」。Final Cut Pro 的效果浏览器中也可使用配套效果。\n\n美化会随画面人脸自动更新，无需先点分析。脸型默认跟随主要人脸，多人模式可处理多张脸。启用「只处理选中人脸」后，可点击画面更换目标。向前/向后分析为可选功能，结果可随工程保存。"];
     description.font=[NSFont systemFontOfSize:13];[stack addArrangedSubview:description];
     NSStackView *buttons=[NSStackView new];buttons.orientation=NSUserInterfaceLayoutOrientationHorizontal;buttons.spacing=12;
     [buttons addArrangedSubview:[NSButton buttonWithTitle:@"打开 Motion" target:self action:@selector(openMotion:)]];

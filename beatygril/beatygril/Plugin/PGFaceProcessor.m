@@ -9,6 +9,7 @@ static NSString * const PGFaceErrorDomain = @"media.dayu.PaintFCP.Face";
 
 @interface PGFaceFrame ()
 @property (nonatomic, copy, readwrite) NSArray<VNFaceObservation *> *faces;
+@property (nonatomic, copy, readwrite) NSArray<NSDictionary *> *deformationGeometry;
 @property (nonatomic, strong, readwrite) CIImage *skinMask;
 @property (nonatomic, strong, readwrite) CIImage *colorMask;
 @property (nonatomic, strong, readwrite) CIImage *teethMask;
@@ -119,6 +120,151 @@ static CIImage *PGMaximum(CIImage *a, CIImage *b) {
     return [a imageByApplyingFilter:@"CIMaximumCompositing" withInputParameters:@{kCIInputBackgroundImageKey:b}];
 }
 
+static CMTime PGRecordTime(NSDictionary *record) {
+    return CMTimeMakeWithEpoch([record[@"value"] longLongValue], [record[@"scale"] intValue], [record[@"epoch"] longLongValue]);
+}
+static double PGSeedDistance(NSDictionary *record, PGBeautySettings settings) {
+    return hypot([record[@"seedX"] doubleValue]-settings.selectionX, [record[@"seedY"] doubleValue]-settings.selectionY);
+}
+static NSArray<NSString *> *PGGeometryRegions(void) {
+    return @[@"leftEye",@"rightEye",@"leftBrow",@"rightBrow",@"nose",@"lips",@"mouth",@"contour"];
+}
+static CGPoint PGRemapPoint(NSArray *point, CGRect old, CGRect current) {
+    return CGPointMake(current.origin.x+([point[0] doubleValue]-old.origin.x)*current.size.width/old.size.width,
+                       current.origin.y+([point[1] doubleValue]-old.origin.y)*current.size.height/old.size.height);
+}
+static NSDictionary *PGStableGeometry(NSDictionary *current, NSDictionary *previous, double dt) {
+    CGRect old=PGArrayRect(previous[@"box"]),box=PGArrayRect(current[@"box"]);
+    if(!PGValidRect(old) || !PGValidRect(box))return current;
+    // Independent stabilization: translate/scale old landmarks into the current
+    // detection box first, so normal head motion does not accumulate box lag.
+    double weight=.9*fmin(1,fmax(0,dt/.03));
+    CGPoint oldLE=PGCenter(PGRegionBounds(previous,@"leftEye",PGInFace(old,.16,.53,.25,.15)));
+    CGPoint oldRE=PGCenter(PGRegionBounds(previous,@"rightEye",PGInFace(old,.59,.53,.25,.15)));
+    CGPoint newLE=PGCenter(PGRegionBounds(current,@"leftEye",PGInFace(box,.16,.53,.25,.15)));
+    CGPoint newRE=PGCenter(PGRegionBounds(current,@"rightEye",PGInFace(box,.59,.53,.25,.15)));
+    double ox=oldRE.x-oldLE.x,oy=oldRE.y-oldLE.y,nx=newRE.x-newLE.x,ny=newRE.y-newLE.y;
+    double oldLength=hypot(ox,oy),newLength=hypot(nx,ny);
+    BOOL axisHold=oldLength>MAX(.003,.055*MIN(old.size.height,box.size.height)) &&
+        newLength>MAX(.003,.055*MIN(old.size.height,box.size.height)) &&
+        (ox*nx+oy*ny)/(oldLength*newLength)<-.18;
+    NSMutableDictionary *stable=[NSMutableDictionary dictionaryWithObject:current[@"box"] forKey:@"box"];
+    for(NSString *name in PGGeometryRegions()) {
+        NSArray *a=previous[name],*b=current[name];
+        if(!a.count || (!axisHold && a.count!=b.count)) {stable[name]=b;continue;}
+        NSMutableArray *points=[NSMutableArray arrayWithCapacity:a.count];
+        for(NSUInteger i=0;i<a.count;i++) {
+            CGPoint p=PGRemapPoint(a[i],old,box);
+            if(!axisHold) {p.x+=( [b[i][0] doubleValue]-p.x)*weight;p.y+=([b[i][1] doubleValue]-p.y)*weight;}
+            [points addObject:@[@(p.x),@(p.y)]];
+        }
+        stable[name]=[points copy];
+    }
+    return [stable copy];
+}
+
+// This live selector is deliberately independent of _targets. Its past-only
+// .35s reference window is a documented project policy, not a recovered exact
+// vendor formula. Continuous held outputs advance time, so this is not a hold
+// timeout. Locks protect state, not global render-order equivalence: a cold seek
+// cannot reconstruct frames the host has never supplied.
+@interface PGRealtimeFaceTracker : NSObject {
+    NSLock *_mutex;
+    NSMutableArray<NSDictionary *> *_entries;
+    NSUInteger _estimatedBytes;
+}
+- (NSDictionary *)resultForGeometry:(NSArray<NSDictionary *> *)raw settings:(PGBeautySettings)settings time:(CMTime)time extent:(CGRect)extent;
+- (void)reset;
+- (NSDictionary *)cacheStatistics;
+@end
+@implementation PGRealtimeFaceTracker
+- (instancetype)init {if((self=[super init])){_mutex=[NSLock new];_entries=[NSMutableArray new];}return self;}
+- (void)reset {[_mutex lock];[_entries removeAllObjects];_estimatedBytes=0;[_mutex unlock];}
+- (NSDictionary *)cacheStatistics {[_mutex lock];NSDictionary *stats=@{@"frames":@(_entries.count),@"estimatedBytes":@(_estimatedBytes)};[_mutex unlock];return stats;}
+- (NSDictionary *)resultForGeometry:(NSArray<NSDictionary *> *)input settings:(PGBeautySettings)s time:(CMTime)time extent:(CGRect)extent {
+    NSMutableArray *valid=[NSMutableArray new];
+    for(id item in input) {NSDictionary *g=PGSanitizedGeometry(item);if(g && valid.count<16)[valid addObject:g];}
+    NSArray *raw=[valid copy];
+    NSUInteger mode=s.fastMultiFace?2:(s.singleFace?1:0);
+    NSString *key=PGTimeKey(time);
+    NSString *context=[NSString stringWithFormat:@"%lu/%u/%lld/%.17g/%.17g/%.17g/%.17g/%.9g",(unsigned long)mode,s.targetIndex,
+        (long long)time.epoch,extent.origin.x,extent.origin.y,extent.size.width,extent.size.height,s.faceJumpGuardRange];
+    [_mutex lock];
+    NSDictionary *head=nil;
+    for(NSDictionary *record in _entries) if([record[@"context"] isEqual:context] &&
+        (!head || CMTimeCompare(PGRecordTime(record),PGRecordTime(head))>=0)) head=record;
+    NSString *scope=@"automatic";
+    double seedX=PGClamp(s.selectionX,0,1),seedY=PGClamp(s.selectionY,0,1);
+    if(mode==1) {
+        // A real point change (> .01) starts a new identity scope. Older render
+        // snapshots may use their own past scope, but never replace a newer head.
+        NSDictionary *seedRecord=head;
+        if(seedRecord && CMTimeCompare(time,PGRecordTime(seedRecord))<0) {
+            seedRecord=nil;
+            for(NSDictionary *record in _entries) if([record[@"context"] isEqual:context] && PGSeedDistance(record,s)<=.01 &&
+                CMTimeCompare(PGRecordTime(record),time)<=0 && (!seedRecord || CMTimeCompare(PGRecordTime(record),PGRecordTime(seedRecord))>=0))seedRecord=record;
+        }
+        if(seedRecord && PGSeedDistance(seedRecord,s)<=.01) {
+            scope=seedRecord[@"scope"];seedX=[seedRecord[@"seedX"] doubleValue];seedY=[seedRecord[@"seedY"] doubleValue];
+        } else scope=[NSString stringWithFormat:@"%@/%.9g/%.9g",key?:@"invalid",seedX,seedY];
+    }
+    NSDictionary *reference=nil;
+    if(key) for(NSDictionary *record in _entries) {
+        if(![record[@"context"] isEqual:context] || ![record[@"scope"] isEqual:scope])continue;
+        if([record[@"key"] isEqual:key] && [record[@"raw"] isEqual:raw]) {[_mutex unlock];return record;}
+        CMTime stored=PGRecordTime(record);
+        // Same-time changed detections recompute from an earlier frame, never
+        // feed an already smoothed result into another pass at that same time.
+        if(CMTimeCompare(stored,time)>=0)continue;
+        double dt=CMTimeGetSeconds(CMTimeSubtract(time,stored));
+        if(dt<=.35 && (!reference || CMTimeCompare(stored,PGRecordTime(reference))>0))reference=record;
+    }
+    NSArray *prior=reference[@"output"];
+    NSDictionary *previous=prior.count?prior.firstObject:nil;
+    CGRect previousBox=PGArrayRect(previous[@"box"]);
+    NSInteger index=-1;double best=-DBL_MAX;
+    if(mode!=2) for(NSUInteger i=0;i<raw.count;i++) {
+        CGRect box=PGArrayRect(raw[i][@"box"]);CGPoint center=PGCenter(box);double score;
+        if(PGValidRect(previousBox)) {
+            CGFloat factor=PGClamp(s.faceJumpGuardRange,1,4);
+            CGRect guard=CGRectIntersection(CGRectMake(0,0,1,1),CGRectInset(previousBox,-previousBox.size.width*(factor-1)*.5,-previousBox.size.height*(factor-1)*.5));
+            if(center.x<CGRectGetMinX(guard)||center.x>CGRectGetMaxX(guard)||center.y<CGRectGetMinY(guard)||center.y>CGRectGetMaxY(guard))continue;
+            CGPoint p=PGCenter(previousBox);score=-((center.x-p.x)*(center.x-p.x)+(center.y-p.y)*(center.y-p.y));
+        } else if(mode==1) score=-((center.x-seedX)*(center.x-seedX)+(center.y-seedY)*(center.y-seedY));
+        else {CGRect clipped=CGRectIntersection(box,CGRectMake(0,0,1,1));CGPoint p=PGCenter(clipped);
+            score=1.8*fmin(1,clipped.size.width*clipped.size.height)+1.1*(1-fmin(1,hypot(p.x-.5,p.y-.5)/.72));}
+        if(index<0 || score>best) {index=(NSInteger)i;best=score;}
+    }
+    NSArray *output;BOOL held=NO;
+    if(mode==2) output=raw;
+    else if(index>=0) {
+        NSDictionary *current=raw[(NSUInteger)index];
+        double dt=reference?CMTimeGetSeconds(CMTimeSubtract(time,PGRecordTime(reference))):0;
+        output=@[previous?PGStableGeometry(current,previous,dt):current];
+    } else {output=prior?:@[];held=output.count>0;}
+    NSMutableDictionary *record=[@{@"context":context,@"scope":scope,@"key":key?:@"invalid",@"value":@(time.value),@"scale":@(time.timescale),@"epoch":@(time.epoch),
+        @"seedX":@(seedX),@"seedY":@(seedY),@"raw":raw,@"output":output,@"index":@(index),@"held":@(held),@"referenceKey":reference[@"key"]?:@""} mutableCopy];
+    if(key) {
+        NSData *serialized=[NSPropertyListSerialization dataWithPropertyList:record format:NSPropertyListBinaryFormat_v1_0 options:0 error:nil];
+        NSUInteger bytes=serialized.length+512;
+        record[@"bytes"]=@(bytes);
+        // Replace changed raw geometry at the same timestamp rather than letting
+        // callbacks grow history or make smoothing depend on redraw count.
+        for(NSInteger i=(NSInteger)_entries.count-1;i>=0;i--) {
+            NSDictionary *old=_entries[(NSUInteger)i];
+            if([old[@"context"] isEqual:context] && [old[@"scope"] isEqual:scope] && [old[@"key"] isEqual:key]) {
+                _estimatedBytes-=[old[@"bytes"] unsignedIntegerValue];[_entries removeObjectAtIndex:(NSUInteger)i];
+            }
+        }
+        if(bytes<=16*1024*1024) {[_entries addObject:[record copy]];_estimatedBytes+=bytes;}
+        while(_entries.count>1200 || _estimatedBytes>16*1024*1024) {
+            _estimatedBytes-=[_entries.firstObject[@"bytes"] unsignedIntegerValue];[_entries removeObjectAtIndex:0];
+        }
+    }
+    [_mutex unlock];return [record copy];
+}
+@end
+
 @interface PGFaceProcessor () {
     NSLock *_lock;
     NSMutableArray<NSMutableDictionary<NSString *, NSDictionary *> *> *_targets;
@@ -126,6 +272,7 @@ static CIImage *PGMaximum(CIImage *a, CIImage *b) {
     CIColorKernel *_ellipse;
     CIColorKernel *_subtract;
     CIColorKernel *_box;
+    PGRealtimeFaceTracker *_realtime;
 }
 @end
 
@@ -135,6 +282,7 @@ static CIImage *PGMaximum(CIImage *a, CIImage *b) {
     self = [super init];
     if (self) {
         _lock = [[NSLock alloc] init];
+        _realtime = [PGRealtimeFaceTracker new];
         _targets = [NSMutableArray arrayWithObjects:[NSMutableDictionary dictionary], [NSMutableDictionary dictionary], [NSMutableDictionary dictionary], nil];
         // Analytic, feathered sampling deformation authored for this project.
         // Positive short-face shortens the lower face; positive chin lengthens it.
@@ -292,29 +440,56 @@ static CIImage *PGMaximum(CIImage *a, CIImage *b) {
         return nil;
     }
     NSDictionary *record = settings.trackingEnabled ? [self recordForTime:time target:MIN((NSUInteger)settings.targetIndex, 2) nearest:NO] : nil;
-    NSArray<NSDictionary *> *geometry;
+    NSArray<NSDictionary *> *geometry,*appearance;
     NSArray<VNFaceObservation *> *observations;
     if (record) {
         geometry = record[@"faces"];
+        appearance = geometry;
         NSMutableArray *restored = [NSMutableArray array];
         for (NSDictionary *face in geometry) [restored addObject:[VNFaceObservation faceObservationWithRequestRevision:VNDetectFaceLandmarksRequestRevision3 boundingBox:PGArrayRect(face[@"box"]) roll:nil yaw:nil pitch:nil]];
         observations = restored;
     } else {
         NSArray *detected = [self observationsInImage:image settings:settings error:error];
         if (!detected) return nil;
-        // A missing time may use a nearby analyzed identity as a guard, while
-        // still detecting the current image. Rendering never appends to history.
-        NSDictionary *anchor = settings.trackingEnabled ? [self recordForTime:time target:MIN((NSUInteger)settings.targetIndex, 2) nearest:YES] : nil;
-        geometry = [self geometryForObservations:detected settings:settings previous:anchor];
-        NSMutableArray *selected = [NSMutableArray array];
-        for (NSDictionary *face in geometry) {
-            CGRect box = PGArrayRect(face[@"box"]);
-            for (VNFaceObservation *observation in detected) if (CGRectEqualToRect(observation.boundingBox, box)) { [selected addObject:observation]; break; }
+        if(settings.trackingEnabled) {
+            // Preserve the explicit offline-analysis contract. Its stored
+            // identity fallback never reads or writes realtime temporal state.
+            NSDictionary *anchor=[self recordForTime:time target:MIN((NSUInteger)settings.targetIndex,2) nearest:YES];
+            geometry=[self geometryForObservations:detected settings:settings previous:anchor];
+            appearance=geometry;
+            NSMutableArray *selected=[NSMutableArray new];
+            for(NSDictionary *face in geometry) for(VNFaceObservation *observation in detected)
+                if(CGRectEqualToRect(observation.boundingBox,PGArrayRect(face[@"box"]))) {[selected addObject:observation];break;}
+            observations=selected;
+        } else {
+            NSMutableArray *raw=[NSMutableArray new],*validObservations=[NSMutableArray new];
+            for(VNFaceObservation *observation in detected) if(PGValidRect(observation.boundingBox) && raw.count<16) {
+                [raw addObject:PGGeometry(observation)];[validObservations addObject:observation];
+            }
+            NSDictionary *live=[_realtime resultForGeometry:raw settings:settings time:time extent:extent];
+            geometry=live[@"output"];
+            if(settings.singleFace && !settings.fastMultiFace) {
+                NSInteger index=[live[@"index"] integerValue];
+                if(index>=0 && (NSUInteger)index<validObservations.count) {
+                    // Retain the selected original Vision observation. A stable
+                    // geometry box need not equal its unsmoothed detection box.
+                    observations=@[validObservations[(NSUInteger)index]];
+                    appearance=@[raw[(NSUInteger)index]];
+                } else {
+                    appearance=geometry;
+                    NSMutableArray *held=[NSMutableArray new];
+                    for(NSDictionary *face in geometry) [held addObject:[VNFaceObservation faceObservationWithRequestRevision:VNDetectFaceLandmarksRequestRevision3 boundingBox:PGArrayRect(face[@"box"]) roll:nil yaw:nil pitch:nil]];
+                    observations=held;
+                }
+            } else {
+                // Default single-primary geometry does not narrow the separate
+                // skin/teeth/eyes support, which still covers the detected group.
+                appearance=raw;observations=validObservations;
+            }
         }
-        observations = selected;
     }
     CIImage *skin = PGBlack(extent), *teeth = PGBlack(extent), *eyes = PGBlack(extent), *protection = PGBlack(extent), *overlay = PGTransparent(extent);
-    for (NSDictionary *face in geometry) {
+    for (NSDictionary *face in appearance) {
         CGRect box = PGArrayRect(face[@"box"]);
         CGRect skinRect = PGInFace(box, -0.10, -0.04, 1.20, 1.16);
         skin = PGMaximum(skin, [self ellipseInRect:PGToPixels(skinRect, extent) extent:extent inner:0.78]);
@@ -334,17 +509,24 @@ static CIImage *PGMaximum(CIImage *a, CIImage *b) {
         }
         CGRect mouth = PGRegionBounds(face, @"mouth", PGInFace(box, 0.30, 0.20, 0.40, 0.08));
         teeth = PGMaximum(teeth, [self ellipseInRect:PGToPixels(mouth, extent) extent:extent inner:0.35]);
-        if (settings.showFaceBoxes || settings.showTrackBox) {
+        if (settings.showFaceBoxes) {
             CGRect pixels = PGToPixels(box, extent);
             CGFloat inset = MAX(1, MIN(pixels.size.width, pixels.size.height) * 0.005);
             CIImage *outline = [_box applyWithExtent:extent arguments:@[[CIVector vectorWithX:CGRectGetMinX(pixels) Y:CGRectGetMinY(pixels) Z:CGRectGetMaxX(pixels) W:CGRectGetMaxY(pixels)], @(inset), [CIVector vectorWithX:0.12 Y:1.0 Z:0.35 W:0.95]]];
             overlay = [outline imageByCompositingOverImage:overlay];
         }
     }
+    if(settings.showTrackBox) for(NSDictionary *face in geometry) {
+        CGRect pixels=PGToPixels(PGArrayRect(face[@"box"]),extent);
+        CGFloat inset=MAX(1,MIN(pixels.size.width,pixels.size.height)*.005);
+        CIImage *outline=[_box applyWithExtent:extent arguments:@[[CIVector vectorWithX:CGRectGetMinX(pixels) Y:CGRectGetMinY(pixels) Z:CGRectGetMaxX(pixels) W:CGRectGetMaxY(pixels)],@(inset),[CIVector vectorWithX:1 Y:.8 Z:.2 W:.95]]];
+        overlay=[outline imageByCompositingOverImage:overlay];
+    }
     CIImage *colorCoverage=skin;
     if (settings.featureProtection) skin = [_subtract applyWithExtent:extent arguments:@[skin, protection]];
     PGFaceFrame *frame = [[PGFaceFrame alloc] init];
     frame.faces = observations ?: @[];
+    frame.deformationGeometry=geometry?:@[];
     frame.image = [self warpImage:image geometry:geometry settings:settings extent:extent];
     frame.skinMask = [self warpImage:skin geometry:geometry settings:settings extent:extent];
     frame.colorMask = [self warpImage:colorCoverage geometry:geometry settings:settings extent:extent];
@@ -362,6 +544,7 @@ static CIImage *PGMaximum(CIImage *a, CIImage *b) {
     [_lock lock];
     for (NSMutableDictionary *target in _targets) [target removeAllObjects];
     [_lock unlock];
+    [_realtime reset];
 }
 
 - (NSData *)trackingDataForTarget:(NSUInteger)target {

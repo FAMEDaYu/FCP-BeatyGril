@@ -3,6 +3,16 @@
 #import <Vision/Vision.h>
 #import <ImageIO/ImageIO.h>
 #import "PGFaceProcessor.h"
+#import <dispatch/dispatch.h>
+#include <math.h>
+
+// Exercise the independent selector with authored landmark geometry, without
+// requiring Vision to manufacture a particular jitter or eye-axis failure.
+@interface PGRealtimeFaceTracker : NSObject
+- (NSDictionary *)resultForGeometry:(NSArray<NSDictionary *> *)raw settings:(PGBeautySettings)settings time:(CMTime)time extent:(CGRect)extent;
+- (NSDictionary *)cacheStatistics;
+- (void)reset;
+@end
 
 // Injectable detections let geometry, selection and saved-frame behavior be
 // tested independently of the separate public-domain NASA portrait fixture.
@@ -56,6 +66,185 @@ static CIImage *Gradient(void) {
     CIImage *image = [CIImage imageWithBitmapData:data bytesPerRow:128 * 4 size:CGSizeMake(128, 128) format:kCIFormatRGBA8 colorSpace:space];
     CGColorSpaceRelease(space);
     return image;
+}
+
+static NSDictionary *Geometry(CGRect box,double jitter) {
+    NSMutableDictionary *g=[NSMutableDictionary dictionaryWithObject:@[@(box.origin.x),@(box.origin.y),@(box.size.width),@(box.size.height)] forKey:@"box"];
+    for(NSString *name in @[@"leftEye",@"rightEye",@"leftBrow",@"rightBrow",@"nose",@"lips",@"mouth",@"contour"]) {
+        double x=[name isEqual:@"rightEye"]?.7:.3;
+        g[name]=@[@[@(box.origin.x+(x+jitter)*box.size.width),@(box.origin.y+.65*box.size.height)]];
+    }
+    return [g copy];
+}
+static CGRect GeometryBox(NSDictionary *g) {
+    NSArray *b=g[@"box"];return b.count==4?CGRectMake([b[0] doubleValue],[b[1] doubleValue],[b[2] doubleValue],[b[3] doubleValue]):CGRectZero;
+}
+static double EyeX(NSDictionary *g) {return [g[@"leftEye"][0][0] doubleValue];}
+static NSDictionary *Live(PGRealtimeFaceTracker *tracker,NSArray *g,PGBeautySettings s,int64_t tick) {
+    return [tracker resultForGeometry:g settings:s time:CMTimeMake(tick,1000) extent:CGRectMake(0,0,128,128)];
+}
+static void RealtimeChecks(CIContext *context,CIImage *image) {
+    NSError *error=nil;PGBeautySettings s=PGBeautyDefaults();
+    VNFaceObservation *left=Face(CGRectMake(.10,.25,.30,.50));
+    VNFaceObservation *right=Face(CGRectMake(.66,.30,.20,.40));
+    PGFaceFixture *p=[PGFaceFixture new];p.detections=@[left,right];
+    s.faceThin=.8;
+    PGFaceFrame *automatic=[p processImage:image settings:s time:kCMTimeZero error:&error];
+    Check(automatic.deformationGeometry.count==1 && GeometryBox(automatic.deformationGeometry.firstObject).origin.x<.5,@"default realtime geometry chooses one area/center primary without analysis");
+    Check(automatic.faces.count==2 && automatic.faces[0]==left && automatic.faces[1]==right,@"default appearance retains both original Vision observations");
+    Check(Channel(context,automatic.teethMask,97,51,0)>20 && Channel(context,automatic.eyeMask,92,69,0)>20,@"default teeth and eye support covers the non-primary face");
+    CGRect rightCrop=CGRectMake(84,38,30,52);
+    Check([Pixels(context,[automatic.image imageByCroppingToRect:rightCrop]) isEqualToData:Pixels(context,[image imageByCroppingToRect:rightCrop])],@"default deformation leaves the distant secondary face unchanged");
+    PGBeautySettings multi=s;multi.fastMultiFace=1;multi.singleFace=1;
+    PGFaceFrame *many=[p processImage:image settings:multi time:kCMTimeZero error:&error];
+    Check(many.deformationGeometry.count==2 && many.faces.count==2,@"fast-multi takes precedence over a stale single-face flag");
+    Check(![Pixels(context,[many.image imageByCroppingToRect:rightCrop]) isEqualToData:Pixels(context,[image imageByCroppingToRect:rightCrop])],@"fast-multi visibly deforms the secondary face");
+    Check([p trackingDataForTarget:0]==nil && [p trackingDataForTarget:1]==nil && [p trackingDataForTarget:2]==nil,@"realtime processing never creates persisted analysis records");
+    p.detections=@[Face(CGRectMake(.15,.25,.30,.50)),Face(CGRectMake(.43,.005,.56,.99))];
+    PGFaceFrame *moving=[p processImage:image settings:s time:CMTimeMake(1,25) error:&error];
+    Check(GeometryBox(moving.deformationGeometry.firstObject).origin.x<.3,@"moving primary stays selected when a much larger stranger appears outside its rectangular guard");
+    PGFaceFixture *cold=[PGFaceFixture new];cold.detections=p.detections;
+    PGFaceFrame *coldFrame=[cold processImage:image settings:s time:CMTimeMake(1,25) error:&error];
+    Check(GeometryBox(coldFrame.deformationGeometry.firstObject).origin.x>.4,@"cold initialization explicitly differs from warm identity association when a new primary dominates");
+    PGBeautySettings manual=s;manual.singleFace=1;manual.selectionX=.78;manual.selectionY=.5;
+    p.detections=@[left,right];
+    PGFaceFrame *chosen=[p processImage:image settings:manual time:CMTimeMake(2,25) error:&error];
+    Check(chosen.faces.count==1 && chosen.faces.firstObject==right,@"manual selection retains its original observation rather than matching a smoothed box");
+    Check(GeometryBox(chosen.deformationGeometry.firstObject).origin.x>.5 && Channel(context,chosen.colorMask,26,54,0)==0,@"explicit single-face UX narrows appearance to the selected target");
+    manual.selectionX=.25;
+    chosen=[p processImage:image settings:manual time:CMTimeMake(2,25) error:&error];
+    Check(chosen.faces.firstObject==left,@"manual reselection at the same exact time immediately selects the other face");
+
+    PGRealtimeFaceTracker *t=[PGRealtimeFaceTracker new];
+    NSDictionary *a=Geometry(CGRectMake(.1,.25,.3,.5),0),*b=Geometry(CGRectMake(.66,.3,.2,.4),0);
+    NSDictionary *r=Live(t,@[a,b],s,0);
+    Check([r[@"output"] count]==1 && [r[@"index"] integerValue]==0,@"standalone default selector chooses the scored primary");
+    PGBeautySettings ignoredSeed=s;ignoredSeed.selectionX=.9;ignoredSeed.selectionY=.1;
+    Check([r isEqual:Live(t,@[a,b],ignoredSeed,0)],@"seed changes are irrelevant while explicit single-face selection is disabled");
+    NSDictionary *aMoved=Geometry(CGRectMake(.15,.25,.3,.5),0),*large=Geometry(CGRectMake(.43,.005,.56,.99),0);
+    r=Live(t,@[aMoved,large],s,40);
+    Check([r[@"index"] integerValue]==0 && [r[@"referenceKey"] isEqual:@"0/1/0"],@"live association uses the previous frame rather than recomputing the primary score");
+    NSDictionary *outside=Geometry(CGRectMake(.60,.30,.10,.10),0);
+    r=Live(t,@[outside],s,80);
+    Check([r[@"held"] boolValue] && [r[@"output"][0] isEqual:Live(t,@[aMoved,large],s,40)[@"output"][0]],@"no guard candidate retains the previous stable geometry at full strength");
+    r=Live(t,@[],s,120);
+    Check([r[@"held"] boolValue] && [r[@"referenceKey"] isEqual:@"2/25/0"],@"empty detections hold geometry while advancing output time");
+    for(int64_t tick=160;tick<=2160;tick+=40)r=Live(t,@[],s,tick);
+    Check([r[@"held"] boolValue] && [r[@"output"] count]==1,@"continuous close held frames can retain geometry beyond .35 seconds");
+    r=Live(t,@[],s,3000);
+    Check([r[@"output"] count]==0 && [r[@"referenceKey"] length]==0,@"a distant seek without a nearby past reference cold-starts without held geometry");
+    r=Live(t,@[b],s,4000);
+    Check(![r[@"held"] boolValue] && [r[@"index"] integerValue]==0,@"a far seek with a current face cold-acquires that face");
+
+    // Rectangular guard includes a diagonal candidate that a small circular
+    // center threshold would reject, and excludes a point just over an edge.
+    PGRealtimeFaceTracker *guard=[PGRealtimeFaceTracker new];
+    PGBeautySettings guardSettings=s;guardSettings.faceJumpGuardRange=1.8;
+    NSDictionary *square=Geometry(CGRectMake(.4,.4,.2,.2),0);
+    Live(guard,@[square],guardSettings,0);
+    NSDictionary *diagonal=Geometry(CGRectMake(.625,.625,.1,.1),0);
+    r=Live(guard,@[diagonal],guardSettings,40);
+    Check(![r[@"held"] boolValue] && [r[@"index"] integerValue]==0,@"expanded rectangular guard accepts a candidate near both positive corners");
+    [guard reset];Live(guard,@[square],guardSettings,0);
+    r=Live(guard,@[Geometry(CGRectMake(.631,.45,.1,.1),0)],guardSettings,40);
+    Check([r[@"held"] boolValue],@"candidate just beyond a rectangular guard edge cannot replace the identity");
+
+    PGRealtimeFaceTracker *smooth=[PGRealtimeFaceTracker new];
+    CGRect box=CGRectMake(.2,.2,.4,.6);
+    NSDictionary *g0=Geometry(box,0),*jitter=Geometry(box,.06);
+    Live(smooth,@[g0],s,0);
+    NSDictionary *smoothed=Live(smooth,@[jitter],s,10);
+    double expected=EyeX(g0)+(EyeX(jitter)-EyeX(g0))*.3;
+    Check(fabs(EyeX(smoothed[@"output"][0])-expected)<1e-9,@"small-dt landmark smoothing uses a time-aware current weight");
+    Check(fabs(EyeX(smoothed[@"output"][0])-EyeX(g0))<fabs(EyeX(jitter)-EyeX(g0)),@"landmark jitter amplitude is reduced");
+    Check([smoothed isEqual:Live(smooth,@[jitter],s,10)] && [[smooth cacheStatistics][@"frames"] unsignedIntegerValue]==2,@"same exact time and raw geometry returns an identical cached result without another smoothing step");
+    NSDictionary *equivalent=[smooth resultForGeometry:@[jitter] settings:s time:CMTimeMake(1,100) extent:CGRectMake(0,0,128,128)];
+    Check([equivalent isEqual:smoothed],@"equivalent rational CMTime representations share one realtime result");
+    NSDictionary *changed=Geometry(box,.08);
+    NSDictionary *refreshed=Live(smooth,@[changed],s,10);
+    Check(fabs(EyeX(refreshed[@"output"][0])-(EyeX(g0)+(EyeX(changed)-EyeX(g0))*.3))<1e-9,@"changed raw detections at the same time recompute from the earlier frame rather than compound smoothing");
+    NSMutableDictionary *flipped=[changed mutableCopy];flipped[@"leftEye"]=changed[@"rightEye"];flipped[@"rightEye"]=changed[@"leftEye"];
+    NSDictionary *axis=Live(smooth,@[flipped],s,20);
+    Check(fabs(EyeX(axis[@"output"][0])-EyeX(refreshed[@"output"][0]))<1e-9,@"eye-axis reversal holds remapped old landmarks instead of flipping the warp");
+    NSDictionary *translated=Geometry(CGRectOffset(box,.1,0),.08);
+    NSDictionary *translatedResult=Live(smooth,@[translated],s,60);
+    Check(fabs(GeometryBox(translatedResult[@"output"][0]).origin.x-.3)<1e-9,@"normal translation uses the current detection box without accumulated box lag");
+    double mappedEye=EyeX(axis[@"output"][0])+.1;
+    Check(fabs(EyeX(translatedResult[@"output"][0])-(mappedEye+.9*(EyeX(translated)-mappedEye)))<1e-9,@"old landmarks remap into the current moving box before blending");
+    Check([smoothed[@"output"] isEqual:Live(smooth,@[jitter],s,10)[@"output"]],@"repeated rewind to a cached time reproduces its original stable geometry");
+
+    PGRealtimeFaceTracker *seeds=[PGRealtimeFaceTracker new];
+    PGBeautySettings selected=s;selected.singleFace=1;selected.selectionX=.25;selected.selectionY=.5;
+    Live(seeds,@[a,b],selected,0);
+    selected.selectionX=.255;r=Live(seeds,@[],selected,40);
+    Check([r[@"held"] boolValue],@"sub-.01 seed movement retains the existing identity");
+    selected.selectionX=.27;r=Live(seeds,@[],selected,80);
+    Check([r[@"output"] count]==0 && ![r[@"held"] boolValue],@"seed change over .01 starts a new identity and does not inherit an old held target");
+    selected.selectionX=.78;r=Live(seeds,@[a,b],selected,80);
+    Check([r[@"index"] integerValue]==1,@"large manual reselection immediately chooses the new seed target");
+    NSDictionary *bMoved=Geometry(CGRectMake(.50,.30,.2,.4),0);
+    r=Live(seeds,@[a,bMoved],selected,120);
+    Check([r[@"index"] integerValue]==1,@"manually seeded target follows a near moving face");
+    NSDictionary *bContinued=Geometry(CGRectMake(.45,.3,.2,.4),0),*seedStranger=Geometry(CGRectMake(.8,.3,.15,.4),0);
+    r=Live(seeds,@[a,bContinued,seedStranger],selected,160);
+    Check([r[@"index"] integerValue]==1,@"following does not repeatedly select the person nearest the fixed original click");
+
+    PGRealtimeFaceTracker *reseedRewind=[PGRealtimeFaceTracker new];
+    PGBeautySettings seedA=s;seedA.singleFace=1;seedA.selectionX=.2;seedA.selectionY=.5;
+    for(int64_t i=0;i<=20;i++) {
+        NSDictionary *movingFace=Geometry(CGRectMake(.15+.02*i,.3,.1,.4),0);
+        Live(reseedRewind,@[movingFace],seedA,i*40);
+    }
+    NSArray *rewindFaces=@[Geometry(CGRectMake(.15,.3,.1,.4),0),Geometry(CGRectMake(.55,.3,.1,.4),0),Geometry(CGRectMake(.75,.3,.1,.4),0)];
+    NSDictionary *beforeReselect=Live(reseedRewind,rewindFaces,seedA,840);
+    PGBeautySettings seedB=seedA;seedB.selectionX=.8;Live(reseedRewind,rewindFaces,seedB,900);
+    Live(reseedRewind,rewindFaces,seedA,1000);
+    Check([beforeReselect isEqual:Live(reseedRewind,rewindFaces,seedA,840)],@"A-to-B-to-A reselection does not let the future A scope replace an earlier A exact result");
+
+    PGRealtimeFaceTracker *order=[PGRealtimeFaceTracker new];
+    NSDictionary *future=Live(order,@[b],s,1000);
+    NSDictionary *past=Live(order,@[a],s,0);
+    Check([past[@"referenceKey"] length]==0 && [past[@"output"][0] isEqual:a],@"uncached rewind never borrows geometry from a future frame");
+    r=Live(order,@[Geometry(CGRectMake(.64,.3,.2,.4),0)],s,1040);
+    Check([r[@"referenceKey"] isEqual:future[@"key"]],@"late older frames do not replace the newer live reference head");
+    NSDictionary *nearRewind=Live(order,@[a],s,980);
+    Check([nearRewind[@"referenceKey"] length]==0,@"uncached small rewind also refuses a closer future reference");
+    NSDictionary *epoch=[order resultForGeometry:@[] settings:s time:CMTimeMakeWithEpoch(1080,1000,9) extent:CGRectMake(0,0,128,128)];
+    Check([epoch[@"output"] count]==0,@"CMTime epochs isolate realtime identity caches");
+    NSDictionary *extent=[order resultForGeometry:@[] settings:s time:CMTimeMake(1080,1000) extent:CGRectMake(20,30,256,128)];
+    Check([extent[@"output"] count]==0,@"source extent size and origin changes isolate realtime geometry");
+    PGBeautySettings target=s;target.targetIndex=1;r=Live(order,@[],target,1080);
+    Check([r[@"output"] count]==0,@"target changes cannot reuse another target's realtime geometry");
+    PGBeautySettings fast=s;fast.fastMultiFace=1;r=Live(order,@[a,b],fast,1080);
+    Check([r[@"output"] count]==2 && [r[@"referenceKey"] length]==0,@"fast-multi mode has a separate geometry context");
+    r=Live(order,@[],fast,1120);Check([r[@"output"] count]==0,@"fast-multi does not inherit primary hold behavior");
+    Check([future isEqual:Live(order,@[b],s,1000)],@"same-time historical exact result remains stable after other contexts and seeks");
+
+    // Parallel calls may have cold/warm identity differences, but each must be
+    // data safe, reject future references, and freeze exact repeated requests.
+    PGRealtimeFaceTracker *parallel=[PGRealtimeFaceTracker new];
+    dispatch_apply(40,dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0),^(size_t i) {
+        @autoreleasepool {Live(parallel,@[a],s,(int64_t)i*40);}
+    });
+    BOOL pastOnly=YES,exact=YES;
+    for(int64_t i=0;i<40;i++) {
+        NSDictionary *first=Live(parallel,@[a],s,i*40),*again=Live(parallel,@[a],s,i*40);
+        exact=exact&&[first isEqual:again];
+        NSString *reference=first[@"referenceKey"];
+        if(reference.length) {NSArray *parts=[reference componentsSeparatedByString:@"/"];pastOnly=pastOnly&&[parts[0] doubleValue]/[parts[1] doubleValue] <= i*.04;}
+    }
+    Check(pastOnly && exact,@"parallel result cache is safe and repeated requests retain past-only references");
+    PGRealtimeFaceTracker *bounded=[PGRealtimeFaceTracker new];
+    for(int64_t i=0;i<1210;i++) {@autoreleasepool {Live(bounded,@[],s,i*40);}}
+    NSDictionary *stats=[bounded cacheStatistics];
+    Check([stats[@"frames"] unsignedIntegerValue]==1200 && [stats[@"estimatedBytes"] unsignedIntegerValue]<=16*1024*1024,@"realtime geometry cache enforces frame and serialized-size bounds");
+    [bounded reset];Check([[bounded cacheStatistics][@"frames"] unsignedIntegerValue]==0,@"realtime reset releases cached geometry");
+    NSData *before=[p trackingDataForTarget:0];
+    PGBeautySettings offline=s;offline.singleFace=1;offline.trackingEnabled=1;offline.selectionX=.25;offline.selectionY=.5;
+    p.detections=@[left];Check([p analyzeImage:image settings:offline time:kCMTimeZero error:&error],@"offline analysis remains available beside live history");
+    NSData *archive=[p trackingDataForTarget:0];
+    p.detections=@[];[p processImage:image settings:s time:CMTimeMake(3,25) error:&error];
+    Check(before==nil && [archive isEqual:[p trackingDataForTarget:0]],@"subsequent realtime hold does not mutate persisted offline geometry");
 }
 
 int main(int argc, const char *argv[]) {
@@ -205,6 +394,7 @@ int main(int argc, const char *argv[]) {
             CFRelease(destination); CGImageRelease(preview);
             CGContextRelease(canvas); CGColorSpaceRelease(space);
         }
+        RealtimeChecks(context,image);
         printf("Face processing: %lu checks passed\n", (unsigned long)PGChecks);
     }
     return 0;
