@@ -2,6 +2,8 @@
 
 基于本仓库的 FxPlug4 初始工程制作的人像美化滤镜，支持 Motion 和 Final Cut Pro。源码使用 Objective-C、Vision、Core Image 与 Metal。
 
+代码由 OpenAI + Codex 全程编写，站长仅参与调试和测试。
+
 功能包括磨皮、肤色、细节、牙齿美白、眼睛提亮、九类脸型调整、自动人脸跟随和多人处理。原版 MSE18V2 的静态分析依据、近似实现与尚未对齐的部分见 [分析说明](docs/analysis/REA-分析与复刻说明.md)。本版尚未完成原版逐像素与复杂运动跟踪对照。
 
 ## 使用
@@ -21,7 +23,7 @@ xcodebuild -project beatygril/beatygril.xcodeproj -scheme 'Wrapper Application' 
 
 工程从 `/Library/Developer/SDKs/FxPlug.sdk` 读取头文件与链接信息，从 `/Library/Developer/Frameworks` 嵌入可运行的 Apple 框架。构建默认使用团队 B3W25FX5H5 的 Developer ID Application 身份；正式交付使用 `python3 scripts/deliver.py` 完成公证、粘附和安装；安装前先关闭 Motion 与 FCP，脚本在检测到宿主仍运行时保留原安装版并停止。原生验收完成后继续脚本的清理阶段，清除临时注册与 APP 副本。
 
-源码仓库：`https://dayu.media/git/dayu/paintfcp-fxplug.git`。恢复入口见 [RECOVERY.md](RECOVERY.md)，当前验证记录见 [验证记录](docs/验证记录.md)。原始模板保存在 `baseline-20261021` 标签。
+公开源码：[GitHub · FCP-BeatyGril](https://github.com/FAMEDaYu/FCP-BeatyGril)。大鱼站备份：`https://dayu.media/git/dayu/paintfcp-fxplug.git`。恢复入口见 [RECOVERY.md](RECOVERY.md)，当前验证记录见 [验证记录](docs/验证记录.md)。原始模板保存在 `baseline-20261021` 标签。
 
 ## 1.0.5 瘦脸修复
 
@@ -57,4 +59,4 @@ xcodebuild -project beatygril/beatygril.xcodeproj -scheme 'Wrapper Application' 
 
 `large.png`（640×360）和 `small.png`（192×108）与 `.moef` 同目录，安装器安装后重新锁定。手动复制或从 Git 恢复模板时，需对这两个 PNG 重新执行 `chflags uchg`，不能锁定整个模板目录。FCP 当前分类为「大鱼磨皮瘦脸」，Motion 原生滤镜分类仍为「大鱼」。
 
-仓库属性已设为公开；大鱼站统一 Git 网关目前仍要求登录并校验会员，公开属性并未绕过网关。发布文章另提供可公开下载的当前源码快照，不依赖 Git 登录；安装包始终免费。
+GitHub 提供公开源码、提交历史和版本标签；[1.2.0 Release](https://github.com/FAMEDaYu/FCP-BeatyGril/releases/tag/v1.2.0) 提供正式签名公证安装包。大鱼站 Git 备份仍受站点登录与会员网关限制，发布文章另提供公开源码快照；安装包始终免费。

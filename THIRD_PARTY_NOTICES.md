@@ -1,6 +1,6 @@
 # 第三方资料与许可边界
 
-本项目自己的 Objective-C、Metal、脚本及原创文档按根目录 MIT License 开源。署名 Dayu 不表示第三方代码、样本与 SDK 的版权转移。
+代码由 OpenAI + Codex 全程编写，站长仅参与调试和测试。项目代码、脚本及文档按根目录 MIT License 提供。署名 Dayu 不表示第三方代码、样本与 SDK 的版权转移。
 
 - Apple FxPlug / PluginManager SDK 和随正式插件分发的运行框架属于 Apple；受 Apple 相应 SDK 与再分发条款约束，源码仓库不包含这些框架。编译需自行安装 Xcode 与 FxPlug SDK。macOS Vision、AppKit、CoreImage 属于系统组件。
 - `Templates/大鱼人像美化/Drop Zone.tiff` 是 Motion 工程的标准占位资源，随模板保留；不将其声明为 Dayu 原创作品或另行授予 MIT 权利。

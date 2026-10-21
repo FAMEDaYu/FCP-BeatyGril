@@ -1,6 +1,7 @@
 # 恢复说明
 
-- 源码远程：`https://dayu.media/git/dayu/paintfcp-fxplug.git`
+- 大鱼备份远程（origin）：`https://dayu.media/git/dayu/paintfcp-fxplug.git`
+- GitHub 公开远程（github）：`https://github.com/FAMEDaYu/FCP-BeatyGril.git`
 - 本地项目根：`/Users/dayu/Documents/PaintFCP`
 - 工作分支：`main`
 - 修改前版本标签：`baseline-20261021`，完整 SHA：`1746f38398588e2367abb37a5c2b31cb64042429`
