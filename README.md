@@ -1,28 +1,22 @@
-# PaintFCP FxPlug4
+# 大鱼人像美化 · beatygril
 
-独立 FxPlug4 滤镜程序源码工程。修改前的 `beatygril` 是 Apple Tileable Remote Brightness 模板；在此基础上实现新的滤镜。第三方参考 APP、二进制和资源不进入仓库。
+基于本仓库的 FxPlug4 初始工程制作的人像美化滤镜，支持 Motion 和 Final Cut Pro。源码使用 Objective-C、Vision、Core Image 与 Metal。
 
-## 工程
+功能包括磨皮、肤色、细节、牙齿美白、眼睛提亮、九类脸型调整、画面选脸、三目标跟踪和蒙版预览。原版 MSE18V2 的静态分析依据、近似实现与尚未对齐的部分见 [分析说明](docs/analysis/REA-分析与复刻说明.md)。本版尚未完成原版逐像素与复杂运动跟踪对照。
 
-- `beatygril/beatygril.xcodeproj`：Xcode 工程，`Wrapper Application` 与 `XPC Service` 两个 target。
-- `beatygril/beatygril/Plugin`：Objective-C `FxTileableEffect` 实现、Metal GPU shader 和设备缓存。
-- `beatygril/beatygril/Wrapper Application`：插件外层 APP 和沙盒 entitlement。
-- 原始参数：Brightness，默认 1.0，参数范围 0–100，滑块范围 0–10；RGB 乘亮度、Alpha 保持。
+## 使用
 
-## 本机依赖与构建入口
+正式安装路径为 `/Library/Plug-Ins/FxPlug/beatygril.app`。Motion 滤镜分类为「大鱼」，滤镜名「大鱼人像美化」。Final Cut Pro 使用配套 Motion 效果。先调高中频磨皮，再按需调肤色与脸型；勾选「只处理选中人脸」可在画面点击选脸，随后选择跟踪目标、向前/向后分析，数据随工程保存。
 
-盘点环境：Xcode 27.1（27A9275），FxPlug.framework 4.3.4、PluginManager.framework 1.7.4；附加 SDK 为 `/Library/Developer/SDKs/FxPlug.sdk`。SDK 内含开发 headers，运行 framework 位于 `/Library/Developer/Frameworks`。项目初始最低部署目标为 macOS 27.2。
+## 开发和恢复
+
+需要 Xcode 27.1、FxPlug SDK 4.3.4 与 PluginManager 1.7.4；最低运行系统 macOS 13。正式产物为 arm64/x86_64 通用版本。
 
 ```sh
-xcodebuild -list -project beatygril/beatygril.xcodeproj
-xcodebuild -project beatygril/beatygril.xcodeproj \
-  -scheme 'Wrapper Application' -configuration Release \
-  -derivedDataPath /tmp/paintfcp-build \
-  CODE_SIGN_STYLE=Manual \
-  CODE_SIGN_IDENTITY='Developer ID Application: zhong luo (B3W25FX5H5)' \
-  DEVELOPMENT_TEAM=B3W25FX5H5 build
+./scripts/test.sh
+xcodebuild -project beatygril/beatygril.xcodeproj -scheme 'Wrapper Application' -configuration Release -derivedDataPath /tmp/paintfcp-build build
 ```
 
-初始工程复制并签名 FxPlug 与 PluginManager 两个 framework；正式交付必须依次完成 Release 构建、内到外签名、Apple 公证 Accepted、票据粘附与验证、唯一正式路径安装及宿主发现验证。初始基线仅核验工程可读取和依赖，不代表已完成构建或交付。
+工程从 `/Library/Developer/SDKs/FxPlug.sdk` 读取头文件与链接信息，从 `/Library/Developer/Frameworks` 嵌入可运行的 Apple 框架。构建默认使用团队 B3W25FX5H5 的 Developer ID Application 身份；正式交付需继续完成公证、粘附和安装。
 
-参考 [RECOVERY.md](RECOVERY.md) 恢复源码与依赖。签名证书、私钥和公证凭据均由本机钥匙串管理，不随源码保存。
+私有源码仓库：`https://dayu.media/git/dayu/paintfcp-fxplug.git`。恢复入口见 [RECOVERY.md](RECOVERY.md)，当前验证记录见 [验证记录](docs/验证记录.md)。原始模板保存在 `baseline-20261021` 标签。

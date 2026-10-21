@@ -208,8 +208,7 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
     }
 }
 - (BOOL)renderDestinationImage:(FxImageTile *)destination sourceImages:(NSArray<FxImageTile *> *)sources pluginState:(NSData *)state atTime:(CMTime)time error:(NSError **)error {
-    @autoreleasepool {
-        if(sources.count==0||!sources.firstObject.ioSurface||!destination.ioSurface||state.length>320*1024*1024) return PGFail(error,@"宿主传入的画面或状态无效。");
+    if(sources.count==0||!sources.firstObject.ioSurface||!destination.ioSurface||![state isKindOfClass:NSData.class]||state.length==0||state.length>320*1024*1024) return PGFail(error,@"宿主传入的画面或状态无效。");
         NSDictionary *plist=[NSPropertyListSerialization propertyListWithData:state options:NSPropertyListImmutable format:nil error:error];
         if(![plist isKindOfClass:NSDictionary.class]||![plist[@"settings"] isKindOfClass:NSData.class]||[plist[@"settings"] length]!=sizeof(PGBeautySettings)) return PGFail(error,@"渲染状态版本无效。");
         PGBeautySettings s;[plist[@"settings"] getBytes:&s length:sizeof(s)];
@@ -246,7 +245,6 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
         @try {[context render:output toIOSurface:(__bridge IOSurfaceRef)destination.ioSurface bounds:CGRectMake(0,0,width,height) colorSpace:nil];}
         @catch(NSException *exception) {return PGFail(error,exception.reason?:@"图像处理失败。");}
         return YES;
-    }
 }
 - (void)setStatus:(NSString *)status {
     id<FxParameterSettingAPI_v5> api=[_apiManager apiForProtocol:@protocol(FxParameterSettingAPI_v5)];
@@ -277,6 +275,7 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
 - (void)analyzeForward {[self startAnalysisForward:YES];}
 - (void)analyzeBackward {[self startAnalysisForward:NO];}
 - (void)clearTracking {
+    if(_analyzing) {[self setStatus:@"请先结束或取消分析，再清除跟踪数据。"];return;}
     PGBeautySettings s=[self settingsAtTime:[self currentHostTime]];
     @synchronized(_faceProcessor) {[_faceProcessor setTrackingData:nil forTarget:s.targetIndex];_loadedTracks=nil;}
     id<FxParameterSettingAPI_v5> api=[_apiManager apiForProtocol:@protocol(FxParameterSettingAPI_v5)];
@@ -307,6 +306,7 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
     return ok;
 }
 - (BOOL)cleanupAnalysis:(NSError **)error {
+    _analyzing=NO;
     id<FxParameterSettingAPI_v5> api=[_apiManager apiForProtocol:@protocol(FxParameterSettingAPI_v5)];
     NSData *data=nil;
     @synchronized(_analysisFaceProcessor) {data=[_analysisFaceProcessor trackingDataForTarget:_analysisSettings.targetIndex];}
