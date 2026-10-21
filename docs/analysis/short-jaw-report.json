@@ -1,0 +1,177 @@
+{
+  "authority": "Static shipped-artifact analysis; original shader not executed. Public Vision76 region mapping reused from slim-pose-report.json.",
+  "target_arm64_sha256": "f01e8c0b7e2676b2961950b0e48efdd2589af218e4b36de7d39f5d1c76852bfb",
+  "air_sha256": "f97705b88f5491057df2117aef457ffca84e11020574cd57742b0670db4484d8",
+  "evidence_ids": {
+    "cpu_constants": "ev_d1b8a49fc62e384710bac234967c3e8cbf7c5127081c9b2c6f6a0bbd80b80967",
+    "cpu_assembly": "ev_8bc31392c07788d2482546121297c3f177d527282275ef21fd3e5edef9921544"
+  },
+  "common": {
+    "uv": "full-image normalized, y down; production stores y up and must convert points and q together",
+    "gain": "clamp(280/max(length((P75-P59)*pixelSize),2*length((P67-(P74+P60)/2)*pixelSize),1),1,2.25)",
+    "original_order": [
+      "thin17",
+      "narrow16",
+      "vFace4",
+      "jaw6",
+      "cheek6",
+      "chin3",
+      "shortPolygon",
+      "smallHead",
+      "bigEye"
+    ],
+    "enable_threshold": "abs(effectiveRatio)>1e-6",
+    "per_pin_or_field_result": "clamp(q-newOffset,0,1)"
+  },
+  "jaw": {
+    "struct_field": "xiaegu offset12 / helper parameter6",
+    "ui_range": [
+      0,
+      1
+    ],
+    "cpu_scale": 0.05,
+    "constant_address": "0x10005f9a8",
+    "pins_origin_radiusNeighbour_directionAnchor": [
+      [
+        72,
+        71,
+        29
+      ],
+      [
+        62,
+        63,
+        29
+      ],
+      [
+        71,
+        70,
+        29
+      ],
+      [
+        63,
+        64,
+        29
+      ],
+      [
+        70,
+        71,
+        29
+      ],
+      [
+        64,
+        63,
+        29
+      ]
+    ],
+    "radius": "length(Porigin-Pneighbour) in UV; skip radius<=.0001",
+    "direction": "P29-Porigin",
+    "weight": "clamp(1-length(q-Porigin)/radius,0,1)",
+    "step": "q=clamp(q-direction*clamp(jaw,0,1)*.05*gain*weight,0,1)",
+    "execution": "6 sequential q updates; each radius uses the second triplet index, unlike thin/chin which use the direction anchor distance",
+    "air_lines": [
+      899,
+      986
+    ]
+  },
+  "short": {
+    "struct_field": "duanlian offset24 / helper parameter9",
+    "ui_range": [
+      -1,
+      1
+    ],
+    "cpu_scale": 0.25,
+    "constant_address": "0x10005f9e0",
+    "cpu_clamp_min_address": "0x10005f9d0 = -1",
+    "cpu_scaled_min_address": "0x10005f9f0 = -.25",
+    "polygon_indices": [
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72
+    ],
+    "polygon_closure": "P72->P62",
+    "axis": "P46-P48 (nose crest region)",
+    "radius": "length(axis) in UV; skip radius<=.0001",
+    "inside": "even-odd point-in-polygon; weight1",
+    "outside": "d=minimum distance to11 closed segments; weight=clamp(1-d/radius,0,1), only when d<radius",
+    "step": "q=clamp(q-axis*clamp(short,-1,1)*.25*gain*weight,0,1)",
+    "nearest_segment_threshold": "squared edge length>1e-6 then project t=clamp(dot(q-A,B-A)/dot(B-A,B-A),0,1); else choose A",
+    "ray_crossing_denominator": "dy if abs(dy)>1e-6 else signed1e-6",
+    "air_lines": [
+      1127,
+      1340
+    ]
+  },
+  "implementation": {
+    "source": "beatygril/beatygril/Plugin/PGFaceProcessor.m",
+    "order": [
+      "thin17",
+      "existing analytic narrow/V/cheek/small-head body",
+      "jaw6",
+      "chin3",
+      "shortPolygon",
+      "existing analytic bigEye"
+    ],
+    "control_coefficients": {
+      "jaw": 0.05,
+      "short": 0.25
+    },
+    "strength": "Original CPU clamps a common shape strength. Product fixes that multiplier at1 and maps it to no user parameter: PGAmount/s.amount is smoothing strength only and is not used by thin/chin/jaw/short. All4 share the same pixel-size gain. Each shape uses its own control; PGMix is applied independently to the total output later by the host adapter. No new common shape-strength UI is introduced.",
+    "sampling": "All sequential coordinates are evaluated within one CIWarpKernel per face; image and all4 masks share the same method.",
+    "missing_or_invalid76": "Preserve legacy face/archive and other5 analytic controls; skip thin/chin/jaw/short exactly.",
+    "unchanged": "Existing thin17/chin3 index order, constants and formulas remain unchanged.",
+    "source_sha256": "e4122ca95f7ba41bc925b4cc4bf2bf88a72044ea41880cd66acd9c8278a7daf4"
+  },
+  "limits": [
+    "No original target app/shader executed; these are static CPU/AIR observations.",
+    "The complete vendor chain is not reconstructed: narrow/V/cheek/small-head/eye algorithms and their ordering remain project approximations. Isolated jaw/short plus recovered thin/chin ordering is tested.",
+    "No new explicit yaw, pitch, roll or landmark-quality attenuation is inferred. Profile behavior follows detected 2D landmarks, as in the recovered branches.",
+    "Physical PNG checks bypass the host IOSurface adapter. Original vendor pixel equivalence and Motion/FCP1.1.2 runtime acceptance remain unverified.",
+    "Independent public Vision CGImage and CIImage detections differ slightly. Tests allow .025 normalized location difference; eye/temple displacement tests measure the actual GPU inverse field."
+  ],
+  "verification": {
+    "core": {
+      "exit_code": 0,
+      "beauty_checks": 49,
+      "face_checks": 116,
+      "slim_checks": 796,
+      "total": 961
+    },
+    "real_frames_asan": {
+      "exit_code": 0,
+      "checks": 886,
+      "frames": [
+        "public NASA astronaut",
+        "local user upright/rolled0s",
+        "local user profile4s"
+      ],
+      "diagnostics": []
+    },
+    "max_uv_oracle_error": 1.09828022e-05,
+    "physical_checks": "Public Vision76 lower-contour response, pupil/upper-contour positions beyond support unchanged; separate CGImage Vision point locations cross-check the CIImage production path.",
+    "local_logs": [
+      "build/analysis-jaw-short/core-tests.txt",
+      "build/analysis-jaw-short/real-frames-asan.txt"
+    ],
+    "app_built": false,
+    "host_operated": false
+  },
+  "pre_fix_difference": {
+    "source": "PGFaceProcessor.m; PGBeautyRenderer only does appearance",
+    "jaw": "axis-aligned bbox jawBand, .20 multiplier, no radiusNeighbour or lip anchor",
+    "short": "axis-aligned bbox lower field, .16 multiplier, no lower-contour polygon or nose axis",
+    "bounds": "Difference in algorithm is established. It does not by itself prove why a specific installed screenshot looks like temple movement; coordinate/isolated-control localization must be checked in actual image output.",
+    "processor_sha256": "fe4f2a6fc28799cc9b81832baaa2d6739320bde9def175ecc8a4494d004d6b28"
+  },
+  "air_excerpts": {
+    "path": "docs/analysis/short-jaw-air.txt",
+    "sha256": "45ef87253c5d2591d78531b59b1c8672e10b84615457faabd4dc7f0e9dcdbcac"
+  }
+}

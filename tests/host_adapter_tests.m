@@ -328,14 +328,24 @@ static void PortraitAnatomyTests(NSString *fixture, CIImage *portrait) {
     CGRect leftEye = CGRectMake(left.x-fw*.24, left.y-fh*.17, fw*.48, fh*.34);
     CGRect rightEye = CGRectMake(right.x-fw*.24, right.y-fh*.17, fw*.48, fh*.34);
     CGRect chinArea = CGRectMake(chin.x-fw*.30, chin.y-fh*.22, fw*.60, fh*.44);
+    CGRect lowerFace = CGRectNull;
+    for (NSUInteger point = 62; point <= 72; point++) {
+        CGPoint p = face.landmarks.allPoints.normalizedPoints[point];
+        CGFloat x = (box.origin.x+p.x*box.size.width)*width;
+        CGFloat y = (1-box.origin.y-p.y*box.size.height)*height;
+        lowerFace = CGRectUnion(lowerFace, CGRectMake(x, y, 1, 1));
+    }
+    lowerFace = CGRectInset(lowerFace, -fw*.15, -fh*.15);
     CGRect upsideDownFace = CGRectMake(box.origin.x*width, box.origin.y*height, fw, fh);
-    const UInt32 controls[] = {0, PGBigEye, PGChin, PGChin};
-    const double values[] = {0, 1, 1, -1};
-    NSArray<NSString *> *names = @[@"default", @"big-eye", @"chin-positive", @"chin-negative"];
-    for (NSUInteger effect = 0; effect < 4; effect++) {
+    const UInt32 controls[] = {0, PGBigEye, PGChin, PGChin, PGShort, PGShort, PGJaw};
+    const double values[] = {0, 1, 1, -1, 1, -1, 1};
+    NSArray<NSString *> *names = @[@"default", @"big-eye", @"chin-positive", @"chin-negative", @"short-positive", @"short-negative", @"jaw"];
+    for (NSUInteger effect = 0; effect < names.count; effect++) {
         PGBeautySettings settings = PGBeautyDefaults();
         if (effect == 1) settings.faceBigEye = 1;
-        else if (effect > 1) settings.faceChin = values[effect];
+        else if (effect == 2 || effect == 3) settings.faceChin = values[effect];
+        else if (effect == 4 || effect == 5) settings.faceShort = values[effect];
+        else if (effect == 6) settings.faceJaw = values[effect];
         NSData *expected = ImageBytes(context, ProcessedReference(portrait, settings, kCMTimeZero, nil));
         Check(expected.length == canonical.length, [names[effect] stringByAppendingString:@" independent upright face/beauty chain renders"]);
         if (expected.length != canonical.length) continue;
@@ -361,9 +371,11 @@ static void PortraitAnatomyTests(NSString *fixture, CIImage *portrait) {
                 Check(MaximumDifference(actual,originBaseline) == 0, [label stringByAppendingString:@" is byte-identical across coordinate tags"]);
                 double lm = ChangeMass(canonical, actual, width, leftEye), rm = ChangeMass(canonical, actual, width, rightEye);
                 double cm = ChangeMass(canonical, actual, width, chinArea), um = ChangeMass(canonical, actual, width, upsideDownFace);
+                double lowerMass = ChangeMass(canonical, actual, width, lowerFace);
                 BOOL located = effect == 0 ? MaximumDifference(canonical, actual) <= 1 :
                     (effect == 1 ? lm > 100 && rm > 100 && cm < (lm+rm)*.01 && um == 0 :
-                                   cm > 100 && cm > 4*(lm+rm) && um == 0);
+                     (effect < 4 ? cm > 100 && cm > 4*(lm+rm) && um == 0 :
+                                   lowerMass > 100 && lowerMass > 4*(lm+rm) && um == 0));
                 Check(located, [label stringByAppendingString:effect == 1 ? @" changes the two real eye regions" : (effect ? @" changes the real chin rather than eyes or mirrored anatomy" : @" preserves the independently decoded photo")]);
                 printf("Anatomy %-13s %lu/%lu max=%lu mean=%.7f eye=%.0f/%.0f chin=%.0f inverted=%.0f\n", names[effect].UTF8String,
                     (unsigned long)sourceTop, (unsigned long)destinationTop, (unsigned long)difference, MeanDifference(actual,expected), lm, rm, cm, um);

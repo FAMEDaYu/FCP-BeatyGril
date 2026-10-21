@@ -1,0 +1,24 @@
+{
+  "version": "1.1.2",
+  "build": "11",
+  "total": 1535,
+  "counts": {
+    "beauty": 49,
+    "face": 116,
+    "thinChinJawShort": 796,
+    "hostAdapterASan": 335,
+    "oscASan": 98,
+    "inspectorASan": 141
+  },
+  "allPassed": true,
+  "extraRealFramesASan": {
+    "checks": 886,
+    "includedRepeatedBaseChecks": true,
+    "addedToTotal": false
+  },
+  "originCombinations": 28,
+  "originTagsExactlyByteIdentical": true,
+  "maxByteDifferenceVsIndependentUprightReference": 2,
+  "meanByteDifferenceLimit": 0.005,
+  "nativeCombinedBuildQA": "pending"
+}

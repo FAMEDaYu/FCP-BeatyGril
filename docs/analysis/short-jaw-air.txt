@@ -1,0 +1,371 @@
+Source AIR SHA256: f97705b88f5491057df2117aef457ffca84e11020574cd57742b0670db4484d8
+Line numbers refer to the complete original metal-objdump text. Static IR; original shader not executed.
+
+583: define internal fastcc <2 x float> @_ZL25mssFaceShapePinCoordinateDv2_fPU11MTLconstantK16MSSFaceThinPointi18MSSFaceShapeParamsS_(<2 x float> %0, %struct.MSSFaceThinPoint addrspace(2)* nocapture readonly %1, i32 %2, float %3, float %4, float %5, float %6, float %7, float %8, float %9, float %10, float %11, float %12, <2 x float> %13) unnamed_addr #2 {
+584:   %15 = alloca [17 x <3 x i32>], align 16
+585:   %16 = alloca [16 x <2 x i32>], align 8
+586:   %17 = alloca [4 x <2 x i32>], align 8
+587:   %18 = alloca [6 x <3 x i32>], align 16
+588:   %19 = alloca [6 x <2 x i32>], align 8
+589:   %20 = alloca [3 x <2 x i32>], align 8
+590:   %21 = alloca [11 x i32], align 4
+591:   %22 = alloca [11 x <2 x float>], align 8
+592:   %23 = add nsw i32 %2, 75
+593:   %24 = sext i32 %23 to i64
+594:   %25 = getelementptr inbounds %struct.MSSFaceThinPoint, %struct.MSSFaceThinPoint addrspace(2)* %1, i64 %24, i32 0
+595:   %26 = load <2 x float>, <2 x float> addrspace(2)* %25, align 8, !tbaa !62
+596:   %27 = add nsw i32 %2, 59
+597:   %28 = sext i32 %27 to i64
+598:   %29 = getelementptr inbounds %struct.MSSFaceThinPoint, %struct.MSSFaceThinPoint addrspace(2)* %1, i64 %28, i32 0
+599:   %30 = load <2 x float>, <2 x float> addrspace(2)* %29, align 8, !tbaa !62
+600:   %31 = add nsw i32 %2, 67
+601:   %32 = sext i32 %31 to i64
+602:   %33 = getelementptr inbounds %struct.MSSFaceThinPoint, %struct.MSSFaceThinPoint addrspace(2)* %1, i64 %32, i32 0
+603:   %34 = load <2 x float>, <2 x float> addrspace(2)* %33, align 8, !tbaa !62
+604:   %35 = add nsw i32 %2, 74
+605:   %36 = sext i32 %35 to i64
+606:   %37 = getelementptr inbounds %struct.MSSFaceThinPoint, %struct.MSSFaceThinPoint addrspace(2)* %1, i64 %36, i32 0
+607:   %38 = load <2 x float>, <2 x float> addrspace(2)* %37, align 8, !tbaa !62
+608:   %39 = add nsw i32 %2, 60
+609:   %40 = sext i32 %39 to i64
+610:   %41 = getelementptr inbounds %struct.MSSFaceThinPoint, %struct.MSSFaceThinPoint addrspace(2)* %1, i64 %40, i32 0
+611:   %42 = load <2 x float>, <2 x float> addrspace(2)* %41, align 8, !tbaa !62
+612:   %43 = fadd fast <2 x float> %42, %38
+613:   %44 = fmul fast <2 x float> %43, <float 5.000000e-01, float 5.000000e-01>
+614:   %45 = fsub fast <2 x float> %26, %30
+615:   %46 = fmul fast <2 x float> %45, %13
+616:   %47 = tail call fast float @air.dot.v2f32(<2 x float> %46, <2 x float> %46) #3
+617:   %48 = tail call fast float @air.fast_sqrt.f32(float %47) #3
+618:   %49 = fsub fast <2 x float> %34, %44
+619:   %50 = fmul fast <2 x float> %49, %13
+620:   %51 = tail call fast float @air.dot.v2f32(<2 x float> %50, <2 x float> %50) #3
+621:   %52 = tail call fast float @air.fast_sqrt.f32(float %51) #3
+622:   %53 = fmul fast float %52, 2.000000e+00
+623:   %54 = tail call fast float @air.fast_fmax.f32(float %48, float %53) #3
+624:   %55 = tail call fast float @air.fast_fmax.f32(float %54, float 1.000000e+00) #3
+625:   %56 = fdiv fast float 2.800000e+02, %55
+626:   %57 = tail call fast float @air.fast_clamp.f32(float %56, float 1.000000e+00, float 2.250000e+00) #3
+627:   %58 = fmul fast float %57, %3
+628:   %59 = fmul fast float %57, %4
+629:   %60 = fmul fast float %57, %5
+630:   %61 = fmul fast float %57, %6
+631:   %62 = fmul fast float %57, %7
+632:   %63 = fmul fast float %57, %8
+633:   %64 = fmul fast float %57, %9
+634:   %65 = tail call fast float @air.fast_fabs.f32(float %58) #3
+635:   %66 = fcmp fast ogt float %65, 0x3EB0C6F7A0000000
+
+899: 251:                                              ; preds = %212, %200
+900:   %252 = phi <2 x float> [ %248, %212 ], [ %201, %200 ]
+901:   %253 = tail call fast float @air.fast_fabs.f32(float %61) #3
+902:   %254 = fcmp fast ogt float %253, 0x3EB0C6F7A0000000
+903:   br i1 %254, label %255, label %309
+904:
+905: 255:                                              ; preds = %251
+906:   %256 = bitcast [6 x <3 x i32>]* %18 to i8*
+907:   call void @llvm.lifetime.start.p0i8(i64 96, i8* nonnull %256) #8
+908:   %257 = getelementptr inbounds [6 x <3 x i32>], [6 x <3 x i32>]* %18, i64 0, i64 0
+909:   store <3 x i32> <i32 72, i32 71, i32 29>, <3 x i32>* %257, align 16
+910:   %258 = getelementptr inbounds [6 x <3 x i32>], [6 x <3 x i32>]* %18, i64 0, i64 1
+911:   store <3 x i32> <i32 62, i32 63, i32 29>, <3 x i32>* %258, align 16
+912:   %259 = getelementptr inbounds [6 x <3 x i32>], [6 x <3 x i32>]* %18, i64 0, i64 2
+913:   store <3 x i32> <i32 71, i32 70, i32 29>, <3 x i32>* %259, align 16
+914:   %260 = getelementptr inbounds [6 x <3 x i32>], [6 x <3 x i32>]* %18, i64 0, i64 3
+915:   store <3 x i32> <i32 63, i32 64, i32 29>, <3 x i32>* %260, align 16
+916:   %261 = getelementptr inbounds [6 x <3 x i32>], [6 x <3 x i32>]* %18, i64 0, i64 4
+917:   store <3 x i32> <i32 70, i32 71, i32 29>, <3 x i32>* %261, align 16
+918:   %262 = getelementptr inbounds [6 x <3 x i32>], [6 x <3 x i32>]* %18, i64 0, i64 5
+919:   store <3 x i32> <i32 64, i32 63, i32 29>, <3 x i32>* %262, align 16
+920:   %263 = insertelement <2 x float> undef, float %61, i64 0
+921:   %264 = shufflevector <2 x float> %263, <2 x float> undef, <2 x i32> zeroinitializer
+922:   br label %266
+923:
+924: 265:                                              ; preds = %305
+925:   call void @llvm.lifetime.end.p0i8(i64 96, i8* nonnull %256) #8
+926:   br label %309
+927:
+928: 266:                                              ; preds = %305, %255
+929:   %267 = phi <2 x float> [ %252, %255 ], [ %306, %305 ]
+930:   %268 = phi i32 [ 0, %255 ], [ %307, %305 ]
+931:   %269 = zext i32 %268 to i64
+932:   %270 = getelementptr inbounds [6 x <3 x i32>], [6 x <3 x i32>]* %18, i64 0, i64 %269
+933:   %271 = load <3 x i32>, <3 x i32>* %270, align 16
+934:   %272 = extractelement <3 x i32> %271, i64 0
+935:   %273 = add nsw i32 %272, %2
+936:   %274 = sext i32 %273 to i64
+937:   %275 = getelementptr inbounds %struct.MSSFaceThinPoint, %struct.MSSFaceThinPoint addrspace(2)* %1, i64 %274, i32 0
+938:   %276 = load <2 x float>, <2 x float> addrspace(2)* %275, align 8, !tbaa !62
+939:   %277 = extractelement <3 x i32> %271, i64 1
+940:   %278 = add nsw i32 %277, %2
+941:   %279 = sext i32 %278 to i64
+942:   %280 = getelementptr inbounds %struct.MSSFaceThinPoint, %struct.MSSFaceThinPoint addrspace(2)* %1, i64 %279, i32 0
+943:   %281 = load <2 x float>, <2 x float> addrspace(2)* %280, align 8, !tbaa !62
+944:   %282 = fsub fast <2 x float> %276, %281
+945:   %283 = tail call fast float @air.dot.v2f32(<2 x float> %282, <2 x float> %282) #3
+946:   %284 = tail call fast float @air.fast_sqrt.f32(float %283) #3
+947:   %285 = fcmp fast ugt float %284, 0x3F1A36E2E0000000
+948:   br i1 %285, label %286, label %305
+949:
+950: 286:                                              ; preds = %266
+951:   %287 = extractelement <3 x i32> %271, i64 2
+952:   %288 = add nsw i32 %287, %2
+953:   %289 = sext i32 %288 to i64
+954:   %290 = getelementptr inbounds %struct.MSSFaceThinPoint, %struct.MSSFaceThinPoint addrspace(2)* %1, i64 %289, i32 0
+955:   %291 = load <2 x float>, <2 x float> addrspace(2)* %290, align 8, !tbaa !62
+956:   %292 = fsub fast <2 x float> %291, %276
+957:   %293 = fsub fast <2 x float> %267, %276
+958:   %294 = tail call fast float @air.dot.v2f32(<2 x float> %293, <2 x float> %293) #3
+959:   %295 = tail call fast float @air.fast_sqrt.f32(float %294) #3
+960:   %296 = fdiv fast float %295, %284
+961:   %297 = fsub fast float 1.000000e+00, %296
+962:   %298 = tail call fast float @air.fast_clamp.f32(float %297, float 0.000000e+00, float 1.000000e+00) #3
+963:   %299 = insertelement <2 x float> undef, float %298, i64 0
+964:   %300 = shufflevector <2 x float> %299, <2 x float> undef, <2 x i32> zeroinitializer
+965:   %301 = fmul fast <2 x float> %292, %264
+966:   %302 = fmul fast <2 x float> %301, %300
+967:   %303 = fsub fast <2 x float> %267, %302
+968:   %304 = tail call fast <2 x float> @air.fast_clamp.v2f32(<2 x float> %303, <2 x float> zeroinitializer, <2 x float> <float 1.000000e+00, float 1.000000e+00>) #3
+969:   br label %305
+970:
+971: 305:                                              ; preds = %286, %266
+972:   %306 = phi <2 x float> [ %304, %286 ], [ %267, %266 ]
+973:   %307 = add nuw nsw i32 %268, 1
+974:   %308 = icmp eq i32 %307, 6
+975:   br i1 %308, label %265, label %266, !llvm.loop !67
+976:
+977: 309:                                              ; preds = %265, %251
+978:   %310 = phi <2 x float> [ %306, %265 ], [ %252, %251 ]
+979:   %311 = tail call fast float @air.fast_fabs.f32(float %62) #3
+980:   %312 = fcmp fast ogt float %311, 0x3EB0C6F7A0000000
+981:   br i1 %312, label %313, label %372
+982:
+983: 313:                                              ; preds = %309
+984:   %314 = bitcast [6 x <2 x i32>]* %19 to i8*
+985:   call void @llvm.lifetime.start.p0i8(i64 48, i8* nonnull %314) #8
+986:   %315 = getelementptr inbounds [6 x <2 x i32>], [6 x <2 x i32>]* %19, i64 0, i64 0
+
+1127: 422:                                              ; preds = %383, %372
+1128:   %423 = phi <2 x float> [ %419, %383 ], [ %373, %372 ]
+1129:   %424 = tail call fast float @air.fast_fabs.f32(float %64) #3
+1130:   %425 = fcmp fast ogt float %424, 0x3EB0C6F7A0000000
+1131:   br i1 %425, label %426, label %585
+1132:
+1133: 426:                                              ; preds = %422
+1134:   %427 = bitcast [11 x i32]* %21 to i8*
+1135:   call void @llvm.lifetime.start.p0i8(i64 44, i8* nonnull %427) #8
+1136:   %428 = getelementptr inbounds [11 x i32], [11 x i32]* %21, i64 0, i64 0
+1137:   store i32 62, i32* %428, align 4
+1138:   %429 = getelementptr inbounds [11 x i32], [11 x i32]* %21, i64 0, i64 1
+1139:   store i32 63, i32* %429, align 4
+1140:   %430 = getelementptr inbounds [11 x i32], [11 x i32]* %21, i64 0, i64 2
+1141:   store i32 64, i32* %430, align 4
+1142:   %431 = getelementptr inbounds [11 x i32], [11 x i32]* %21, i64 0, i64 3
+1143:   store i32 65, i32* %431, align 4
+1144:   %432 = getelementptr inbounds [11 x i32], [11 x i32]* %21, i64 0, i64 4
+1145:   store i32 66, i32* %432, align 4
+1146:   %433 = getelementptr inbounds [11 x i32], [11 x i32]* %21, i64 0, i64 5
+1147:   store i32 67, i32* %433, align 4
+1148:   %434 = getelementptr inbounds [11 x i32], [11 x i32]* %21, i64 0, i64 6
+1149:   store i32 68, i32* %434, align 4
+1150:   %435 = getelementptr inbounds [11 x i32], [11 x i32]* %21, i64 0, i64 7
+1151:   store i32 69, i32* %435, align 4
+1152:   %436 = getelementptr inbounds [11 x i32], [11 x i32]* %21, i64 0, i64 8
+1153:   store i32 70, i32* %436, align 4
+1154:   %437 = getelementptr inbounds [11 x i32], [11 x i32]* %21, i64 0, i64 9
+1155:   store i32 71, i32* %437, align 4
+1156:   %438 = getelementptr inbounds [11 x i32], [11 x i32]* %21, i64 0, i64 10
+1157:   store i32 72, i32* %438, align 4
+1158:   %439 = add nsw i32 %2, 46
+1159:   %440 = sext i32 %439 to i64
+1160:   %441 = getelementptr inbounds %struct.MSSFaceThinPoint, %struct.MSSFaceThinPoint addrspace(2)* %1, i64 %440, i32 0
+1161:   %442 = load <2 x float>, <2 x float> addrspace(2)* %441, align 8, !tbaa !62
+1162:   %443 = add nsw i32 %2, 48
+1163:   %444 = sext i32 %443 to i64
+1164:   %445 = getelementptr inbounds %struct.MSSFaceThinPoint, %struct.MSSFaceThinPoint addrspace(2)* %1, i64 %444, i32 0
+1165:   %446 = load <2 x float>, <2 x float> addrspace(2)* %445, align 8, !tbaa !62
+1166:   %447 = bitcast [11 x <2 x float>]* %22 to i8*
+1167:   call void @llvm.lifetime.start.p0i8(i64 88, i8* nonnull %447) #8
+1168:   br label %492
+1169:
+1170: 448:                                              ; preds = %492
+1171:   %449 = fsub fast <2 x float> %442, %446
+1172:   %450 = extractelement <2 x float> %423, i64 1
+1173:   %451 = extractelement <2 x float> %423, i64 0
+1174:   %452 = getelementptr inbounds [11 x <2 x float>], [11 x <2 x float>]* %22, i64 0, i64 10
+1175:   %453 = load <2 x float>, <2 x float>* %452, align 8, !tbaa !62
+1176:   br label %454
+1177:
+1178: 454:                                              ; preds = %484, %448
+1179:   %455 = phi <2 x float> [ %453, %448 ], [ %460, %484 ]
+1180:   %456 = phi i8 [ 0, %448 ], [ %485, %484 ]
+1181:   %457 = phi i32 [ 0, %448 ], [ %486, %484 ]
+1182:   %458 = zext i32 %457 to i64
+1183:   %459 = getelementptr inbounds [11 x <2 x float>], [11 x <2 x float>]* %22, i64 0, i64 %458
+1184:   %460 = load <2 x float>, <2 x float>* %459, align 8, !tbaa !62
+1185:   %461 = extractelement <2 x float> %455, i64 1
+1186:   %462 = extractelement <2 x float> %460, i64 1
+1187:   %463 = fcmp fast ule float %462, %450
+1188:   %464 = fcmp fast ogt float %461, %450
+1189:   %465 = xor i1 %463, %464
+1190:   br i1 %465, label %484, label %466
+1191:
+1192: 466:                                              ; preds = %454
+1193:   %467 = fsub fast float %461, %462
+1194:   %468 = tail call fast float @air.fast_fabs.f32(float %467) #3
+1195:   %469 = fcmp fast ugt float %468, 0x3EB0C6F7A0000000
+1196:   %470 = fcmp fast olt float %467, 0.000000e+00
+1197:   %471 = select fast i1 %470, float 0xBEB0C6F7A0000000, float 0x3EB0C6F7A0000000
+1198:   %472 = select i1 %469, float %467, float %471
+1199:   %473 = extractelement <2 x float> %455, i64 0
+1200:   %474 = extractelement <2 x float> %460, i64 0
+1201:   %475 = fsub fast float %473, %474
+1202:   %476 = fsub fast float %450, %462
+1203:   %477 = fmul fast float %475, %476
+1204:   %478 = fdiv fast float %477, %472
+1205:   %479 = fadd fast float %478, %474
+1206:   %480 = fcmp fast olt float %451, %479
+1207:   br i1 %480, label %481, label %484
+1208:
+1209: 481:                                              ; preds = %466
+1210:   %482 = and i8 %456, 1
+1211:   %483 = xor i8 %482, 1
+1212:   br label %484
+1213:
+1214: 484:                                              ; preds = %481, %466, %454
+1215:   %485 = phi i8 [ %483, %481 ], [ %456, %466 ], [ %456, %454 ]
+1216:   %486 = add nuw nsw i32 %457, 1
+1217:   %487 = icmp eq i32 %486, 11
+1218:   br i1 %487, label %488, label %454, !llvm.loop !70
+1219:
+1220: 488:                                              ; preds = %484
+1221:   %489 = getelementptr inbounds [11 x <2 x float>], [11 x <2 x float>]* %22, i64 0, i64 0
+1222:   %490 = and i8 %485, 1
+1223:   %491 = load <2 x float>, <2 x float>* %489, align 8, !tbaa !62
+1224:   br label %506
+1225:
+1226: 492:                                              ; preds = %492, %426
+1227:   %493 = phi i32 [ 0, %426 ], [ %502, %492 ]
+1228:   %494 = zext i32 %493 to i64
+1229:   %495 = getelementptr inbounds [11 x i32], [11 x i32]* %21, i64 0, i64 %494
+1230:   %496 = load i32, i32* %495, align 4, !tbaa !53
+1231:   %497 = add nsw i32 %496, %2
+1232:   %498 = sext i32 %497 to i64
+1233:   %499 = getelementptr inbounds %struct.MSSFaceThinPoint, %struct.MSSFaceThinPoint addrspace(2)* %1, i64 %498, i32 0
+1234:   %500 = load <2 x float>, <2 x float> addrspace(2)* %499, align 8, !tbaa !62
+1235:   %501 = getelementptr inbounds [11 x <2 x float>], [11 x <2 x float>]* %22, i64 0, i64 %494
+1236:   store <2 x float> %500, <2 x float>* %501, align 8, !tbaa !62
+1237:   %502 = add nuw nsw i32 %493, 1
+1238:   %503 = icmp eq i32 %502, 11
+1239:   br i1 %503, label %448, label %492, !llvm.loop !71
+1240:
+1241: 504:                                              ; preds = %531
+1242:   %505 = icmp eq i8 %490, 0
+1243:   br i1 %505, label %559, label %540
+1244:
+1245: 506:                                              ; preds = %531, %488
+1246:   %507 = phi i32 [ 0, %488 ], [ %513, %531 ]
+1247:   %508 = phi <2 x float> [ %491, %488 ], [ %538, %531 ]
+1248:   %509 = phi float [ 1.000000e+01, %488 ], [ %537, %531 ]
+1249:   %510 = zext i32 %507 to i64
+1250:   %511 = getelementptr inbounds [11 x <2 x float>], [11 x <2 x float>]* %22, i64 0, i64 %510
+1251:   %512 = load <2 x float>, <2 x float>* %511, align 8, !tbaa !62
+1252:   %513 = add nuw nsw i32 %507, 1
+1253:   %514 = trunc i32 %513 to i8
+1254:   %515 = urem i8 %514, 11
+1255:   %516 = zext i8 %515 to i64
+1256:   %517 = getelementptr inbounds [11 x <2 x float>], [11 x <2 x float>]* %22, i64 0, i64 %516
+1257:   %518 = load <2 x float>, <2 x float>* %517, align 8, !tbaa !62
+1258:   %519 = fsub fast <2 x float> %518, %512
+1259:   %520 = tail call fast float @air.dot.v2f32(<2 x float> %519, <2 x float> %519) #3
+1260:   %521 = fcmp fast ugt float %520, 0x3EB0C6F7A0000000
+1261:   br i1 %521, label %522, label %531
+1262:
+1263: 522:                                              ; preds = %506
+1264:   %523 = fsub fast <2 x float> %423, %512
+1265:   %524 = tail call fast float @air.dot.v2f32(<2 x float> %523, <2 x float> %519) #3
+1266:   %525 = fdiv fast float %524, %520
+1267:   %526 = tail call fast float @air.fast_clamp.f32(float %525, float 0.000000e+00, float 1.000000e+00) #3
+1268:   %527 = insertelement <2 x float> undef, float %526, i64 0
+1269:   %528 = shufflevector <2 x float> %527, <2 x float> undef, <2 x i32> zeroinitializer
+1270:   %529 = fmul fast <2 x float> %528, %519
+1271:   %530 = fadd fast <2 x float> %529, %512
+1272:   br label %531
+1273:
+1274: 531:                                              ; preds = %522, %506
+1275:   %532 = phi <2 x float> [ %530, %522 ], [ %512, %506 ]
+1276:   %533 = fsub fast <2 x float> %423, %532
+1277:   %534 = tail call fast float @air.dot.v2f32(<2 x float> %533, <2 x float> %533) #3
+1278:   %535 = tail call fast float @air.fast_sqrt.f32(float %534) #3
+1279:   %536 = fcmp fast olt float %535, %509
+1280:   %537 = select i1 %536, float %535, float %509
+1281:   %538 = select i1 %536, <2 x float> %532, <2 x float> %508
+1282:   %539 = icmp eq i32 %513, 11
+1283:   br i1 %539, label %504, label %506, !llvm.loop !72
+1284:
+1285: 540:                                              ; preds = %504
+1286:   %541 = fsub fast <2 x float> <float -0.000000e+00, float -0.000000e+00>, %449
+1287:   %542 = tail call fast float @air.dot.v2f32(<2 x float> %541, <2 x float> %541) #3
+1288:   %543 = tail call fast float @air.fast_sqrt.f32(float %542) #3
+1289:   %544 = fcmp fast ugt float %543, 0x3F1A36E2E0000000
+1290:   br i1 %544, label %545, label %583
+1291:
+1292: 545:                                              ; preds = %540
+1293:   %546 = tail call fast float @air.dot.v2f32(<2 x float> zeroinitializer, <2 x float> zeroinitializer) #3
+1294:   %547 = tail call fast float @air.fast_sqrt.f32(float %546) #3
+1295:   %548 = fdiv fast float %547, %543
+1296:   %549 = fsub fast float 1.000000e+00, %548
+1297:   %550 = tail call fast float @air.fast_clamp.f32(float %549, float 0.000000e+00, float 1.000000e+00) #3
+1298:   %551 = insertelement <2 x float> undef, float %550, i64 0
+1299:   %552 = shufflevector <2 x float> %551, <2 x float> undef, <2 x i32> zeroinitializer
+1300:   %553 = insertelement <2 x float> undef, float %64, i64 0
+1301:   %554 = shufflevector <2 x float> %553, <2 x float> undef, <2 x i32> zeroinitializer
+1302:   %555 = fmul fast <2 x float> %449, %554
+1303:   %556 = fmul fast <2 x float> %555, %552
+1304:   %557 = fsub fast <2 x float> %423, %556
+1305:   %558 = tail call fast <2 x float> @air.fast_clamp.v2f32(<2 x float> %557, <2 x float> zeroinitializer, <2 x float> <float 1.000000e+00, float 1.000000e+00>) #3
+1306:   br label %583
+1307:
+1308: 559:                                              ; preds = %504
+1309:   %560 = tail call fast float @air.dot.v2f32(<2 x float> %449, <2 x float> %449) #3
+1310:   %561 = tail call fast float @air.fast_sqrt.f32(float %560) #3
+1311:   %562 = fcmp fast olt float %537, %561
+1312:   br i1 %562, label %563, label %583
+1313:
+1314: 563:                                              ; preds = %559
+1315:   %564 = fsub fast <2 x float> <float -0.000000e+00, float -0.000000e+00>, %449
+1316:   %565 = tail call fast float @air.dot.v2f32(<2 x float> %564, <2 x float> %564) #3
+1317:   %566 = tail call fast float @air.fast_sqrt.f32(float %565) #3
+1318:   %567 = fcmp fast ugt float %566, 0x3F1A36E2E0000000
+1319:   br i1 %567, label %568, label %583
+1320:
+1321: 568:                                              ; preds = %563
+1322:   %569 = fsub fast <2 x float> %423, %538
+1323:   %570 = tail call fast float @air.dot.v2f32(<2 x float> %569, <2 x float> %569) #3
+1324:   %571 = tail call fast float @air.fast_sqrt.f32(float %570) #3
+1325:   %572 = fdiv fast float %571, %566
+1326:   %573 = fsub fast float 1.000000e+00, %572
+1327:   %574 = tail call fast float @air.fast_clamp.f32(float %573, float 0.000000e+00, float 1.000000e+00) #3
+1328:   %575 = insertelement <2 x float> undef, float %574, i64 0
+1329:   %576 = shufflevector <2 x float> %575, <2 x float> undef, <2 x i32> zeroinitializer
+1330:   %577 = insertelement <2 x float> undef, float %64, i64 0
+1331:   %578 = shufflevector <2 x float> %577, <2 x float> undef, <2 x i32> zeroinitializer
+1332:   %579 = fmul fast <2 x float> %449, %578
+1333:   %580 = fmul fast <2 x float> %579, %576
+1334:   %581 = fsub fast <2 x float> %423, %580
+1335:   %582 = tail call fast <2 x float> @air.fast_clamp.v2f32(<2 x float> %581, <2 x float> zeroinitializer, <2 x float> <float 1.000000e+00, float 1.000000e+00>) #3
+1336:   br label %583
+1337:
+1338: 583:                                              ; preds = %568, %563, %559, %545, %540
+1339:   %584 = phi <2 x float> [ %423, %559 ], [ %558, %545 ], [ %423, %540 ], [ %582, %568 ], [ %423, %563 ]
+1340:   call void @llvm.lifetime.end.p0i8(i64 88, i8* nonnull %447) #8
+1341:   call void @llvm.lifetime.end.p0i8(i64 44, i8* nonnull %427) #8
+1342:   br label %585
+1343:
+1344: 585:                                              ; preds = %583, %422
+1345:   %586 = phi <2 x float> [ %584, %583 ], [ %423, %422 ]
+1346:   %587 = tail call fast float @air.fast_fabs.f32(float %10) #3
+1347:   %588 = fcmp fast ogt float %587, 0x3EB0C6F7A0000000
+1348:   br i1 %588, label %589, label %613
+
+4634: !27 = !{i32 8, !"air.buffer", !"air.location_index", i32 7, i32 1, !"air.read", !"air.struct_type_info", !28, !"air.arg_type_size", i32 40, !"air.arg_type_align_size", i32 4, !"air.arg_type_name", !"MSSFaceShapeParams", !"air.arg_name", !"faceShapeParams"}
+4635: !28 = !{i32 0, i32 4, i32 0, !"float", !"shoulian", i32 4, i32 4, i32 0, !"float", !"zhailian", i32 8, i32 4, i32 0, !"float", !"vlian", i32 12, i32 4, i32 0, !"float", !"xiaegu", i32 16, i32 4, i32 0, !"float", !"quangu", i32 20, i32 4, i32 0, !"float", !"xiaba", i32 24, i32 4, i32 0, !"float", !"duanlian", i32 28, i32 4, i32 0, !"float", !"xiaotou", i32 32, i32 4, i32 0, !"float", !"xiaotoufanwei", i32 36, i32 4, i32 0, !"float", !"dayan"}

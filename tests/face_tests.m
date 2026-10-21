@@ -323,14 +323,14 @@ int main(int argc, const char *argv[]) {
             *controls[i] = 1;
             PGFaceFrame *warped = [processor processImage:image settings:changed time:kCMTimeZero error:&error];
             BOOL changedPixels=![Pixels(context, warped.image) isEqualToData:base];
-            BOOL requiresPoints=(i==0 || i==4);
-            Check(warped != nil && (requiresPoints ? !changedPixels : changedPixels), requiresPoints ? @"thin/chin safely skip a face with no indexed landmarks" : [@"geometry control changes pixels: " stringByAppendingString:names[i]]);
+            BOOL requiresPoints=(i==0 || i==2 || i==4 || i==6);
+            Check(warped != nil && (requiresPoints ? !changedPixels : changedPixels), requiresPoints ? @"recovered thin/chin/short/jaw skip a face with no indexed landmarks" : [@"geometry control changes pixels: " stringByAppendingString:names[i]]);
             Check(CGRectEqualToRect(warped.image.extent, image.extent), @"warp preserves image extent");
         }
         settings.faceShort = 0.8;
         NSData *positive = Pixels(context, [processor processImage:image settings:settings time:kCMTimeZero error:&error].image);
         settings.faceShort = -0.8;
-        Check(![positive isEqualToData:Pixels(context, [processor processImage:image settings:settings time:kCMTimeZero error:&error].image)], @"signed short-face control has distinct directions");
+        Check([positive isEqualToData:base] && [positive isEqualToData:Pixels(context, [processor processImage:image settings:settings time:kCMTimeZero error:&error].image)], @"both signed short-face values safely skip missing76; direction is tested with full geometry");
         settings = PGBeautyDefaults(); settings.showFaceBoxes = 1;
         frame = [processor processImage:image settings:settings time:kCMTimeZero error:&error];
         Check(Channel(context, frame.overlayImage, 26, 64, 3) > 0, @"face outlines provide separate final-composite overlay");

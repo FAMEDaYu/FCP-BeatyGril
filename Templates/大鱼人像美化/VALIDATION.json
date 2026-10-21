@@ -1,6 +1,6 @@
 {
-  "version": "1.1.1",
-  "sha256": "7090c1fbe0d8310c0b092f7c56f72e9c3fe6503aa38753f3fd8d7adcbd9a27b3",
+  "version": "1.1.2",
+  "sha256": "e9fa97dc14323d0daa7d3d61b06a78ba4000a70ab9f5e67ebffd750d49df1e15",
   "filterUUID": "FB14B0E6-59B2-4836-916F-CD0C559E9241",
   "publishedFunctionalControls": 1,
   "informationalControls": 2,
@@ -58,10 +58,10 @@
   "legacyValuesPreserved": true,
   "publishOSC": 0,
   "currentHostValidation": {
-    "version": "1.1.1",
-    "Motion": "pending native retest",
-    "FCP": "1.1.0 reproduced: all parameter controls disabled and status waiting for host connection; 1.1.1 retest pending",
-    "scope": "User authorized Motion/FCP interaction for this regression investigation."
+    "version": "1.1.2",
+    "Motion": "pending combined-build retest; 1.1.1 native number/bypass/reset/host undo/save already verified",
+    "FCP": "pending combined-build retest; 1.1.1 native API handshake and brightness commit/reset already verified",
+    "scope": "User explicitly authorized taking over Motion/FCP for native testing."
   },
   "customParameter": {
     "id": 210,
@@ -156,12 +156,12 @@
   },
   "automatedInspectorValidation": {
     "scope": "offscreen AppKit inspector, real production controller and mocked host callbacks; no Motion/FCP UI",
-    "fullChecks": 1046,
+    "fullChecks": 1535,
     "counts": {
       "beauty": 49,
       "face": 116,
-      "thinChin": 394,
-      "hostAdapterASan": 248,
+      "thinChinJawShort": 796,
+      "hostAdapterASan": 335,
       "oscASan": 98,
       "inspectorASan": 141
     },
@@ -188,9 +188,33 @@
     "archives": "Own PGInspectorState secure payload; Foundation outer and inner decode and Motion alphabet roundtrip tested"
   },
   "installation": {
-    "version": "1.1.1",
-    "build": "10",
+    "version": "1.1.2",
+    "build": "11",
     "status": "pending",
-    "previousInstalledVersion": "1.1.0"
+    "previousInstalledVersion": "1.1.1 (interim)"
+  },
+  "shortJawValidation": {
+    "version": "1.1.2",
+    "build": "11",
+    "total": 1535,
+    "counts": {
+      "beauty": 49,
+      "face": 116,
+      "thinChinJawShort": 796,
+      "hostAdapterASan": 335,
+      "oscASan": 98,
+      "inspectorASan": 141
+    },
+    "allPassed": true,
+    "extraRealFramesASan": {
+      "checks": 886,
+      "includedRepeatedBaseChecks": true,
+      "addedToTotal": false
+    },
+    "originCombinations": 28,
+    "originTagsExactlyByteIdentical": true,
+    "maxByteDifferenceVsIndependentUprightReference": 2,
+    "meanByteDifferenceLimit": 0.005,
+    "nativeCombinedBuildQA": "pending"
   }
 }

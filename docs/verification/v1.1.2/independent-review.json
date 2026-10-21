@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "productionSourceSHA256": "e4122ca95f7ba41bc925b4cc4bf2bf88a72044ea41880cd66acd9c8278a7daf4",
+  "review": "Independent read-only review against recovered CPU constants and AIR: jaw six triples/radius/sequence, short polygon/axis/sign/thresholds, one landmark Y conversion, 56 argument layout, missing-topology pass-through. No blocking defect found.",
+  "extraChecks": {
+    "AIRProductCrossingCases": 30000,
+    "axisYConversionIdentities": 1000
+  },
+  "scope": "Five remaining approximate shape controls and full combined-chain equivalence remain outside this repair. Sampled anatomical upper-contour/pupil points do not prove every temple pixel under all poses is unchanged. Native combined-build QA pending."
+}

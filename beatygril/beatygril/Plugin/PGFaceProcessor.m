@@ -14,6 +14,8 @@ static const uint8_t PGThinPins[17][2] = {
     {69,49},{65,49},{68,52},{66,52},{67,47}
 };
 static const uint8_t PGChinPins[3][2] = {{68,38},{67,37},{66,36}};
+// Origin and radius neighbour; all six directions point toward landmark 29.
+static const uint8_t PGJawPins[6][2] = {{72,71},{62,63},{71,70},{63,64},{70,71},{64,63}};
 
 @interface PGFaceFrame ()
 @property (nonatomic, copy, readwrite) NSArray<VNFaceObservation *> *faces;
@@ -125,7 +127,8 @@ static NSDictionary *PGSanitizedGeometry(id value) {
         result[name] = points;
     }
     // Old archives and partially detected faces remain usable by the other
-    // controls. Missing or malformed full topology disables local thin/chin pins.
+    // controls. Missing or malformed full topology disables the recovered local
+    // thin/chin/jaw/short fields without discarding otherwise usable old records.
     NSArray *points76 = PGSanitizedPoints76(value[@"points76"]);
     if (points76) result[@"points76"] = points76;
     return [result copy];
@@ -344,10 +347,11 @@ static NSDictionary *PGStableGeometry(NSDictionary *current, NSDictionary *previ
         _lock = [[NSLock alloc] init];
         _realtime = [PGRealtimeFaceTracker new];
         _targets = [NSMutableArray arrayWithObjects:[NSMutableDictionary dictionary], [NSMutableDictionary dictionary], [NSMutableDictionary dictionary], nil];
-        // Local thinning and chin use the recovered 17/3-pin coordinate math.
-        // The other seven controls retain this project's analytic approximation.
-        // Chin follows those analytic body controls and precedes the eye warp;
-        // this combined order is not a reconstruction of the full reference chain.
+        // Thin/chin/jaw/short reconstruct the recovered local coordinate math.
+        // The other five controls retain this project's analytic approximation.
+        // Recovered jaw -> chin -> short order follows the reference. The other
+        // analytic body controls still precede jaw, so the full combined chain
+        // (narrow/V/cheek/small-head/eyes) is not claimed reference-equivalent.
         // Each pin changes the sampling coordinate, with only one image resample.
         NSMutableString *source = [NSMutableString stringWithString:
         @"vec2 pgThinPin(vec2 q, vec4 control, float ratio) {"
@@ -355,9 +359,24 @@ static NSDictionary *PGStableGeometry(NSDictionary *current, NSDictionary *previ
         " if(radius<=0.0001) return q;"
         " float weight=clamp(1.0-length(q-control.xy)/radius,0.0,1.0);"
         " return clamp(q-direction*ratio*weight,vec2(0.0),vec2(1.0)); }"
-        " kernel vec2 pgFaceWarp(vec2 c, vec2 size, vec2 le, vec2 re, vec2 er, float thinRatio, float bigEye, float shortFace, float narrow, float chinRatio, float vFace, float jaw, float cheek, float smallHead, float headRange, vec2 imageOrigin, vec2 imageSize"];
+        " vec2 pgJawPin(vec2 q, vec4 edge, vec2 anchor, float ratio) {"
+        " float radius=length(edge.xy-edge.zw); if(radius<=0.0001) return q;"
+        " float weight=clamp(1.0-length(q-edge.xy)/radius,0.0,1.0);"
+        " return clamp(q-(anchor-edge.xy)*ratio*weight,vec2(0.0),vec2(1.0)); }"
+        " vec2 pgShortEdge(vec2 q, vec2 a, vec2 b) {"
+        " vec2 d=b-a; float squared=dot(d,d);"
+        " float t=0.0; if(squared>0.000001) t=clamp(dot(q-a,d)/squared,0.0,1.0);"
+        " float distance=length(q-(a+t*d)); float crossing=0.0;"
+        " if((a.y>q.y && b.y<=q.y) || (b.y>q.y && a.y<=q.y)) {"
+        " float dy=b.y-a.y; if(abs(dy)<=0.000001) dy=dy<0.0?-0.000001:0.000001;"
+        " if(q.x<a.x+(b.x-a.x)*(q.y-a.y)/dy) crossing=1.0; }"
+        " return vec2(distance,crossing); }"
+        " kernel vec2 pgFaceWarp(vec2 c, vec2 size, vec2 le, vec2 re, vec2 er, float thinRatio, float bigEye, float shortRatio, float narrow, float chinRatio, float vFace, float jawRatio, float cheek, float smallHead, float headRange, vec2 imageOrigin, vec2 imageSize"];
         for (NSUInteger i=0; i<17; i++) [source appendFormat:@", vec4 pin%lu",(unsigned long)i];
         for (NSUInteger i=0; i<3; i++) [source appendFormat:@", vec4 chinPin%lu",(unsigned long)i];
+        [source appendString:@", vec2 jawAnchor, vec2 shortAxis"];
+        for (NSUInteger i=0; i<6; i++) [source appendFormat:@", vec4 jawPin%lu",(unsigned long)i];
+        for (NSUInteger i=0; i<11; i++) [source appendFormat:@", vec2 shortPoint%lu",(unsigned long)i];
         [source appendString:@") { vec2 p=destCoord();"
         " if(thinRatio>0.000001) { vec2 q=(p-imageOrigin)/imageSize; q.y=1.0-q.y;"];
         for (NSUInteger i=0; i<17; i++) [source appendFormat:@" q=pgThinPin(q,pin%lu,thinRatio);",(unsigned long)i];
@@ -370,11 +389,21 @@ static NSDictionary *PGStableGeometry(NSDictionary *current, NSDictionary *previ
         " float ch=(n.y-0.02)/0.19; float cheekBand = exp(-ch*ch)*body;"
         " float head = 1.0-smoothstep(0.38,0.75+0.32*headRange,length(n*vec2(0.9,0.65)));"
         " p += (p-c)*smallHead*0.18*head;"
-        " p.x += size.x*n.x*(narrow*0.30*body + vFace*0.24*jawBand + jaw*0.20*jawBand + cheek*0.18*cheekBand)*sides;"
-        " p.y += size.y*(-shortFace*0.16*lower - vFace*0.025*lower);"
+        " p.x += size.x*n.x*(narrow*0.30*body + vFace*0.24*jawBand + cheek*0.18*cheekBand)*sides;"
+        " p.y += size.y*(-vFace*0.025*lower);"
+        " if(abs(jawRatio)>0.000001) { vec2 q=(p-imageOrigin)/imageSize; q.y=1.0-q.y;"];
+        for (NSUInteger i=0; i<6; i++) [source appendFormat:@" q=pgJawPin(q,jawPin%lu,jawAnchor,jawRatio);",(unsigned long)i];
+        [source appendString:@" q.y=1.0-q.y; p=imageOrigin+q*imageSize; }"
         " if(abs(chinRatio)>0.000001) { vec2 q=(p-imageOrigin)/imageSize; q.y=1.0-q.y;"];
         for (NSUInteger i=0; i<3; i++) [source appendFormat:@" q=pgThinPin(q,chinPin%lu,chinRatio);",(unsigned long)i];
         [source appendString:@" q.y=1.0-q.y; p=imageOrigin+q*imageSize; }"
+        " if(abs(shortRatio)>0.000001 && length(shortAxis)>0.0001) {"
+        " vec2 q=(p-imageOrigin)/imageSize; q.y=1.0-q.y;"
+        " float nearest=10.0; float crossings=0.0;"];
+        for (NSUInteger i=0; i<11; i++) [source appendFormat:@" { vec2 edge=pgShortEdge(q,shortPoint%lu,shortPoint%lu); nearest=min(nearest,edge.x); crossings+=edge.y; }",(unsigned long)i,(unsigned long)((i+1)%11)];
+        [source appendString:@" float weight=mod(crossings,2.0)>0.5?1.0:clamp(1.0-nearest/length(shortAxis),0.0,1.0);"
+        " q=clamp(q-shortAxis*shortRatio*weight,vec2(0.0),vec2(1.0));"
+        " q.y=1.0-q.y; p=imageOrigin+q*imageSize; }"
         " vec2 dl = (p-le)/er; float wl = 1.0-smoothstep(0.0,1.0,length(dl));"
         " p -= (p-le)*bigEye*0.33*wl*wl;"
         " vec2 dr = (p-re)/er; float wr = 1.0-smoothstep(0.0,1.0,length(dr));"
@@ -498,7 +527,7 @@ static NSDictionary *PGStableGeometry(NSDictionary *current, NSDictionary *previ
     for (NSDictionary *face in geometry) {
         CGRect box = PGArrayRect(face[@"box"]), pixels = PGToPixels(box, extent);
         NSArray *points76 = PGSanitizedPoints76(face[@"points76"]);
-        float thinRatio = 0, chinRatio = 0;
+        float thinRatio = 0, chinRatio = 0, jawRatio = 0, shortRatio = 0;
         if (points76) {
             double width = hypot(([points76[75][0] doubleValue]-[points76[59][0] doubleValue])*extent.size.width,
                                  ([points76[75][1] doubleValue]-[points76[59][1] doubleValue])*extent.size.height);
@@ -510,19 +539,21 @@ static NSDictionary *PGStableGeometry(NSDictionary *current, NSDictionary *previ
             thinRatio = PGClamp(s.faceThin,0,1)*.025*gain;
             float chin = PGClamp(s.faceChin,-1,1);
             chinRatio = chin*(chin>0 ? .04 : .02)*gain;
+            jawRatio = PGClamp(s.faceJaw,0,1)*.05*gain;
+            shortRatio = PGClamp(s.faceShort,-1,1)*.25*gain;
         }
-        BOOL otherControls = s.faceBigEye || s.faceShort || s.faceNarrow || s.faceV || s.faceJaw || s.faceCheekbone || s.faceSmallHead;
-        // No full topology means no guessed bbox thin/chin deformation. Legacy
+        BOOL otherControls = s.faceBigEye || s.faceNarrow || s.faceV || s.faceCheekbone || s.faceSmallHead;
+        // No full topology means no guessed bbox thin/chin/jaw/short deformation. Legacy
         // archives using only those controls remain exact image/mask pass-through.
-        if (thinRatio <= .000001 && fabsf(chinRatio) <= .000001 && !otherControls) continue;
+        if (thinRatio <= .000001 && fabsf(chinRatio) <= .000001 && fabsf(jawRatio) <= .000001 && fabsf(shortRatio) <= .000001 && !otherControls) continue;
         CGRect le = PGRegionBounds(face, @"leftEye", PGInFace(box, 0.16, 0.53, 0.25, 0.15));
         CGRect re = PGRegionBounds(face, @"rightEye", PGInFace(box, 0.59, 0.53, 0.25, 0.15));
         CGPoint left = PGCenter(PGToPixels(le, extent)), right = PGCenter(PGToPixels(re, extent));
         NSMutableArray *arguments = [@[PGVector(PGCenter(pixels)), [CIVector vectorWithX:pixels.size.width Y:pixels.size.height],
             PGVector(left), PGVector(right), [CIVector vectorWithX:MAX(2, pixels.size.width * 0.24) Y:MAX(2, pixels.size.height * 0.17)],
-            @(thinRatio), @(PGClamp(s.faceBigEye, 0, 1)), @(PGClamp(s.faceShort, -1, 1)),
+            @(thinRatio), @(PGClamp(s.faceBigEye, 0, 1)), @(shortRatio),
             @(PGClamp(s.faceNarrow, -1, 1)), @(chinRatio), @(PGClamp(s.faceV, 0, 1)),
-            @(PGClamp(s.faceJaw, 0, 1)), @(PGClamp(s.faceCheekbone, 0, 1)), @(PGClamp(s.faceSmallHead, 0, 1)), @(PGClamp(s.faceSmallHeadRange, 0, 1)),
+            @(jawRatio), @(PGClamp(s.faceCheekbone, 0, 1)), @(PGClamp(s.faceSmallHead, 0, 1)), @(PGClamp(s.faceSmallHeadRange, 0, 1)),
             [CIVector vectorWithX:extent.origin.x Y:extent.origin.y], [CIVector vectorWithX:extent.size.width Y:extent.size.height]] mutableCopy];
         for (NSUInteger i=0; i<17; i++) {
             double ox=0,oy=0,ax=0,ay=0;
@@ -541,6 +572,23 @@ static NSDictionary *PGStableGeometry(NSDictionary *current, NSDictionary *previ
                 ax=[anchor[0] doubleValue];ay=1-[anchor[1] doubleValue];
             }
             [arguments addObject:[CIVector vectorWithX:ox Y:oy Z:ax W:ay]];
+        }
+        CGPoint anchor=CGPointZero,axis=CGPointZero;
+        if(points76){
+            anchor=CGPointMake([points76[29][0]doubleValue],1-[points76[29][1]doubleValue]);
+            axis=CGPointMake([points76[46][0]doubleValue]-[points76[48][0]doubleValue],
+                             [points76[48][1]doubleValue]-[points76[46][1]doubleValue]);
+        }
+        [arguments addObject:PGVector(anchor)];[arguments addObject:PGVector(axis)];
+        for(NSUInteger i=0;i<6;i++){
+            double ox=0,oy=0,nx=0,ny=0;
+            if(points76){NSArray *origin=points76[PGJawPins[i][0]],*neighbour=points76[PGJawPins[i][1]];
+                ox=[origin[0]doubleValue];oy=1-[origin[1]doubleValue];nx=[neighbour[0]doubleValue];ny=1-[neighbour[1]doubleValue];}
+            [arguments addObject:[CIVector vectorWithX:ox Y:oy Z:nx W:ny]];
+        }
+        for(NSUInteger i=62;i<=72;i++){
+            CGPoint point=CGPointZero;if(points76)point=CGPointMake([points76[i][0]doubleValue],1-[points76[i][1]doubleValue]);
+            [arguments addObject:PGVector(point)];
         }
         CIImage *input = [result imageByClampingToExtent];
         result = [_warp applyWithExtent:extent roiCallback:^CGRect(int index, CGRect rect) { (void)index; (void)rect; return extent; } inputImage:input arguments:arguments];
