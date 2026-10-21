@@ -1,0 +1,39 @@
+{
+  "version": "1.1.2",
+  "build": "13",
+  "sourceCommit": "a2e33e8e00a99b95dc29d67a819cb0897eda5756",
+  "date": "2026-10-21T16:31:02.046442+00:00",
+  "Motion": {
+    "formalInstalledPluginLoaded": true,
+    "numberInput": true,
+    "singleResetUpdatesSliderAndText": true,
+    "hostUndoUpdatesSliderAndText": true,
+    "switchingEditedControlPreservesUndoneState": true,
+    "saveCloseReopen": {
+      "shortFace": 0.5,
+      "jaw": 0
+    },
+    "earlierSameGeometryBuild11": "Isolated short +1/-1 and jaw +1; same-frame bypass is byte-identical to neutral viewer; profile and tilted-face images inspected. PGFaceProcessor bytes unchanged in final build13."
+  },
+  "FCP": {
+    "formalInstalledPluginLoaded": true,
+    "nativePanelEnabled": true,
+    "numberInput": true,
+    "singleResetUpdatesSliderAndText": true,
+    "shapeIsolation": "Smoothing/color cards bypassed; other eight shape values cleared; short +1 and jaw +1 separately rendered on the same frame.",
+    "viewerRespondedToEachIsolatedControl": true,
+    "qaTimelineOnly": true
+  },
+  "continuousPreview": {
+    "production": "Each changed continuous step finishes its FxPlug host action before mouse-up; repeated equal steps are deduplicated.",
+    "automated": "Three intermediate snapshots published before gesture end; production view/controller exercised under action-scoped mock.",
+    "nativePointerObservation": "Pending user answer: CUA coordinate drag did not reliably exercise the displayed slider; no native mid-drag frame timing claim."
+  },
+  "limits": [
+    "No claim that every mouse event is presented as a separate host frame. Host scheduling and render speed can coalesce rapid updates.",
+    "Remaining five approximate shape algorithms and full combined-chain pixel equivalence remain outside this repair.",
+    "Some legacy Motion QA documents retain serialized standard parameter sections; new registration and current FCP template hide them.",
+    "Native VoiceOver, old independent keyframe-curve migration, and exhaustive multi-face/all-pose testing not performed."
+  ],
+  "privateEvidence": "User video, native screenshots, full AX and pixel-coordinate comparisons remain in ignored build/native-112; not uploaded."
+}

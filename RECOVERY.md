@@ -12,7 +12,7 @@
 ```sh
 git clone https://dayu.media/git/dayu/paintfcp-fxplug.git
 cd paintfcp-fxplug
-git switch --detach v1.1.0
+git switch --detach v1.1.2
 ```
 
 需要继续编辑时，基于该提交创建新分支。安装 Xcode 与 Apple FxPlug 4 SDK；盘点版本和构建入口见 README.md。SDK/framework 为 Apple 外部开发依赖，应重新安装匹配版本。证书、私钥和公证凭据需从独立加密备份恢复或重新申请；Git 不包含它们。
@@ -78,3 +78,11 @@ FCP模板从 `Templates/大鱼人像美化/` 恢复，将 `.moef` 和 `Drop Zone
 ## 1.1.2 合并修复准备
 
 版本1.1.2（13）合并面板action上下文修复和76点短脸/下颌骨局部场。构建/恢复依赖、正式路径、签名公证入口保持不变；自动检查1551项及额外886项真实帧ASan专项通过。原生验收使用build/native-112独立Motion副本，用户素材、截图和完整AX数据不随源码上传。用户已明确授权接手Motion/FCP进行测试；先前不操作界面的偏好已被本次授权更新。
+
+## 1.1.2 正式恢复入口
+
+发布标签`v1.1.2`，版本1.1.2（13），正式签名源码完整SHA为`a2e33e8e00a99b95dc29d67a819cb0897eda5756`；后续交付记录不改变产品源码。独立远程恢复核验149个文件的bytes/blob/mode、16项资源、strict/full fsck和157项Inspector ASan全部通过，无LFS或子模块。恢复依赖与构建入口同前文；`PAINTFCP_INSPECTOR_ASAN=1 ./scripts/test-inspector.sh`可运行新增数值焦点与每步预览检查。
+
+正式Release已使用固定团队逐层签名，Apple公证Accepted `5f5ce378-8430-467b-ae97-048e6bc81573`，票据、Gatekeeper、通用架构和PluginKit正式路径全部通过。唯一正式安装APP为`/Library/Plug-Ins/FxPlug/beatygril.app`，模板moef SHA256为`e9fa97dc14323d0daa7d3d61b06a78ba4000a70ab9f5e67ebffd750d49df1e15`，TIFF逐字节一致。临时APP、旧APP和公证ZIP已清理，有界目录及现存Spotlight索引产品路径中仅发现正式APP，扫描错误0，不宣称扫描了所有卷。
+
+Motion/FCP原生验收范围及未完成项见`docs/verification/v1.1.2/native-qa.json`：数值、重置、隔离短脸/下颌骨响应通过；Motion撤销和保存关闭重开通过。连续步进已改为每步完整宿主action，模拟宿主确认鼠标松开前可发布中间设置；原生按住鼠标期间的画布时序仍待用户反馈。后续人脸素材和全AX只保留本机build，不是产品依赖或上传资源。

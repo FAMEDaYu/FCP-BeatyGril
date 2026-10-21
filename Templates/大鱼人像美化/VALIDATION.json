@@ -59,9 +59,10 @@
   "publishOSC": 0,
   "currentHostValidation": {
     "version": "1.1.2",
-    "Motion": "pending combined-build retest; 1.1.1 native number/bypass/reset/host undo/save already verified",
-    "FCP": "pending combined-build retest; 1.1.1 native API handshake and brightness commit/reset already verified",
-    "scope": "User explicitly authorized taking over Motion/FCP for native testing."
+    "build": "13",
+    "Motion": "pass: native number/reset/undo and save-close-reopen; isolated shape/profile images inspected with identical geometry source",
+    "FCP": "pass: formal load, number/reset and same-frame isolated short/jaw render",
+    "continuousPreview": "per-step host completion verified automatically; native held-mouse canvas timing pending user observation"
   },
   "customParameter": {
     "id": 210,
@@ -97,7 +98,7 @@
     "outerSecureDecodeRoundtrip": true,
     "vendorClassesOrBlobReused": false,
     "emptyDataValueFallback": "not established and not relied upon",
-    "nativeLoadStatus": "pending user"
+    "nativeLoadStatus": "instantiated in Motion and FCP"
   },
   "publicationTransition": {
     "previousFunctionalControls": 46,
@@ -130,7 +131,7 @@
     "copyrightBindings": "pass: complete Rig/widget trees unchanged from baseline, own audit resolves menus/publications",
     "selection": "pass: 0 selected content objects; project focus",
     "customArchiveStructure": "pass: exact inner bytes, own class/schema/values; Foundation outer secure decode",
-    "customHostInstantiation": "pending user"
+    "customHostInstantiation": "pass: both native hosts"
   },
   "semanticPreservation": {
     "inverseDiffPassed": true,
@@ -165,7 +166,7 @@
       "oscASan": 98,
       "inspectorASan": 157
     },
-    "nativeVisualQA": "pending user",
+    "nativeVisualQA": "See currentHostValidation and docs/verification/v1.1.2/native-qa.json",
     "manualAnalysisUI": "removed; legacy IDs hidden and buttons disabled",
     "renderMode": "realtime automatic follow; stored manual geometry never used",
     "templatePublishedEntries": 3,
@@ -190,8 +191,12 @@
   "installation": {
     "version": "1.1.2",
     "build": "13",
-    "status": "pending",
-    "previousInstalledVersion": "1.1.1 (interim)"
+    "status": "Release signed, notarized, stapled, installed; generated copies cleaned",
+    "previousInstalledVersion": "1.1.1 (interim)",
+    "sourceCommit": "a2e33e8e00a99b95dc29d67a819cb0897eda5756",
+    "notarization": "Accepted 5f5ce378-8430-467b-ae97-048e6bc81573",
+    "uniqueAppInScannedScope": true,
+    "scopeReport": "../../docs/verification/v1.1.2/installed-verification.json"
   },
   "shortJawValidation": {
     "version": "1.1.2",

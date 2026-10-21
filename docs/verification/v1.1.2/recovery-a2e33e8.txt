@@ -1,0 +1,11 @@
+Target: a2e33e8e00a99b95dc29d67a819cb0897eda5756
+Remote: https://dayu.media/git/dayu/paintfcp-fxplug.git
+Passed: True
+Tracked files: 149
+All tracked bytes/blob IDs/modes: True
+Git fsck --strict --full: 0
+LFS/submodules: [] / []
+Inspector tests: {'checks': 157, 'failures': 0, 'ASan': True, 'exitCode': 0, 'log': 'inspector-tests-asan.txt'}
+Template audit: structure_verified_native_loading_pending
+Core 961 tests not repeated; no APP build/host/UI/sign/install.
+Temporary clone removed: True
