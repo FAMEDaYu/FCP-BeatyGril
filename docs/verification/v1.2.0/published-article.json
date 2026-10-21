@@ -5,7 +5,7 @@
     "edit_url": "https://dayu.media/wp-admin/post.php?post=15593&action=edit",
     "status": "publish",
     "title": "大鱼人像美化 1.2.0：FCP / Motion 免费开源自动美颜插件",
-    "content": "<!-- wp:paragraph -->\n<p>大鱼人像美化是一款适用于 Final Cut Pro 与 Motion 的免费开源人像插件，把磨皮、美白和脸型调整放进同一块原生卡片面板。插件会识别当前画面中的人脸并自动跟随，无需先点击分析；你可以按素材需要调整强度，拖动滑杆时持续查看效果。</p>\n<!-- /wp:paragraph -->\n<!-- wp:image {\"sizeSlug\":\"full\"} -->\n<figure class=\"wp-block-image size-full\"><img src=\"https://dayu.media/wp-content/uploads/2026/10/1792604750-357ca780597c39f.png\" alt=\"大鱼人像美化古风宣传封面，展示自动瘦脸、自动跟随与自动美颜\" /><figcaption>古风宣传插画；面部线条用于示意瘦脸与跟随功能。</figcaption></figure>\n<!-- /wp:image -->\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">可以做什么</h2>\n<!-- /wp:heading -->\n<!-- wp:list -->\n<ul class=\"wp-block-list\"><li>磨皮：局部磨皮、全局磨皮与五官保护，强度分别控制。</li><li>美白：肤色预设、肤色亮度、皮肤色相和牙齿美白。</li><li>脸型：瘦脸、大眼、短脸、窄脸、下巴、V 脸、下颌骨、颧骨与小头调整。</li><li>自动跟随：默认跟随主要人脸，也提供多人模式、防跳脸范围与检测框预览。</li><li>实时预览：滑杆、数值、单项开关和重置集中在同一面板，便于反复对比。</li></ul>\n<!-- /wp:list -->\n<!-- wp:paragraph -->\n<p>自动识别负责定位处理区域，效果强度由你控制。建议先从较小的数值开始；多人交叉、严重遮挡和极端侧脸的结果需要结合具体素材检查。</p>\n<!-- /wp:paragraph -->\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">版本与下载</h2>\n<!-- /wp:heading -->\n<!-- wp:paragraph -->\n<p>当前版本 <strong>1.2.0（14）</strong>，支持 macOS 13 或更高版本，包含 Apple Silicon 与 Intel 两种架构。下载包包含 FxPlug4 程序和一个配套 FCP 效果模板。APP 与 PKG 均已完成 Developer ID 正式签名、Apple 公证和票据粘附；安装包为所有用户免费资源。</p>\n<!-- /wp:paragraph -->\n<!-- wp:paragraph -->\n<p>本次更新加入古风封面与锁定缩略图、免费开源说明页和主 APP 三秒自动退出。人脸处理与面板交互沿用 1.1.2 已验收实现，不需要重新运行手动分析。</p>\n<!-- /wp:paragraph -->\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">安装</h2>\n<!-- /wp:heading -->\n<!-- wp:paragraph -->\n<p>安装前先保存工作并退出 Final Cut Pro 和 Motion，安装期间保持关闭。运行本页提供的 PKG，按安装器提示完成安装；它会把程序安装到 <code>/Library/Plug-Ins/FxPlug/beatygril.app</code>，把配套效果安装到当前登录用户的 Motion Templates 目录，并自动验证和修复系统插件注册。</p>\n<!-- /wp:paragraph -->\n<!-- wp:paragraph -->\n<p>本插件免费开源，<strong>无需激活码、付费注册或账号授权</strong>。主 APP 打开时显示说明图，窗口显示三秒后自动退出；宿主中的滤镜由独立服务运行。安装器还会重新锁定两张缩略图，避免被宿主自动替换。</p>\n<!-- /wp:paragraph -->\n<!-- wp:image {\"sizeSlug\":\"full\"} -->\n<figure class=\"wp-block-image size-full\"><img src=\"https://dayu.media/wp-content/uploads/2026/10/1792604743-1c99c2ba53c7614.png\" alt=\"主程序说明页：免费开源，自动注册，无需激活码，启动三秒后自动退出\" /></figure>\n<!-- /wp:image -->\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">使用</h2>\n<!-- /wp:heading -->\n<!-- wp:paragraph -->\n<p>Final Cut Pro：打开<strong>效果</strong>浏览器，找到<strong>大鱼磨皮瘦脸</strong>分类，将<strong>大鱼人像美化</strong>添加到人像片段。Motion：在原生滤镜资源库的<strong>大鱼</strong>分类中选择<strong>大鱼人像美化</strong>。</p>\n<!-- /wp:paragraph -->\n<!-- wp:paragraph -->\n<p>在检查器中按需调节磨皮、美白和脸型。每项左侧的眼睛可暂时停用该项，数值会保留；右侧回转箭头用于重置。人脸会随画面自动更新，开启检测框预览可以检查跟随位置。多人模式建议先用短片段观察稳定性。</p>\n<!-- /wp:paragraph -->\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">常见问题</h2>\n<!-- /wp:heading -->\n<!-- wp:paragraph -->\n<p>如果效果没有出现或显示红色警告，先退出 Final Cut Pro 和 Motion，再打开一次主 APP，等待其自动退出，然后重新启动宿主。可在“终端”执行下面这条命令：</p>\n<!-- /wp:paragraph -->\n<!-- wp:code -->\n<pre class=\"wp-block-code\"><code>open '/Library/Plug-Ins/FxPlug/beatygril.app'</code></pre>\n<!-- /wp:code -->\n<!-- wp:paragraph -->\n<p>该流程可重新触发系统注册，并不能解决所有报错。仍异常时请核对 macOS、宿主版本及安装包完整性；不要只复制单个 .moef 文件，配套程序与 Drop Zone.tiff 也需要保留。当前仅提供上述一个效果模板。</p>\n<!-- /wp:paragraph -->\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">源码与开源许可</h2>\n<!-- /wp:heading -->\n<!-- wp:paragraph -->\n<p>源码仓库：<a href=\"https://dayu.media/git/dayu/paintfcp-fxplug\" target=\"_blank\" rel=\"noreferrer noopener\">大鱼人像美化 · paintfcp-fxplug</a>。仓库已设为公开属性；目前大鱼站的统一 Git 网关仍要求登录并校验会员。为方便所有读者获取源码，另外提供 <a href=\"https://dayu.media/wp-content/uploads/2026/10/1792604741-f6e09da5b67c006.zip\">1.2.0 源码快照 ZIP（免费、免 Git 登录）</a>，可直接下载研究和自行编译。</p>\n<!-- /wp:paragraph -->\n<!-- wp:paragraph -->\n<p>项目原创代码采用 MIT 许可，源码包含 Xcode 工程、Objective-C / Metal 实现、模板及构建与验证说明。Apple SDK、运行框架及样本按各自许可使用，详见源码中的 LICENSE 和 THIRD_PARTY_NOTICES.md。自行编译需要 Xcode 与 FxPlug SDK；证书和签名私钥不包含在源码中。</p>\n<!-- /wp:paragraph -->\n",
+    "content": "<!-- wp:paragraph -->\n<p>大鱼人像美化是一款适用于 Final Cut Pro 与 Motion 的免费开源人像插件，把磨皮、美白和脸型调整放进同一块原生卡片面板。插件会识别当前画面中的人脸并自动跟随，无需先点击分析；你可以按素材需要调整强度，拖动滑杆时持续查看效果。</p>\n<!-- /wp:paragraph -->\n<!-- wp:paragraph -->\n<p><strong>代码由 OpenAI + Codex 全程编写，站长仅参与调试和测试。</strong></p>\n<!-- /wp:paragraph -->\n\n<!-- wp:image {\"sizeSlug\":\"full\"} -->\n<figure class=\"wp-block-image size-full\"><img src=\"https://dayu.media/wp-content/uploads/2026/10/1792604750-357ca780597c39f.png\" alt=\"大鱼人像美化古风宣传封面，展示自动瘦脸、自动跟随与自动美颜\" /><figcaption class=\"wp-element-caption\">古风宣传插画；面部线条用于示意瘦脸与跟随功能。</figcaption></figure>\n<!-- /wp:image -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">可以做什么</h2>\n<!-- /wp:heading -->\n\n<!-- wp:list {\"className\":\"wp-block-list\"} -->\n<ul class=\"wp-block-list\"><!-- wp:list-item -->\n<li>磨皮：局部磨皮、全局磨皮与五官保护，强度分别控制。</li>\n<!-- /wp:list-item -->\n\n<!-- wp:list-item -->\n<li>美白：肤色预设、肤色亮度、皮肤色相和牙齿美白。</li>\n<!-- /wp:list-item -->\n\n<!-- wp:list-item -->\n<li>脸型：瘦脸、大眼、短脸、窄脸、下巴、V 脸、下颌骨、颧骨与小头调整。</li>\n<!-- /wp:list-item -->\n\n<!-- wp:list-item -->\n<li>自动跟随：默认跟随主要人脸，也提供多人模式、防跳脸范围与检测框预览。</li>\n<!-- /wp:list-item -->\n\n<!-- wp:list-item -->\n<li>实时预览：滑杆、数值、单项开关和重置集中在同一面板，便于反复对比。</li>\n<!-- /wp:list-item --></ul>\n<!-- /wp:list -->\n\n<!-- wp:paragraph -->\n<p>自动识别负责定位处理区域，效果强度由你控制。建议先从较小的数值开始；多人交叉、严重遮挡和极端侧脸的结果需要结合具体素材检查。</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">版本与下载</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>当前版本 <strong>1.2.0（14）</strong>，支持 macOS 13 或更高版本，包含 Apple Silicon 与 Intel 两种架构。下载包包含 FxPlug4 程序和一个配套 FCP 效果模板。APP 与 PKG 均已完成 Developer ID 正式签名、Apple 公证和票据粘附；安装包为所有用户免费资源。</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>本次更新加入古风封面与锁定缩略图、免费开源说明页和主 APP 三秒自动退出。人脸处理与面板交互沿用 1.1.2 已验收实现，不需要重新运行手动分析。</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">安装</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>安装前先保存工作并退出 Final Cut Pro 和 Motion，安装期间保持关闭。运行本页提供的 PKG，按安装器提示完成安装；它会把程序安装到 <code>/Library/Plug-Ins/FxPlug/beatygril.app</code>，把配套效果安装到当前登录用户的 Motion Templates 目录，并自动验证和修复系统插件注册。</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>本插件免费开源，<strong>无需激活码、付费注册或账号授权</strong>。主 APP 打开时显示说明图，窗口显示三秒后自动退出；宿主中的滤镜由独立服务运行。安装器还会重新锁定两张缩略图，避免被宿主自动替换。</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:image {\"sizeSlug\":\"full\"} -->\n<figure class=\"wp-block-image size-full\"><img src=\"https://dayu.media/wp-content/uploads/2026/10/1792604743-1c99c2ba53c7614.png\" alt=\"主程序说明页：免费开源，自动注册，无需激活码，启动三秒后自动退出\" /></figure>\n<!-- /wp:image -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">使用</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Final Cut Pro：打开<strong>效果</strong>浏览器，找到<strong>大鱼磨皮瘦脸</strong>分类，将<strong>大鱼人像美化</strong>添加到人像片段。Motion：在原生滤镜资源库的<strong>大鱼</strong>分类中选择<strong>大鱼人像美化</strong>。</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>在检查器中按需调节磨皮、美白和脸型。每项左侧的眼睛可暂时停用该项，数值会保留；右侧回转箭头用于重置。人脸会随画面自动更新，开启检测框预览可以检查跟随位置。多人模式建议先用短片段观察稳定性。</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">常见问题</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>如果效果没有出现或显示红色警告，先退出 Final Cut Pro 和 Motion，再打开一次主 APP，等待其自动退出，然后重新启动宿主。可在“终端”执行下面这条命令：</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:code -->\n<pre class=\"wp-block-code\"><code>open '/Library/Plug-Ins/FxPlug/beatygril.app'</code></pre>\n<!-- /wp:code -->\n\n<!-- wp:paragraph -->\n<p>该流程可重新触发系统注册，并不能解决所有报错。仍异常时请核对 macOS、宿主版本及安装包完整性；不要只复制单个 .moef 文件，配套程序与 Drop Zone.tiff 也需要保留。当前仅提供上述一个效果模板。</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">源码与开源许可</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>源码仓库：<a href=\"https://dayu.media/git/dayu/paintfcp-fxplug\" target=\"_blank\" rel=\"noreferrer noopener\">大鱼人像美化 · paintfcp-fxplug</a>。仓库已设为公开属性；目前大鱼站的统一 Git 网关仍要求登录并校验会员。为方便所有读者获取源码，另外提供 <a href=\"https://dayu.media/wp-content/uploads/2026/10/1792604741-f6e09da5b67c006.zip\">1.2.0 源码快照 ZIP（免费、免 Git 登录）</a>，可直接下载研究和自行编译。</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>项目代码按仓库中的 MIT 许可文件提供，源码包含 Xcode 工程、Objective-C / Metal 实现、模板及构建与验证说明。Apple SDK、运行框架及样本按各自许可使用，详见源码中的 LICENSE 和 THIRD_PARTY_NOTICES.md。自行编译需要 Xcode 与 FxPlug SDK；证书和签名私钥不包含在源码中。</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:image {\"id\":15597,\"sizeSlug\":\"large\",\"linkDestination\":\"none\"} -->\n<figure class=\"wp-block-image size-large\"><img src=\"https://dayu.media/wp-content/uploads/2026/10/1792605142-78805a221a988e7-359x1024.png\" alt=\"\" class=\"wp-image-15597\" /></figure>\n<!-- /wp:image -->",
     "excerpt": "磨皮、美白、瘦脸与自动人脸跟随，原生卡片面板实时预览。免费开源，自动注册，无需激活码；提供签名公证安装包和源码。",
     "author": 1,
     "categories": [
@@ -16,12 +16,21 @@
     "resource": {
       "cao_status": "1",
       "cao_close_novip_pay": "0",
+      "cao_is_boosvip": "",
+      "cao_video": "",
+      "cao_is_video_free": "",
       "cao_price": "0",
       "cao_vip_rate": "1",
+      "cao_ref_bonus_rate": "0.25",
       "cao_expire_day": "0",
       "cao_downurl": "https://dayu.media/wp-content/uploads/2026/10/1792604749-1ea4dca3cc5a5c3.pkg",
+      "cao_downurl_bak": "",
+      "cao_demourl": "",
+      "video_url": "",
+      "video_poster_url": "",
       "cao_pwd": "",
       "cao_original_filename": "1792604749-1ea4dca3cc5a5c3.pkg",
+      "post_style": "sidebar",
       "cao_info": [
         {
           "title": "版本",
@@ -60,11 +69,15 @@
       }
     },
     "fcpx": {
-      "enabled": "",
-      "kinds": "",
+      "enabled": "0",
+      "kinds": [],
       "version": "",
       "entry": "",
-      "article_state": "",
+      "article_state": {
+        "code": "hidden",
+        "message": "未同步到 APP",
+        "checked_at": "2026-10-22 02:01:36"
+      },
       "file_check": "",
       "product_id": ""
     }

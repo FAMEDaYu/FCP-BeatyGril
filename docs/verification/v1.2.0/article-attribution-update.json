@@ -1,0 +1,36 @@
+{
+  "article_id": 15593,
+  "url": "https://dayu.media/15593/",
+  "status": "publish",
+  "updated_fields": [
+    "content"
+  ],
+  "attribution": "代码由 OpenAI + Codex 全程编写，站长仅参与调试和测试。",
+  "removed_original_authorship_wording": true,
+  "anonymous_frontend_http": 200,
+  "frontend_attribution_verified": true,
+  "unrelated_settings_unchanged": true,
+  "preserved": [
+    "title",
+    "author account (article publisher)",
+    "excerpt",
+    "categories",
+    "tags",
+    "featured_media",
+    "resource including all free-download settings and URLs",
+    "seo",
+    "fcpx configuration",
+    "installation instructions and native code block"
+  ],
+  "automatic_derived_change": {
+    "field": "fcpx.article_state.checked_at",
+    "before": "2026-10-22 01:52:41",
+    "after": "2026-10-22 02:01:36",
+    "meaning": "Content save hook refreshed check timestamp; sync remains disabled."
+  },
+  "frontend_seo_exact_and_unique": true,
+  "idempotency_key": "66b51f0d-24ed-4ed9-82fd-e61e626cec4b",
+  "before_content_sha256": "5968a343e8a9116a5adb7885eafd487acb23608be32d422144196454b1434290",
+  "after_content_sha256": "2701991a543b80114c062cc7ee68b83afff505dd9456cfe82f0b8819ea81b119",
+  "verification_time_utc": "2026-10-21T18:02:35.974219+00:00"
+}
