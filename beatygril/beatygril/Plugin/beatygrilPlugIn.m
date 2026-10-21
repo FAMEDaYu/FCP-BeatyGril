@@ -46,7 +46,9 @@ static BOOL PGFail(NSError **error, NSString *message) {
 }
 static CIImage *PGImageFromTile(FxImageTile *tile) {
     if (!tile.ioSurface) return nil;
-    NSDictionary *options = tile.colorSpace ? @{kCIImageColorSpace:(__bridge id)tile.colorSpace} : @{};
+    // The host already supplies video-gamma RGB. Keep those numeric values in
+    // every stage; implicit Core Image linearization changes mask thresholds.
+    NSDictionary *options = @{kCIImageColorSpace:NSNull.null};
     CIImage *image = [CIImage imageWithIOSurface:(__bridge IOSurfaceRef)tile.ioSurface options:options];
     if (tile.imageOrigin == kFxImageOrigin_TOP_LEFT) {
         image = [image imageByApplyingTransform:CGAffineTransformMake(1,0,0,-1,0,image.extent.size.height)];
@@ -58,11 +60,13 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
 @interface beatygrilPlugIn ()
 @property (strong) PGBeautyRenderer *beautyRenderer;
 @property (strong) PGFaceProcessor *faceProcessor;
+@property (strong) PGFaceProcessor *analysisFaceProcessor;
 @property (strong) NSMutableDictionary<NSNumber *,CIContext *> *contexts;
 @property PGBeautySettings analysisSettings;
 @property CMTime analysisTime;
 @property NSUInteger analyzedFrames;
 @property BOOL analyzing;
+@property BOOL analysisForward;
 @property (strong) NSArray<NSString *> *loadedTracks;
 @end
 
@@ -71,6 +75,7 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
     if ((self=[super init])) {
         _apiManager=manager;
         _beautyRenderer=[PGBeautyRenderer new]; _faceProcessor=[PGFaceProcessor new];
+        _analysisFaceProcessor=[PGFaceProcessor new];
         _contexts=[NSMutableDictionary new]; _analysisSettings=PGBeautyDefaults();
         _analysisTime=kCMTimeZero;
     }
@@ -178,7 +183,6 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
     if(!state) return PGFail(error,@"缺少渲染状态输出位置。");
     if(![_apiManager apiForProtocol:@protocol(FxParameterRetrievalAPI_v6)]) return PGFail(error,@"无法读取宿主参数。");
     PGBeautySettings s=[self settingsAtTime:time];
-    @synchronized(self) {_analysisTime=time;}
     *state=[NSPropertyListSerialization dataWithPropertyList:@{@"settings":[NSData dataWithBytes:&s length:sizeof(s)],@"tracks":[self trackStrings]} format:NSPropertyListBinaryFormat_v1_0 options:0 error:error];
     return *state!=nil;
 }
@@ -198,21 +202,21 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
             for(id<MTLDevice> candidate in MTLCopyAllDevices()) if(candidate.registryID==tile.deviceRegistryID) {device=candidate;break;}
             if(!device) device=MTLCreateSystemDefaultDevice();
             if(!device) return nil;
-            _contexts[key]=[CIContext contextWithMTLDevice:device options:@{kCIContextCacheIntermediates:@NO}];
+            _contexts[key]=[CIContext contextWithMTLDevice:device options:@{kCIContextCacheIntermediates:@NO,kCIContextWorkingColorSpace:NSNull.null,kCIContextOutputColorSpace:NSNull.null}];
         }
         return _contexts[key];
     }
 }
 - (BOOL)renderDestinationImage:(FxImageTile *)destination sourceImages:(NSArray<FxImageTile *> *)sources pluginState:(NSData *)state atTime:(CMTime)time error:(NSError **)error {
     @autoreleasepool {
-        if(sources.count==0||!sources.firstObject.ioSurface||!destination.ioSurface||state.length>16*1024*1024) return PGFail(error,@"宿主传入的画面或状态无效。");
+        if(sources.count==0||!sources.firstObject.ioSurface||!destination.ioSurface||state.length>320*1024*1024) return PGFail(error,@"宿主传入的画面或状态无效。");
         NSDictionary *plist=[NSPropertyListSerialization propertyListWithData:state options:NSPropertyListImmutable format:nil error:error];
         if(![plist isKindOfClass:NSDictionary.class]||![plist[@"settings"] isKindOfClass:NSData.class]||[plist[@"settings"] length]!=sizeof(PGBeautySettings)) return PGFail(error,@"渲染状态版本无效。");
         PGBeautySettings s;[plist[@"settings"] getBytes:&s length:sizeof(s)];
         if(s.version!=1) return PGFail(error,@"此版本不支持保存的渲染状态。");
         CIImage *input=PGImageFromTile(sources.firstObject); if(!input) return PGFail(error,@"无法读取 IOSurface。");
         CIContext *context=[self contextForTile:destination]; if(!context) return PGFail(error,@"没有可用的 Metal 图形设备。");
-        CIImage *output=nil;
+        CIImage *output=nil; CIImage *overlay=nil;
         @synchronized(_faceProcessor) {
             NSArray *tracks=plist[@"tracks"];
             if(![tracks isKindOfClass:NSArray.class]||tracks.count!=3) return PGFail(error,@"跟踪状态无效。");
@@ -225,18 +229,21 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
             }
             PGFaceFrame *frame=[_faceProcessor processImage:input settings:s time:time error:error];
             if(!frame) return NO;
-            output=[_beautyRenderer processImage:frame.image settings:s skinMask:frame.skinMask teethMask:frame.teethMask eyeMask:frame.eyeMask error:error];
+            PGBeautySettings beauty=s; beauty.mix=1;
+            output=[_beautyRenderer processImage:frame.image settings:beauty skinMask:frame.skinMask teethMask:frame.teethMask eyeMask:frame.eyeMask error:error];
+            overlay=frame.overlayImage;
         }
         if(!output) return NO;
         // Blend from the original frame so zero mix also disables geometry.
         if(s.mix<1 && !s.showMask) {
             output=[output imageByApplyingFilter:@"CIDissolveTransition" withInputParameters:@{kCIInputTargetImageKey:input,kCIInputTimeKey:@(1-s.mix)}];
         }
+        if(overlay && !s.showMask) output=[overlay imageByCompositingOverImage:output];
         FxRect b=destination.tilePixelBounds;
         output=[output imageByApplyingTransform:CGAffineTransformMakeTranslation(-b.left,-b.bottom)];
         size_t width=IOSurfaceGetWidth((__bridge IOSurfaceRef)destination.ioSurface),height=IOSurfaceGetHeight((__bridge IOSurfaceRef)destination.ioSurface);
         if(destination.imageOrigin==kFxImageOrigin_TOP_LEFT) output=[output imageByApplyingTransform:CGAffineTransformMake(1,0,0,-1,0,height)];
-        @try {[context render:output toIOSurface:(__bridge IOSurfaceRef)destination.ioSurface bounds:CGRectMake(0,0,width,height) colorSpace:destination.colorSpace];}
+        @try {[context render:output toIOSurface:(__bridge IOSurfaceRef)destination.ioSurface bounds:CGRectMake(0,0,width,height) colorSpace:nil];}
         @catch(NSException *exception) {return PGFail(error,exception.reason?:@"图像处理失败。");}
         return YES;
     }
@@ -245,26 +252,49 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
     id<FxParameterSettingAPI_v5> api=[_apiManager apiForProtocol:@protocol(FxParameterSettingAPI_v5)];
     [api setStringParameterValue:status toParameter:PGStatus];
 }
+- (CMTime)currentHostTime {
+    id<FxCustomParameterActionAPI_v4> api=[_apiManager apiForProtocol:@protocol(FxCustomParameterActionAPI_v4)];
+    return api ? [api currentTime] : kCMTimeZero;
+}
 - (void)startAnalysisForward:(BOOL)forward {
+    if(_analyzing) {[self setStatus:@"请先等待当前分析结束或取消分析。"];return;}
     NSError *error=nil;
-    PGBeautySettings s=[self settingsAtTime:_analysisTime];
-    @synchronized(_faceProcessor) {[_faceProcessor setTrackingData:nil forTarget:s.targetIndex];}
-    _analysisSettings=s;_analysisSettings.trackingEnabled=1;_analysisSettings.singleFace=1;
     id<FxAnalysisAPI> api=[_apiManager apiForProtocol:@protocol(FxAnalysisAPI)];
+    if(!api) {[self setStatus:@"当前宿主不提供帧分析接口。"];return;}
+    _analysisTime=[self currentHostTime];
+    PGBeautySettings s=[self settingsAtTime:_analysisTime];
+    NSArray<NSString *> *tracks=[self trackStrings];
+    // A separate processor owns the mutable analysis session. Render snapshots
+    // cannot overwrite records being accumulated by the analyzer.
+    _analysisFaceProcessor=[PGFaceProcessor new];
+    [_analysisFaceProcessor setTrackingData:[[NSData alloc] initWithBase64EncodedString:tracks[s.targetIndex] options:0] forTarget:s.targetIndex];
+    _analysisSettings=s;_analysisSettings.trackingEnabled=1;_analysisSettings.singleFace=1;
+    _analysisForward=forward;_analyzing=YES;
     BOOL ok=forward?[api startForwardAnalysis:kFxAnalysisLocation_CPU error:&error]:[api startBackwardAnalysis:kFxAnalysisLocation_CPU error:&error];
-    [self setStatus:ok?@"正在分析所选人脸…":(error.localizedDescription?:@"当前宿主不提供帧分析接口。")];
+    if(!ok) _analyzing=NO;
+    [self setStatus:ok?@"正在分析所选人脸…":(error.localizedDescription?:@"宿主未能开始帧分析。")];
 }
 - (void)analyzeForward {[self startAnalysisForward:YES];}
 - (void)analyzeBackward {[self startAnalysisForward:NO];}
 - (void)clearTracking {
-    PGBeautySettings s=[self settingsAtTime:_analysisTime];
+    PGBeautySettings s=[self settingsAtTime:[self currentHostTime]];
     @synchronized(_faceProcessor) {[_faceProcessor setTrackingData:nil forTarget:s.targetIndex];_loadedTracks=nil;}
     id<FxParameterSettingAPI_v5> api=[_apiManager apiForProtocol:@protocol(FxParameterSettingAPI_v5)];
     [api setStringParameterValue:@"" toParameter:PGTrackData1+s.targetIndex];
     [self setStatus:@"已清除当前目标的分析数据"];
 }
 - (BOOL)desiredAnalysisTimeRange:(CMTimeRange *)desired forInputWithTimeRange:(CMTimeRange)range error:(NSError **)error {
-    if(!desired) return PGFail(error,@"缺少分析时间范围。");*desired=range;return YES;
+    if(!desired) return PGFail(error,@"缺少分析时间范围。");
+    *desired=range;
+    if(CMTIMERANGE_IS_VALID(range) && CMTIME_IS_NUMERIC(_analysisTime) && CMTimeRangeContainsTime(range,_analysisTime)) {
+        if(_analysisForward) *desired=CMTimeRangeFromTimeToTime(_analysisTime,CMTimeRangeGetEnd(range));
+        else {
+            CMTime last=CMTimeAdd(_analysisTime,CMTimeMake(1,MAX(1,_analysisTime.timescale)));
+            if(CMTimeCompare(last,CMTimeRangeGetEnd(range))>0) last=CMTimeRangeGetEnd(range);
+            *desired=CMTimeRangeFromTimeToTime(range.start,last);
+        }
+    }
+    return YES;
 }
 - (BOOL)setupAnalysisForTimeRange:(CMTimeRange)range frameDuration:(CMTime)duration error:(NSError **)error {
     _analyzedFrames=0;_analyzing=YES;return YES;
@@ -272,14 +302,19 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
 - (BOOL)analyzeFrame:(FxImageTile *)frame atTime:(CMTime)time error:(NSError **)error {
     CIImage *image=PGImageFromTile(frame);if(!image) return PGFail(error,@"无法读取分析帧。");
     BOOL ok=NO;
-    @synchronized(_faceProcessor) {ok=[_faceProcessor analyzeImage:image settings:_analysisSettings time:time error:error];}
+    @synchronized(_analysisFaceProcessor) {ok=[_analysisFaceProcessor analyzeImage:image settings:_analysisSettings time:time error:error];}
     if(ok) _analyzedFrames++;
     return ok;
 }
 - (BOOL)cleanupAnalysis:(NSError **)error {
     id<FxParameterSettingAPI_v5> api=[_apiManager apiForProtocol:@protocol(FxParameterSettingAPI_v5)];
     NSData *data=nil;
-    @synchronized(_faceProcessor) {data=[_faceProcessor trackingDataForTarget:_analysisSettings.targetIndex];_loadedTracks=nil;}
+    @synchronized(_analysisFaceProcessor) {data=[_analysisFaceProcessor trackingDataForTarget:_analysisSettings.targetIndex];}
+    @synchronized(_faceProcessor) {_loadedTracks=nil;}
+    if(data.length>64*1024*1024) {
+        _analyzing=NO;
+        return PGFail(error,@"当前目标的跟踪数据超过 64 MB。请将长素材分段分析；原先保存的数据仍保留。");
+    }
     if(data) {
         if(![api setStringParameterValue:[data base64EncodedStringWithOptions:0] toParameter:PGTrackData1+_analysisSettings.targetIndex]) return PGFail(error,@"无法将分析数据保存到工程。");
         [api setBoolValue:YES toParameter:PGTrackEnabled atTime:_analysisTime];

@@ -1,0 +1,6 @@
+astronaut.png — NASA photograph of astronaut Eileen Collins.
+Obtained from the scikit-image v0.24.0 sample-data distribution:
+https://raw.githubusercontent.com/scikit-image/scikit-image/v0.24.0/skimage/data/astronaut.png
+The upstream project states that this image has no known copyright restrictions and is in the public domain:
+https://scikit-image.org/docs/stable/api/skimage.data.html#skimage.data.astronaut
+Used solely as a local image-processing regression fixture; no endorsement implied.
