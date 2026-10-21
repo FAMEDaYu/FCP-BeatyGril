@@ -82,6 +82,7 @@
 				"/Localized: Wrapper Application/MainMenu.xib",
 				Plugin/Info.plist,
 				"Wrapper Application/AppDelegate.m",
+				"Wrapper Application/Resources/LauncherInfo.png",
 				"Wrapper Application/Info.plist",
 				"Wrapper Application/main.m",
 			);
@@ -355,6 +356,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "beatygril/Wrapper Application/SandboxEntitlements.entitlements";
+				OTHER_LDFLAGS = ("$(inherited)", "-framework", CoreServices, );
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Manual;
@@ -372,6 +374,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "beatygril/Wrapper Application/SandboxEntitlements.entitlements";
+				OTHER_LDFLAGS = ("$(inherited)", "-framework", CoreServices, );
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Manual;

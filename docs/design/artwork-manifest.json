@@ -1,0 +1,41 @@
+{
+  "generator": "built-in image_gen",
+  "type": "generated promotional artwork, not an actual effect-output comparison",
+  "style": "宋式青绿古风；成年女性面部近景；金色瘦脸轮廓线与内收箭头",
+  "thumbnail_text": [
+    "大鱼人像美化",
+    "自动瘦脸",
+    "自动跟随",
+    "自动美颜",
+    "免费开源"
+  ],
+  "app_card_text": [
+    "大鱼人像美化",
+    "免费开源",
+    "自动注册 · 无需激活码",
+    "启动 3 秒后自动退出",
+    "Final Cut Pro · Motion",
+    "dayu.media"
+  ],
+  "files": [
+    {
+      "path": "Assets/Artwork/portrait-cover.png",
+      "sha256": "a346f06e7793b4e5483ccd4b3b86f34c2036bbe6bbddb7ad9cc70c47e7d014ab"
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/Resources/LauncherInfo.png",
+      "sha256": "239552eeea738a32fafa70922d3cd1d4c115ff75d672574fa4c5acd941381fba"
+    },
+    {
+      "path": "Templates/大鱼人像美化/large.png",
+      "sha256": "a02ddb255b1ae255c749bb837a759e2dee1c3b8ffb9bdc1167957761bd5a1b97"
+    },
+    {
+      "path": "Templates/大鱼人像美化/small.png",
+      "sha256": "1552b838dd88f60dee0795e20aaca652f9c558ecefc93500e895fbff77c2a4d5"
+    }
+  ],
+  "thumbnail_lock": "uchg on both PNGs only; installer must restore flags",
+  "template_sha256": "e9fa97dc14323d0daa7d3d61b06a78ba4000a70ab9f5e67ebffd750d49df1e15",
+  "revision": "User feedback: reduce three feature lines by approximately one third and increase negative space."
+}
