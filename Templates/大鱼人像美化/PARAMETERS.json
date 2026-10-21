@@ -488,5 +488,15 @@
       "value": "",
       "published": false
     }
-  ]
+  ],
+  "effectSource": {
+    "object": "510000004",
+    "sourceMediaChannel": "./1/324/300",
+    "clip": "510000006",
+    "footage": "510000007",
+    "type": 3,
+    "dropZone": 1,
+    "path": "Drop Zone.tiff",
+    "resourceBundled": true
+  }
 }

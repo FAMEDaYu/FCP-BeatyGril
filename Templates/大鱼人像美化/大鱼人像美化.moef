@@ -249,7 +249,7 @@
 					</parameter>
 					<parameter name="Media" id="324" flags="8589938704">
 						<foldFlags>4</foldFlags>
-						<parameter name="Source Media" id="300" flags="12901744656" default="0" value="0" />
+						<parameter name="Source Media" id="300" flags="12901744656" default="510000006" value="510000006" />
 						<parameter name="Source Media" id="325" flags="8590000146" />
 					</parameter>
 					<parameter name="Page Number" id="301" flags="8589934610" default="1" value="1" />
@@ -407,5 +407,40 @@
 				<parameter name="New Fixed Res Behavior" id="315" flags="8594194480" default="1" value="0" />
 			</parameter>
 		</layer>
+		<footage name="效果源媒体" id="510000007">
+			<clip name="Effect Source" id="510000006">
+				<pathURL>Drop Zone.tiff</pathURL>
+				<missingWidth>1200</missingWidth>
+				<missingHeight>1200</missingHeight>
+				<missingDuration>0.033333333333333333</missingDuration>
+				<creationDuration>1</creationDuration>
+				<mediaID />
+				<flags>0</flags>
+				<timing in="0 1 1 0" out="0 120000 1 0" offset="0 1 1 0" />
+				<foldFlags>0</foldFlags>
+				<baseFlags>524304</baseFlags>
+				<parameter name="Properties" id="1" flags="8589938704" />
+				<parameter name="Object" id="2" flags="8589938704">
+					<parameter name="Pixel Aspect Ratio" id="104" flags="12884901888" default="1" value="1" />
+					<parameter name="Frame Rate" id="107" flags="8589934592" default="0" value="30" />
+					<parameter name="Fixed Width" id="114" flags="12884901888" default="600" value="600" />
+					<parameter name="Fixed Height" id="115" flags="12884901888" default="600" value="600" />
+					<parameter name="Use Background Color" id="116" flags="8589934594" default="0" value="0" />
+					<parameter name="Background Color" id="117" flags="8589971458">
+						<foldFlags>15</foldFlags>
+						<parameter name="Red" id="1" flags="8589967376" default="1" value="1" />
+						<parameter name="Green" id="2" flags="8589967376" default="1" value="1" />
+						<parameter name="Blue" id="3" flags="8589967376" default="1" value="1" />
+					</parameter>
+					<parameter name="Missing Is Still" id="128" flags="8589934610" default="0" value="1" />
+				</parameter>
+			</clip>
+			<flags>0</flags>
+			<timing in="0 1 1 0" out="0 120000 1 0" offset="0 1 1 0" />
+			<foldFlags>0</foldFlags>
+			<baseFlags>524304</baseFlags>
+			<parameter name="Properties" id="1" flags="8589938704" />
+			<parameter name="Object" id="2" flags="8589938704" />
+		</footage>
 	</scene>
 </ozml>

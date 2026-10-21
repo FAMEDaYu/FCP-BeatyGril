@@ -1,13 +1,27 @@
 {
   "version": "1.0.1",
-  "sha256": "3b7984e11a92487834ab67121fd3814bf13c22b77a70851298efa84206f91478",
+  "sha256": "2f7d1e0bf91a6dab82f5dde0a20d971a75abd2056a48104d861e9c112870aae4",
   "filterUUID": "FB14B0E6-59B2-4836-916F-CD0C559E9241",
   "publishedFunctionalControls": 46,
   "informationalControls": 2,
   "hiddenTrackingSlots": 3,
   "publishedPathsResolved": 48,
-  "externalMediaPaths": 0,
   "sourceType": 3,
-  "sourceMedia": 0,
-  "hostValidation": "Motion/FCP native load and interactivity pending parent agent verification"
+  "sourceMedia": "510000006",
+  "clip": "510000006",
+  "footage": "510000007",
+  "sourceResource": {
+    "relativePath": "Drop Zone.tiff",
+    "bytes": 420128,
+    "sha256": "a7f8e3a2a431dbb3ce9e777040bb55e701cfe9ab9632e8cbb10359732bc8692e",
+    "origin": "Apple Motion Ozone.framework standard placeholder; copied into this template for relative reference"
+  },
+  "inputChainRepair": {
+    "previousTemplateSHA256": "3b7984e11a92487834ab67121fd3814bf13c22b77a70851298efa84206f91478",
+    "previousSourceMedia": 0,
+    "previousFootageCount": 0,
+    "problem": "Previous generated template removed the standard source clip and could not establish the native effect-source input chain. XML/reference checks did not validate FCP timeline replacement.",
+    "change": "Restored the user-owned reference template clip/footage skeleton with new unique IDs; restored the Source Media link; bundled standard Drop Zone.tiff; filter, publications and Type=3/Drop Zone=1 preserved."
+  },
+  "hostValidation": "Pending parent agent Motion/FCP validation after input-chain restoration; earlier XML checks did not prove input replacement."
 }

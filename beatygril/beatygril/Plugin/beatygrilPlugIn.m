@@ -6,6 +6,13 @@
 #import <IOSurface/IOSurface.h>
 #import <stddef.h>
 #import <math.h>
+#import <os/log.h>
+
+static os_log_t PGRenderLog(void) {
+    static os_log_t log; static dispatch_once_t once;
+    dispatch_once(&once, ^{ log=os_log_create("com.dayu.beatygril", "render"); });
+    return log;
+}
 
 typedef struct { UInt32 identifier; const char *name; size_t offset; float min, max, step; BOOL percent; } PGSlider;
 #define PGS(ID, NAME, FIELD, MIN, MAX, STEP, PERCENT) {ID, NAME, offsetof(PGBeautySettings, FIELD), MIN, MAX, STEP, PERCENT}
@@ -40,6 +47,7 @@ static const PGSlider PGSliders[] = {
 #undef PGS
 
 static BOOL PGFail(NSError **error, NSString *message) {
+    os_log_error(PGRenderLog(), "%{public}@", message);
     if (error) *error = [NSError errorWithDomain:FxPlugErrorDomain code:kFxError_InvalidParameter
                                       userInfo:@{NSLocalizedDescriptionKey:message}];
     return NO;
@@ -68,6 +76,7 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
 @property BOOL analyzing;
 @property BOOL analysisForward;
 @property (strong) NSArray<NSString *> *loadedTracks;
+@property BOOL reportedRender;
 @end
 
 @implementation beatygrilPlugIn
@@ -214,6 +223,17 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
         PGBeautySettings s;[plist[@"settings"] getBytes:&s length:sizeof(s)];
         if(s.version!=1) return PGFail(error,@"此版本不支持保存的渲染状态。");
         CIImage *input=PGImageFromTile(sources.firstObject); if(!input) return PGFail(error,@"无法读取 IOSurface。");
+        @synchronized(self) {
+            if(!_reportedRender) {
+                _reportedRender=YES;
+                IOSurfaceRef src=(__bridge IOSurfaceRef)sources.firstObject.ioSurface;
+                IOSurfaceRef dst=(__bridge IOSurfaceRef)destination.ioSurface;
+                FxRect a=sources.firstObject.tilePixelBounds,b=destination.tilePixelBounds;
+                os_log(PGRenderLog(), "source format=%u %zux%zu bytes=%zu planes=%zu origin=%lu bounds=%d,%d,%d,%d extent=%{public}@; destination format=%u %zux%zu bytes=%zu planes=%zu origin=%lu bounds=%d,%d,%d,%d; midtone=%f mix=%f mask=%u",
+                    IOSurfaceGetPixelFormat(src),IOSurfaceGetWidth(src),IOSurfaceGetHeight(src),IOSurfaceGetBytesPerElement(src),IOSurfaceGetPlaneCount(src),(unsigned long)sources.firstObject.imageOrigin,a.left,a.bottom,a.right,a.top,NSStringFromRect(input.extent),
+                    IOSurfaceGetPixelFormat(dst),IOSurfaceGetWidth(dst),IOSurfaceGetHeight(dst),IOSurfaceGetBytesPerElement(dst),IOSurfaceGetPlaneCount(dst),(unsigned long)destination.imageOrigin,b.left,b.bottom,b.right,b.top,s.midtoneDetail,s.mix,s.showMask);
+            }
+        }
         CIContext *context=[self contextForTile:destination]; if(!context) return PGFail(error,@"没有可用的 Metal 图形设备。");
         CIImage *output=nil; CIImage *overlay=nil;
         @synchronized(_faceProcessor) {
@@ -226,10 +246,12 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
                 }
                 _loadedTracks=[tracks copy];
             }
-            PGFaceFrame *frame=[_faceProcessor processImage:input settings:s time:time error:error];
-            if(!frame) return NO;
+            NSError *stageError=nil;
+            PGFaceFrame *frame=[_faceProcessor processImage:input settings:s time:time error:&stageError];
+            if(!frame) { os_log_error(PGRenderLog(), "face processing failed: %{public}@",stageError); if(error)*error=stageError; return NO; }
             PGBeautySettings beauty=s; beauty.mix=1;
-            output=[_beautyRenderer processImage:frame.image settings:beauty skinMask:frame.skinMask teethMask:frame.teethMask eyeMask:frame.eyeMask error:error];
+            output=[_beautyRenderer processImage:frame.image settings:beauty skinMask:frame.skinMask teethMask:frame.teethMask eyeMask:frame.eyeMask error:&stageError];
+            if(!output) { os_log_error(PGRenderLog(), "beauty processing failed: %{public}@",stageError); if(error)*error=stageError; return NO; }
             overlay=frame.overlayImage;
         }
         if(!output) return NO;
