@@ -1,0 +1,16 @@
+{
+  "remote": "https://dayu.media/git/dayu/paintfcp-fxplug.git",
+  "tag": "v1.1.2",
+  "sourceCommit": "a2e33e8e00a99b95dc29d67a819cb0897eda5756",
+  "passed": true,
+  "testsNotRepeated": "Source is byte-identical to the independently recovered and Inspector-ASan-tested signed source node.",
+  "tagCommit": "e9fddda5e13042f761755762fa39dfe090853c6a",
+  "productSourceIdenticalToSignedNode": true,
+  "trackedFiles": 158,
+  "allBytesBlobsModesMatch": true,
+  "gitFsck": "",
+  "lfs": false,
+  "submodules": false,
+  "temporaryCloneRemoved": true,
+  "completedAt": "2026-10-21T16:32:45.814667+00:00"
+}
