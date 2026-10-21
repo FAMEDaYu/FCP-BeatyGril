@@ -1,0 +1,535 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 110;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6945FC8F3088B7220013E108 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6945FC8E3088B7220013E108 /* Cocoa.framework */; };
+		6945FC973088B7220013E108 /* beatygril XPC Service.pluginkit in Embed PlugIns */ = {isa = PBXBuildFile; fileRef = 6945FC963088B7220013E108 /* beatygril XPC Service.pluginkit */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6945FC9B3088B7220013E108 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6945FC9A3088B7220013E108 /* Foundation.framework */; };
+		6945FC9D3088B7220013E108 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6945FC9C3088B7220013E108 /* AppKit.framework */; };
+		6945FC9F3088B7220013E108 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6945FC9E3088B7220013E108 /* Accelerate.framework */; };
+		6945FCA13088B7220013E108 /* PluginManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6945FCA03088B7220013E108 /* PluginManager.framework */; };
+		6945FCA33088B7220013E108 /* FxPlug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6945FCA23088B7220013E108 /* FxPlug.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6945FC983088B7220013E108 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6945FC833088B7220013E108 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6945FC953088B7220013E108;
+			remoteInfo = "XPC Service";
+		};
+		6945FCA43088B7220013E108 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6945FC833088B7220013E108 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6945FC953088B7220013E108;
+			remoteInfo = "XPC Service";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6945FCCF3088B7220013E108 /* Embed PlugIns */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = PlugIns;
+			files = (
+				6945FC973088B7220013E108 /* beatygril XPC Service.pluginkit in Embed PlugIns */,
+			);
+			name = "Embed PlugIns";
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		6945FC8B3088B7220013E108 /* beatygril.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = beatygril.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6945FC8E3088B7220013E108 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		6945FC963088B7220013E108 /* beatygril XPC Service.pluginkit */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "beatygril XPC Service.pluginkit"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6945FC9A3088B7220013E108 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6945FC9C3088B7220013E108 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		6945FC9E3088B7220013E108 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		6945FCA03088B7220013E108 /* PluginManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PluginManager.framework; path = Library/Frameworks/../../../../../../Library/Developer/Frameworks/PluginManager.framework; sourceTree = DEVELOPER_DIR; };
+		6945FCA23088B7220013E108 /* FxPlug.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FxPlug.framework; path = Library/Frameworks/../../../../../../Library/Developer/Frameworks/FxPlug.framework; sourceTree = DEVELOPER_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		6945FCCB3088B7220013E108 /* Exceptions for "beatygril" folder in "Wrapper Application" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"/Localized: Plugin/InfoPlist.strings",
+				"/Localized: Plugin/Localizable.strings",
+				Plugin/beatygrilPlugIn.m,
+				Plugin/Info.plist,
+				Plugin/main.m,
+				Plugin/MetalDeviceCache.m,
+				Plugin/TileableRemoteBrightness.metal,
+				"Wrapper Application/Info.plist",
+			);
+			target = 6945FC8A3088B7220013E108 /* Wrapper Application */;
+		};
+		6945FCD33088B7220013E108 /* Exceptions for "beatygril" folder in "XPC Service" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"/Localized: Wrapper Application/Credits.rtf",
+				"/Localized: Wrapper Application/InfoPlist.strings",
+				"/Localized: Wrapper Application/MainMenu.xib",
+				Plugin/Info.plist,
+				"Wrapper Application/AppDelegate.m",
+				"Wrapper Application/Info.plist",
+				"Wrapper Application/main.m",
+			);
+			target = 6945FC953088B7220013E108 /* XPC Service */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		6945FCA63088B7220013E108 /* beatygril */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6945FCCB3088B7220013E108 /* Exceptions for "beatygril" folder in "Wrapper Application" target */,
+				6945FCD33088B7220013E108 /* Exceptions for "beatygril" folder in "XPC Service" target */,
+			);
+			path = beatygril;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6945FC883088B7220013E108 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				6945FC8F3088B7220013E108 /* Cocoa.framework in Frameworks */,
+			);
+		};
+		6945FC913088B7220013E108 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				6945FC9F3088B7220013E108 /* Accelerate.framework in Frameworks */,
+				6945FCA13088B7220013E108 /* PluginManager.framework in Frameworks */,
+				6945FC9B3088B7220013E108 /* Foundation.framework in Frameworks */,
+				6945FC9D3088B7220013E108 /* AppKit.framework in Frameworks */,
+				6945FCA33088B7220013E108 /* FxPlug.framework in Frameworks */,
+			);
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6945FC823088B7220013E108 = {
+			isa = PBXGroup;
+			children = (
+				6945FCA63088B7220013E108 /* beatygril */,
+				6945FC8D3088B7220013E108 /* Frameworks */,
+				6945FC8C3088B7220013E108 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6945FC8C3088B7220013E108 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6945FC8B3088B7220013E108 /* beatygril.app */,
+				6945FC963088B7220013E108 /* beatygril XPC Service.pluginkit */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6945FC8D3088B7220013E108 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6945FC8E3088B7220013E108 /* Cocoa.framework */,
+				6945FC9A3088B7220013E108 /* Foundation.framework */,
+				6945FC9C3088B7220013E108 /* AppKit.framework */,
+				6945FC9E3088B7220013E108 /* Accelerate.framework */,
+				6945FCA03088B7220013E108 /* PluginManager.framework */,
+				6945FCA23088B7220013E108 /* FxPlug.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6945FC8A3088B7220013E108 /* Wrapper Application */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6945FCD03088B7220013E108 /* Build configuration list for PBXNativeTarget "Wrapper Application" */;
+			buildPhases = (
+				6945FC873088B7220013E108 /* Sources */,
+				6945FC883088B7220013E108 /* Frameworks */,
+				6945FC893088B7220013E108 /* Resources */,
+				6945FCCF3088B7220013E108 /* Embed PlugIns */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6945FC993088B7220013E108 /* PBXTargetDependency */,
+				6945FCA53088B7220013E108 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				6945FCA63088B7220013E108 /* beatygril */,
+			);
+			name = "Wrapper Application";
+			productName = "Wrapper Application";
+			productReference = 6945FC8B3088B7220013E108 /* beatygril.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6945FC953088B7220013E108 /* XPC Service */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6945FCCC3088B7220013E108 /* Build configuration list for PBXNativeTarget "XPC Service" */;
+			buildPhases = (
+				6945FC903088B7220013E108 /* Sources */,
+				6945FC913088B7220013E108 /* Frameworks */,
+				6945FC923088B7220013E108 /* Resources */,
+				6945FC933088B7220013E108 /* Copy and Code Sign FxPlug.framework */,
+				6945FC943088B7220013E108 /* Copy and Code Sign PluginManager.framework */,
+			);
+			buildRules = (
+			);
+			fileSystemSynchronizedGroups = (
+				6945FCA63088B7220013E108 /* beatygril */,
+			);
+			name = "XPC Service";
+			productName = "XPC Service";
+			productReference = 6945FC963088B7220013E108 /* beatygril XPC Service.pluginkit */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6945FC833088B7220013E108 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 2710;
+				TargetAttributes = {
+					6945FC8A3088B7220013E108 = {
+						CreatedOnToolsVersion = 27.1;
+					};
+					6945FC953088B7220013E108 = {
+						CreatedOnToolsVersion = 27.1;
+					};
+				};
+			};
+			buildConfigurationList = 6945FC863088B7220013E108 /* Build configuration list for PBXProject "beatygril" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 6945FC823088B7220013E108;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 6945FC8C3088B7220013E108 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6945FC8A3088B7220013E108 /* Wrapper Application */,
+				6945FC953088B7220013E108 /* XPC Service */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6945FC893088B7220013E108 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		6945FC923088B7220013E108 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6945FC933088B7220013E108 /* Copy and Code Sign FxPlug.framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			name = "Copy and Code Sign FxPlug.framework";
+			shellPath = /bin/sh;
+			shellScript = (
+				"mkdir -p \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"",
+				"rsync --archive --links --whole-file --no-owner --no-group --checksum --exclude='Headers' \"/Library/Developer/Frameworks/FxPlug.framework/\" \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FxPlug.framework/\"",
+				"if [ \"$?\" -ne 0 ]; then echo \"error: rsync failed; couldn't embed FxPlug.framework\"; exit 1; fi",
+				"codesign --force --timestamp --options runtime --sign \"${CODE_SIGN_IDENTITY}\" \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/FxPlug.framework\"",
+			);
+			showEnvVarsInLog = 0;
+		};
+		6945FC943088B7220013E108 /* Copy and Code Sign PluginManager.framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			name = "Copy and Code Sign PluginManager.framework";
+			shellPath = /bin/sh;
+			shellScript = (
+				"mkdir -p \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"",
+				"rsync --archive --links --whole-file --no-owner --no-group --checksum --exclude='Headers' \"/Library/Developer/Frameworks/PluginManager.framework/\" \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PluginManager.framework/\"",
+				"if [ \"$?\" -ne 0 ]; then echo \"error: rsync failed; couldn't embed PluginManager.framework\"; exit 1; fi",
+				"codesign --force --timestamp --options runtime --sign \"${CODE_SIGN_IDENTITY}\" \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/PluginManager.framework\"",
+				"",
+			);
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6945FC873088B7220013E108 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+		6945FC903088B7220013E108 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6945FC993088B7220013E108 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6945FC953088B7220013E108 /* XPC Service */;
+			targetProxy = 6945FC983088B7220013E108 /* PBXContainerItemProxy */;
+		};
+		6945FCA53088B7220013E108 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6945FC953088B7220013E108 /* XPC Service */;
+			targetProxy = 6945FCA43088B7220013E108 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		6945FCCD3088B7220013E108 /* Debug configuration for PBXNativeTarget "XPC Service" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = B3W25FX5H5;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				INFOPLIST_FILE = beatygril/Plugin/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+				);
+				MACH_O_TYPE = mh_execute;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "beatygril $(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "beatygril/Plugin/XPC Service-Bridging-Header.h";
+				WRAPPER_EXTENSION = pluginkit;
+			};
+			name = Debug;
+		};
+		6945FCCE3088B7220013E108 /* Release configuration for PBXNativeTarget "XPC Service" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = B3W25FX5H5;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				INFOPLIST_FILE = beatygril/Plugin/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+				);
+				MACH_O_TYPE = mh_execute;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "beatygril $(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "beatygril/Plugin/XPC Service-Bridging-Header.h";
+				WRAPPER_EXTENSION = pluginkit;
+			};
+			name = Release;
+		};
+		6945FCD13088B7220013E108 /* Debug configuration for PBXNativeTarget "Wrapper Application" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "beatygril/Wrapper Application/SandboxEntitlements.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = B3W25FX5H5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				INFOPLIST_FILE = "beatygril/Wrapper Application/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = beatygril;
+				SWIFT_OBJC_BRIDGING_HEADER = "beatygril/Wrapper Application/Wrapper Application-Bridging-Header.h";
+			};
+			name = Debug;
+		};
+		6945FCD23088B7220013E108 /* Release configuration for PBXNativeTarget "Wrapper Application" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "beatygril/Wrapper Application/SandboxEntitlements.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = B3W25FX5H5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				INFOPLIST_FILE = "beatygril/Wrapper Application/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = beatygril;
+				SWIFT_OBJC_BRIDGING_HEADER = "beatygril/Wrapper Application/Wrapper Application-Bridging-Header.h";
+			};
+			name = Release;
+		};
+		6945FCD43088B7220013E108 /* Debug configuration for PBXProject "beatygril" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ADDITIONAL_SDKS = /Library/Developer/SDKs/FxPlug.sdk;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = B3W25FX5H5;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Library/Frameworks,
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 27.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5;
+			};
+			name = Debug;
+		};
+		6945FCD53088B7220013E108 /* Release configuration for PBXProject "beatygril" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ADDITIONAL_SDKS = /Library/Developer/SDKs/FxPlug.sdk;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = B3W25FX5H5;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Library/Frameworks,
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 27.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6945FC863088B7220013E108 /* Build configuration list for PBXProject "beatygril" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6945FCD43088B7220013E108 /* Debug configuration for PBXProject "beatygril" */,
+				6945FCD53088B7220013E108 /* Release configuration for PBXProject "beatygril" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		6945FCCC3088B7220013E108 /* Build configuration list for PBXNativeTarget "XPC Service" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6945FCCD3088B7220013E108 /* Debug configuration for PBXNativeTarget "XPC Service" */,
+				6945FCCE3088B7220013E108 /* Release configuration for PBXNativeTarget "XPC Service" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		6945FCD03088B7220013E108 /* Build configuration list for PBXNativeTarget "Wrapper Application" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6945FCD13088B7220013E108 /* Debug configuration for PBXNativeTarget "Wrapper Application" */,
+				6945FCD23088B7220013E108 /* Release configuration for PBXNativeTarget "Wrapper Application" */,
+			);
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6945FC833088B7220013E108 /* Project object */;
+	validationLevel = 1;
+}

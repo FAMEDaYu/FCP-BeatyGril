@@ -1,0 +1,39 @@
+# macOS and local Xcode state
+.DS_Store
+**/xcuserdata/
+**/*.xcuserstate
+
+# Rebuildable outputs, temporary render/analysis caches
+build/
+Build/
+DerivedData/
+.build/
+.tmp/
+tmp/
+*.xcarchive
+*.dSYM/
+*.app/
+*.pluginkit/
+*.zip
+*.dmg
+*.pkg
+*.log
+
+# Dependencies and local credentials
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+*.p12
+*.pfx
+*.mobileprovision
+*.provisionprofile
+*.key
+*.pem
+
+# Local reference binaries stay outside source history
+reference-binaries/
