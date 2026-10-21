@@ -12,7 +12,7 @@
 ```sh
 git clone https://dayu.media/git/dayu/paintfcp-fxplug.git
 cd paintfcp-fxplug
-git switch --detach v1.0.5
+git switch --detach v1.0.6
 ```
 
 需要继续编辑时，基于该提交创建新分支。安装 Xcode 与 Apple FxPlug 4 SDK；盘点版本和构建入口见 README.md。SDK/framework 为 Apple 外部开发依赖，应重新安装匹配版本。证书、私钥和公证凭据需从独立加密备份恢复或重新申请；Git 不包含它们。
@@ -48,3 +48,11 @@ FCP模板从 `Templates/大鱼人像美化/` 恢复，将 `.moef` 和 `Drop Zone
 从最终标签恢复后，关闭Motion/FCP，运行 `python3 scripts/deliver.py --wait-for-hosts --user-tests` 可完成签名公证安装、只读宿主退出等待、静态发现及副本清理；它不会操作宿主界面。若上次因非产品错误在Accepted且stapled后停止，可加 `--resume-prepared`，脚本必须重新核对签名CDHash、版本、票据及产品源码未变才会继续。缺少原staging或回执时应完整重新构建，不能伪造回执。
 
 1.0.5瘦脸需要完整76点；旧离线记录缺该字段时保留其余功能并跳过瘦脸。关闭使用跟踪数据可使用当前帧自动76点，或重新分析生成新记录。没有引入原版metallib或CoreML模型，运行只依赖本产品及Apple系统框架。最终安装、配套模板和扫描范围见验证记录。
+
+## 1.0.6 恢复入口
+
+本次签名构建源码SHA为`ad54726b17fabd11f46bc6121e664eac38960a23`，APP版本1.0.6、build8；最终标签计划为`v1.0.6`，由交付验证完成后创建。恢复该SHA可重建相同产品源码，最终标签另包含交付文档与回执。Release恢复仍用上节同一构建/公证命令、固定Bundle ID和正式安装路径；用户自测模式不会操作Motion/FCP界面。
+
+新增下巴三pin与图像适配轴修复；新分析档案使用`hostCoordinateSpace=iosurface-ci-y-up-v1`。旧未标记档案保留原字符串但回退实时跟随，重新分析后才能用于离线重放，不能直接补字段伪装成新档案。七类剩余脸型项及组合顺序仍有近似边界。
+
+`ad54726b17fabd11f46bc6121e664eac38960a23`已独立从上述远程克隆，87文件的byte/blob/mode与14项资源一致，strict/full fsck和559项核心测试通过，无LFS、子模块或APP产物。临时恢复目录已清理，完整报告见`docs/verification/v1.0.6/recovery-ad54726.json`。

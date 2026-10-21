@@ -1,0 +1,22 @@
+PASS: independent remote recovery
+Remote: https://dayu.media/git/dayu/paintfcp-fxplug.git
+SHA: ad54726b17fabd11f46bc6121e664eac38960a23
+Temporary clone: /tmp/paintfcp-recovery-ad54726.nARdL7/checkout
+Temporary clone removed: True
+Tracked files: 87
+Git blob / checked-out bytes / modes mismatches: 0
+Git fsck --strict --full exit: 0
+LFS pointers: 0; submodules: 0
+Resource files verified: 14; missing required: 0
+Drop Zone.tiff: Templates/大鱼人像美化/Drop Zone.tiff: TIFF image data, big-endian, direntries=21, height=1200, bps=0, compression=LZW, PhotometricIntepretation=RGB, orientation=upper-left, width=1200
+Core test exit: 0
+Core counts: Beauty49 + Face116 + Slim394 =559; failures0
+Maximum UV oracle error: 1.09828022e-05
+Core test duration: 5.394s
+ASan requested: false; sanitizer diagnostics: 0
+Restored worktree after tests: clean
+APP outputs:0; no xcodebuild build / host operations / root source edits / push
+All modes exactly match Git; scripts/test.sh, test-host.sh, test-osc.sh and deliver.py restore executable.
+External Apple SDK/frameworks are installed on this machine and must be installed separately when recovering.
+Finished UTC: 2026-10-21T12:58:52.192540+00:00
+Detailed JSON: /Users/dayu/Documents/PaintFCP/build/pose-analysis/recovery-v106/recovery-ad54726.json

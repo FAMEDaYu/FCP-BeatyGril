@@ -1,0 +1,1077 @@
+{
+  "remote": "https://dayu.media/git/dayu/paintfcp-fxplug.git",
+  "requested_commit": "ad54726b17fabd11f46bc6121e664eac38960a23",
+  "clone_path": "/tmp/paintfcp-recovery-ad54726.nARdL7/checkout",
+  "clone_exit_code": 0,
+  "detach_exit_code": 0,
+  "verified_at_utc": "2026-10-21T12:58:11.795905+00:00",
+  "app_builds_created": false,
+  "xcodebuild_build_executed": false,
+  "host_operations_executed": false,
+  "root_source_modified": false,
+  "pushed": false,
+  "head": "ad54726b17fabd11f46bc6121e664eac38960a23",
+  "remote_read_exit_code": 0,
+  "remote_main_at_verification": "ad54726b17fabd11f46bc6121e664eac38960a23\trefs/heads/main",
+  "git_fsck_strict_full_exit_code": 0,
+  "git_fsck_output": "",
+  "tracked_file_count": 87,
+  "tracked_manifest": [
+    {
+      "path": ".gitignore",
+      "git_blob": "d2bca6e38076bb5f7574cc7781eadef27b41d9ff",
+      "bytes": 490,
+      "sha256": "34e63260d343569ad4d5a1ffd6c15647da5a7da2b8940dc93f6d987c7fec474e",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "README.md",
+      "git_blob": "c4f891e5508633fe7af5ddccdfce64efc0e8f7f3",
+      "bytes": 3801,
+      "sha256": "16305a7dc4660f694a41c3814426dcb7a568e76472e7cb41ef65ad2702d01471",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "RECOVERY.md",
+      "git_blob": "58903f7bcadd847a608e29049b89ef20799500dd",
+      "bytes": 5465,
+      "sha256": "3136cb4190a243a521bfaa0a0b2a0221851bb1517bce66905f1e327a0f7a1846",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "Templates/大鱼人像美化/Drop Zone.tiff",
+      "git_blob": "6d15c98bc221f999514f197ff67a7145836e6a38",
+      "bytes": 420128,
+      "sha256": "a7f8e3a2a431dbb3ce9e777040bb55e701cfe9ab9632e8cbb10359732bc8692e",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "Templates/大鱼人像美化/PARAMETERS.json",
+      "git_blob": "df2c01f370e6ee639d2950774fe8020742802c17",
+      "bytes": 9815,
+      "sha256": "bb561b0dfff90223f0925a60ec05b28518e22163a6bf7922c4efc6d155ddbabb",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "Templates/大鱼人像美化/README.md",
+      "git_blob": "ea3c608f0fe1bf7a46ecb3df89b6f8c42a202561",
+      "bytes": 4675,
+      "sha256": "34d0b2b20dd2abb49872d3af356e6246fc832bfa2bfcaaee7861ed7dd545fae0",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "Templates/大鱼人像美化/VALIDATION.json",
+      "git_blob": "34d2a1c85ad5831ed29b1c8f6c87856e31631250",
+      "bytes": 2776,
+      "sha256": "6e9e98cccbed789db5f1988d398a2898a76f366394190f26bcbef6b7a0e31660",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "Templates/大鱼人像美化/大鱼人像美化.moef",
+      "git_blob": "9811823863ea35dfcca2153c79d64abb3d8d76b0",
+      "bytes": 22996,
+      "sha256": "30ca8edf36801264c5de2c753c40b720aba8052633620713a12401098fcd2409",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril.xcodeproj/project.pbxproj",
+      "git_blob": "db5251bf3c337b865621e771a4b28690214f1c8e",
+      "bytes": 22986,
+      "sha256": "e9b9be100e53003f6bba96658d3a36078bb607236958e43aec6ed59f8c73ce32",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril.xcodeproj/project.xcworkspace/contents.xcworkspacedata",
+      "git_blob": "919434a6254f0e9651f402737811be6634a03e9c",
+      "bytes": 135,
+      "sha256": "7f3b00b5c3fdb45242d7b87e1e5c4e25d1fa8129a16c94295ecc4e8ea2235c5f",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/Info.plist",
+      "git_blob": "9baedf93ce81cfdf5a8d859b5d7c6da5f32165c6",
+      "bytes": 3030,
+      "sha256": "5b64d2a7fb33f144deb81aa05c264855446301d3fcce9cf62de7d70492b24ae0",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGBeautyRenderer.h",
+      "git_blob": "a0a6965c837072e6d837a98b701d59b1cc139655",
+      "bytes": 1410,
+      "sha256": "4e9b663c47261e4feceb7ab38c25171b65f36c14417d82a8b7c49ee3201492d3",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGBeautyRenderer.m",
+      "git_blob": "4c9fc6fbb1dc1f2c4048a16435f554cae9f2ca74",
+      "bytes": 17132,
+      "sha256": "00b52b1f22c1e875f137ee4ea90f50d6caa38db277bebd0da538d0ba7e66072b",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGBeautyTypes.h",
+      "git_blob": "e1cd3ef21f37b831cdaa7d9f52211cafaf243994",
+      "bytes": 1149,
+      "sha256": "6ea8005accc22f85fe8be1b73bf6e89a5b37ffd6e97460d4f6dd69d55eaf33cc",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGFaceProcessor.h",
+      "git_blob": "0b861830a6e9652d81ccfe62f2ce758febee449f",
+      "bytes": 2178,
+      "sha256": "a3448bd75fd278c9702f079f55637ba2c26bc820bdbb81f49fb3a3d0e2a4aba5",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGFaceProcessor.m",
+      "git_blob": "639a5994405c94b2d0bcef7fc06d04fec83bbf30",
+      "bytes": 43816,
+      "sha256": "fe4f2a6fc28799cc9b81832baaa2d6739320bde9def175ecc8a4494d004d6b28",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGFaceSelectOSC.m",
+      "git_blob": "ae0aa7ce1c2de355b2c1cb890314a0de689df81a",
+      "bytes": 11630,
+      "sha256": "d5e1dd1db6825730803ddc3f21b588cd548cbbacc60760aa45ad9e2feedae307",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/PGParameterIDs.h",
+      "git_blob": "4cc0e20af1e659f1e8e666fabe01003c06cfd885",
+      "bytes": 932,
+      "sha256": "8fdfa2021131317ce09532d27fd6f34fb0b505f7b17c561819336ad2a06c42cc",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/beatygrilPlugIn.h",
+      "git_blob": "12dca07a744c064d5d474e0294304ca29055a077",
+      "bytes": 347,
+      "sha256": "4f00716328c9237b79cc58153ba47d8ac8ddc1786939cb206bd37b01e3b6397e",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/beatygrilPlugIn.m",
+      "git_blob": "c3255e673b4d41ae0f97e5a0ef7b54c0e4a8ad98",
+      "bytes": 25913,
+      "sha256": "c6ec62190e4fcccb9116f9cd07204250c51383ece1d3ae427f3372b26cd031ed",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/en.lproj/InfoPlist.strings",
+      "git_blob": "9a5f27348a39c8e3ee50cffc2fb359c78a1319c8",
+      "bytes": 85,
+      "sha256": "1b1cd5b74690bd5a74cf2b0a0c068bbc2c3462c5e9fe5ca3e61541bcbd451a7a",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/en.lproj/Localizable.strings",
+      "git_blob": "7f52f3dd719cb4f94e24867e36114cb061ef0b92",
+      "bytes": 132,
+      "sha256": "b3036a2339b97ebf264516e1e534351d1ceb64f45942595508f4d67d07b07769",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/main.m",
+      "git_blob": "34d50d3f8cdf438d3508d0aa94e3f2d20e45f962",
+      "bytes": 114,
+      "sha256": "5b812ddb1ef171fe075e4faf13d761935ca73ecbba1be0bd9d4802a64a7759cd",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/AppDelegate.h",
+      "git_blob": "f3f8e19cfe057114c2289ff37c01c2e6e1aa7ed0",
+      "bytes": 167,
+      "sha256": "3fc6516be93176f90c2deb17332c9cf98e670458a33fbad4fe7b8f367ec9494f",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/AppDelegate.m",
+      "git_blob": "1cb56f073356dd30add33415117bf4c24fdc4ef0",
+      "bytes": 3003,
+      "sha256": "acef6ade6591c039cd8b3e603f83d6d06f64da9709a0385b73c8588e824fe6de",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/Base.lproj/MainMenu.xib",
+      "git_blob": "57d03a50e249d189c5fa0a4602c5ec846f06612d",
+      "bytes": 50614,
+      "sha256": "7f0945bc5903a658550b712267870edecbdf1b73ac83c71f1358468f40c1ab1d",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/Info.plist",
+      "git_blob": "7e30af8135ac90b50d19c4fd60021674326adb2a",
+      "bytes": 1084,
+      "sha256": "b5059a9afdf57350972c61d0f41800e38966d3339a082ad6f776914b2ea86e54",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/SandboxEntitlements.entitlements",
+      "git_blob": "852fa1a4728ae4789e3bca55dd07caef3b41f2a5",
+      "bytes": 240,
+      "sha256": "b746c74b201e6af4e0864fbd1f4f629f96156a7ec4b7208bc995d0a5089bb592",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/en.lproj/Credits.rtf",
+      "git_blob": "da779d0f6bec11568066e347a01ccef0308488b2",
+      "bytes": 264,
+      "sha256": "ec846e198df85720e8443abb810334411b5690386f3062f90208c23b8575f28a",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/en.lproj/InfoPlist.strings",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/main.m",
+      "git_blob": "99ad4384792f9b2050e0755c07522c0dab9b4b86",
+      "bytes": 112,
+      "sha256": "5c3dc97a53d0379af0e0ce75c5541f33c47f2da115d2d0018cfba003d185a63d",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/analysis/REA-分析与复刻说明.md",
+      "git_blob": "6581570f9d140ef8d0e00f19d9285d44a6ae3813",
+      "bytes": 10519,
+      "sha256": "ee64e260fd9261856047096570b8fed308284b3a02cd0dd892f3ceda6a5482ab",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/analysis/auto-follow-report.json",
+      "git_blob": "e60d6d055a513ab8e9c21d2b39460c9d0698e1d3",
+      "bytes": 15665,
+      "sha256": "1a0c91efcaee058f331f6a7446bea8794af1dcf9120f5c2585f249b188d038e3",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/analysis/beauty-preview.png",
+      "git_blob": "35ace472cb42629b01b3e05660cb7be8b9711fd7",
+      "bytes": 617622,
+      "sha256": "37aa97855915a49ff1f225a9e1fa9d8bcbed0be5f4109b6835ba4db17f9113f6",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/analysis/chin-report.json",
+      "git_blob": "45211997cc792cf545680bc59dc1a77d37b6983b",
+      "bytes": 2461,
+      "sha256": "e257e28a46aa665dc2b645e7df9fa37b956129ebc4fdaea4ab02d007ad103a02",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/analysis/face-preview.png",
+      "git_blob": "9a5bab3ad706b95ac32875352d16d6580dcd48ab",
+      "bytes": 713552,
+      "sha256": "6cc662cbb2b554a0dd8c926d94a0d819506ac76710d9c09c2d3d7f808fbf686b",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/analysis/rea-auto-tracking.json",
+      "git_blob": "2f5738f934f0ce89780cf4535c7257b54a397bef",
+      "bytes": 2883488,
+      "sha256": "dc1007f3798fade5e454bb2ef0b58e4cfe2bb0256948c364070fd9af70a97377",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/analysis/rea-chin.json",
+      "git_blob": "ec98c683c0204e8bb31b4ce1766cc51637b88e7b",
+      "bytes": 13877,
+      "sha256": "180f56b03039518af5a9f77599c4cd2bf9b14a61cb2334e8815a59fff05616df",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/analysis/rea-host.json",
+      "git_blob": "9de443173a74668f0a2dced3426dae20549a16dd",
+      "bytes": 10111,
+      "sha256": "141866459948b19d5378de2f6534de333c795e317416f2ac6c9fdc86c94dd61a",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/analysis/rea-image-orientation.json",
+      "git_blob": "ba9774364a665c7afc4c7606bc651a2d00e3b5c3",
+      "bytes": 381285,
+      "sha256": "783a9176401b57ed617a61892bc0da08bef0378a54610b3a86b282672aeda888",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/analysis/rea-plugin.json",
+      "git_blob": "79bcafbcfeda694ed466d95f81f30eb622a95a0b",
+      "bytes": 343165,
+      "sha256": "dda6e450915e1054653c28addfed5254c678dccf14ee66643d508e7087c1f0c1",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/analysis/rea-slim-pose.json",
+      "git_blob": "249eb3678b20c378e0d73239e0949cc86c2af436",
+      "bytes": 343127,
+      "sha256": "5f4a2dfe5796ce72bb3d022a85a42cd5ed0eceb0cd0655041812126ebec7933a",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/analysis/reference-template-parameters.json",
+      "git_blob": "9947e2ff182a146bc4c9120dfff7eacc8cca9c0c",
+      "bytes": 1608,
+      "sha256": "026e47e8ecbd9a967d8b8aabddac2a370479a43b9e1a7a7728b5b01a5002f006",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/analysis/slim-pose-report.json",
+      "git_blob": "1db6ae9bd4f1351e66c8f833bda9393e3da58910",
+      "bytes": 9510,
+      "sha256": "1d38f246960486bb2b4b97c22b489c62b3d9e2dbc6b9a1241952f8923a19a5a4",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/analysis/下巴与坐标分析.md",
+      "git_blob": "60f0c6536290392753adb2582b9353c73fb44393",
+      "bytes": 5628,
+      "sha256": "d85e946b3e9a42fda9e24786582812e54f2bd906d0d91798a85354d1dc9a87b8",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/analysis/脸型变形与转脸分析.md",
+      "git_blob": "42bf39d1a235632e8a34c3fa7110c7bc8559fb3a",
+      "bytes": 9394,
+      "sha256": "8a16f7701ea2d1004f58d9fbe93122827d40afc9556916bab1bec5ab48bf3972",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/installed-signature.txt",
+      "git_blob": "78fc46fd6aee5443af9eeb53a97502d0251cf2a9",
+      "bytes": 988,
+      "sha256": "add93ef0fa60cd32ed766c965e6f2869f56b4da65030e774e76d133b02ef7aec",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/live-face-asan.txt",
+      "git_blob": "b92d565bec7a49444b638437b4ae8e7400ce90f6",
+      "bytes": 219,
+      "sha256": "b956e0fe7a3fccdd8eff8788807c0aaf60da56aa1cb153087f25234cc156c27d",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/notarization.json",
+      "git_blob": "86d17c6738b9e0aa6f92583ffc798c2e6b6bece1",
+      "bytes": 98,
+      "sha256": "91b4f5e239a50467bde83b8c40c1c1809f85cd4eb4b1f1091e1b2197c11a79b6",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/recovery-e03e460-beauty-face.txt",
+      "git_blob": "2c6f0b5e7f7dedf9571d6da6ce67303bf34faedc",
+      "bytes": 298,
+      "sha256": "45698c80fdfc68c2dc68be59ba03380aa6e8194731d4858dc009f827dd06e226",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/recovery-e03e460-host-asan.txt",
+      "git_blob": "7eeed088f0dad0564aa166232aedb9ae47a56dd0",
+      "bytes": 380,
+      "sha256": "65d0226f95e882702484849997fde558fae7af418e9243702f789b1e2fcacf14",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/recovery-e03e460-osc-asan.txt",
+      "git_blob": "7abde29290bfea1e475af387899fb3160a60cc95",
+      "bytes": 3336,
+      "sha256": "2e326d2fc0eb5d2cdd9f07e2318dfd17a41d346a82f383b05b51f416ffdacdb3",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/recovery-e03e460-xcode-list.txt",
+      "git_blob": "e90278ec1aedf6a1176682ec1037e49ba2f588c1",
+      "bytes": 570,
+      "sha256": "ff9ffb300caac840f4e64f97f24712e319af9bbe4cee1dbbd79b0a5caa1432d1",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/recovery-e03e460.json",
+      "git_blob": "ecd24b6f35c893c3637dc4e268d0acabb4d09967",
+      "bytes": 25360,
+      "sha256": "559839e989fb4fa9589847632975a6d4d8548c00e6ad5b87bdba736bb3e1daf3",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/recovery-e03e460.txt",
+      "git_blob": "ed81f4abdeada50c1afb2ac866d3cc79fd6579d9",
+      "bytes": 846,
+      "sha256": "3931beb81cf475ce1c44e5b90c8e9101abb1a7ba20b657d72090b6e7662530cc",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/release-receipt.json",
+      "git_blob": "e53f21de9e8ea68a40f435cf9e3d1a0d95499bde",
+      "bytes": 2454,
+      "sha256": "07ba4f5bbba101a49d4579c0b79fbce0dad70a1e4b5887e61e052741c49486ee",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/v1.0.5/core-tests.txt",
+      "git_blob": "76d29d91672ec631950b2f3ada1db39db4c877ac",
+      "bytes": 427,
+      "sha256": "408910aeedcf0155bc31ef43ca6e8994d9348f8fbdc0c25eb8a43ce89965e081",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/v1.0.5/delivery-receipt.json",
+      "git_blob": "0bc3fedabf83cdddc2b28204e45193d7ee268864",
+      "bytes": 3714,
+      "sha256": "5c26aaa043e968284afd9748d4f563b354f4a63d8ec8464c1edc911761cd6c36",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/v1.0.5/host-tests.txt",
+      "git_blob": "3e1c1c6b7c104995a2656e142671759634352525",
+      "bytes": 271,
+      "sha256": "c727d9d56a0b46a4cdbc79d24eeedc589e5984b38144f28ccf017f4d65f504f7",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/v1.0.5/installed-discovery.txt",
+      "git_blob": "1d622a5489046ae31682dbce99f17ab435db7968",
+      "bytes": 200,
+      "sha256": "60791b375880f39ee5d9e39fc47ac973701c28367b02a0a02d4c1c7e2f58a784",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/v1.0.5/installed-signature.txt",
+      "git_blob": "e187bd1163f873f409be3a40ea95b5902494b209",
+      "bytes": 988,
+      "sha256": "9fe71339911482938f3e4af5584911c94c3d9c80b54a4c534d59905b019fe056",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/v1.0.5/installed-verification.json",
+      "git_blob": "4557bc7f8f53ba4283dfe9dac3a0fe03b2a1a14f",
+      "bytes": 1376,
+      "sha256": "1b8a51bf8b4642d485cb7731fc71c2c65736b5c60d742124a50e0cbd2b0efd2e",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/v1.0.5/notarization.json",
+      "git_blob": "fd81f72ba3bdb8f27b44a85fafd8b55eb90713cb",
+      "bytes": 98,
+      "sha256": "77bb451ccce2dcf31382015bf6addb557400a20fce0560d442e222254a075057",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/v1.0.5/osc-tests.txt",
+      "git_blob": "c9c618896ca3ee0c2a943979103ab3b42335c7e0",
+      "bytes": 3229,
+      "sha256": "5e443009bc39635d01a1f6276b48170fe9da73c088646425c6ed140d87ba4518",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/v1.0.5/recovery-abe97ed-test.txt",
+      "git_blob": "03d86b12b2426c0b26eee320efab6a133a4f147d",
+      "bytes": 553,
+      "sha256": "f6296c73b6f94573d239fc627ec21e6eb6518b2b5ec35e44660097aeca923f8b",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/v1.0.5/recovery-abe97ed.json",
+      "git_blob": "9e3278418a588f6ba83f47c30792306f8bc2dda9",
+      "bytes": 26143,
+      "sha256": "74eef3111d9207b86d62e0019545cca4a595597d2ea40f60efdcfdf455902e87",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/v1.0.5/recovery-abe97ed.txt",
+      "git_blob": "96837e1cfb2ac5102b008b7133324cc04b423aef",
+      "bytes": 566,
+      "sha256": "3f59d5be5984fe89376a5eb4cce46888ffd5886fe058303620708999bcaf496d",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/v1.0.5/slim-real-video-asan.txt",
+      "git_blob": "0adc11ae33571e14a09302f6bb02c1fa82e1ff99",
+      "bytes": 207,
+      "sha256": "2828625fd5bc45a8e0c6e06b1c033e394e5dbc0ff4570200eed673067330f2d7",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/v1.0.6/anatomical-summary.json",
+      "git_blob": "a6c0ab3ba191a83090a6784607a23015442a6d60",
+      "bytes": 566,
+      "sha256": "de8fb5f975ad44b47a672899e079d21eb8444d3ad40babe336c43e6bf267b545",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/v1.0.6/core-tests.txt",
+      "git_blob": "c5b30862d71601a1929c897ec232bc4e5e59da41",
+      "bytes": 427,
+      "sha256": "a7a955927f6e03f3a2337b1384f0456724dbd2ec324ef678ceaeebc1c9b51aeb",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/v1.0.6/host-tests.txt",
+      "git_blob": "6d9e2d7e251c0ccfaee602ca70435408d6dbfa75",
+      "bytes": 1565,
+      "sha256": "4f07103a1732baa5c483863e7cfeb913219e20fa185214923522b8be3eb87aa1",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/v1.0.6/osc-tests.txt",
+      "git_blob": "5b42805af91bf0f7aa331508a71859ce85b6d7d2",
+      "bytes": 3249,
+      "sha256": "a3c8c92fb194705c11b360aeb2cb36e555866d3bae811fc4415af1ca92176e76",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/verification/v1.0.6/slim-chin-real-video-asan.txt",
+      "git_blob": "900c6e4a1d44c7add54878214fd08c171ec86158",
+      "bytes": 213,
+      "sha256": "16144bf293087ba68359a6d278c99165038d6990458f4acb951367df8055db3d",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/验证记录.md",
+      "git_blob": "d8726373e1b9dfeb5668117bd52af3ebb54d4b0c",
+      "bytes": 12015,
+      "sha256": "e0efa1a7127d1db68699297ef1c5e9060e3753e864c61d26eb023c19b4c9f6b2",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "scripts/checkpoint.py",
+      "git_blob": "8248d1732aceed377d28cdae02873057f442474b",
+      "bytes": 2218,
+      "sha256": "3c27b0e603dd2d94512f611cec97bd9afe5809aea0f5a4bb213995d2e23366f8",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "scripts/deliver.py",
+      "git_blob": "b3d04d62b1a673c33eb9c91ebf6a54ab19b6fb8e",
+      "bytes": 13444,
+      "sha256": "5c390ab63aa94a978ac75145ade33c2a4de54c1808a511436419a8fbf4b31c8a",
+      "git_mode": "100755",
+      "restored_git_mode": "100755",
+      "restored_permissions": "0o755"
+    },
+    {
+      "path": "scripts/inspect-face-geometry.m",
+      "git_blob": "d075cf7c8c9a23b9bd01bbcbc31da89fea84d5d3",
+      "bytes": 6613,
+      "sha256": "a2c54e7297f9f94e9c56c0b29f9ce607756705f2005c1f13e10996bc26c24b66",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "scripts/test-host.sh",
+      "git_blob": "ef9c7f6436e3d1babbf272e9d329d65ec6c395cb",
+      "bytes": 1129,
+      "sha256": "7f55ed6de05e6cc59884fb7c96062676bd086f4ac745ae847511eacb12316467",
+      "git_mode": "100755",
+      "restored_git_mode": "100755",
+      "restored_permissions": "0o755"
+    },
+    {
+      "path": "scripts/test-osc.sh",
+      "git_blob": "ffaed0b8d449eef6acf2fb352d9fea10fc1649fd",
+      "bytes": 941,
+      "sha256": "ed405cd214ce252641074d0ef0a12c4cc0faf3e1869fe92716a98fff7f9ac517",
+      "git_mode": "100755",
+      "restored_git_mode": "100755",
+      "restored_permissions": "0o755"
+    },
+    {
+      "path": "scripts/test.sh",
+      "git_blob": "f13ba656929fe34b43c143bdfeb4a208c44c7428",
+      "bytes": 932,
+      "sha256": "3ca9cb120b452a0c402debbe5d3399fa4996e0ea0882253470791494815d530d",
+      "git_mode": "100755",
+      "restored_git_mode": "100755",
+      "restored_permissions": "0o755"
+    },
+    {
+      "path": "tests/beauty_render_tests.m",
+      "git_blob": "24050fb3a2630693253202ae1525c280f4f144eb",
+      "bytes": 16870,
+      "sha256": "b04eb2f0d78faec13bbdd2a3286cc74c46c2f536358c7c1c3d5d03c54daa868c",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "tests/face_tests.m",
+      "git_blob": "1f37a526f7507d4ebbf729e5e7f3793a38921a6f",
+      "bytes": 33252,
+      "sha256": "12e30c4a137bc8f6164b768f48afb084697386c80977573996b64ad03cbe14d4",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "tests/fixtures/ATTRIBUTION.txt",
+      "git_blob": "6e439ab97256952b0acd1eef0e1c1b4ab3ea015c",
+      "bytes": 498,
+      "sha256": "8823ad8aed1a5c1bdda93946e4b5ed24cd542e996a2b8087517cf62f7f4f2a84",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "tests/fixtures/astronaut.png",
+      "git_blob": "834cda0012478c5edc8d43bade96d315dedeaab4",
+      "bytes": 791555,
+      "sha256": "88431cd9653ccd539741b555fb0a46b61558b301d4110412b5bc28b5e3ea6cb5",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "tests/host_adapter_tests.m",
+      "git_blob": "f996613fdf3e2ba66328a0393ca7fb6aacaba1f9",
+      "bytes": 46671,
+      "sha256": "3b97e3650d55d6a171641dddcd093c1cf731d8aad7f3eebc0c553bfa24214fb7",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "tests/osc_tests.m",
+      "git_blob": "66fff5f78f8e0ba08026e53375b184a460a29162",
+      "bytes": 22495,
+      "sha256": "a3199147e32facd63373b53f77840408411b04436fb1dd42e2fb71023c8f2f8a",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "tests/slim_tests.m",
+      "git_blob": "cdfe27f69b51c3a077d51965a30cfbc528708eda",
+      "bytes": 16949,
+      "sha256": "d18601ebd8d7d80a172ff852c96d80705698041b6bc2e670c8aac1ae6b7fb3e8",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    }
+  ],
+  "blob_byte_or_mode_mismatches": [],
+  "all_tracked_bytes_blobs_modes_verified": true,
+  "lfs_pointer_files": [],
+  "gitattributes_exists": false,
+  "gitmodules_exists": false,
+  "submodules": [],
+  "submodule_status_exit_code": 0,
+  "submodule_status_output": "",
+  "resource_files": [
+    {
+      "path": "Templates/大鱼人像美化/Drop Zone.tiff",
+      "git_blob": "6d15c98bc221f999514f197ff67a7145836e6a38",
+      "bytes": 420128,
+      "sha256": "a7f8e3a2a431dbb3ce9e777040bb55e701cfe9ab9632e8cbb10359732bc8692e",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "Templates/大鱼人像美化/大鱼人像美化.moef",
+      "git_blob": "9811823863ea35dfcca2153c79d64abb3d8d76b0",
+      "bytes": 22996,
+      "sha256": "30ca8edf36801264c5de2c753c40b720aba8052633620713a12401098fcd2409",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril.xcodeproj/project.pbxproj",
+      "git_blob": "db5251bf3c337b865621e771a4b28690214f1c8e",
+      "bytes": 22986,
+      "sha256": "e9b9be100e53003f6bba96658d3a36078bb607236958e43aec6ed59f8c73ce32",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/Info.plist",
+      "git_blob": "9baedf93ce81cfdf5a8d859b5d7c6da5f32165c6",
+      "bytes": 3030,
+      "sha256": "5b64d2a7fb33f144deb81aa05c264855446301d3fcce9cf62de7d70492b24ae0",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/en.lproj/InfoPlist.strings",
+      "git_blob": "9a5f27348a39c8e3ee50cffc2fb359c78a1319c8",
+      "bytes": 85,
+      "sha256": "1b1cd5b74690bd5a74cf2b0a0c068bbc2c3462c5e9fe5ca3e61541bcbd451a7a",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Plugin/en.lproj/Localizable.strings",
+      "git_blob": "7f52f3dd719cb4f94e24867e36114cb061ef0b92",
+      "bytes": 132,
+      "sha256": "b3036a2339b97ebf264516e1e534351d1ceb64f45942595508f4d67d07b07769",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/Base.lproj/MainMenu.xib",
+      "git_blob": "57d03a50e249d189c5fa0a4602c5ec846f06612d",
+      "bytes": 50614,
+      "sha256": "7f0945bc5903a658550b712267870edecbdf1b73ac83c71f1358468f40c1ab1d",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/Info.plist",
+      "git_blob": "7e30af8135ac90b50d19c4fd60021674326adb2a",
+      "bytes": 1084,
+      "sha256": "b5059a9afdf57350972c61d0f41800e38966d3339a082ad6f776914b2ea86e54",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/SandboxEntitlements.entitlements",
+      "git_blob": "852fa1a4728ae4789e3bca55dd07caef3b41f2a5",
+      "bytes": 240,
+      "sha256": "b746c74b201e6af4e0864fbd1f4f629f96156a7ec4b7208bc995d0a5089bb592",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/en.lproj/Credits.rtf",
+      "git_blob": "da779d0f6bec11568066e347a01ccef0308488b2",
+      "bytes": 264,
+      "sha256": "ec846e198df85720e8443abb810334411b5690386f3062f90208c23b8575f28a",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "beatygril/beatygril/Wrapper Application/en.lproj/InfoPlist.strings",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/analysis/beauty-preview.png",
+      "git_blob": "35ace472cb42629b01b3e05660cb7be8b9711fd7",
+      "bytes": 617622,
+      "sha256": "37aa97855915a49ff1f225a9e1fa9d8bcbed0be5f4109b6835ba4db17f9113f6",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "docs/analysis/face-preview.png",
+      "git_blob": "9a5bab3ad706b95ac32875352d16d6580dcd48ab",
+      "bytes": 713552,
+      "sha256": "6cc662cbb2b554a0dd8c926d94a0d819506ac76710d9c09c2d3d7f808fbf686b",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "tests/fixtures/astronaut.png",
+      "git_blob": "834cda0012478c5edc8d43bade96d315dedeaab4",
+      "bytes": 791555,
+      "sha256": "88431cd9653ccd539741b555fb0a46b61558b301d4110412b5bc28b5e3ea6cb5",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    }
+  ],
+  "scripts": [
+    {
+      "path": "scripts/checkpoint.py",
+      "git_blob": "8248d1732aceed377d28cdae02873057f442474b",
+      "bytes": 2218,
+      "sha256": "3c27b0e603dd2d94512f611cec97bd9afe5809aea0f5a4bb213995d2e23366f8",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "scripts/deliver.py",
+      "git_blob": "b3d04d62b1a673c33eb9c91ebf6a54ab19b6fb8e",
+      "bytes": 13444,
+      "sha256": "5c390ab63aa94a978ac75145ade33c2a4de54c1808a511436419a8fbf4b31c8a",
+      "git_mode": "100755",
+      "restored_git_mode": "100755",
+      "restored_permissions": "0o755"
+    },
+    {
+      "path": "scripts/inspect-face-geometry.m",
+      "git_blob": "d075cf7c8c9a23b9bd01bbcbc31da89fea84d5d3",
+      "bytes": 6613,
+      "sha256": "a2c54e7297f9f94e9c56c0b29f9ce607756705f2005c1f13e10996bc26c24b66",
+      "git_mode": "100644",
+      "restored_git_mode": "100644",
+      "restored_permissions": "0o644"
+    },
+    {
+      "path": "scripts/test-host.sh",
+      "git_blob": "ef9c7f6436e3d1babbf272e9d329d65ec6c395cb",
+      "bytes": 1129,
+      "sha256": "7f55ed6de05e6cc59884fb7c96062676bd086f4ac745ae847511eacb12316467",
+      "git_mode": "100755",
+      "restored_git_mode": "100755",
+      "restored_permissions": "0o755"
+    },
+    {
+      "path": "scripts/test-osc.sh",
+      "git_blob": "ffaed0b8d449eef6acf2fb352d9fea10fc1649fd",
+      "bytes": 941,
+      "sha256": "ed405cd214ce252641074d0ef0a12c4cc0faf3e1869fe92716a98fff7f9ac517",
+      "git_mode": "100755",
+      "restored_git_mode": "100755",
+      "restored_permissions": "0o755"
+    },
+    {
+      "path": "scripts/test.sh",
+      "git_blob": "f13ba656929fe34b43c143bdfeb4a208c44c7428",
+      "bytes": 932,
+      "sha256": "3ca9cb120b452a0c402debbe5d3399fa4996e0ea0882253470791494815d530d",
+      "git_mode": "100755",
+      "restored_git_mode": "100755",
+      "restored_permissions": "0o755"
+    }
+  ],
+  "required_resource_paths": [
+    "Templates/大鱼人像美化/Drop Zone.tiff",
+    "Templates/大鱼人像美化/大鱼人像美化.moef",
+    "beatygril/beatygril.xcodeproj/project.pbxproj",
+    "beatygril/beatygril/Plugin/Info.plist",
+    "beatygril/beatygril/Wrapper Application/Info.plist",
+    "beatygril/beatygril/Wrapper Application/Base.lproj/MainMenu.xib",
+    "beatygril/beatygril/Wrapper Application/SandboxEntitlements.entitlements",
+    "tests/fixtures/astronaut.png"
+  ],
+  "missing_required_resources": [],
+  "drop_zone_file_description": "Templates/大鱼人像美化/Drop Zone.tiff: TIFF image data, big-endian, direntries=21, height=1200, bps=0, compression=LZW, PhotometricIntepretation=RGB, orientation=upper-left, width=1200",
+  "direct_test_entrypoint_executable": true,
+  "external_apple_dependencies": [
+    {
+      "path": "/Library/Developer/SDKs/FxPlug.sdk",
+      "exists_on_verification_machine": true,
+      "in_repository": false
+    },
+    {
+      "path": "/Library/Developer/Frameworks/FxPlug.framework",
+      "exists_on_verification_machine": true,
+      "in_repository": false
+    },
+    {
+      "path": "/Library/Developer/Frameworks/PluginManager.framework",
+      "exists_on_verification_machine": true,
+      "in_repository": false
+    }
+  ],
+  "core_tests": {
+    "command": "scripts/test.sh",
+    "exit_code": 0,
+    "duration_seconds": 5.393788583984133,
+    "raw_log": "/Users/dayu/Documents/PaintFCP/build/pose-analysis/recovery-v106/recovery-ad54726-core-tests.txt",
+    "asan_requested": false,
+    "failure_lines": [],
+    "counts": {
+      "beauty": {
+        "checks": 49,
+        "failures": 0
+      },
+      "face": {
+        "checks": 116,
+        "failures": 0
+      },
+      "slim": {
+        "checks": 394,
+        "failures": 0,
+        "maximum_uv_oracle_error": 1.09828022e-05
+      }
+    },
+    "total_checks": 559,
+    "expected_total_checks": 559,
+    "expected_counts_match": true,
+    "asan_diagnostics": []
+  },
+  "restored_worktree_status_after_tests": "",
+  "created_app_paths": [],
+  "temporary_clone_removed": true,
+  "product_versions": {
+    "plugin": {
+      "CFBundleIdentifier": "$(PRODUCT_BUNDLE_IDENTIFIER)",
+      "CFBundleShortVersionString": "1.0.6",
+      "CFBundleVersion": "8"
+    },
+    "wrapper": {
+      "CFBundleIdentifier": "$(PRODUCT_BUNDLE_IDENTIFIER)",
+      "CFBundleShortVersionString": "1.0.6",
+      "CFBundleVersion": "8"
+    }
+  },
+  "tracked_manifest_sha256": "c7f197986aa1daed6be21778e3cbd83b023c7f281d9db4b07bedea1dcd2b84f1",
+  "report_scope": "Independent remote-source recovery and CLI core regression; no APP build, signing, installation, host operations, source edits or push.",
+  "all_required_resources_verified": true,
+  "overall_pass": true,
+  "finished_at_utc": "2026-10-21T12:58:52.192540+00:00",
+  "retained_log_sha256": {
+    "/Users/dayu/Documents/PaintFCP/build/pose-analysis/recovery-v106/recovery-ad54726-core-tests.txt": "b6b9ed4b3af54249d18ce2ff9f544b97176a0309ccf5b5612f6eda5ad3afd273",
+    "/Users/dayu/Documents/PaintFCP/build/pose-analysis/recovery-v106/recovery-ad54726-fsck.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

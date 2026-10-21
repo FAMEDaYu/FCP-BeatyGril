@@ -1,0 +1,48 @@
+2026-10-21 20:56:23.542 negative-control[10726:5467718] FBBA: creating VNFaceBBoxAligner from VNFaceDetectorRevision2: VNFaceDetectorRevision2
+FAIL: default sourceBOTTOM/destinationTOP matches independent upright CI output
+FAIL: default sourceBOTTOM/destinationTOP is byte-identical across coordinate tags
+FAIL: default sourceBOTTOM/destinationTOP preserves the independently decoded photo
+FAIL: default sourceTOP/destinationBOTTOM matches independent upright CI output
+FAIL: default sourceTOP/destinationBOTTOM is byte-identical across coordinate tags
+FAIL: default sourceTOP/destinationBOTTOM preserves the independently decoded photo
+FAIL: big-eye sourceBOTTOM/destinationTOP matches independent upright CI output
+FAIL: big-eye sourceBOTTOM/destinationTOP is byte-identical across coordinate tags
+FAIL: big-eye sourceBOTTOM/destinationTOP changes the two real eye regions
+FAIL: big-eye sourceTOP/destinationBOTTOM matches independent upright CI output
+FAIL: big-eye sourceTOP/destinationBOTTOM is byte-identical across coordinate tags
+FAIL: big-eye sourceTOP/destinationBOTTOM changes the two real eye regions
+FAIL: big-eye sourceTOP/destinationTOP matches independent upright CI output
+FAIL: big-eye sourceTOP/destinationTOP is byte-identical across coordinate tags
+FAIL: chin-positive sourceBOTTOM/destinationTOP matches independent upright CI output
+FAIL: chin-positive sourceBOTTOM/destinationTOP is byte-identical across coordinate tags
+FAIL: chin-positive sourceBOTTOM/destinationTOP changes the real chin rather than eyes or mirrored anatomy
+FAIL: chin-positive sourceTOP/destinationBOTTOM matches independent upright CI output
+FAIL: chin-positive sourceTOP/destinationBOTTOM is byte-identical across coordinate tags
+FAIL: chin-positive sourceTOP/destinationBOTTOM changes the real chin rather than eyes or mirrored anatomy
+FAIL: chin-positive sourceTOP/destinationTOP matches independent upright CI output
+FAIL: chin-positive sourceTOP/destinationTOP is byte-identical across coordinate tags
+FAIL: chin-negative sourceBOTTOM/destinationTOP matches independent upright CI output
+FAIL: chin-negative sourceBOTTOM/destinationTOP is byte-identical across coordinate tags
+FAIL: chin-negative sourceBOTTOM/destinationTOP changes the real chin rather than eyes or mirrored anatomy
+FAIL: chin-negative sourceTOP/destinationBOTTOM matches independent upright CI output
+FAIL: chin-negative sourceTOP/destinationBOTTOM is byte-identical across coordinate tags
+FAIL: chin-negative sourceTOP/destinationBOTTOM changes the real chin rather than eyes or mirrored anatomy
+FAIL: chin-negative sourceTOP/destinationTOP matches independent upright CI output
+FAIL: chin-negative sourceTOP/destinationTOP is byte-identical across coordinate tags
+Anatomy default       0/0 max=0 mean=0.0000000 eye=0/0 chin=0 inverted=0
+Anatomy default       0/1 max=255 mean=75.5590439 eye=512210/458308 chin=640530 inverted=2678038
+Anatomy default       1/0 max=255 mean=75.5590439 eye=512210/458308 chin=640530 inverted=2678038
+Anatomy default       1/1 max=0 mean=0.0000000 eye=0/0 chin=0 inverted=0
+Anatomy big-eye       0/0 max=2 mean=0.0008917 eye=33510/33880 chin=0 inverted=0
+Anatomy big-eye       0/1 max=255 mean=75.5509195 eye=512210/458308 chin=640530 inverted=2673702
+Anatomy big-eye       1/0 max=255 mean=75.5510902 eye=512210/458308 chin=640530 inverted=2673881
+Anatomy big-eye       1/1 max=66 mean=0.0180340 eye=30841/32051 chin=0 inverted=0
+Anatomy chin-positive 0/0 max=1 mean=0.0001459 eye=0/0 chin=116812 inverted=0
+Anatomy chin-positive 0/1 max=255 mean=75.5574808 eye=512210/458308 chin=640530 inverted=2671244
+Anatomy chin-positive 1/0 max=255 mean=75.5593863 eye=512210/458308 chin=640530 inverted=2671753
+Anatomy chin-positive 1/1 max=52 mean=0.0127611 eye=0/0 chin=121860 inverted=0
+Anatomy chin-negative 0/0 max=1 mean=0.0000849 eye=0/0 chin=60426 inverted=0
+Anatomy chin-negative 0/1 max=255 mean=75.5518637 eye=512210/458308 chin=640530 inverted=2681787
+Anatomy chin-negative 1/0 max=255 mean=75.5510559 eye=512210/458308 chin=640530 inverted=2681767
+Anatomy chin-negative 1/1 max=21 mean=0.0061512 eye=0/0 chin=63433 inverted=0
+Restored origin flips negative control: 120 checks, 30 expected failures

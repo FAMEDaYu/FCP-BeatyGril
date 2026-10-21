@@ -47,7 +47,16 @@
     "hostAdapterASanChecks": 247,
     "oscASanChecks": 98,
     "allOriginTagsPixelIdentical": true,
-    "maxByteErrorVsIndependentCIReference": 2
+    "maxByteErrorVsIndependentCIReference": 2,
+    "oldFlipNegativeControl": {
+      "checks": 120,
+      "expectedFailures": 30,
+      "topTopDefaultMaxByteError": 0,
+      "topTopBigEyeMaxByteError": 66,
+      "topTopChinPositiveMaxByteError": 52,
+      "topTopChinNegativeMaxByteError": 21,
+      "scope": "temporary current source with only two old flips restored; three-pin chin already fixed; not same as old Gaussian eye-hotspot counterexample"
+    }
   },
   "limitations": [
     "Seven other shape controls remain approximations.",
