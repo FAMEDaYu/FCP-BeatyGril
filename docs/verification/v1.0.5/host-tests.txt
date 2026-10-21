@@ -1,0 +1,4 @@
+2026-10-21 20:18:33.844 host-tests[6427:5408121] FBBA: creating VNFaceBBoxAligner from VNFaceDetectorRevision2: VNFaceDetectorRevision2
+Default IOSurface maximum byte difference: 0
+Alternate destination tag maximum byte difference: 0
+Host adapter: 117 checks, 0 failures

@@ -88,7 +88,7 @@ static void RealtimeChecks(CIContext *context,CIImage *image) {
     VNFaceObservation *left=Face(CGRectMake(.10,.25,.30,.50));
     VNFaceObservation *right=Face(CGRectMake(.66,.30,.20,.40));
     PGFaceFixture *p=[PGFaceFixture new];p.detections=@[left,right];
-    s.faceThin=.8;
+    s.faceSmallHead=.8;
     PGFaceFrame *automatic=[p processImage:image settings:s time:kCMTimeZero error:&error];
     Check(automatic.deformationGeometry.count==1 && GeometryBox(automatic.deformationGeometry.firstObject).origin.x<.5,@"default realtime geometry chooses one area/center primary without analysis");
     Check(automatic.faces.count==2 && automatic.faces[0]==left && automatic.faces[1]==right,@"default appearance retains both original Vision observations");
@@ -322,7 +322,8 @@ int main(int argc, const char *argv[]) {
             float *controls[] = {&changed.faceThin, &changed.faceBigEye, &changed.faceShort, &changed.faceNarrow, &changed.faceChin, &changed.faceV, &changed.faceJaw, &changed.faceCheekbone, &changed.faceSmallHead};
             *controls[i] = 1;
             PGFaceFrame *warped = [processor processImage:image settings:changed time:kCMTimeZero error:&error];
-            Check(warped != nil && ![Pixels(context, warped.image) isEqualToData:base], [@"geometry control changes pixels: " stringByAppendingString:names[i]]);
+            BOOL changedPixels=![Pixels(context, warped.image) isEqualToData:base];
+            Check(warped != nil && (i==0 ? !changedPixels : changedPixels), i==0 ? @"thin safely skips a face with no indexed landmarks" : [@"geometry control changes pixels: " stringByAppendingString:names[i]]);
             Check(CGRectEqualToRect(warped.image.extent, image.extent), @"warp preserves image extent");
         }
         settings.faceShort = 0.8;

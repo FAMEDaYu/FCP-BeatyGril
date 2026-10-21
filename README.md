@@ -22,3 +22,9 @@ xcodebuild -project beatygril/beatygril.xcodeproj -scheme 'Wrapper Application' 
 工程从 `/Library/Developer/SDKs/FxPlug.sdk` 读取头文件与链接信息，从 `/Library/Developer/Frameworks` 嵌入可运行的 Apple 框架。构建默认使用团队 B3W25FX5H5 的 Developer ID Application 身份；正式交付使用 `python3 scripts/deliver.py` 完成公证、粘附和安装；安装前先关闭 Motion 与 FCP，脚本在检测到宿主仍运行时保留原安装版并停止。原生验收完成后继续脚本的清理阶段，清除临时注册与 APP 副本。
 
 私有源码仓库：`https://dayu.media/git/dayu/paintfcp-fxplug.git`。恢复入口见 [RECOVERY.md](RECOVERY.md)，当前验证记录见 [验证记录](docs/验证记录.md)。原始模板保存在 `baseline-20261021` 标签。
+
+## 1.0.5 瘦脸修复
+
+瘦脸现固定使用Vision revision 3的76点配置，以17组轮廓到鼻部/瞳孔锚点的局部逆向采样替代脸框水平挤压，包含原版尺寸增益与滑块强度映射。完整点阵贯通实时稳定与离线存储；旧分析记录没有完整76点时跳过瘦脸，重新分析可补齐。其他脸型项仍使用原有近似实现，不能将本次对齐扩张为全部脸型逐像素等价。
+
+离屏验证新增224项：含48组脸部投影/尺寸/歪头与独立17-pin数值场对照、数据恢复和缺点保护；完整回归604项通过。Motion/FCP界面由用户自测。可运行 `python3 scripts/deliver.py --wait-for-hosts --user-tests`，签名公证后只读等待宿主自然退出，安装验证与清理无需操作宿主界面。
