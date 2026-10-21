@@ -1,13 +1,23 @@
-# GitHub 发布目标
+# GitHub 同步与恢复
 
-目标：https://github.com/FAMEDaYu/FCP-BeatyGril
+公开源码：https://github.com/FAMEDaYu/FCP-BeatyGril
 
-本地已添加 `github` 远端，保留 `origin` 指向大鱼仓库，`main` 继续跟随 `origin/main`。首次检查时 GitHub 为公开空仓库。源码、既有历史和全部版本标签将通过 Git 正常推送；1.2.0 正式安装包另上传到 GitHub Release。不开启镜像强推，不覆盖 GitHub 端已有提交或标签。
+正式安装包：https://github.com/FAMEDaYu/FCP-BeatyGril/releases/tag/v1.2.0
 
-当前状态：等待具有目标仓库写权限的 GitHub 登录授权。尚未声称 GitHub 备份完成，也不会提前把文章的源码入口切换到空仓库。原大鱼站备份继续可用。
+本地 `github` 远端指向上述 GitHub 仓库，`origin` 继续指向大鱼仓库，`main` 仍跟随 `origin/main`。当前项目的完整提交历史、main 和七个版本标签已推送，两端引用与本地一致；未改写历史或覆盖标签。后续更新需要分别推送到 origin 和 github，不会自动定时同步。
 
-登录完成后，以 GitHub 账号和目标仓库权限回读为准。推送后检查远端所有分支 / 标签 SHA，并独立匿名克隆、核对源码与正式 PKG 哈希；再更新文章链接。
+## 已验证的 GitHub 恢复节点
 
-正式 PKG：`releases/1.2.0/大鱼人像美化-1.2.0.pkg`，SHA-256 `5bd77c28b3a7e54f3d4060be1f16bcb145d9bc4d6b9cfb9eb137c01130440243`。不重新编译、修改或签名安装包。
+匿名恢复提交：`356683b41af702d6c0143ad7fa5f540d752d6e14`。在关闭凭据助手和交互登录的独立临时目录中成功克隆 GitHub，197 个受跟踪文件逐字节一致、七个标签引用一致，strict/full fsck 通过。正式 PKG 的源码内副本与 GitHub Release 匿名下载副本 SHA-256 相同，下载副本的 Installer 签名与公证票据通过。后续 main 提交补充文章和验证记录，产品源码与该恢复节点一致。
+
+安装包：`Dayu-Portrait-1.2.0.pkg`，5,011,005 bytes，SHA-256 `5bd77c28b3a7e54f3d4060be1f16bcb145d9bc4d6b9cfb9eb137c01130440243`。Release 标签 `v1.2.0` 仍指向 `3c7261c3a861b9f4704cfb36055d7b500c239dab`，没有重新编译或改动正式安装包。
+
+```sh
+git clone https://github.com/FAMEDaYu/FCP-BeatyGril.git
+cd FCP-BeatyGril
+git switch --detach 356683b41af702d6c0143ad7fa5f540d752d6e14
+```
+
+本项目没有 LFS 或子模块。编译仍需自行安装 Xcode 和 Apple FxPlug SDK；签名私钥与公证凭据不在 Git 内。GitHub 公共克隆无需登录；大鱼备份仍受站点登录和会员网关限制。两边都只承诺已经提交、推送并核验的节点。
 
 源代码编写署名：代码由 OpenAI + Codex 全程编写，站长仅参与调试和测试。

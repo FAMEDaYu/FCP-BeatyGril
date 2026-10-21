@@ -1,0 +1,17 @@
+{
+  "article_id": 15593,
+  "url": "https://dayu.media/15593/",
+  "status": "publish",
+  "github_repository": "https://github.com/FAMEDaYu/FCP-BeatyGril",
+  "github_release": "https://github.com/FAMEDaYu/FCP-BeatyGril/releases/tag/v1.2.0",
+  "anonymous_frontend_http": 200,
+  "both_github_links_present_in_frontend": true,
+  "code_writing_credit_retained": "代码由 OpenAI + Codex 全程编写，站长仅参与调试和测试。",
+  "resource_price_download_cover_seo_and_author_preserved": true,
+  "only_content_requested": true,
+  "frontend_seo_unique_and_exact": true,
+  "idempotency_key": "55e60cc5-509a-4ae9-ba96-c0d25b2c575a",
+  "before_content_sha256": "2701991a543b80114c062cc7ee68b83afff505dd9456cfe82f0b8819ea81b119",
+  "after_content_sha256": "c66e1ddb374714a938442cd24cf5034482ea4e67d6f8dd79c07d43ba74ad1b1d",
+  "verified_at_utc": "2026-10-21T19:32:48.060004+00:00"
+}

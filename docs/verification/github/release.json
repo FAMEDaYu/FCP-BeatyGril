@@ -1,0 +1,18 @@
+{
+  "repository": "FAMEDaYu/FCP-BeatyGril",
+  "url": "https://github.com/FAMEDaYu/FCP-BeatyGril/releases/tag/v1.2.0",
+  "release_id": 419972270,
+  "tag": "v1.2.0",
+  "draft": false,
+  "prerelease": false,
+  "asset": {
+    "id": 663571667,
+    "name": "Dayu-Portrait-1.2.0.pkg",
+    "size": 5011005,
+    "digest": "sha256:5bd77c28b3a7e54f3d4060be1f16bcb145d9bc4d6b9cfb9eb137c01130440243",
+    "browser_download_url": "https://github.com/FAMEDaYu/FCP-BeatyGril/releases/download/v1.2.0/Dayu-Portrait-1.2.0.pkg"
+  },
+  "sha256": "5bd77c28b3a7e54f3d4060be1f16bcb145d9bc4d6b9cfb9eb137c01130440243",
+  "anonymous_asset_download_hash_matches": true,
+  "downloaded_pkg_signature_and_ticket_valid": true
+}

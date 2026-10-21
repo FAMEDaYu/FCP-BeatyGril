@@ -1,0 +1,19 @@
+{
+  "repository": "https://github.com/FAMEDaYu/FCP-BeatyGril",
+  "repository_id": 1428817365,
+  "visibility": "public",
+  "source_commit": "356683b41af702d6c0143ad7fa5f540d752d6e14",
+  "local_refs": {
+    "refs/heads/main": "356683b41af702d6c0143ad7fa5f540d752d6e14",
+    "refs/tags/baseline-20261021": "4124c350ce288b5fa3cf843ec0e9751e9db19b4c",
+    "refs/tags/v1.0.4": "302dc20c0a90c0b8934c4341d65c2467d4ed3386",
+    "refs/tags/v1.0.5": "1008651f6e2111a26d1420021c49f40d6f728b3a",
+    "refs/tags/v1.0.6": "5793e3de499bfe320b5e9a9db16ef7bc79a5243d",
+    "refs/tags/v1.1.0": "3bb33818eaa8033b8b1d140eb64e31f38ec3fa75",
+    "refs/tags/v1.1.2": "e9fddda5e13042f761755762fa39dfe090853c6a",
+    "refs/tags/v1.2.0": "3c7261c3a861b9f4704cfb36055d7b500c239dab"
+  },
+  "github_refs_verified": true,
+  "main_upstream_retained": "origin",
+  "auth_storage": "macOS keyring through GitHub CLI; no token included"
+}

@@ -101,3 +101,7 @@ Motion/FCP原生验收范围及未完成项见`docs/verification/v1.1.2/native-q
 1.2.0 的最终标签完整 SHA 为 `3c7261c3a861b9f4704cfb36055d7b500c239dab`，已从认证远端独立克隆恢复并比对183个受跟踪文件，strict/full fsck、Xcode工程读取、恢复出的PKG签名和票据验证通过。正式PKG SHA-256 为 `5bd77c28b3a7e54f3d4060be1f16bcb145d9bc4d6b9cfb9eb137c01130440243`。后续main修正发布助手和补充文档，不改变已签名产品源码696d5f3或正式包。
 
 公开文章：https://dayu.media/15593/ ，包含免费安装包、免登录源码快照与仓库链接。源码快照对应 `788ba0d5514595cf349af33074055d70b0754185`；它包含完整构建源码，排除PKG二进制，不包含Git历史。完整历史可从仓库恢复，仍需满足当前站点Git网关登录条件。
+
+## GitHub 公开恢复副本
+
+GitHub 远端 `https://github.com/FAMEDaYu/FCP-BeatyGril.git` 已完成完整历史与七个标签的推送，`origin` 及其 main 上游保持大鱼仓库。独立匿名克隆恢复节点为 `356683b41af702d6c0143ad7fa5f540d752d6e14`，197 文件逐字节核验、strict/full fsck 和全部标签回读通过。后续 main 补充发布说明与验证文档，产品源码保持相同。GitHub Release 的公证安装包已匿名下载核对哈希、签名和票据。详见 `docs/GitHub同步说明.md` 和 `docs/verification/github/`。

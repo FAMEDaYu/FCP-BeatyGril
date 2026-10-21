@@ -1,0 +1,14 @@
+{
+  "remote": "https://github.com/FAMEDaYu/FCP-BeatyGril.git",
+  "anonymous_clone": true,
+  "credentials_disabled_for_clone": true,
+  "commit": "356683b41af702d6c0143ad7fa5f540d752d6e14",
+  "tracked_files_compared": 197,
+  "all_tag_refs_equal": true,
+  "tag_count": 7,
+  "git_fsck_full_strict": true,
+  "package_sha256": "5bd77c28b3a7e54f3d4060be1f16bcb145d9bc4d6b9cfb9eb137c01130440243",
+  "lfs": false,
+  "submodules": false,
+  "temporary_clone_removed": true
+}
