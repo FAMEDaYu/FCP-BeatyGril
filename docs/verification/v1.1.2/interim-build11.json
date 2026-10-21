@@ -1,0 +1,44 @@
+{
+  "status": "failed",
+  "bundleIdentifier": "com.dayu.beatygril",
+  "installationPath": "/Library/Plug-Ins/FxPlug/beatygril.app",
+  "options": {
+    "waitForHosts": true,
+    "userTests": false
+  },
+  "nativeEffectQA": {
+    "status": "pending_operator",
+    "performedByScript": false
+  },
+  "source": {
+    "commit": "183bf0e4b2227477c4d38cb201ce2c0279eeb740",
+    "trackedWorktreeChanges": []
+  },
+  "updatedAt": "2026-10-21T16:06:51.497292+00:00",
+  "version": "1.1.2",
+  "build": "11",
+  "stagingSignature": "Executable=/private/tmp/paintfcp-build-20261021/Build/Products/Release/beatygril.app/Contents/MacOS/beatygril\nIdentifier=com.dayu.beatygril\nFormat=app bundle with Mach-O universal (x86_64 arm64)\nCodeDirectory v=20500 size=478 flags=0x10000(runtime) hashes=4+7 location=embedded\nHash type=sha256 size=32\nCandidateCDHash sha256=8e50a6a2b99f93880d8a5a8b5978d120a227a6b7\nCandidateCDHashFull sha256=8e50a6a2b99f93880d8a5a8b5978d120a227a6b72d1b6480bef338f2c8f1fbd4\nHash choices=sha256\nCMSDigest=8e50a6a2b99f93880d8a5a8b5978d120a227a6b72d1b6480bef338f2c8f1fbd4\nCMSDigestType=2\nCDHash=8e50a6a2b99f93880d8a5a8b5978d120a227a6b7\nSignature size=8969\nAuthority=Developer ID Application: zhong luo (B3W25FX5H5)\nAuthority=Developer ID Certification Authority\nAuthority=Apple Root CA\nTimestamp=Oct 21, 2026 at 23:57:21\nInfo.plist entries=22\nTeamIdentifier=B3W25FX5H5\nRuntime Version=27.0.0\nSealed Resources version=2 rules=13 files=4\nInternal requirements count=1 size=180\nTotal signatures=1\nChosen signature=1\n",
+  "notarization": {
+    "message": "Processing complete",
+    "id": "a9b454c3-5d30-47bd-b266-f19447f3db7e",
+    "status": "Accepted"
+  },
+  "signingVerified": true,
+  "stapleValidated": true,
+  "stagingPluginUnregistered": true,
+  "runningHosts": [],
+  "installedSignature": "Executable=/Library/Plug-Ins/FxPlug/beatygril.app/Contents/MacOS/beatygril\nIdentifier=com.dayu.beatygril\nFormat=app bundle with Mach-O universal (x86_64 arm64)\nCodeDirectory v=20500 size=478 flags=0x10000(runtime) hashes=4+7 location=embedded\nHash type=sha256 size=32\nCandidateCDHash sha256=8e50a6a2b99f93880d8a5a8b5978d120a227a6b7\nCandidateCDHashFull sha256=8e50a6a2b99f93880d8a5a8b5978d120a227a6b72d1b6480bef338f2c8f1fbd4\nHash choices=sha256\nCMSDigest=8e50a6a2b99f93880d8a5a8b5978d120a227a6b72d1b6480bef338f2c8f1fbd4\nCMSDigestType=2\nCDHash=8e50a6a2b99f93880d8a5a8b5978d120a227a6b7\nSignature size=8969\nAuthority=Developer ID Application: zhong luo (B3W25FX5H5)\nAuthority=Developer ID Certification Authority\nAuthority=Apple Root CA\nTimestamp=Oct 21, 2026 at 23:57:21\nNotarization Ticket=stapled\nInfo.plist entries=22\nTeamIdentifier=B3W25FX5H5\nRuntime Version=27.0.0\nSealed Resources version=2 rules=13 files=4\nInternal requirements count=1 size=180\nTotal signatures=1\nChosen signature=1\n",
+  "installedSignatureVerified": true,
+  "installedStapleValidated": true,
+  "gatekeeperAccepted": true,
+  "pluginDiscovery": {
+    "bundleIdentifier": "com.dayu.beatygril.fxplug",
+    "formalPath": "/Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit",
+    "output": "     com.dayu.beatygril.fxplug(1.1)\tEFA7AB61-D5AA-44BB-B096-FF6BF12E7D02\t2026-10-21 15:57:43 +0000\t/Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit\n (1 plug-in)\n"
+  },
+  "failure": {
+    "type": "KeyboardInterrupt",
+    "message": ""
+  },
+  "interimReason": "Native testing found number field focus-loss resubmission; combined build11 not accepted as final."
+}

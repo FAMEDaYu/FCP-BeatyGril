@@ -1,0 +1,4 @@
+FAIL: every drag step publishes a completed host snapshot before mouse-up
+FAIL: every drag step publishes a completed host snapshot before mouse-up
+FAIL: every drag step publishes a completed host snapshot before mouse-up
+Inspector: 155 checks, 3 failures

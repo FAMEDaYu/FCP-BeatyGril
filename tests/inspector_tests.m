@@ -13,6 +13,8 @@
 @property BOOL actionRequiresView;
 @property NSUInteger invalidActionSenders;
 @property (weak) id lastActionSender;
+@property NSUInteger previewPublications;
+@property (strong) NSDictionary *previewValues;
 @end
 @implementation PGInspectorTestAPI
 - (id)apiForProtocol:(Protocol *)protocol {
@@ -27,7 +29,12 @@
     if(_actionRequiresView && ![sender isKindOfClass:NSView.class]){_invalidActionSenders++;return;}
     if(!self.actionDepth)_actionBefore=[self.values copy];[super startAction:sender];
 }
-- (void)endAction:(id)sender {if(self.actionDepth==1 && ![self.values isEqual:_actionBefore])_undoValues=_actionBefore;[super endAction:sender];}
+- (void)endAction:(id)sender {
+    if(self.actionDepth==1 && ![self.values isEqual:_actionBefore]) {
+        _undoValues=_actionBefore;_previewValues=[self.values copy];_previewPublications++;
+    }
+    [super endAction:sender];
+}
 - (CMTime)currentTime {[self guard];return [super currentTime];}
 - (BOOL)getCustomParameterValue:(NSObject **)v fromParameter:(UInt32)i atTime:(CMTime)t {[self guard];return [super getCustomParameterValue:v fromParameter:i atTime:t];}
 - (BOOL)getFloatValue:(double *)v fromParameter:(UInt32)i atTime:(CMTime)t {[self guard];return [super getFloatValue:v fromParameter:i atTime:t];}
@@ -96,7 +103,7 @@ static void ControllerTests(void) {
     Check(c.available && Near([c.state valueForParameter:PGMidtone],.5) && !c.state.hasEdits,@"initial UI reads the current legacy/template values instead of replacing them");
     NSUInteger starts=api.actionStarts,writes=api.customWrites;
     [c beginInteraction];[c setValue:.1 forParameter:PGChin];[c setValue:.3 forParameter:PGChin];[c setValue:.5 forParameter:PGChin];[c endInteraction];
-    Check(api.actionStarts==starts+1 && api.actionDepth==0 && api.customWrites==writes+3,@"a full continuous drag uses one balanced host action");
+    Check(api.actionStarts==starts+1 && api.actionDepth==0 && api.customWrites==writes+3,@"an explicitly grouped controller transaction uses one balanced host action");
     Check(api.scalarWrites==3,@"continuous drags mirror only changed values rather than rewriting every hidden parameter");
     PGInspectorState *saved=api.values[@(PGInspectorPanel)];Check(saved.hasEdits && Near([saved valueForParameter:PGChin],.5) && Near([saved valueForParameter:PGMidtone],.5),@"published state contains the edited control and all untouched document values");
     NSUInteger before=api.customWrites;[c setValue:.5 forParameter:PGChin];Check(api.customWrites==before,@"an unchanged value does not create duplicate undo writes");
@@ -150,6 +157,30 @@ static void ViewInteractionTests(void) {
     api.values[@(PGInspectorPanel)]=[PGInspectorState stateWithValues:changed disabledParameters:s.disabledParameters hasEdits:YES];
     number.stringValue=@"0.40";Fire(number);s=api.values[@(PGInspectorPanel)];
     Check(Near([s valueForParameter:PGChin],.4),@"explicit input matching old UI cache still overrides a newer host value");
+    // Return has already submitted .40. Losing focus after an external undo
+    // must not send that old field text again and resurrect the undone value.
+    changed=[s.values mutableCopy];changed[@(PGChin)]=@.8;
+    api.values[@(PGInspectorPanel)]=[PGInspectorState stateWithValues:changed disabledParameters:s.disabledParameters hasEdits:YES];
+    [number.delegate controlTextDidEndEditing:[NSNotification notificationWithName:NSControlTextDidEndEditingNotification object:number]];
+    s=api.values[@(PGInspectorPanel)];
+    Check(Near([s valueForParameter:PGChin],.8),@"focus loss after a submitted number does not resurrect an externally undone value");
+    number.stringValue=@"0.65";
+    [number.delegate controlTextDidChange:[NSNotification notificationWithName:NSControlTextDidChangeNotification object:number]];
+    [number.delegate controlTextDidEndEditing:[NSNotification notificationWithName:NSControlTextDidEndEditingNotification object:number]];
+    s=api.values[@(PGInspectorPanel)];
+    Check(Near([s valueForParameter:PGChin],.65),@"genuinely edited number still commits when focus leaves without Return");
+    changed=[s.values mutableCopy];changed[@(PGChin)]=@.2;
+    api.values[@(PGInspectorPanel)]=[PGInspectorState stateWithValues:changed disabledParameters:s.disabledParameters hasEdits:YES];
+    [number.delegate controlTextDidEndEditing:[NSNotification notificationWithName:NSControlTextDidEndEditingNotification object:number]];
+    s=api.values[@(PGInspectorPanel)];
+    Check(Near([s valueForParameter:PGChin],.2),@"duplicate end-editing notifications do not create another parameter transaction");
+    NSWindow *window=[[NSWindow alloc]initWithContentRect:NSMakeRect(0,0,380,900) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
+    window.releasedWhenClosed=NO;window.contentView=view;
+    [number selectText:nil];
+    Check(number.currentEditor!=nil,@"offscreen AppKit window supplies a real field editor for Return handling");
+    number.stringValue=@"0.25";Fire(number);
+    Check(number.currentEditor==nil && Near([(PGInspectorState *)api.values[@(PGInspectorPanel)] valueForParameter:PGChin],.25),@"Return commits once and releases the actual AppKit editor before host commands");
+    [window close];
     NSButton *preview=(NSButton *)FindControl(view,NSButton.class,@"人脸框预览");preview.state=NSControlStateValueOn;Fire(preview);s=api.values[@(PGInspectorPanel)];Check([s valueForParameter:PGTrackBoxes]==1,@"preview switch events change the automatic face box setting");
     for(NSNumber *width in @[@280,@320,@380,@520]) {
         [view setFrameSize:NSMakeSize(width.doubleValue,20)];[view layoutSubtreeIfNeeded];
@@ -174,9 +205,28 @@ static void HostHandshakeTests(void) {
     Check(view.controller.available && brightness.enabled,@"a later host connection restores controls after a transient API failure");
     Check(api.accessViolations==0 && api.actionDepth==0 && api.actionStarts==api.actionEnds,@"action-scoped connection, edits, failure and reconnection remain balanced");
 }
+static void ContinuousPreviewTests(void) {
+    PGInspectorTestAPI *api=[PGInspectorTestAPI new];beatygrilPlugIn *plugin=[[beatygrilPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
+    api.parameterAPIsRequireAction=YES;api.actionRequiresView=YES;
+    PGInspectorView *view=(PGInspectorView *)[plugin createViewForParameterID:PGInspectorPanel];[view refreshFromHost];
+    NSSlider *slider=(NSSlider *)FindControl(view,NSSlider.class,@"短脸");
+    void (^began)(void)=[slider valueForKey:@"interactionBegan"], (^ended)(void)=[slider valueForKey:@"interactionEnded"];
+    Check(slider.continuous && began && ended,@"native slider emits continuous events and exposes balanced gesture callbacks");
+    began();
+    for(NSNumber *value in @[@.2,@.5,@1]) {
+        NSUInteger publications=api.previewPublications;slider.doubleValue=value.doubleValue;Fire(slider);
+        PGInspectorState *visible=api.previewValues[@(PGInspectorPanel)];
+        Check(api.actionDepth==0 && api.previewPublications==publications+1 && Near([visible valueForParameter:PGShort],value.doubleValue),@"every drag step publishes a completed host snapshot before mouse-up");
+        Check(visible && Near(PGSettingsWithInspectorState(PGBeautyDefaults(),visible).faceShort,value.doubleValue),@"published frame settings contain each intermediate short-face value while gesture is still open");
+    }
+    NSUInteger publications=api.previewPublications;Fire(slider);
+    Check(api.previewPublications==publications,@"unchanged drag events do not enqueue redundant previews");
+    ended();
+    Check(api.actionDepth==0 && api.actionStarts==api.actionEnds && api.accessViolations==0 && api.invalidActionSenders==0,@"step-wise publication preserves action-scoped APIs and the actual view sender");
+}
 int main(int argc,const char **argv) {@autoreleasepool {
     [NSApplication sharedApplication];[NSApp setActivationPolicy:NSApplicationActivationPolicyProhibited];
-    RegistrationTests();ModelTests();ControllerTests();ViewInteractionTests();HostHandshakeTests();
+    RegistrationTests();ModelTests();ControllerTests();ViewInteractionTests();HostHandshakeTests();ContinuousPreviewTests();
     if(argc>2) {
         NSData *inner=[NSData dataWithContentsOfFile:@(argv[1])],*outer=[NSData dataWithContentsOfFile:@(argv[2])];NSError *error=nil;
         NSKeyedUnarchiver *reader=[[NSKeyedUnarchiver alloc]initForReadingFromData:inner error:&error];reader.requiresSecureCoding=YES;

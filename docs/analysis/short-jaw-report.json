@@ -172,6 +172,7 @@
   },
   "air_excerpts": {
     "path": "docs/analysis/short-jaw-air.txt",
-    "sha256": "45ef87253c5d2591d78531b59b1c8672e10b84615457faabd4dc7f0e9dcdbcac"
+    "sha256": "f4ade84fdb2303515dab7b4d7eca8a9c2241039b9e6428cd51ceffc32b3f6b9b",
+    "formatNote": "Trailing whitespace removed from numbered excerpt; original AIR source SHA remains unchanged."
   }
 }

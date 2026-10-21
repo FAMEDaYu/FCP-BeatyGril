@@ -155,6 +155,7 @@ static PGInspectorGlyphButton *PGUIButton(NSString *glyph, NSColor *accent, id t
 @property (nonatomic, strong) NSColor *accent;
 @property (nonatomic, strong) NSTextField *label;
 @property (nonatomic, strong) NSTextField *valueField;
+@property (nonatomic) BOOL numberHasUnsubmittedEdit;
 @property (nonatomic, strong) NSTextField *hint;
 @property (nonatomic, strong) PGInspectorSlider *slider;
 @property (nonatomic, strong) PGInspectorGlyphButton *eye;
@@ -244,7 +245,11 @@ static PGInspectorGlyphButton *PGUIButton(NSString *glyph, NSColor *accent, id t
 - (void)toggleEnabled:(id)sender { (void)sender;[_inspector.controller toggleEnabledForParameter:[_descriptor[@"id"]unsignedIntValue]];[_inspector reloadControls]; }
 - (void)resetValue:(id)sender { (void)sender;[_inspector.controller resetParameter:[_descriptor[@"id"]unsignedIntValue]];[_inspector reloadControls]; }
 - (void)numberCommitted:(id)sender {
-    (void)sender;NSString *text=[_valueField.stringValue stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
+    // The explicit Return action and the subsequent end-editing notification
+    // describe the same submission. Clear the dirty flag before host callbacks
+    // so focus loss cannot write stale text over a reset or a host undo.
+    _numberHasUnsubmittedEdit=NO;
+    NSString *text=[_valueField.stringValue stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
     if([text hasSuffix:@"%"]||[text hasSuffix:@"°"])text=[text substringToIndex:text.length-1];
     NSNumber *number=nil;
     for(NSLocale *locale in @[NSLocale.currentLocale,[NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"]]){
@@ -259,8 +264,14 @@ static PGInspectorGlyphButton *PGUIButton(NSString *glyph, NSColor *accent, id t
         [_inspector writeValue:value parameter:[_descriptor[@"id"]unsignedIntValue]];
     }else NSBeep();
     _valueField.stringValue=PGFormattedValue(_descriptor,[_inspector.controller.state valueForParameter:[_descriptor[@"id"]unsignedIntValue]]);
+    if(sender==_valueField && _valueField.currentEditor)[_valueField.window makeFirstResponder:nil];
 }
-- (void)controlTextDidEndEditing:(NSNotification *)notification { (void)notification;[self numberCommitted:_valueField]; }
+- (void)controlTextDidChange:(NSNotification *)notification { (void)notification;_numberHasUnsubmittedEdit=YES; }
+- (void)controlTextDidEndEditing:(NSNotification *)notification {
+    (void)notification;
+    if(_numberHasUnsubmittedEdit)[self numberCommitted:nil];
+    [_inspector refreshFromHost];
+}
 @end
 
 @implementation PGInspectorCard
@@ -336,8 +347,11 @@ static PGInspectorGlyphButton *PGUIButton(NSString *glyph, NSColor *accent, id t
 - (void)refreshFromHost { if(_interactionDepth || [self hasActiveTextEditor])return;[_controller refresh];[self reloadControls]; }
 - (void)hostParameterChanged { if(_interactionDepth || [self hasActiveTextEditor])return;[_controller documentDidChange];[self reloadControls]; }
 - (void)writeValue:(double)value parameter:(UInt32)identifier { [_controller setValue:value forParameter:identifier];[self reloadControls]; }
-- (void)beginControlInteraction { if(_interactionDepth++==0)[_controller beginInteraction]; }
-- (void)endControlInteraction { if(!_interactionDepth)return;if(--_interactionDepth==0){[_controller endInteraction];[self refreshFromHost];} }
+// Keep refreshes out of the tracking loop, but let writeValue own a complete
+// FxPlug action for each continuous step. Holding the action until mouse-up
+// prevents hosts that publish at endAction from previewing intermediate values.
+- (void)beginControlInteraction { _interactionDepth++; }
+- (void)endControlInteraction { if(!_interactionDepth)return;if(--_interactionDepth==0)[self refreshFromHost]; }
 - (void)masterChanged:(NSButton *)sender { [_controller setValue:sender.state==NSControlStateValueOn?1:0 forParameter:(UInt32)sender.tag];[self reloadControls]; }
 - (void)moreChanged:(NSButton *)sender { _more.expanded=sender.state==NSControlStateValueOn;sender.accessibilityLabel=_more.expanded?@"收起更多设置":@"展开更多设置";[_more setNeedsDisplay:YES];[self setFrameSize:self.frame.size]; }
 - (void)viewDidMoveToWindow {
