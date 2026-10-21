@@ -71,9 +71,9 @@ static void ModelTests(void) {
     NSDictionary *bad=@{@(PGChin):@9,@(PGTonePreset):@(-2),@(PGBrightness):@(NAN),@999:@.5};
     PGInspectorState *safe=[PGInspectorState stateWithValues:bad disabledParameters:[NSSet setWithObjects:@(PGRadius),@999,nil] hasEdits:YES];
     Check([safe valueForParameter:PGChin]==1 && [safe valueForParameter:PGTonePreset]==0 && [safe valueForParameter:PGBrightness]==0 && safe.values[@999]==nil && safe.disabledParameters.count==0,@"malformed controls are clamped, finite and limited to the supported schema");
-    NSMutableDictionary *off=[a.values mutableCopy];off[@(PGShapeEnabled)]=@0;off[@(PGColorEnabled)]=@0;off[@(PGSmoothingEnabled)]=@0;
+    NSMutableDictionary *off=[a.values mutableCopy];off[@(PGShapeEnabled)]=@0;off[@(PGColorEnabled)]=@0;off[@(PGSmoothingEnabled)]=@0;off[@(PGTrackBoxes)]=@1;
     s=PGSettingsWithInspectorState(PGBeautyDefaults(),[PGInspectorState stateWithValues:off disabledParameters:[NSSet set] hasEdits:YES]);
-    Check(s.faceChin==0 && s.faceBigEye==0 && s.skinBrightness==0 && s.skinTonePreset==0 && s.midtoneDetail==0 && s.highPassDetail==0,@"card eye switches bypass the complete associated effect group");
+    Check(s.faceChin==0 && s.faceBigEye==0 && s.skinBrightness==0 && s.skinTonePreset==0 && s.midtoneDetail==0 && s.highPassDetail==0 && s.showTrackBox==0,@"card eye switches bypass the complete associated effect group");
 }
 static void ControllerTests(void) {
     PGInspectorTestAPI *api=[PGInspectorTestAPI new];beatygrilPlugIn *plugin=[[beatygrilPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
@@ -98,6 +98,27 @@ static void ControllerTests(void) {
     api.values=[undo mutableCopy];[[NSRunLoop currentRunLoop]runUntilDate:[NSDate dateWithTimeIntervalSinceNow:.36]];[c refresh];
     Check(Near([c.state valueForParameter:PGChin],[old valueForParameter:PGChin]),@"host undo refresh restores the prior committed state after pending synchronization expires");
     Check(api.accessViolations==0 && api.actionDepth==0 && api.actionStarts==api.actionEnds,@"all arbitrary-time reads and writes are inside balanced FxPlug action pairs");
+    [c setValue:.7 forParameter:PGBrightness];NSDictionary *beforeUndo=api.undoValues;
+    api.values=[beforeUndo mutableCopy];[c setValue:.2 forParameter:PGThin];
+    PGInspectorState *afterImmediateUndo=api.values[@(PGInspectorPanel)];
+    PGInspectorState *undoneState=beforeUndo[@(PGInspectorPanel)];
+    Check(Near([afterImmediateUndo valueForParameter:PGBrightness],[undoneState valueForParameter:PGBrightness]) && Near([afterImmediateUndo valueForParameter:PGThin],.2),@"a new gesture immediately after host undo cannot resurrect the undone value");
+    NSMutableDictionary *seekValues=[c.state.values mutableCopy];seekValues[@(PGChin)]=@(-.8);seekValues[@(PGMidtone)]=@.6;
+    api.values[@(PGInspectorPanel)]=[PGInspectorState stateWithValues:seekValues disabledParameters:[NSSet set] hasEdits:YES];api.hostTime=CMTimeAdd(api.hostTime,CMTimeMake(1,24));[c refresh];
+    Check(Near([c.state valueForParameter:PGChin],-.8) && Near([c.state valueForParameter:PGMidtone],.6),@"seeking invalidates pending display state immediately at the new CMTime");
+    [c setValue:.1 forParameter:PGBrightness];Check(Near([c.state valueForParameter:PGChin],-.8),@"new-time edits preserve the other controls from that time instead of a stale prior frame");
+    api.values=[api.undoValues mutableCopy];[c documentDidChange];
+    Check(Near([c.state valueForParameter:PGBrightness],[seekValues[@(PGBrightness)]doubleValue]),@"a host undo notification refreshes same-time state immediately without a timed wait");
+    PGHostAPI *legacy=[PGHostAPI new];beatygrilPlugIn *legacyPlugin=[[beatygrilPlugIn alloc]initWithAPIManager:legacy];[legacyPlugin addParametersWithError:nil];
+    legacy.values[@(PGDetailEnabled)]=@NO;legacy.values[@(PGHighPass)]=@.6;legacy.values[@(PGSharpness)]=@.4;
+    PGInspectorController *imported=[[PGInspectorController alloc]initWithAPIManager:legacy];[imported refresh];[imported setValue:.3 forParameter:PGBrightness];
+    PGBeautySettings migrated=PGSettingsWithInspectorState(PGBeautyDefaults(),imported.state);
+    Check(migrated.highPassDetail==0 && migrated.sharpness==0 && Near([imported.state valueForParameter:PGHighPass],.6),@"first panel edit preserves disabled legacy detail controls and their stored amounts");
+    legacy.values[@(PGInspectorPanel)]=[PGInspectorState stateWithValues:@{} disabledParameters:[NSSet set] hasEdits:NO];
+    legacy.values[@(PGDetailEnabled)]=@YES;legacy.values[@(PGSmoothingEnabled)]=@NO;
+    PGInspectorController *split=[[PGInspectorController alloc]initWithAPIManager:legacy];[split refresh];[split setValue:.2 forParameter:PGBrightness];
+    PGBeautySettings splitSettings=PGSettingsWithInspectorState(PGBeautyDefaults(),split.state);
+    Check(Near(splitSettings.highPassDetail,.6) && splitSettings.amount==0 && splitSettings.midtoneDetail==0,@"legacy global smoothing remains active when its old local-skin group was disabled");
     Check(api.forwardRequests==0 && api.backwardRequests==0,@"normal inspector edits never request manual analysis");
     [api.disabledAPIs addObject:@"FxCustomParameterActionAPI_v4"];
     PGInspectorController *offline=[[PGInspectorController alloc]initWithAPIManager:api];[offline refresh];
@@ -111,6 +132,10 @@ static void ViewInteractionTests(void) {
     Check(Near([s valueForParameter:PGChin],-.75) && [s valueForParameter:PGBigEye]==0,@"actual chin slider events do not write the eye parameter");
     NSTextField *number=(NSTextField *)FindControl(view,NSTextField.class,@"下巴数值");number.stringValue=@"0.40";Fire(number);s=api.values[@(PGInspectorPanel)];Check(Near([s valueForParameter:PGChin],.4),@"editable numeric field writes its signed control");
     number.stringValue=@"invalid";Fire(number);s=api.values[@(PGInspectorPanel)];Check(Near([s valueForParameter:PGChin],.4),@"invalid number entry preserves the last valid value");
+    NSMutableDictionary *changed=[s.values mutableCopy];changed[@(PGChin)]=@.8;
+    api.values[@(PGInspectorPanel)]=[PGInspectorState stateWithValues:changed disabledParameters:s.disabledParameters hasEdits:YES];
+    number.stringValue=@"0.40";Fire(number);s=api.values[@(PGInspectorPanel)];
+    Check(Near([s valueForParameter:PGChin],.4),@"explicit input matching old UI cache still overrides a newer host value");
     NSButton *preview=(NSButton *)FindControl(view,NSButton.class,@"人脸框预览");preview.state=NSControlStateValueOn;Fire(preview);s=api.values[@(PGInspectorPanel)];Check([s valueForParameter:PGTrackBoxes]==1,@"preview switch events change the automatic face box setting");
     for(NSNumber *width in @[@280,@320,@380,@520]) {
         [view setFrameSize:NSMakeSize(width.doubleValue,20)];[view layoutSubtreeIfNeeded];
@@ -118,8 +143,19 @@ static void ViewInteractionTests(void) {
         for(NSView *card in view.subviews)if(!card.hidden)Check(NSMaxY(card.frame)<=NSHeight(view.bounds)+1 && NSMaxX(card.frame)<=NSWidth(view.bounds)+1,@"every visible card and footer remains inside the panel at all inspector widths");
     }
 }
-int main(void) {@autoreleasepool {
+int main(int argc,const char **argv) {@autoreleasepool {
     [NSApplication sharedApplication];[NSApp setActivationPolicy:NSApplicationActivationPolicyProhibited];
     RegistrationTests();ModelTests();ControllerTests();ViewInteractionTests();
+    if(argc>2) {
+        NSData *inner=[NSData dataWithContentsOfFile:@(argv[1])],*outer=[NSData dataWithContentsOfFile:@(argv[2])];NSError *error=nil;
+        NSKeyedUnarchiver *reader=[[NSKeyedUnarchiver alloc]initForReadingFromData:inner error:&error];reader.requiresSecureCoding=YES;
+        PGInspectorState *state=[reader decodeObjectOfClass:PGInspectorState.class forKey:@"Custom Data"];[reader finishDecoding];
+        PGInspectorState *expected=[PGInspectorState stateWithValues:@{} disabledParameters:[NSSet set] hasEdits:NO];
+        Check(!error && !reader.error && [state isEqual:expected],@"the template's actual Custom Data bytes securely decode to our untouched state class");
+        NSKeyedUnarchiver *envelope=[[NSKeyedUnarchiver alloc]initForReadingFromData:outer error:&error];envelope.requiresSecureCoding=YES;
+        NSData *payload=[envelope decodeObjectOfClass:NSData.class forKey:@"BlindDataObject"];
+        NSNumber *legacy=[envelope decodeObjectOfClass:NSNumber.class forKey:@"DataIsLegacy"];[envelope finishDecoding];
+        Check(!error && !envelope.error && legacy && !legacy.boolValue && [payload isEqual:inner],@"Foundation reads the Motion envelope as the exact secure custom payload");
+    }
     printf("Inspector: %lu checks, %lu failures\n",(unsigned long)Checks,(unsigned long)Failures);return Failures?1:0;
 }}

@@ -93,6 +93,7 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
 @property BOOL analysisForward;
 @property (strong) NSArray<NSString *> *loadedTracks;
 @property BOOL reportedRender;
+@property (strong) NSHashTable<PGInspectorView *> *inspectorViews;
 @end
 
 @implementation beatygrilPlugIn
@@ -103,6 +104,7 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
         _analysisFaceProcessor=[PGFaceProcessor new];
         _contexts=[NSMutableDictionary new]; _analysisSettings=PGBeautyDefaults();
         _analysisTime=kCMTimeZero;
+        _inspectorViews=[NSHashTable weakObjectsHashTable];
     }
     return self;
 }
@@ -165,7 +167,16 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
     return ok ? YES : PGFail(error,@"宿主未能创建完整的人像美化参数。");
 }
 - (NSView *)createViewForParameterID:(UInt32)identifier {
-    return identifier==PGInspectorPanel ? [[PGInspectorView alloc] initWithAPIManager:_apiManager] : nil;
+    if(identifier!=PGInspectorPanel)return nil;
+    PGInspectorView *view=[[PGInspectorView alloc] initWithAPIManager:_apiManager];
+    @synchronized(_inspectorViews){[_inspectorViews addObject:view];}return view;
+}
+- (BOOL)parameterChanged:(UInt32)identifier atTime:(CMTime)time error:(NSError **)error {
+    // The host callback covers undo and playhead-driven parameter changes. Hop
+    // to AppKit's thread and avoid retaining remote inspector views in render.
+    NSArray *views;@synchronized(_inspectorViews){views=_inspectorViews.allObjects;}
+    for(PGInspectorView *view in views)dispatch_async(dispatch_get_main_queue(), ^{[view hostParameterChanged];});
+    return YES;
 }
 - (Class)classForCustomParameterID:(UInt32)identifier {return identifier==PGInspectorPanel?PGInspectorState.class:Nil;}
 - (NSSet<Class> *)classesForCustomParameterID:(UInt32)identifier {

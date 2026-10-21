@@ -10,6 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Also permits a deterministic controller in an offscreen preview or test.
 - (instancetype)initWithController:(PGInspectorController *)controller;
 - (void)refreshFromHost;
+- (void)hostParameterChanged;
 @end
 
 NS_ASSUME_NONNULL_END

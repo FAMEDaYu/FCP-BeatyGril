@@ -409,7 +409,7 @@ static void TrackingCoordinateTests(NSDictionary *archive, NSDictionary *hostVal
     PGHostAPI *trustedAPI = [PGHostAPI new]; trustedAPI.hostTime = time;
     beatygrilPlugIn *trusted = [[beatygrilPlugIn alloc] initWithAPIManager:trustedAPI]; [trusted addParametersWithError:nil];
     trustedAPI.values = [values mutableCopy]; trustedAPI.values[@(PGTrackData3)] = [trustedTrack base64EncodedStringWithOptions:0];
-    Check(Render(trusted, output, @[source], Snapshot(trusted,time), time, nil, NULL), @"fresh plugin restores a marked coordinate archive");
+    Check(Render(trusted, output, @[source], Snapshot(trusted,time), time, nil, NULL), @"fresh plugin accepts a snapshot with marked legacy analysis data");
     NSData *trustedBytes = SurfaceBytes(output);
     PGBeautySettings tracked = [trusted settingsAtTime:time]; tracked.trackingEnabled=1;
     NSData *expectedSaved = ImageBytes(context, ProcessedReference(portrait,tracked,time,trustedTrack));
@@ -545,7 +545,7 @@ int main(int argc, const char *argv[]) {
         api.values[@(PGSelection)] = @[@0.43, @0.76];
         NSData *oldRenderState = Snapshot(plugin, api.hostTime);
         [plugin analyzeForward];
-        Check(api.forwardRequests == 1, @"forward analyze button calls host analysis API");
+        Check(api.forwardRequests == 1, @"hidden legacy forward-analysis method still accepts old document callbacks");
         CMTimeRange desired, clip = CMTimeRangeMake(kCMTimeZero, CMTimeMake(240, 24));
         [plugin desiredAnalysisTimeRange:&desired forInputWithTimeRange:clip error:&error];
         Check(CMTimeCompare(desired.start, api.hostTime) == 0 && CMTimeCompare(CMTimeRangeGetEnd(desired), CMTimeRangeGetEnd(clip)) == 0, @"analysis seed comes from current host playhead time");
@@ -569,7 +569,7 @@ int main(int argc, const char *argv[]) {
         Check([api.values[@(PGTrackEnabled)] boolValue] && CMTimeCompare(api.lastSetBoolTime, api.hostTime) == 0, @"analysis enables saved target at host seed time");
         NSData *trackedState = Snapshot(plugin, api.hostTime);
         beatygrilPlugIn *restoredPlugin = [[beatygrilPlugIn alloc] initWithAPIManager:api];
-        Check(Render(restoredPlugin, portraitOutput, @[portraitSource], trackedState, api.hostTime, &error, NULL), @"fresh plugin instance restores target data from serialized host snapshot");
+        Check(Render(restoredPlugin, portraitOutput, @[portraitSource], trackedState, api.hostTime, &error, NULL), @"fresh plugin instance uses automatic follow despite serialized legacy analysis settings");
         [plugin analyzeBackward];
         Check(api.backwardRequests == 1, @"backward analyze button calls host API");
         [plugin desiredAnalysisTimeRange:&desired forInputWithTimeRange:clip error:&error];

@@ -58,3 +58,13 @@ FCP模板从 `Templates/大鱼人像美化/` 恢复，将 `.moef` 和 `Drop Zone
 `ad54726b17fabd11f46bc6121e664eac38960a23`已独立从上述远程克隆，87文件的byte/blob/mode与14项资源一致，strict/full fsck和559项核心测试通过，无LFS、子模块或APP产物。临时恢复目录已清理，完整报告见`docs/verification/v1.0.6/recovery-ad54726.json`。
 
 1.0.6已完成正式签名、公证（Accepted ab0271c8-0c4b-4b10-9474-cebe9b55385b）、票据粘附、唯一正式目录安装和配套模板同步；临时APP/旧备份APP/公证ZIP已清理。完整回执及有界副本扫描见`docs/verification/v1.0.6/installed-verification.json`。未操作Motion/FCP界面，最终视觉验收保留为用户自测。
+
+## 1.1.0 面板与自动处理
+
+1.1.0（9）使用自有原生卡片面板和PGInspectorState安全归档。源代码、面板资源（全部程序绘制）、Motion模板与自有自定义参数数据均在仓库；新增`./scripts/test-inspector.sh`及`scripts/inspector-template.py audit`验证入口。恢复时需完整保留`.moef`中的自定义参数210、实际dataValue/defaultVal和两项版权发布；不要删掉仍用于旧工程迁移的隐藏参数定义和组路径。不得拿其他插件的自定义归档替换本产品自己的归档。
+
+新渲染统一实时自动人脸跟随，旧手动分析数据仍保存在旧文档中但不参与本版渲染；主界面不再显示前后分析、目标列表、蒙版调试与平铺控件。三张卡片之外的细调收在更多设置。自定义对象保存完整界面状态，首次编辑前兼容旧参数；数值、开关、启停mask按已测试的复制/插值规则恢复。真实宿主UI及工程重开仍需用户自测。
+
+正式构建、公证、安装仍使用同一`python3 scripts/deliver.py --wait-for-hosts --user-tests`，保持固定Bundle ID与APP路径，仅在用户自行退出Motion/FCP后替换，最终版本节点与回执随交付记录补齐。
+
+兼容边界：未编辑面板时读取旧文档原参数；首次编辑会把当前数值采集为完整面板状态。旧版各项独立关键帧曲线尚未自动迁移为新面板关键帧，不宣称编辑前后任意旧动画逐帧等价。面板本身的数值插值与开关保持已做离屏验证，实际宿主关键帧交互仍待用户测试。

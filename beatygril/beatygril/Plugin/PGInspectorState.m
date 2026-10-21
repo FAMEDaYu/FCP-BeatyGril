@@ -116,7 +116,7 @@ PGBeautySettings PGSettingsWithInspectorState(PGBeautySettings s,PGInspectorStat
     }
     if(![state valueForParameter:PGSmoothingEnabled])s.amount=s.midtoneDetail=s.highPassDetail=0;
     if(![state valueForParameter:PGColorEnabled]) {s.skinBrightness=s.skinHue=s.skinSaturation=s.skinEvenTone=s.teethWhitening=s.eyeBrightening=0;s.skinTonePreset=0;}
-    if(![state valueForParameter:PGShapeEnabled])s.faceThin=s.faceBigEye=s.faceShort=s.faceNarrow=s.faceChin=s.faceV=s.faceJaw=s.faceCheekbone=s.faceSmallHead=0;
+    if(![state valueForParameter:PGShapeEnabled]) {s.faceThin=s.faceBigEye=s.faceShort=s.faceNarrow=s.faceChin=s.faceV=s.faceJaw=s.faceCheekbone=s.faceSmallHead=0;s.showTrackBox=0;}
     return s;
 }
 
@@ -128,6 +128,7 @@ PGBeautySettings PGSettingsWithInspectorState(PGBeautySettings s,PGInspectorStat
 @property (nonatomic,strong) id<FxCustomParameterActionAPI_v4> action;
 @property (nonatomic) BOOL interacting;
 @property (nonatomic) NSTimeInterval pendingUntil;
+@property (nonatomic) CMTime pendingTime;
 @end
 @implementation PGInspectorController
 - (instancetype)initWithAPIManager:(id<PROAPIAccessing>)manager {
@@ -145,6 +146,7 @@ PGBeautySettings PGSettingsWithInspectorState(PGBeautySettings s,PGInspectorStat
 }
 - (void)finish {if(_interacting){_interacting=NO;[_action endAction:self];_action=nil;}}
 - (void)readAtTime:(CMTime)time {
+    if(_pendingUntil && CMTimeCompare(time,_pendingTime)!=0)_pendingUntil=0;
     id<FxParameterRetrievalAPI_v6> api=[_manager apiForProtocol:@protocol(FxParameterRetrievalAPI_v6)];
     NSObject *object=nil;[api getCustomParameterValue:&object fromParameter:PGInspectorPanel atTime:time];
     if([object isKindOfClass:PGInspectorState.class] && [(PGInspectorState *)object hasEdits]) {
@@ -162,16 +164,31 @@ PGBeautySettings PGSettingsWithInspectorState(PGBeautySettings s,PGInspectorStat
         else [api getFloatValue:&value fromParameter:key atTime:time];
         values[@(key)]=@(value);
     }
-    _state=[PGInspectorState stateWithValues:values disabledParameters:[NSSet set] hasEdits:NO];
+    BOOL legacyDetail=YES;[api getBoolValue:&legacyDetail fromParameter:PGDetailEnabled atTime:time];
+    NSMutableSet *disabled=legacyDetail?[NSMutableSet set]:[NSMutableSet setWithObjects:@(PGHighPass),@(PGSharpness),nil];
+    // Earlier versions put high-pass smoothing under a different group. Keep
+    // its effective state when importing a document whose local-skin group was
+    // off, rather than turning a still-active global effect off on first edit.
+    if(![values[@(PGSmoothingEnabled)] boolValue] && legacyDetail && [values[@(PGHighPass)] doubleValue]>0) {
+        values[@(PGSmoothingEnabled)]=@YES;
+        [disabled addObject:@(PGMidtone)];[disabled addObject:@(PGAmount)];
+    }
+    _state=[PGInspectorState stateWithValues:values disabledParameters:disabled hasEdits:NO];
 }
 - (void)refresh {
     if(_interacting)return;
     if(![self start])return;
     @try {[self readAtTime:[_action currentTime]];_statusMessage=@"";} @finally {[self finish];}
 }
+- (void)documentDidChange {if(_interacting)return;_pendingUntil=0;[self refresh];}
 - (void)beginInteraction {
     if(_interacting)return;
-    if([self start])[self readAtTime:[_action currentTime]];
+    if([self start]) {
+        // A new gesture starts from the authoritative document, including an
+        // immediate undo. The short pending hold only prevents display flicker;
+        // it must never resurrect an undone value in a subsequent edit.
+        _pendingUntil=0;[self readAtTime:[_action currentTime]];
+    }
 }
 - (void)endInteraction {[self finish];}
 - (BOOL)commit:(PGInspectorState *)next {
@@ -190,7 +207,7 @@ PGBeautySettings PGSettingsWithInspectorState(PGBeautySettings s,PGInspectorStat
         else if([d[@"kind"] isEqual:@"toggle"] || [d[@"kind"] isEqual:@"master"]) [api setBoolValue:value!=0 toParameter:key atTime:time];
         else [api setFloatValue:value toParameter:key atTime:time];
     }
-    _state=next;_pendingUntil=NSDate.timeIntervalSinceReferenceDate+.35;_statusMessage=@"";return YES;
+    _state=next;_pendingUntil=NSDate.timeIntervalSinceReferenceDate+.35;_pendingTime=time;_statusMessage=@"";return YES;
 }
 - (BOOL)setValue:(double)value forParameter:(UInt32)identifier {
     NSDictionary *d=PGInspectorDescriptor(identifier);if(!d || !isfinite(value))return NO;
@@ -202,7 +219,11 @@ PGBeautySettings PGSettingsWithInspectorState(PGBeautySettings s,PGInspectorStat
 }
 - (BOOL)toggleEnabledForParameter:(UInt32)identifier {
     NSDictionary *d=PGInspectorDescriptor(identifier);if(!d)return NO;
-    if([d[@"kind"] isEqual:@"master"] || [d[@"kind"] isEqual:@"toggle"])return [self setValue:![self.state valueForParameter:identifier] forParameter:identifier];
+    if([d[@"kind"] isEqual:@"master"] || [d[@"kind"] isEqual:@"toggle"]) {
+        BOOL owned=!_interacting;if(owned)[self beginInteraction];if(!_interacting)return NO;
+        BOOL ok=NO;@try {ok=[self setValue:![_state valueForParameter:identifier] forParameter:identifier];}
+        @finally {if(owned)[self finish];}return ok;
+    }
     if(![d[@"bypass"] boolValue])return NO;
     BOOL owned=!_interacting;if(owned)[self beginInteraction];if(!_interacting)return NO;
     BOOL ok=NO;@try {

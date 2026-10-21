@@ -32,6 +32,7 @@ FOUNDATION_EXPORT PGBeautySettings PGSettingsWithInspectorState(PGBeautySettings
 @property (nonatomic, copy, readonly) NSString *statusMessage;
 - (instancetype)initWithAPIManager:(id<PROAPIAccessing>)manager;
 - (void)refresh;
+- (void)documentDidChange;
 - (void)beginInteraction;
 - (void)endInteraction;
 - (BOOL)setValue:(double)value forParameter:(UInt32)identifier;

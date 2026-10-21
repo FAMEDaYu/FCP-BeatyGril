@@ -253,7 +253,10 @@ static PGInspectorGlyphButton *PGUIButton(NSString *glyph, NSColor *accent, id t
     }
     if(number&&isfinite(number.doubleValue)){
         double value=number.doubleValue/PGValueScale(_descriptor);value=fmin([_descriptor[@"max"]doubleValue],fmax([_descriptor[@"min"]doubleValue],value));
-        if(fabs(value-[_inspector.controller.state valueForParameter:[_descriptor[@"id"]unsignedIntValue]])>.0000001)[_inspector writeValue:value parameter:[_descriptor[@"id"]unsignedIntValue]];
+        // Commit explicit input even when it equals our last displayed value:
+        // the document may have changed while the field editor held focus.
+        // The controller rereads the host and deduplicates the actual value.
+        [_inspector writeValue:value parameter:[_descriptor[@"id"]unsignedIntValue]];
     }else NSBeep();
     _valueField.stringValue=PGFormattedValue(_descriptor,[_inspector.controller.state valueForParameter:[_descriptor[@"id"]unsignedIntValue]]);
 }
@@ -331,6 +334,7 @@ static PGInspectorGlyphButton *PGUIButton(NSString *glyph, NSColor *accent, id t
 }
 - (BOOL)hasActiveTextEditor { for(PGInspectorCard *card in _cards)for(PGInspectorRow *row in card.rows)if(row.valueField.currentEditor)return YES;return NO; }
 - (void)refreshFromHost { if(_interactionDepth || [self hasActiveTextEditor])return;[_controller refresh];[self reloadControls]; }
+- (void)hostParameterChanged { if(_interactionDepth || [self hasActiveTextEditor])return;[_controller documentDidChange];[self reloadControls]; }
 - (void)writeValue:(double)value parameter:(UInt32)identifier { [_controller setValue:value forParameter:identifier];[self reloadControls]; }
 - (void)beginControlInteraction { if(_interactionDepth++==0)[_controller beginInteraction]; }
 - (void)endControlInteraction { if(!_interactionDepth)return;if(--_interactionDepth==0){[_controller endInteraction];[self refreshFromHost];} }
