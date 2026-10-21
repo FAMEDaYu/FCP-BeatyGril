@@ -16,8 +16,20 @@
 - (instancetype)initWithAPIManager:(id<PROAPIAccessing>)api {
     if((self=[super init])) _apiManager=api; return self;
 }
-- (FxDrawingCoordinates)drawingCoordinates {return kFxDrawingCoordinates_OBJECT;}
+- (FxDrawingCoordinates)drawingCoordinates {return kFxDrawingCoordinates_CANVAS;}
 - (id<FxOnScreenControlAPI_v4>)oscAPI {return [_apiManager apiForProtocol:@protocol(FxOnScreenControlAPI_v4)];}
+- (BOOL)objectPointFromCanvasX:(double)x y:(double)y objectX:(double *)objectX objectY:(double *)objectY {
+    id<FxOnScreenControlAPI_v4> api=[self oscAPI];
+    if(!api || !objectX || !objectY || !isfinite(x) || !isfinite(y)) return NO;
+    // Request CANVAS events explicitly, then let the host invert its current
+    // zoom, pan and object transform. The conversion API has no success result;
+    // untouched or nonfinite outputs must never become a parameter write.
+    double nx=NAN,ny=NAN;
+    [api convertPointFromSpace:kFxDrawingCoordinates_CANVAS fromX:x fromY:y
+                      toSpace:kFxDrawingCoordinates_OBJECT toX:&nx toY:&ny];
+    if(!isfinite(nx) || !isfinite(ny)) return NO;
+    *objectX=nx;*objectY=ny;return YES;
+}
 - (BOOL)selectionEnabledAtTime:(CMTime)time {
     BOOL selected=NO;id<FxParameterRetrievalAPI_v6> api=[_apiManager apiForProtocol:@protocol(FxParameterRetrievalAPI_v6)];
     return api && [api getBoolValue:&selected fromParameter:PGSingleFace atTime:time] && selected;
@@ -64,7 +76,9 @@
 }
 - (void)hitTestOSCAtMousePositionX:(double)x mousePositionY:(double)y activePart:(NSInteger *)part atTime:(CMTime)time {
     if(!part) return;*part=0;
-    if(isfinite(x)&&isfinite(y)&&x>=0&&x<=1&&y>=0&&y<=1&&[self selectionEnabledAtTime:time]&&[self oscAPI]) *part=1;
+    double nx=NAN,ny=NAN;
+    if([self selectionEnabledAtTime:time] && [self objectPointFromCanvasX:x y:y objectX:&nx objectY:&ny] &&
+       nx>=0 && nx<=1 && ny>=0 && ny<=1) *part=1;
 }
 - (BOOL)pointWrite:(id<FxParameterSettingAPI_v5>)setter x:(double)x y:(double)y time:(CMTime)time {
     return setter && isfinite(x) && isfinite(y) && [setter setXValue:x YValue:y toParameter:PGSelection atTime:time];
@@ -126,23 +140,28 @@
 }
 - (void)mouseDownAtPositionX:(double)x positionY:(double)y activePart:(NSInteger)part modifiers:(FxModifierKeys)keys forceUpdate:(BOOL *)update atTime:(CMTime)time {
     if(update) *update=NO;
-    if(part!=1 || !isfinite(x) || !isfinite(y) || ![self selectionEnabledAtTime:time]) return;
-    if(![self oscAPI]) return;
+    double nx=NAN,ny=NAN;
+    if(part!=1 || ![self selectionEnabledAtTime:time] ||
+       ![self objectPointFromCanvasX:x y:y objectX:&nx objectY:&ny] || nx<0 || nx>1 || ny<0 || ny>1) return;
     id<FxUndoAPI> undo=[_apiManager apiForProtocol:@protocol(FxUndoAPI)];
     if(_undoOpen) [undo endUndoGroup];
     _undoOpen=[undo startUndoGroup:@"选择人脸"];
-    BOOL changed=NO;[self setSelectionX:x y:y time:time update:&changed];
+    BOOL changed=NO;[self setSelectionX:nx y:ny time:time update:&changed];
     _dragging=changed;
     if(!changed && _undoOpen) {[undo endUndoGroup];_undoOpen=NO;}
     if(update) *update=changed;
 }
 - (void)mouseDraggedAtPositionX:(double)x positionY:(double)y activePart:(NSInteger)part modifiers:(FxModifierKeys)keys forceUpdate:(BOOL *)update atTime:(CMTime)time {
     if(update) *update=NO;
-    if(_dragging && part==1 && [self selectionEnabledAtTime:time]) [self setSelectionX:x y:y time:time update:update];
+    double nx=NAN,ny=NAN;
+    if(_dragging && part==1 && [self selectionEnabledAtTime:time] &&
+       [self objectPointFromCanvasX:x y:y objectX:&nx objectY:&ny]) [self setSelectionX:nx y:ny time:time update:update];
 }
 - (void)mouseUpAtPositionX:(double)x positionY:(double)y activePart:(NSInteger)part modifiers:(FxModifierKeys)keys forceUpdate:(BOOL *)update atTime:(CMTime)time {
     if(update) *update=NO;
-    if(_dragging && part==1 && [self selectionEnabledAtTime:time]) [self setSelectionX:x y:y time:time update:update];
+    double nx=NAN,ny=NAN;
+    if(_dragging && part==1 && [self selectionEnabledAtTime:time] &&
+       [self objectPointFromCanvasX:x y:y objectX:&nx objectY:&ny]) [self setSelectionX:nx y:ny time:time update:update];
     _dragging=NO;
     if(_undoOpen) {id<FxUndoAPI> undo=[_apiManager apiForProtocol:@protocol(FxUndoAPI)];[undo endUndoGroup];_undoOpen=NO;}
 }
