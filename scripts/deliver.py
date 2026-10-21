@@ -45,6 +45,13 @@ try:
         raise RuntimeError('Apple did not accept notarization; original installed app retained')
     run(['xcrun','stapler','staple',str(app)])
     run(['xcrun','stapler','validate',str(app)])
+    # A live host retains its old XPC/OSC connection. Replacing the bundle while
+    # that connection exists can deadlock host shutdown or select stale code.
+    running=run(['ps','-axo','comm=']).splitlines()
+    hosts={'/Applications/Motion.app/Contents/MacOS/Motion',
+           '/Applications/Final Cut Pro.app/Contents/MacOS/Final Cut Pro'}
+    if hosts.intersection(line.strip() for line in running):
+        raise RuntimeError('Close Motion and Final Cut Pro before installing; installed app retained')
     if installed.exists():
         info=plistlib.loads((installed/'Contents/Info.plist').read_bytes())
         if info.get('CFBundleIdentifier')!=bundle_id:raise RuntimeError('The installation path belongs to another product')
@@ -60,6 +67,9 @@ try:
         if info.get('CFBundleIdentifier')!=bundle_id or 'TeamIdentifier=B3W25FX5H5' not in signature:raise RuntimeError('Installed app identity mismatch')
         (logs/'installed-signature.txt').write_text(signature)
         run(['pluginkit','-a',str(installed/'Contents/PlugIns/beatygril XPC Service.pluginkit')])
+        # Xcode may register its build product. Only the installed plugin should
+        # be discoverable while native host validation is in progress.
+        run(['pluginkit','-r',str(plugin)])
     except Exception:
         if installed.exists():shutil.rmtree(installed)
         if previous.exists():shutil.move(str(previous),str(installed))

@@ -82,6 +82,13 @@ static NSDictionary<NSString *, CIColorKernel *> *PGKernels(void) {
             "kernel vec4 pgMaskedMix(__sample source,__sample effect,__sample mask,float amount) {"
             "vec4 s=unpremultiply(source); vec4 e=unpremultiply(effect);"
             "return premultiply(vec4(mix(s.rgb,e.rgb,clamp(mask.r*amount,0.0,1.0)),s.a)); }");
+        k[@"colorCoverage"] = PGKernel(@
+            "kernel vec4 pgColorCoverage(__sample coverage,__sample image,float invert) {"
+            "vec3 c=unpremultiply(image).rgb; float y=dot(c,vec3(0.299,0.587,0.114));"
+            "float cb=(c.b-y)*0.564+0.5; float cr=(c.r-y)*0.713+0.5;"
+            "float likelihood=exp(-pow((cb-0.415)/0.115,2.0)-pow((cr-0.565)/0.135,2.0));"
+            "float v=clamp(coverage.r,0.0,1.0)*smoothstep(0.05,0.60,likelihood);"
+            "v=mix(v,1.0-v,invert); return vec4(v,v,v,1.0); }");
         k[@"even"] = PGKernel(@
             "kernel vec4 pgEven(__sample source,__sample broad,float amount) {"
             "vec4 s=unpremultiply(source); vec3 b=unpremultiply(broad).rgb;"
@@ -133,6 +140,11 @@ static NSDictionary<NSString *, CIColorKernel *> *PGKernels(void) {
 - (CIImage *)processImage:(CIImage *)image settings:(PGBeautySettings)s
                  skinMask:(CIImage *)skinMask teethMask:(CIImage *)teethMask
                   eyeMask:(CIImage *)eyeMask error:(NSError **)error {
+    return [self processImage:image settings:s skinMask:skinMask colorMask:nil teethMask:teethMask eyeMask:eyeMask error:error];
+}
+- (CIImage *)processImage:(CIImage *)image settings:(PGBeautySettings)s
+                 skinMask:(CIImage *)skinMask colorMask:(CIImage *)colorMask
+                teethMask:(CIImage *)teethMask eyeMask:(CIImage *)eyeMask error:(NSError **)error {
     if (error) *error = nil;
     CGRect extent = image.extent;
     if (!image || CGRectIsEmpty(extent) || CGRectIsInfinite(extent) ||
@@ -145,7 +157,7 @@ static NSDictionary<NSString *, CIColorKernel *> *PGKernels(void) {
     float mix = PGClamp(s.mix, 0, 1);
     if (mix == 0 && !s.showMask) return image;
     NSDictionary *k = PGKernels();
-    if (k.count != 10) {
+    if (k.count != 11) {
         if (error) *error = [NSError errorWithDomain:@"PGBeautyRenderer" code:2
                        userInfo:@{NSLocalizedDescriptionKey:@"The beauty image kernels could not be compiled."}];
         return nil;
@@ -188,6 +200,18 @@ static NSDictionary<NSString *, CIColorKernel *> *PGKernels(void) {
             float invert = s.debugChannel==1 || s.debugChannel==2 ? (s.invertMask ? 1 : 0) : 0;
             return PGApply(k[@"debug"],extent,@[image,preview,@(invert)]);
         }
+        // Detail protection may contain small eye, brow, nose and lip cutouts.
+        // Exposure and color must not reuse those holes or sharpen a face ellipse
+        // with the detail threshold; that creates visible rings and islands.
+        CIImage *toneMask=mask;
+        BOOL changesColor=brightness>0 || hue!=0 || saturation!=0 || even>0 ||
+                          (s.skinTonePreset>0 && s.skinTonePreset<=6);
+        if(colorMask && changesColor) {
+            CGFloat feather=MAX(3,MIN(extent.size.width,extent.size.height)*0.03);
+            CIImage *support=[colorMask imageByCroppingToRect:extent];
+            toneMask=PGApply(k[@"colorCoverage"],extent,@[PGBlur(support,feather,extent),
+                PGBlur(image,MAX(1,feather*0.15),extent),@(s.invertMask?1:0)]);
+        }
         CIImage *result = image;
         if (local*amount>0) {
             // The shipped helper derives both blur scales from the detail strength.
@@ -207,12 +231,12 @@ static NSDictionary<NSString *, CIColorKernel *> *PGKernels(void) {
         if (hue!=0) color = [color imageByApplyingFilter:@"CIHueAdjust" withInputParameters:@{kCIInputAngleKey:@(hue*M_PI/180.0)}];
         if (saturation!=0) color = [color imageByApplyingFilter:@"CIColorControls" withInputParameters:@{kCIInputSaturationKey:@(1+saturation/100.f)}];
         if (even>0) color = PGApply(k[@"even"],extent,@[color,PGBlur(color,radius*1.8,extent),@(even)]);
-        if (color!=result) result = PGApply(k[@"maskedMix"],extent,@[result,color,mask,@1]);
+        if (color!=result) result = PGApply(k[@"maskedMix"],extent,@[result,color,toneMask,@1]);
         if (sharpness*amount>0) result = [result imageByApplyingFilter:@"CISharpenLuminance"
                                     withInputParameters:@{kCIInputSharpnessKey:@(sharpness*amount)}];
         if (s.skinTonePreset>0 && s.skinTonePreset<=6) {
             CIImage *preset = PGApply(k[@"preset"],extent,@[result,@(s.skinTonePreset)]);
-            result = PGApply(k[@"maskedMix"],extent,@[result,preset,mask,@1]);
+            result = PGApply(k[@"maskedMix"],extent,@[result,preset,toneMask,@1]);
         }
         if (global>0) {
             CGFloat fine = fmin(7.4,2.275+3.15*pow(global,0.72)+0.95*global);

@@ -103,6 +103,30 @@ int main(void) { @autoreleasepool {
     s=PGBeautyDefaults();s.midtoneDetail=1;s.maskSoftness=0;s.maskEdgeProtect=0;s.featureProtection=1;
     float *protected=Render(context,[renderer processImage:source settings:s skinMask:white teethMask:nil eyeMask:half error:&error],extent);
     Check(Difference(base,protected,6,40)<0.00001 && Texture(protected,56,88)<Texture(base,56,88)*0.82,@"Feature protection retains eye detail while smoothing nearby skin");free(protected);
+    // A skin exposure adjustment must stay continuous across detail-protection
+    // holes. This models the eye/nose islands reported on the real beach clip.
+    s=PGBeautyDefaults();s.skinBrightness=1;s.featureProtection=1;
+    float *continuous=Render(context,[renderer processImage:source settings:s skinMask:half colorMask:white teethMask:half eyeMask:half error:&error],extent);
+    Check(Difference(base,continuous,6,40)>0.08 && Difference(base,continuous,56,88)>0.08,@"Skin exposure does not leave dark detail-protection holes");
+    s.featureProtection=0;
+    float *unprotectedColor=Render(context,[renderer processImage:source settings:s skinMask:half colorMask:white teethMask:half eyeMask:half error:&error],extent);
+    Check(Difference(continuous,unprotectedColor,4,W-4)<0.00001,@"Feature protection changes detail, not face exposure coverage");
+    free(continuous);free(unprotectedColor);
+    CIImage *flatSkin=[[CIImage imageWithColor:[CIColor colorWithRed:0.56 green:0.40 blue:0.31 alpha:1]] imageByCroppingToRect:extent];
+    float *flatPixels=Render(context,flatSkin,extent);
+    float *feathered=Render(context,[renderer processImage:flatSkin settings:s skinMask:half colorMask:half teethMask:nil eyeMask:nil error:&error],extent);
+    float largestStep=0;
+    for(int x=42;x<54;x++) {
+        int i=(32*W+x)*4,j=i+4;
+        largestStep=fmaxf(largestStep,fabsf((feathered[i]-flatPixels[i])-(feathered[j]-flatPixels[j])));
+    }
+    if(largestStep>=0.09) fprintf(stderr,"Face exposure boundary maximum step: %.6f\n",largestStep);
+    Check(largestStep<0.09,@"Face color coverage feathers a hard support boundary without a visible exposure step");
+    Check(Difference(flatPixels,feathered,64,88)<0.00001,@"Feathered face exposure stays local");free(feathered);free(flatPixels);
+    CIImage *blueHair=[[CIImage imageWithColor:[CIColor colorWithRed:0.03 green:0.16 blue:0.70 alpha:1]] imageByCroppingToRect:extent];
+    float *blueBefore=Render(context,blueHair,extent);
+    float *blueAfter=Render(context,[renderer processImage:blueHair settings:s skinMask:white colorMask:white teethMask:nil eyeMask:nil error:&error],extent);
+    Check(Difference(blueBefore,blueAfter,4,W-4)<0.00001,@"Skin exposure excludes saturated blue hair within face support");free(blueBefore);free(blueAfter);
     s=PGBeautyDefaults();s.showMask=1;s.maskSoftness=0;s.maskEdgeProtect=0;s.maskThreshold=255;
     float *strictMask=Render(context,[renderer processImage:source settings:s skinMask:half teethMask:nil eyeMask:nil error:&error],extent);
     s.maskThreshold=0;

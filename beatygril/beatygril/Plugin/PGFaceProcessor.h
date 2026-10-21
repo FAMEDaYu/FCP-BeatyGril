@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// observations retain their bounding box; render geometry is stored separately.
 @property (nonatomic, copy, readonly) NSArray<VNFaceObservation *> *faces;
 @property (nonatomic, strong, readonly) CIImage *skinMask;
+/// Continuous face support before eye/nose/lip detail-protection cutouts.
+@property (nonatomic, strong, readonly) CIImage *colorMask;
 @property (nonatomic, strong, readonly) CIImage *teethMask;
 @property (nonatomic, strong, readonly) CIImage *eyeMask;
 @property (nonatomic, strong, readonly) CIImage *image;

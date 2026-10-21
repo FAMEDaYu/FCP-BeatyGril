@@ -1,6 +1,6 @@
 # 大鱼人像美化 FCP 效果模板
 
-版本：1.0.1。滤镜 UUID：`FB14B0E6-59B2-4836-916F-CD0C559E9241`。模板必须与已安装的大鱼人像美化 FxPlug APP 配套使用。
+版本：1.0.2。滤镜 UUID：`FB14B0E6-59B2-4836-916F-CD0C559E9241`。模板必须与已安装的大鱼人像美化 FxPlug APP 配套使用。
 
 ## 默认数值
 
@@ -28,6 +28,6 @@ Apple项目、群组、Effect Source和滤镜节点骨架来源于用户自有�
 
 前版生成稿（SHA256 `3b7984e11a92487834ab67121fd3814bf13c22b77a70851298efa84206f91478`）将效果源的 Source Media 设为0，并删除了原生clip/footage。用户在FCP应用后实测整幅黑屏。这是模板装配错误；保留Type=3本身并不能证明FCP输入替换链完整。此前XML解析、发布路径和无缺媒体检查通过，也没有覆盖真实FCP画面输入，不能当作该模板已经可用的证据。
 
-本次仅恢复标准效果源clip/footage和Source Media关联，并随包加入标准`Drop Zone.tiff`；滤镜算法、49个插件参数、48个发布入口、Type=3/Drop Zone=1及版本1.0.1均保留。该占位图从Apple Motion的Ozone.framework标准资源复制，实际运行只引用本模板内的相对副本。图像SHA256为 `a7f8e3a2a431dbb3ce9e777040bb55e701cfe9ab9632e8cbb10359732bc8692e`，420128字节。
+本次仅恢复标准效果源clip/footage和Source Media关联，并随包加入标准`Drop Zone.tiff`；滤镜算法、49个插件参数、48个发布入口、Type=3/Drop Zone=1及版本1.0.2均保留。该占位图从Apple Motion的Ozone.framework标准资源复制，实际运行只引用本模板内的相对副本。图像SHA256为 `a7f8e3a2a431dbb3ce9e777040bb55e701cfe9ab9632e8cbb10359732bc8692e`，420128字节。
 
 本次已经静态核验Source Media→clip→相对文件链存在、文件字节一致、48项发布仍解析、隐藏数据未发布和保存选择状态；修复后的FCP新增实例、输入替换、Mix=0直通及实际人像渲染需由主任务重新实测。不得将“恢复链条”描述为已经通过FCP黑屏复测。

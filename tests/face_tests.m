@@ -79,6 +79,8 @@ int main(int argc, const char *argv[]) {
         PGBeautySettings unprotected = settings; unprotected.featureProtection = 0;
         PGFaceFrame *withoutProtection = [processor processImage:image settings:unprotected time:kCMTimeZero error:&error];
         Check(Channel(context, frame.skinMask, 23, 71, 0) < Channel(context, withoutProtection.skinMask, 23, 71, 0), @"feature protection removes eye from skin smoothing");
+        Check([Pixels(context,frame.colorMask) isEqualToData:Pixels(context,withoutProtection.colorMask)], @"color support remains continuous when detail protection is toggled");
+        Check(Channel(context,frame.colorMask,23,71,0)>Channel(context,frame.skinMask,23,71,0), @"color support retains coverage inside eye protection cutouts");
 
         settings.singleFace = 1; settings.selectionX = 0.78; settings.selectionY = 0.45;
         frame = [processor processImage:image settings:settings time:kCMTimeZero error:&error];

@@ -14,6 +14,14 @@ NS_ASSUME_NONNULL_BEGIN
                         teethMask:(nullable CIImage *)teethMask
                           eyeMask:(nullable CIImage *)eyeMask
                             error:(NSError * _Nullable * _Nullable)error;
+/// Face-based callers supply uncut coverage for smoothly blended color changes.
+- (nullable CIImage *)processImage:(CIImage *)image
+                         settings:(PGBeautySettings)settings
+                         skinMask:(nullable CIImage *)skinMask
+                        colorMask:(nullable CIImage *)colorMask
+                        teethMask:(nullable CIImage *)teethMask
+                          eyeMask:(nullable CIImage *)eyeMask
+                            error:(NSError * _Nullable * _Nullable)error;
 @end
 
 NS_ASSUME_NONNULL_END

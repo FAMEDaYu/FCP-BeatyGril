@@ -10,6 +10,7 @@ static NSString * const PGFaceErrorDomain = @"media.dayu.PaintFCP.Face";
 @interface PGFaceFrame ()
 @property (nonatomic, copy, readwrite) NSArray<VNFaceObservation *> *faces;
 @property (nonatomic, strong, readwrite) CIImage *skinMask;
+@property (nonatomic, strong, readwrite) CIImage *colorMask;
 @property (nonatomic, strong, readwrite) CIImage *teethMask;
 @property (nonatomic, strong, readwrite) CIImage *eyeMask;
 @property (nonatomic, strong, readwrite) CIImage *image;
@@ -340,15 +341,17 @@ static CIImage *PGMaximum(CIImage *a, CIImage *b) {
             overlay = [outline imageByCompositingOverImage:overlay];
         }
     }
+    CIImage *colorCoverage=skin;
     if (settings.featureProtection) skin = [_subtract applyWithExtent:extent arguments:@[skin, protection]];
     PGFaceFrame *frame = [[PGFaceFrame alloc] init];
     frame.faces = observations ?: @[];
     frame.image = [self warpImage:image geometry:geometry settings:settings extent:extent];
     frame.skinMask = [self warpImage:skin geometry:geometry settings:settings extent:extent];
+    frame.colorMask = [self warpImage:colorCoverage geometry:geometry settings:settings extent:extent];
     frame.teethMask = [self warpImage:teeth geometry:geometry settings:settings extent:extent];
     frame.eyeMask = [self warpImage:eyes geometry:geometry settings:settings extent:extent];
     frame.overlayImage = [overlay imageByCroppingToRect:extent];
-    if (!frame.image || !frame.skinMask || !frame.teethMask || !frame.eyeMask) {
+    if (!frame.image || !frame.skinMask || !frame.colorMask || !frame.teethMask || !frame.eyeMask) {
         if (error) *error = [NSError errorWithDomain:PGFaceErrorDomain code:3 userInfo:@{NSLocalizedDescriptionKey:@"Unable to apply face geometry."}];
         return nil;
     }

@@ -1,0 +1,83 @@
+{
+  "path": "/Users/dayu/Movies/Motion Templates.localized/Effects.localized/💙MS超级美颜/MS超级美颜V2/MS超级美颜V2.moef",
+  "sha256": "5c20b387f6a6438614a9182d3f93f67473881d433a25f7c3b557d063f55a5d92",
+  "published_count": 15,
+  "published": [
+    {
+      "object": "10030",
+      "channel": "./210",
+      "name": ""
+    },
+    {
+      "object": "10030",
+      "channel": "./18",
+      "name": "瘦脸"
+    },
+    {
+      "object": "10030",
+      "channel": "./33",
+      "name": "大眼"
+    },
+    {
+      "object": "10030",
+      "channel": "./22",
+      "name": "短脸"
+    },
+    {
+      "object": "10030",
+      "channel": "./23",
+      "name": "窄脸"
+    },
+    {
+      "object": "10030",
+      "channel": "./24",
+      "name": "下巴"
+    },
+    {
+      "object": "10030",
+      "channel": "./25",
+      "name": "V脸"
+    },
+    {
+      "object": "10030",
+      "channel": "./26",
+      "name": "下颚骨"
+    },
+    {
+      "object": "10030",
+      "channel": "./27",
+      "name": "颧骨"
+    },
+    {
+      "object": "10030",
+      "channel": "./28",
+      "name": "小头"
+    },
+    {
+      "object": "10030",
+      "channel": "./29",
+      "name": "小头范围"
+    },
+    {
+      "object": "10030",
+      "channel": "./19",
+      "name": "人脸框预览"
+    },
+    {
+      "object": "10030",
+      "channel": "./31",
+      "name": "白牙"
+    },
+    {
+      "object": "10030",
+      "channel": "./32",
+      "name": "亮眼"
+    },
+    {
+      "object": "10030",
+      "channel": "./10001",
+      "name": "混合"
+    }
+  ],
+  "tracking_controls_published": false
+}

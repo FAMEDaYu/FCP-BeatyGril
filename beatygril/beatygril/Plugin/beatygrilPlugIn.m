@@ -250,7 +250,7 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
             PGFaceFrame *frame=[_faceProcessor processImage:input settings:s time:time error:&stageError];
             if(!frame) { os_log_error(PGRenderLog(), "face processing failed: %{public}@",stageError); if(error)*error=stageError; return NO; }
             PGBeautySettings beauty=s; beauty.mix=1;
-            output=[_beautyRenderer processImage:frame.image settings:beauty skinMask:frame.skinMask teethMask:frame.teethMask eyeMask:frame.eyeMask error:&stageError];
+            output=[_beautyRenderer processImage:frame.image settings:beauty skinMask:frame.skinMask colorMask:frame.colorMask teethMask:frame.teethMask eyeMask:frame.eyeMask error:&stageError];
             if(!output) { os_log_error(PGRenderLog(), "beauty processing failed: %{public}@",stageError); if(error)*error=stageError; return NO; }
             overlay=frame.overlayImage;
         }
