@@ -46,7 +46,7 @@
 		<flags>1</flags>
 	</template>
 	<build />
-	<description>大鱼人像美化 1.0.2：人像磨皮、肤色、脸型、五官保护和三目标人脸跟踪。模板中频磨皮默认为50%。</description>
+	<description>大鱼人像美化 1.0.3：人像磨皮、肤色、脸型、五官保护和三目标人脸跟踪。模板中频磨皮默认为50%。</description>
 	<scene>
 		<sceneSettings>
 			<width>1920</width>
@@ -298,7 +298,7 @@
 					<parameter name="Width" id="313" flags="8589934610" default="1" value="1920" />
 					<parameter name="Height" id="314" flags="8589934610" default="1" value="1080" />
 				</parameter>
-				<filter name="大鱼人像美化" id="510000005" factoryID="6" pluginUUID="FB14B0E6-59B2-4836-916F-CD0C559E9241" pluginVersion="1.0.2" pluginName="大鱼人像美化" pluginDynamicParams="0">
+				<filter name="大鱼人像美化" id="510000005" factoryID="6" pluginUUID="FB14B0E6-59B2-4836-916F-CD0C559E9241" pluginVersion="1.0.3" pluginName="大鱼人像美化" pluginDynamicParams="0">
 					<timing in="0 1 1 0" out="299 30 1 0" offset="0 1 1 0" />
 					<baseFlags>8589934608</baseFlags>
 					<parameter name="磨皮" id="100" flags="8589938704">

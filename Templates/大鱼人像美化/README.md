@@ -1,6 +1,6 @@
 # 大鱼人像美化 FCP 效果模板
 
-版本：1.0.2。滤镜 UUID：`FB14B0E6-59B2-4836-916F-CD0C559E9241`。模板必须与已安装的大鱼人像美化 FxPlug APP 配套使用。
+版本：1.0.3。滤镜 UUID：`FB14B0E6-59B2-4836-916F-CD0C559E9241`。模板必须与已安装的大鱼人像美化 FxPlug APP 配套使用。
 
 ## 默认数值
 
@@ -11,10 +11,10 @@
 - 保留磨皮、肤色、细节、脸型、人脸选择与跟踪、蒙版与输出六个原生 FxPlug 参数组，发布46项可见功能参数，包括前向/后向分析及清除按钮。
 - 目标1–3的隐藏分析数据以参数60/61/62保留在滤镜节点中，不发布成用户控件；分析完成后由插件写入宿主参数并随工程保存。
 - 选脸位置发布为原生二维参数，并启用滤镜的“发布 OSC”宿主通道。跟踪按钮、OSC与工程关闭重开后的数据恢复须由实际 FCP 验证。
-- 画面只含一个标准 Effect Source（Type=3、Drop Zone=1），其 Source Media 指向 clip `510000006`，clip 位于 footage `510000007`。`pathURL=Drop Zone.tiff` 为模板同目录内的相对引用，标准1200×1200占位图已随模板附带，没有外部安装目录依赖、示例人像、旧滤镜或新动画。FCP时间线片段的实际替换仍须原生验收。
+- 画面只含一个标准 Effect Source（Type=3、Drop Zone=1），其 Source Media 指向 clip `510000006`，clip 位于 footage `510000007`。`pathURL=Drop Zone.tiff` 为模板同目录内的相对引用，标准1200×1200占位图已随模板附带，没有外部安装目录依赖、示例人像、旧滤镜或新动画。FCP时间线片段的实际替换已在独立验收项目中确认正常出图。
 - 作者与网站为两个原生空绑定展示菜单，不改变渲染。
 
-建议模板安装位置：`~/Movies/Motion Templates.localized/Effects.localized/Dayu/大鱼人像美化/`。APP正式安装与模板安装、Motion/FCP原生验收由主任务处理。
+建议模板安装位置：`~/Movies/Motion Templates.localized/Effects.localized/大鱼/大鱼人像美化/`。APP正式安装与模板安装、Motion/FCP原生验收由主任务处理。
 
 ## 结构来源与静态验证
 
@@ -22,12 +22,12 @@ Apple项目、群组、Effect Source和滤镜节点骨架来源于用户自有�
 
 `PARAMETERS.json`逐项记录参数ID、组、发布通道及初始值；`VALIDATION.json`记录本次静态核验。48个发布路径（46功能＋2信息）均能反查实际对象和通道，实体ID无冲突，三个隐藏数据通道未发布；必要占位媒体以相对路径随包附带，保存选择状态为0个内容对象且焦点为项目。技能`motion_selection.py check`与`audit_motion.py --require-no-selection`通过。
 
-上述结果只证明结构、发布引用和保存状态；Motion实际加载、FCP面板控制、按钮/OSC路由及保存重开由主任务继续验证，不能用XML解析通过代替原生验收。
+结构核验之外，已用实际素材在FCP和Motion完成加载、画面及提亮回归测试。详细范围及尚未覆盖的边界见 [验证记录](../../docs/验证记录.md)。
 
 ## 前版输入链错误与本次修复
 
 前版生成稿（SHA256 `3b7984e11a92487834ab67121fd3814bf13c22b77a70851298efa84206f91478`）将效果源的 Source Media 设为0，并删除了原生clip/footage。用户在FCP应用后实测整幅黑屏。这是模板装配错误；保留Type=3本身并不能证明FCP输入替换链完整。此前XML解析、发布路径和无缺媒体检查通过，也没有覆盖真实FCP画面输入，不能当作该模板已经可用的证据。
 
-本次仅恢复标准效果源clip/footage和Source Media关联，并随包加入标准`Drop Zone.tiff`；滤镜算法、49个插件参数、48个发布入口、Type=3/Drop Zone=1及版本1.0.2均保留。该占位图从Apple Motion的Ozone.framework标准资源复制，实际运行只引用本模板内的相对副本。图像SHA256为 `a7f8e3a2a431dbb3ce9e777040bb55e701cfe9ab9632e8cbb10359732bc8692e`，420128字节。
+黑屏修复恢复标准效果源clip/footage和Source Media关联，并随包加入标准`Drop Zone.tiff`，保留49个插件参数、48个发布入口与Type=3/Drop Zone=1。1.0.3同时包含独立的提亮蒙版与选脸坐标修复。该占位图从Apple Motion的Ozone.framework标准资源复制，实际运行只引用本模板内的相对副本。图像SHA256为 `a7f8e3a2a431dbb3ce9e777040bb55e701cfe9ab9632e8cbb10359732bc8692e`，420128字节。
 
-本次已经静态核验Source Media→clip→相对文件链存在、文件字节一致、48项发布仍解析、隐藏数据未发布和保存选择状态；修复后的FCP新增实例、输入替换、Mix=0直通及实际人像渲染需由主任务重新实测。不得将“恢复链条”描述为已经通过FCP黑屏复测。
+本次已经静态核验Source Media→clip→相对文件链存在、文件字节一致、48项发布仍解析、隐藏数据未发布和保存选择状态；修复后已在FCP独立验收项目新增实例，确认输入替换、实际人像和提亮画面正常；Mix=0逐字节直通由宿主适配器IOSurface回归测试覆盖，未将其混称为FCP截图逐像素核验。

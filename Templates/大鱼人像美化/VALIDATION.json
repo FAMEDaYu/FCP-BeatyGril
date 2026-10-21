@@ -1,6 +1,6 @@
 {
-  "version": "1.0.2",
-  "sha256": "fe637290212481c34cbfd8f4de5bf09101a3fbe88f4db3e55b35d5375f3ac1ba",
+  "version": "1.0.3",
+  "sha256": "74b045f0e93baa783f469e776e1a1dddd5f1933d7376afd3cac196c589c944b1",
   "filterUUID": "FB14B0E6-59B2-4836-916F-CD0C559E9241",
   "publishedFunctionalControls": 46,
   "informationalControls": 2,
@@ -23,5 +23,10 @@
     "problem": "Previous generated template removed the standard source clip and could not establish the native effect-source input chain. XML/reference checks did not validate FCP timeline replacement.",
     "change": "Restored the user-owned reference template clip/footage skeleton with new unique IDs; restored the Source Media link; bundled standard Drop Zone.tiff; filter, publications and Type=3/Drop Zone=1 preserved."
   },
-  "hostValidation": "Pending parent agent Motion/FCP validation after input-chain restoration; earlier XML checks did not prove input replacement."
+  "hostValidation": {
+    "date": "2026-10-21",
+    "FCP": "Restored input-chain template shows supplied real video; effect parameters and forward analysis responded in independent QA project.",
+    "Motion": "Real-video ordinary project played with midtone=0.5 and brightness=0.75; face boxes followed changing positions.",
+    "scope": "Native smoke and brightness regression; not exhaustive controls/occlusion or cross-host saved-track validation."
+  }
 }
