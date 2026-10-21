@@ -1,0 +1,15 @@
+{
+  "target": "https://github.com/FAMEDaYu/FCP-BeatyGril.git",
+  "source_commit": "dffa547d92478dd471fb4926579df91084581756",
+  "all_reachable_blobs_scanned": 406,
+  "secret_pattern_matches": [],
+  "package_sha256": "5bd77c28b3a7e54f3d4060be1f16bcb145d9bc4d6b9cfb9eb137c01130440243",
+  "connector_target_push_permission": false,
+  "local_https_credential_present": false,
+  "status": "prepared_waiting_for_GitHub_write_authentication",
+  "github_visibility": "public",
+  "github_repository_id": "1428817365",
+  "github_repository_initial_state": "empty",
+  "origin_retained": "https://dayu.media/git/dayu/paintfcp-fxplug.git",
+  "github_remote_added": true
+}
