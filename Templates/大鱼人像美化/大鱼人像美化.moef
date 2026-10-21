@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ozxmlscene>
+<ozml version="5.13">
+	<displayversion>5.6.7</displayversion>
+	<factory id="1" uuid="46c844a813d311d8a438000a95af9f7e">
+		<description>Channel</description>
+		<manufacturer>Apple</manufacturer>
+		<version>1</version>
+	</factory>
+	<factory id="2" uuid="65cb4dc9d4504fa281921f5f751fba06">
+		<description>Widget</description>
+		<manufacturer>Apple</manufacturer>
+		<version>1</version>
+	</factory>
+	<factory id="3" uuid="66fc0d6af6a911d6a7a7000393670732">
+		<description>Image</description>
+		<manufacturer>Apple</manufacturer>
+		<version>1</version>
+	</factory>
+	<factory id="4" uuid="7d468273c013498e9806a0d7bc32fddf">
+		<description>Project</description>
+		<manufacturer>Apple</manufacturer>
+		<version>1</version>
+	</factory>
+	<factory id="5" uuid="dbca752470fd11d7980100039389b702">
+		<description>Channel</description>
+		<manufacturer>Apple</manufacturer>
+		<version>1</version>
+	</factory>
+	<factory id="7" uuid="402246385249454b90e08b2ee1b6bf06">
+		<description>绑定</description>
+		<manufacturer>Apple</manufacturer>
+		<version>1</version>
+	</factory>
+	<factory id="8" uuid="e35c74f01d5042f6b468eb530169bfb7">
+		<description>小组件</description>
+		<manufacturer>Apple</manufacturer>
+		<version>1</version>
+	</factory>
+	<factory id="6" uuid="deca4859b16011d7a12d0003936f6f92">
+		<description>ProPlugin Filter</description>
+		<manufacturer>Apple</manufacturer>
+		<version>1</version>
+	</factory>
+	<template>
+		<flags>1</flags>
+	</template>
+	<build />
+	<description>大鱼人像美化 1.0.1：人像磨皮、肤色、脸型、五官保护和三目标人脸跟踪。模板中频磨皮默认为50%。</description>
+	<scene>
+		<sceneSettings>
+			<width>1920</width>
+			<height>1080</height>
+			<duration>300</duration>
+			<shouldOverrideFCDuration>0</shouldOverrideFCDuration>
+			<frameRate>30</frameRate>
+			<NTSC>0</NTSC>
+			<pixelAspectRatio>1</pixelAspectRatio>
+			<workingGamut>0</workingGamut>
+			<viewGamut>-1</viewGamut>
+			<optimizeForDisplay>0</optimizeForDisplay>
+			<backgroundColor red="0" green="0" blue="0" alpha="1" />
+			<audioChannels>2</audioChannels>
+			<audioBitsPerSample>32</audioBitsPerSample>
+			<fieldRenderingMode>0</fieldRenderingMode>
+			<motionBlurSamples>8</motionBlurSamples>
+			<motionBlurDuration>1</motionBlurDuration>
+			<sharpScaling>0</sharpScaling>
+			<startTimecode>0</startTimecode>
+			<presetPath />
+			<backgroundMode>0</backgroundMode>
+			<reflectionRecursionLimit>2</reflectionRecursionLimit>
+			<glyphOSCMode>0</glyphOSCMode>
+			<animateFlag>0</animateFlag>
+			<parameterColorSpaceID>3</parameterColorSpaceID>
+			<savePreviewMovie>0</savePreviewMovie>
+			<Object3DEnvironments>100</Object3DEnvironments>
+			<DRTSupport>1</DRTSupport>
+			<onHDRDisplay>0</onHDRDisplay>
+		</sceneSettings>
+		<publishSettings>
+			<version>2</version>
+			<target object="510000011" channel="./2/100" name="FCP 版本作者→" />
+			<target object="510000012" channel="./2/100" name="更多模板浏览器访问→" />
+			<target object="510000005" channel="./100/70" name="启用磨皮" />
+			<target object="510000005" channel="./100/1" name="磨皮强度" />
+			<target object="510000005" channel="./100/12" name="中频磨皮" />
+			<target object="510000005" channel="./100/3" name="磨皮半径" />
+			<target object="510000005" channel="./100/30" name="保护五官" />
+			<target object="510000005" channel="./101/71" name="启用肤色" />
+			<target object="510000005" channel="./101/42" name="肤色风格" />
+			<target object="510000005" channel="./101/2" name="肤色提亮" />
+			<target object="510000005" channel="./101/14" name="肤色色相" />
+			<target object="510000005" channel="./101/15" name="肤色饱和度" />
+			<target object="510000005" channel="./101/41" name="均匀肤色" />
+			<target object="510000005" channel="./101/31" name="牙齿美白" />
+			<target object="510000005" channel="./101/32" name="眼睛提亮" />
+			<target object="510000005" channel="./102/73" name="启用细节" />
+			<target object="510000005" channel="./102/17" name="高频细节平滑" />
+			<target object="510000005" channel="./102/4" name="锐化" />
+			<target object="510000005" channel="./103/72" name="启用脸型" />
+			<target object="510000005" channel="./103/18" name="瘦脸" />
+			<target object="510000005" channel="./103/33" name="大眼" />
+			<target object="510000005" channel="./103/22" name="短脸" />
+			<target object="510000005" channel="./103/23" name="窄脸" />
+			<target object="510000005" channel="./103/24" name="下巴" />
+			<target object="510000005" channel="./103/25" name="V 脸" />
+			<target object="510000005" channel="./103/26" name="下颌" />
+			<target object="510000005" channel="./103/27" name="颧骨" />
+			<target object="510000005" channel="./103/28" name="小头" />
+			<target object="510000005" channel="./103/29" name="小头范围" />
+			<target object="510000005" channel="./104/20" name="只处理选中人脸" />
+			<target object="510000005" channel="./104/21" name="选脸位置" />
+			<target object="510000005" channel="./104/39" name="多人高速模式" />
+			<target object="510000005" channel="./104/40" name="防跳脸范围" />
+			<target object="510000005" channel="./104/45" name="使用跟踪数据" />
+			<target object="510000005" channel="./104/46" name="跟踪目标" />
+			<target object="510000005" channel="./104/50" name="向前分析" />
+			<target object="510000005" channel="./104/51" name="向后分析" />
+			<target object="510000005" channel="./104/52" name="清除当前目标" />
+			<target object="510000005" channel="./104/53" name="跟踪状态" />
+			<target object="510000005" channel="./104/19" name="显示人脸框" />
+			<target object="510000005" channel="./104/35" name="显示跟踪框" />
+			<target object="510000005" channel="./105/7" name="蒙版阈值" />
+			<target object="510000005" channel="./105/8" name="蒙版柔度" />
+			<target object="510000005" channel="./105/9" name="边缘保护" />
+			<target object="510000005" channel="./105/10" name="预览蒙版" />
+			<target object="510000005" channel="./105/43" name="反转蒙版" />
+			<target object="510000005" channel="./105/44" name="蒙版通道" />
+			<target object="510000005" channel="./105/5" name="整体混合" />
+		</publishSettings>
+		<currentFrame>0 1 1 0</currentFrame>
+		<currentObject>510000001</currentObject>
+		<activeLayer>510000003</activeLayer>
+		<timeRange offset="0 1 1 0" duration="10 1 1 0" />
+		<playRange offset="0 1 1 0" duration="10 1 1 0" />
+		<flags>1</flags>
+		<audioTracks>0</audioTracks>
+		<timemarkerset />
+		<guideset />
+		<curvesets selected="1" />
+		<scenenode name="项目" id="510000001" factoryID="4" version="5">
+			<scenenode name="Widget" id="510000002" factoryID="2" version="5">
+				<flags>0</flags>
+				<timing in="0 1 1 0" out="-4004 120000 1 0" offset="0 1 1 0" />
+				<foldFlags>0</foldFlags>
+				<baseFlags>16</baseFlags>
+				<parameter name="Properties" id="1" flags="8589938704" />
+				<parameter name="Object" id="2" flags="8589938704">
+					<parameter name="Options" id="103" flags="8589938688" />
+					<parameter name="Hidden" id="102" flags="8589934608" default="0" value="1" />
+					<parameter name="Snapshots" id="101" flags="8589938706" />
+					<parameter name="Widget" id="100" flags="8589934608" default="1.7777777777777777" value="1.7777777777777777" />
+				</parameter>
+			</scenenode>
+			<flags>0</flags>
+			<timing in="0 1 1 0" out="-4004 120000 1 0" offset="0 1 1 0" />
+			<foldFlags>0</foldFlags>
+			<baseFlags>268435473</baseFlags>
+			<parameter name="Properties" id="1" flags="8589938704">
+				<parameter name="HDR White Level" id="103" default="0.95" value="0.95" />
+			</parameter>
+			<parameter name="Object" id="2" flags="8589938705" />
+		</scenenode>
+		<scenenode name="绑定" id="510000010" factoryID="7" version="5">
+			<scenenode name="弹出式菜单 1" id="510000012" factoryID="8" version="5">
+				<affecting>2</affecting>
+				<snapshot>3</snapshot>
+				<flags>0</flags>
+				<timing in="0 1 1 0" out="-2560 153600 1 0" offset="0 1 1 0" />
+				<foldFlags>0</foldFlags>
+				<baseFlags>16</baseFlags>
+				<parameter name="属性" id="1" flags="8589938704" />
+				<parameter name="对象" id="2" flags="8589938704">
+					<parameter name="选项" id="103" flags="8589938688">
+						<parameter name="初始值" id="106" flags="68736319504" default="0" value="0" />
+					</parameter>
+					<parameter name="Hidden" id="102" flags="8606711824" default="0" value="3" />
+					<parameter name="快照" id="101" flags="8589938706">
+						<parameter name="快照" id="3" flags="4112">
+							<parameter name="值" id="1" flags="16" default="0" value="2" />
+							<parameter name="插值" id="2" flags="65552" default="1" value="1" />
+						</parameter>
+					</parameter>
+					<parameter name="弹出式菜单" id="100" flags="16842769" default="2" value="2">
+						<entry name="dayu.media" tag="2" />
+					</parameter>
+				</parameter>
+			</scenenode>
+			<scenenode name="弹出式菜单" id="510000011" factoryID="8" version="5">
+				<affecting>2</affecting>
+				<snapshot>3</snapshot>
+				<flags>0</flags>
+				<timing in="0 1 1 0" out="-2560 153600 1 0" offset="0 1 1 0" />
+				<foldFlags>0</foldFlags>
+				<baseFlags>16</baseFlags>
+				<parameter name="属性" id="1" flags="8589938704" />
+				<parameter name="对象" id="2" flags="8589938704">
+					<parameter name="选项" id="103" flags="8589938688">
+						<parameter name="初始值" id="106" flags="68736319504" default="0" value="0" />
+					</parameter>
+					<parameter name="Hidden" id="102" flags="8606711824" default="0" value="3" />
+					<parameter name="快照" id="101" flags="8589938706">
+						<parameter name="快照" id="3" flags="4112">
+							<parameter name="值" id="1" flags="16" default="0" value="2" />
+							<parameter name="插值" id="2" flags="65552" default="1" value="1" />
+						</parameter>
+					</parameter>
+					<parameter name="弹出式菜单" id="100" flags="16842768" default="2" value="2">
+						<entry name="大鱼先森Media" tag="2" />
+					</parameter>
+				</parameter>
+			</scenenode>
+			<flags>0</flags>
+			<timing in="0 1 1 0" out="-2560 153600 1 0" offset="0 1 1 0" />
+			<foldFlags>0</foldFlags>
+			<baseFlags>16</baseFlags>
+			<parameter name="属性" id="1" flags="8589938704" />
+			<parameter name="对象" id="2" flags="8589938704" />
+		</scenenode>
+		<layer name="大鱼人像美化" id="510000003">
+			<scenenode name="Effect Source" id="510000004" factoryID="3" version="5">
+				<validTracks>1</validTracks>
+				<aspectRatio>1</aspectRatio>
+				<flags>0</flags>
+				<timing in="0 1 1 0" out="299 30 1 0" offset="0 1 1 0" />
+				<foldFlags>16385</foldFlags>
+				<baseFlags>524304</baseFlags>
+				<parameter name="Properties" id="1" flags="8589938704">
+					<parameter name="Cinematic" id="344" flags="8589938706">
+						<foldFlags>131076</foldFlags>
+						<parameter name="Depth of Field" id="346" flags="8589934608" default="1.3999999999999999" value="2" />
+						<parameter name="Focus Point" id="348" flags="8589938706">
+							<foldFlags>15</foldFlags>
+						</parameter>
+					</parameter>
+					<parameter name="Lighting" id="230" flags="8589938706">
+						<foldFlags>15</foldFlags>
+					</parameter>
+					<parameter name="Shadows" id="234" flags="8589938706">
+						<foldFlags>15</foldFlags>
+					</parameter>
+					<parameter name="Reflection" id="223" flags="8589971474">
+						<foldFlags>131087</foldFlags>
+					</parameter>
+					<parameter name="Color" id="243" flags="8589938688">
+						<parameter name="Conversion Version" id="245" flags="8589934610" default="1" value="2" />
+						<parameter name="Conversion Type" id="247" flags="8590032912" default="2" value="2" />
+					</parameter>
+					<parameter name="Media" id="324" flags="8589938704">
+						<foldFlags>4</foldFlags>
+						<parameter name="Source Media" id="300" flags="12901744656" default="0" value="0" />
+						<parameter name="Source Media" id="325" flags="8590000146" />
+					</parameter>
+					<parameter name="Page Number" id="301" flags="8589934610" default="1" value="1" />
+					<parameter name="Retime Value" id="304" flags="8590066066">
+						<curve type="1" default="1" value="1" round="0" retimingExtrapolation="1">
+							<numberOfKeypoints>2</numberOfKeypoints>
+							<keypoint interpolation="1" flags="0">
+								<time>0 1 1 0</time>
+								<value>1</value>
+							</keypoint>
+							<keypoint interpolation="1" flags="0">
+								<time>10 1 1 0</time>
+								<value>301</value>
+							</keypoint>
+						</curve>
+					</parameter>
+					<parameter name="Retime Value Cache" id="319" flags="8590065810">
+						<curve type="1" default="1" value="1">
+							<numberOfKeypoints>2</numberOfKeypoints>
+							<keypoint interpolation="1" flags="128">
+								<time>0 1 1 0</time>
+								<value>1</value>
+							</keypoint>
+							<keypoint interpolation="1" flags="128">
+								<time>10 1 1 0</time>
+								<value>301</value>
+							</keypoint>
+						</curve>
+					</parameter>
+					<parameter name="Duration Cache" id="320" flags="8589934610" default="0" value="300" />
+				</parameter>
+				<parameter name="Object" id="2" flags="8589938704">
+					<parameter name="Drop Zone" id="311" flags="8589934738" default="0" value="1" />
+					<parameter name="Type" id="321" flags="8590000146" default="0" value="3" />
+					<parameter name="Pan" id="326" flags="77309415442">
+						<foldFlags>15</foldFlags>
+					</parameter>
+					<parameter name="Scale" id="327" flags="77309415442">
+						<foldFlags>15</foldFlags>
+					</parameter>
+					<parameter name="Fill Opaque" id="328" flags="8589934608" default="0" value="0" />
+					<parameter name="Fill Color" id="329" flags="8589938704">
+						<foldFlags>15</foldFlags>
+					</parameter>
+					<parameter name="Clear" id="315" flags="8606777360" default="0" value="0" />
+					<parameter name="Width" id="313" flags="8589934610" default="1" value="1920" />
+					<parameter name="Height" id="314" flags="8589934610" default="1" value="1080" />
+				</parameter>
+				<filter name="大鱼人像美化" id="510000005" factoryID="6" pluginUUID="FB14B0E6-59B2-4836-916F-CD0C559E9241" pluginVersion="1.0.1" pluginName="大鱼人像美化" pluginDynamicParams="0">
+					<timing in="0 1 1 0" out="299 30 1 0" offset="0 1 1 0" />
+					<baseFlags>8589934608</baseFlags>
+					<parameter name="磨皮" id="100" flags="8589938704">
+						<parameter name="启用磨皮" id="70" flags="12901679120" default="1" value="1" />
+						<parameter name="磨皮强度" id="1" flags="12901679120" default="1" value="1" />
+						<parameter name="中频磨皮" id="12" flags="12901679120" default="0" value="0.5" />
+						<parameter name="磨皮半径" id="3" flags="12901679120" default="8" value="8" />
+						<parameter name="保护五官" id="30" flags="12901679120" default="1" value="1" />
+					</parameter>
+					<parameter name="肤色" id="101" flags="8589938704">
+						<parameter name="启用肤色" id="71" flags="12901679120" default="1" value="1" />
+						<parameter name="肤色风格" id="42" flags="12901744656" default="0" value="0" />
+						<parameter name="肤色提亮" id="2" flags="12901679120" default="0" value="0" />
+						<parameter name="肤色色相" id="14" flags="12901679120" default="0" value="0" />
+						<parameter name="肤色饱和度" id="15" flags="12901679120" default="0" value="0" />
+						<parameter name="均匀肤色" id="41" flags="12901679120" default="0" value="0" />
+						<parameter name="牙齿美白" id="31" flags="12901679120" default="0" value="0" />
+						<parameter name="眼睛提亮" id="32" flags="12901679120" default="0" value="0" />
+					</parameter>
+					<parameter name="细节" id="102" flags="8589938704">
+						<parameter name="启用细节" id="73" flags="12901679120" default="1" value="1" />
+						<parameter name="高频细节平滑" id="17" flags="12901679120" default="0" value="0" />
+						<parameter name="锐化" id="4" flags="12901679120" default="0" value="0" />
+					</parameter>
+					<parameter name="脸型" id="103" flags="8589938704">
+						<parameter name="启用脸型" id="72" flags="12901679120" default="1" value="1" />
+						<parameter name="瘦脸" id="18" flags="12901679120" default="0" value="0" />
+						<parameter name="大眼" id="33" flags="12901679120" default="0" value="0" />
+						<parameter name="短脸" id="22" flags="12901679120" default="0" value="0" />
+						<parameter name="窄脸" id="23" flags="12901679120" default="0" value="0" />
+						<parameter name="下巴" id="24" flags="12901679120" default="0" value="0" />
+						<parameter name="V 脸" id="25" flags="12901679120" default="0" value="0" />
+						<parameter name="下颌" id="26" flags="12901679120" default="0" value="0" />
+						<parameter name="颧骨" id="27" flags="12901679120" default="0" value="0" />
+						<parameter name="小头" id="28" flags="12901679120" default="0" value="0" />
+						<parameter name="小头范围" id="29" flags="12901679120" default="0" value="0" />
+					</parameter>
+					<parameter name="人脸选择与跟踪" id="104" flags="8589938704">
+						<parameter name="只处理选中人脸" id="20" flags="12901679120" default="0" value="0" />
+						<parameter name="选脸位置" id="21" flags="12901683200">
+							<foldFlags>15</foldFlags>
+							<parameter name="X" id="1" flags="12901679120" default="0.5" value="0.5" />
+							<parameter name="Y" id="2" flags="12901679120" default="0.5" value="0.5" />
+						</parameter>
+						<parameter name="多人高速模式" id="39" flags="12901679120" default="0" value="0" />
+						<parameter name="防跳脸范围" id="40" flags="12901679120" default="1.8" value="1.8" />
+						<parameter name="使用跟踪数据" id="45" flags="12901679120" default="0" value="0" />
+						<parameter name="跟踪目标" id="46" flags="12901744656" default="0" value="0" />
+						<parameter name="向前分析" id="50" />
+						<parameter name="向后分析" id="51" />
+						<parameter name="清除当前目标" id="52" />
+						<parameter name="跟踪状态" id="53" flags="12889161760">
+							<text>选择画面中的人脸后开始分析</text>
+						</parameter>
+						<parameter name="显示人脸框" id="19" flags="12901679120" default="0" value="0" />
+						<parameter name="显示跟踪框" id="35" flags="12901679120" default="0" value="0" />
+					</parameter>
+					<parameter name="蒙版与输出" id="105" flags="8589938704">
+						<parameter name="蒙版阈值" id="7" flags="12901679120" default="148" value="148" />
+						<parameter name="蒙版柔度" id="8" flags="12901679120" default="0.6" value="0.6" />
+						<parameter name="边缘保护" id="9" flags="12901679120" default="0.4" value="0.4" />
+						<parameter name="预览蒙版" id="10" flags="12901679120" default="0" value="0" />
+						<parameter name="反转蒙版" id="43" flags="12901679120" default="0" value="0" />
+						<parameter name="蒙版通道" id="44" flags="12901744656" default="0" value="0" />
+						<parameter name="整体混合" id="5" flags="12901679120" default="1" value="1" />
+					</parameter>
+					<parameter name="分析数据" id="60" flags="12905938976">
+						<text />
+					</parameter>
+					<parameter name="分析数据" id="61" flags="12905938976">
+						<text />
+					</parameter>
+					<parameter name="分析数据" id="62" flags="12905938976">
+						<text />
+					</parameter>
+					<parameter name="混合" id="10001" flags="12884901888" default="1" value="1" />
+					<parameter name="Flip" id="10002" flags="12889161760" default="0" value="0" />
+					<parameter name="Input Points" id="10003" flags="12889161760" default="1" value="1" />
+					<parameter name="发布 OSC" id="10005" flags="12901679104" default="0" value="1" />
+				</filter>
+			</scenenode>
+			<aspectRatio>1</aspectRatio>
+			<flags>0</flags>
+			<timing in="0 1 1 0" out="299 30 1 0" offset="0 1 1 0" />
+			<foldFlags>0</foldFlags>
+			<baseFlags>524304</baseFlags>
+			<parameter name="Properties" id="1" flags="8589938704">
+				<parameter name="Lighting" id="230" flags="8589938706">
+					<foldFlags>15</foldFlags>
+				</parameter>
+				<parameter name="Shadows" id="234" flags="8589938706">
+					<foldFlags>15</foldFlags>
+				</parameter>
+				<parameter name="Reflection" id="223" flags="8589971474">
+					<foldFlags>131087</foldFlags>
+				</parameter>
+			</parameter>
+			<parameter name="Object" id="2" flags="8589938704">
+				<parameter name="Type" id="307" flags="12901679120" default="0" value="0" />
+				<parameter name="Fixed Width" id="302" flags="12901679124" default="1920" value="1920" />
+				<parameter name="Fixed Height" id="303" flags="12901679124" default="1080" value="1080" />
+				<parameter name="Flatten" id="311" flags="8589934610" default="0" value="0" />
+				<parameter name="Layer Order" id="305" flags="8589934610" default="0" value="0" />
+				<parameter name="Aperture Width" id="312" flags="12884901906" default="1920" value="1920" />
+				<parameter name="Aperture Height" id="313" flags="12884901906" default="1080" value="1080" />
+				<parameter name="New Fixed Res Behavior" id="315" flags="8594194480" default="1" value="0" />
+			</parameter>
+		</layer>
+	</scene>
+</ozml>

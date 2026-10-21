@@ -1,0 +1,492 @@
+{
+  "version": "1.0.1",
+  "pluginUUID": "FB14B0E6-59B2-4836-916F-CD0C559E9241",
+  "filterObject": "510000005",
+  "visiblePublished": 46,
+  "parameters": [
+    {
+      "id": 70,
+      "name": "启用磨皮",
+      "group": 100,
+      "channel": "./100/70",
+      "kind": "bool",
+      "default": 1,
+      "value": 1,
+      "published": true
+    },
+    {
+      "id": 1,
+      "name": "磨皮强度",
+      "group": 100,
+      "channel": "./100/1",
+      "kind": "float",
+      "default": 1,
+      "value": 1,
+      "published": true
+    },
+    {
+      "id": 12,
+      "name": "中频磨皮",
+      "group": 100,
+      "channel": "./100/12",
+      "kind": "float",
+      "default": 0,
+      "value": 0.5,
+      "published": true
+    },
+    {
+      "id": 3,
+      "name": "磨皮半径",
+      "group": 100,
+      "channel": "./100/3",
+      "kind": "float",
+      "default": 8,
+      "value": 8,
+      "published": true
+    },
+    {
+      "id": 30,
+      "name": "保护五官",
+      "group": 100,
+      "channel": "./100/30",
+      "kind": "bool",
+      "default": 1,
+      "value": 1,
+      "published": true
+    },
+    {
+      "id": 71,
+      "name": "启用肤色",
+      "group": 101,
+      "channel": "./101/71",
+      "kind": "bool",
+      "default": 1,
+      "value": 1,
+      "published": true
+    },
+    {
+      "id": 42,
+      "name": "肤色风格",
+      "group": 101,
+      "channel": "./101/42",
+      "kind": "popup",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 2,
+      "name": "肤色提亮",
+      "group": 101,
+      "channel": "./101/2",
+      "kind": "float",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 14,
+      "name": "肤色色相",
+      "group": 101,
+      "channel": "./101/14",
+      "kind": "float",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 15,
+      "name": "肤色饱和度",
+      "group": 101,
+      "channel": "./101/15",
+      "kind": "float",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 41,
+      "name": "均匀肤色",
+      "group": 101,
+      "channel": "./101/41",
+      "kind": "float",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 31,
+      "name": "牙齿美白",
+      "group": 101,
+      "channel": "./101/31",
+      "kind": "float",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 32,
+      "name": "眼睛提亮",
+      "group": 101,
+      "channel": "./101/32",
+      "kind": "float",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 73,
+      "name": "启用细节",
+      "group": 102,
+      "channel": "./102/73",
+      "kind": "bool",
+      "default": 1,
+      "value": 1,
+      "published": true
+    },
+    {
+      "id": 17,
+      "name": "高频细节平滑",
+      "group": 102,
+      "channel": "./102/17",
+      "kind": "float",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 4,
+      "name": "锐化",
+      "group": 102,
+      "channel": "./102/4",
+      "kind": "float",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 72,
+      "name": "启用脸型",
+      "group": 103,
+      "channel": "./103/72",
+      "kind": "bool",
+      "default": 1,
+      "value": 1,
+      "published": true
+    },
+    {
+      "id": 18,
+      "name": "瘦脸",
+      "group": 103,
+      "channel": "./103/18",
+      "kind": "float",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 33,
+      "name": "大眼",
+      "group": 103,
+      "channel": "./103/33",
+      "kind": "float",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 22,
+      "name": "短脸",
+      "group": 103,
+      "channel": "./103/22",
+      "kind": "float",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 23,
+      "name": "窄脸",
+      "group": 103,
+      "channel": "./103/23",
+      "kind": "float",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 24,
+      "name": "下巴",
+      "group": 103,
+      "channel": "./103/24",
+      "kind": "float",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 25,
+      "name": "V 脸",
+      "group": 103,
+      "channel": "./103/25",
+      "kind": "float",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 26,
+      "name": "下颌",
+      "group": 103,
+      "channel": "./103/26",
+      "kind": "float",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 27,
+      "name": "颧骨",
+      "group": 103,
+      "channel": "./103/27",
+      "kind": "float",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 28,
+      "name": "小头",
+      "group": 103,
+      "channel": "./103/28",
+      "kind": "float",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 29,
+      "name": "小头范围",
+      "group": 103,
+      "channel": "./103/29",
+      "kind": "float",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 20,
+      "name": "只处理选中人脸",
+      "group": 104,
+      "channel": "./104/20",
+      "kind": "bool",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 21,
+      "name": "选脸位置",
+      "group": 104,
+      "channel": "./104/21",
+      "kind": "point",
+      "default": 0.5,
+      "value": 0.5,
+      "published": true
+    },
+    {
+      "id": 39,
+      "name": "多人高速模式",
+      "group": 104,
+      "channel": "./104/39",
+      "kind": "bool",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 40,
+      "name": "防跳脸范围",
+      "group": 104,
+      "channel": "./104/40",
+      "kind": "float",
+      "default": 1.8,
+      "value": 1.8,
+      "published": true
+    },
+    {
+      "id": 45,
+      "name": "使用跟踪数据",
+      "group": 104,
+      "channel": "./104/45",
+      "kind": "bool",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 46,
+      "name": "跟踪目标",
+      "group": 104,
+      "channel": "./104/46",
+      "kind": "popup",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 50,
+      "name": "向前分析",
+      "group": 104,
+      "channel": "./104/50",
+      "kind": "button",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 51,
+      "name": "向后分析",
+      "group": 104,
+      "channel": "./104/51",
+      "kind": "button",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 52,
+      "name": "清除当前目标",
+      "group": 104,
+      "channel": "./104/52",
+      "kind": "button",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 53,
+      "name": "跟踪状态",
+      "group": 104,
+      "channel": "./104/53",
+      "kind": "status",
+      "default": "选择画面中的人脸后开始分析",
+      "value": "选择画面中的人脸后开始分析",
+      "published": true
+    },
+    {
+      "id": 19,
+      "name": "显示人脸框",
+      "group": 104,
+      "channel": "./104/19",
+      "kind": "bool",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 35,
+      "name": "显示跟踪框",
+      "group": 104,
+      "channel": "./104/35",
+      "kind": "bool",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 7,
+      "name": "蒙版阈值",
+      "group": 105,
+      "channel": "./105/7",
+      "kind": "float",
+      "default": 148,
+      "value": 148,
+      "published": true
+    },
+    {
+      "id": 8,
+      "name": "蒙版柔度",
+      "group": 105,
+      "channel": "./105/8",
+      "kind": "float",
+      "default": 0.6,
+      "value": 0.6,
+      "published": true
+    },
+    {
+      "id": 9,
+      "name": "边缘保护",
+      "group": 105,
+      "channel": "./105/9",
+      "kind": "float",
+      "default": 0.4,
+      "value": 0.4,
+      "published": true
+    },
+    {
+      "id": 10,
+      "name": "预览蒙版",
+      "group": 105,
+      "channel": "./105/10",
+      "kind": "bool",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 43,
+      "name": "反转蒙版",
+      "group": 105,
+      "channel": "./105/43",
+      "kind": "bool",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 44,
+      "name": "蒙版通道",
+      "group": 105,
+      "channel": "./105/44",
+      "kind": "popup",
+      "default": 0,
+      "value": 0,
+      "published": true
+    },
+    {
+      "id": 5,
+      "name": "整体混合",
+      "group": 105,
+      "channel": "./105/5",
+      "kind": "float",
+      "default": 1,
+      "value": 1,
+      "published": true
+    },
+    {
+      "id": 60,
+      "name": "分析数据",
+      "channel": "./60",
+      "kind": "hidden-string",
+      "value": "",
+      "published": false
+    },
+    {
+      "id": 61,
+      "name": "分析数据",
+      "channel": "./61",
+      "kind": "hidden-string",
+      "value": "",
+      "published": false
+    },
+    {
+      "id": 62,
+      "name": "分析数据",
+      "channel": "./62",
+      "kind": "hidden-string",
+      "value": "",
+      "published": false
+    }
+  ]
+}
