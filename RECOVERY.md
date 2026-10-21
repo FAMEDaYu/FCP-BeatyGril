@@ -36,3 +36,7 @@ git switch --detach v1.0.4
 FCP模板从 `Templates/大鱼人像美化/` 恢复，将 `.moef` 和 `Drop Zone.tiff` 一起放入 `~/Movies/Motion Templates.localized/Effects.localized/大鱼/大鱼人像美化/`；只放 `.moef` 会缺少标准效果源输入资源。正式APP仅安装在 `/Library/Plug-Ins/FxPlug/beatygril.app`，不是从工作树或构建目录运行。没有LFS或子模块，必要工程资源、NASA测试人像及配套模板资源均在Git中。
 
 用户用于宿主验收的外置卷视频及build内的验收工程/截图属于测试素材与可重建产物，不属于产品构建依赖，也没有远程上传。原MSE18V2 APP与原版MS模板仅为只读参考，不作为运行依赖。远端恢复记录及实际宿主测试范围见 `docs/验证记录.md`。
+
+## 瘦脸与侧脸问题的分析节点
+
+`v1.0.4`之后的分析提交包含`docs/analysis/脸型变形与转脸分析.md`、`slim-pose-report.json`、REA证据包及独立Vision离线检测工具`scripts/inspect-face-geometry.m`。产品源码与安装版没有因该分析改变；已查明的问题仍存在于1.0.4。复现检测工具的依赖与命令见分析文档，用户视频、完整人脸坐标和帧图保留本地，不是产品恢复依赖。
