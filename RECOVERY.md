@@ -68,3 +68,5 @@ FCP模板从 `Templates/大鱼人像美化/` 恢复，将 `.moef` 和 `Drop Zone
 正式构建、公证、安装仍使用同一`python3 scripts/deliver.py --wait-for-hosts --user-tests`，保持固定Bundle ID与APP路径，仅在用户自行退出Motion/FCP后替换，最终版本节点与回执随交付记录补齐。
 
 兼容边界：未编辑面板时读取旧文档原参数；首次编辑会把当前数值采集为完整面板状态。旧版各项独立关键帧曲线尚未自动迁移为新面板关键帧，不宣称编辑前后任意旧动画逐帧等价。面板本身的数值插值与开关保持已做离屏验证，实际宿主关键帧交互仍待用户测试。
+
+1.1.0签名构建源码为完整SHA`f79d24eb0185f31feaae58b83b632f92dcb3ca91`，源码工作区在构建时干净。该节点已独立从大鱼远程克隆，111文件的bytes/blob/mode及16项必要资源一致，strict/full fsck、134项Inspector ASan和模板审计通过，无LFS或子模块，临时克隆已清理。报告见`docs/verification/v1.1.0/recovery-f79d24e.json`。Apple公证Accepted（ce26be63-9dcd-436a-bcb5-bd294fcc92a9）和票据验证已通过；当前等待用户自行退出宿主，正式安装版仍为1.0.6。

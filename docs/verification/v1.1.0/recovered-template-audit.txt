@@ -1,0 +1,75 @@
+{
+  "status": "structure_verified_native_loading_pending",
+  "templateSHA256": "e1c0cff1dd3541ed97cab2cb39a76ad4f28dc659b3be7991cc7ac92dd8ea090b",
+  "pluginVersion": "1.1.0",
+  "publications": [
+    {
+      "object": "510000011",
+      "channel": "./2/100",
+      "name": "FCP 版本作者→"
+    },
+    {
+      "object": "510000012",
+      "channel": "./2/100",
+      "name": "更多模板浏览器访问→"
+    },
+    {
+      "object": "510000005",
+      "channel": "./210",
+      "name": ""
+    }
+  ],
+  "parameterPathsResolved": 50,
+  "sourceMediaClosed": true,
+  "mediaSHA256": "a7f8e3a2a431dbb3ce9e777040bb55e701cfe9ab9632e8cbb10359732bc8692e",
+  "customState": {
+    "class": "PGInspectorState",
+    "schema": 1,
+    "hasEdits": false,
+    "values": {
+      "41": 0.0,
+      "30": 1.0,
+      "71": 1.0,
+      "27": 0.0,
+      "5": 1.0,
+      "35": 0.0,
+      "24": 0.0,
+      "2": 0.0,
+      "32": 0.0,
+      "40": 1.7999999523162842,
+      "70": 1.0,
+      "18": 0.0,
+      "29": 0.0,
+      "26": 0.0,
+      "15": 0.0,
+      "4": 0.0,
+      "23": 0.0,
+      "12": 0.0,
+      "42": 0.0,
+      "72": 1.0,
+      "31": 0.0,
+      "1": 1.0,
+      "39": 0.0,
+      "28": 0.0,
+      "17": 0.0,
+      "25": 0.0,
+      "14": 0.0,
+      "3": 8.0,
+      "33": 0.0,
+      "22": 0.0
+    },
+    "disabled": [],
+    "classes": [
+      "NSDictionary",
+      "NSSet",
+      "PGInspectorState"
+    ],
+    "innerBytes": 935,
+    "innerSHA256": "257540ac6079756a76f3d31dff1b9bca2b33393962057927791316965495ab60",
+    "outerBytes": 1127,
+    "outerSHA256": "95d5f1e2c35c40e9f1234b1480894bcc0ee68c0822c9bd3f7c04338062e6a26b",
+    "encodedCharacters": 1516,
+    "exactTextRoundtrip": true
+  },
+  "nativeLoading": "pending user; no host executed"
+}
