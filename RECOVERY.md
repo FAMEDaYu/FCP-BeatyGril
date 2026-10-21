@@ -51,8 +51,10 @@ FCP模板从 `Templates/大鱼人像美化/` 恢复，将 `.moef` 和 `Drop Zone
 
 ## 1.0.6 恢复入口
 
-本次签名构建源码SHA为`ad54726b17fabd11f46bc6121e664eac38960a23`，APP版本1.0.6、build8；最终标签计划为`v1.0.6`，由交付验证完成后创建。恢复该SHA可重建相同产品源码，最终标签另包含交付文档与回执。Release恢复仍用上节同一构建/公证命令、固定Bundle ID和正式安装路径；用户自测模式不会操作Motion/FCP界面。
+本次签名构建源码SHA为`ad54726b17fabd11f46bc6121e664eac38960a23`，APP版本1.0.6、build8；最终发布标签为`v1.0.6`。恢复该SHA可重建相同产品源码，最终标签另包含交付文档与回执。Release恢复仍用上节同一构建/公证命令、固定Bundle ID和正式安装路径；用户自测模式不会操作Motion/FCP界面。
 
 新增下巴三pin与图像适配轴修复；新分析档案使用`hostCoordinateSpace=iosurface-ci-y-up-v1`。旧未标记档案保留原字符串但回退实时跟随，重新分析后才能用于离线重放，不能直接补字段伪装成新档案。七类剩余脸型项及组合顺序仍有近似边界。
 
 `ad54726b17fabd11f46bc6121e664eac38960a23`已独立从上述远程克隆，87文件的byte/blob/mode与14项资源一致，strict/full fsck和559项核心测试通过，无LFS、子模块或APP产物。临时恢复目录已清理，完整报告见`docs/verification/v1.0.6/recovery-ad54726.json`。
+
+1.0.6已完成正式签名、公证（Accepted ab0271c8-0c4b-4b10-9474-cebe9b55385b）、票据粘附、唯一正式目录安装和配套模板同步；临时APP/旧备份APP/公证ZIP已清理。完整回执及有界副本扫描见`docs/verification/v1.0.6/installed-verification.json`。未操作Motion/FCP界面，最终视觉验收保留为用户自测。

@@ -1,0 +1,2 @@
+     com.dayu.beatygril.fxplug(1.1)	A9F36A44-1E5E-4AB3-A2FD-5C66A76DB8BB	2026-10-21 13:53:56 +0000	/Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit
+ (1 plug-in)

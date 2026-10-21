@@ -34,3 +34,5 @@ xcodebuild -project beatygril/beatygril.xcodeproj -scheme 'Wrapper Application' 
 下巴改为76点中68→38、67→37、66→36的三组局部位移，正值上收、负值延伸，保留原版正负不同系数及尺寸增益。Core Image/IOSurface输入输出移除按TOP_LEFT额外翻转，和原版图像链对齐。修复依据与离屏复现见[下巴与坐标分析](docs/analysis/下巴与坐标分析.md)。七类其余脸型项仍是近似实现。
 
 旧版分析记录无法区分是否包含额外翻转，新版保留原字符串但暂用实时跟随；重新分析即可写入新坐标标记并恢复离线跟踪。最终Motion/FCP画面由用户自行测试。
+
+1.0.6（8）已完成正式签名、Apple公证、票据、安装和模板同步。904项完整回归及独立远程恢复核验通过；最终宿主视觉由用户自测。交付回执在`docs/verification/v1.0.6/`，恢复标签为`v1.0.6`。
