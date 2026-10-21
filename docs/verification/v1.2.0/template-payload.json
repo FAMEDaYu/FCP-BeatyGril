@@ -1,0 +1,26 @@
+{
+  "installationCategory": "大鱼磨皮瘦脸",
+  "template": "大鱼人像美化.moef",
+  "files": {
+    "大鱼人像美化.moef": {
+      "size": 23073,
+      "sha256": "e9fa97dc14323d0daa7d3d61b06a78ba4000a70ab9f5e67ebffd750d49df1e15",
+      "locked": false
+    },
+    "Drop Zone.tiff": {
+      "size": 420128,
+      "sha256": "a7f8e3a2a431dbb3ce9e777040bb55e701cfe9ab9632e8cbb10359732bc8692e",
+      "locked": false
+    },
+    "large.png": {
+      "size": 454742,
+      "sha256": "a02ddb255b1ae255c749bb837a759e2dee1c3b8ffb9bdc1167957761bd5a1b97",
+      "locked": true
+    },
+    "small.png": {
+      "size": 45373,
+      "sha256": "1552b838dd88f60dee0795e20aaca652f9c558ecefc93500e895fbff77c2a4d5",
+      "locked": true
+    }
+  }
+}

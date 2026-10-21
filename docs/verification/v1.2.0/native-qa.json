@@ -1,0 +1,16 @@
+{
+  "version": "1.2.0",
+  "build": "14",
+  "source_commit": "696d5f39b30404ed5d1d4c25f61d17475c7fc91b",
+  "native_app_card": "Observed correct classical information card, with accessible text",
+  "exit_timer_seconds_after_window_shown": 3.0,
+  "observed_process_lifetime_seconds": 4.227,
+  "process_lifetime_note": "Includes process initialization before didFinishLaunching/window presentation. Not a measurement of timer drift.",
+  "automatic_registration": "Own bundle registered via LSRegisterURL; installed PluginKit entry remains at unique formal path",
+  "host_validation": {
+    "FCP": "Fresh launch, new locked thumbnail visible in 大鱼磨皮瘦脸; applied ours to second clip in existing QA project; panel loaded, brightness set to20%, picture rendered without black output.",
+    "Motion": "No fresh 1.2.0 UI test; renderer and inspector source unchanged from user-accepted 1.1.2."
+  },
+  "screenshots": "Native app and FCP screenshots kept local under ignored build/delivery; user stock imagery not published",
+  "bounded_duplicate_inventory": "Final cleanup removed known build and backup app paths; final inventory follows in packaging verification."
+}

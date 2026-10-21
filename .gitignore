@@ -37,3 +37,6 @@ venv/
 
 # Local reference binaries stay outside source history
 reference-binaries/
+
+# Reviewed signed release installer (intentional distribution artifact)
+!releases/1.2.0/*.pkg

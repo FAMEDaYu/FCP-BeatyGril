@@ -1,0 +1,13 @@
+{
+  "patch": "accepted",
+  "id": 36,
+  "private": false,
+  "url": "https://dayu.media/git/dayu/paintfcp-fxplug",
+  "anonymous_access": {
+    "html_http": 302,
+    "api_http": 401,
+    "git_ls_remote": "credential request denied in anonymous mode",
+    "reason": "Site-wide WordPress Git membership gateway is evaluated before Gitea public-repository permissions.",
+    "server_code_changed": false
+  }
+}

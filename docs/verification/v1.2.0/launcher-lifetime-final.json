@@ -1,0 +1,14 @@
+[
+  {
+    "elapsed": 13.717,
+    "running": true,
+    "processes": [
+      "33709 /Library/Plug-Ins/FxPlug/beatygril.app/Contents/MacOS/beatygril"
+    ]
+  },
+  {
+    "elapsed": 17.944,
+    "running": false,
+    "processes": []
+  }
+]

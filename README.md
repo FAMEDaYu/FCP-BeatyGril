@@ -6,7 +6,7 @@
 
 ## 使用
 
-正式安装路径为 `/Library/Plug-Ins/FxPlug/beatygril.app`。Motion 滤镜分类为「大鱼」，滤镜名「大鱼人像美化」。Final Cut Pro 在「效果 → 大鱼 → 大鱼人像美化」中使用配套 Motion 效果，模板目录必须同时保留 `.moef` 与 `Drop Zone.tiff`。美化会随当前帧的人脸自动更新，不需要点击分析。界面以磨皮、美白、瘦脸三张卡片呈现，默认跟随主要人脸；多人模式对多脸变形。单项眼睛可暂时停用并保留数值，右侧箭头恢复默认；磨皮半径、饱和度、锐化和整体混合等收在「更多设置」。旧手动分析与调试参数仅保留隐藏兼容，实际输出统一使用实时自动跟随。
+正式安装路径为 `/Library/Plug-Ins/FxPlug/beatygril.app`。Motion 滤镜分类为「大鱼」，滤镜名「大鱼人像美化」。Final Cut Pro 在「效果 → 大鱼磨皮瘦脸 → 大鱼人像美化」中使用配套 Motion 效果，模板目录必须同时保留 `.moef` 与 `Drop Zone.tiff`。美化会随当前帧的人脸自动更新，不需要点击分析。界面以磨皮、美白、瘦脸三张卡片呈现，默认跟随主要人脸；多人模式对多脸变形。单项眼睛可暂时停用并保留数值，右侧箭头恢复默认；磨皮半径、饱和度、锐化和整体混合等收在「更多设置」。旧手动分析与调试参数仅保留隐藏兼容，实际输出统一使用实时自动跟随。
 
 ## 开发和恢复
 
@@ -21,7 +21,7 @@ xcodebuild -project beatygril/beatygril.xcodeproj -scheme 'Wrapper Application' 
 
 工程从 `/Library/Developer/SDKs/FxPlug.sdk` 读取头文件与链接信息，从 `/Library/Developer/Frameworks` 嵌入可运行的 Apple 框架。构建默认使用团队 B3W25FX5H5 的 Developer ID Application 身份；正式交付使用 `python3 scripts/deliver.py` 完成公证、粘附和安装；安装前先关闭 Motion 与 FCP，脚本在检测到宿主仍运行时保留原安装版并停止。原生验收完成后继续脚本的清理阶段，清除临时注册与 APP 副本。
 
-私有源码仓库：`https://dayu.media/git/dayu/paintfcp-fxplug.git`。恢复入口见 [RECOVERY.md](RECOVERY.md)，当前验证记录见 [验证记录](docs/验证记录.md)。原始模板保存在 `baseline-20261021` 标签。
+源码仓库：`https://dayu.media/git/dayu/paintfcp-fxplug.git`。恢复入口见 [RECOVERY.md](RECOVERY.md)，当前验证记录见 [验证记录](docs/验证记录.md)。原始模板保存在 `baseline-20261021` 标签。
 
 ## 1.0.5 瘦脸修复
 
@@ -50,3 +50,11 @@ xcodebuild -project beatygril/beatygril.xcodeproj -scheme 'Wrapper Application' 
 面板改为先在真实视图的宿主 action 内取得读写接口，修复控件一直禁用的问题。短脸改用76点下半脸闭合区域和鼻梁位移轴，下颌骨改为六组相邻轮廓半径的局部位移，移除旧脸框近似场；详见[分析](docs/analysis/短脸与下颌骨分析.md)。其余五项脸型仍保留近似实现，不能将局部算法恢复视为全部效果逐像素一致。
 
 1551项回归通过，含335项宿主适配、98项OSC和157项面板ASan检查；28种控制/原点组合均核验实际解剖位置，改变原点标签时逐字节一致。额外真实帧ASan专项886项通过，含重复基础用例。1.1.2（13）已完成正式签名、公证、票据、唯一正式路径安装及副本清理。Motion/FCP原生数值、重置和隔离画面响应已验证，Motion保存重开与撤销通过；用户于2026-10-22实测确认“拖动中已持续更新”；未指定测试宿主，不扩张为两个宿主分别完成动态排帧验收。连续步进在松手前提交已通过独立模拟宿主验证，不能将它等同于每个鼠标事件都排出一帧。
+
+## 1.2.0 免费开源发布
+
+采用 MIT 许可（第三方资源边界见 THIRD_PARTY_NOTICES.md）。安装包同时包含唯一正式 FxPlug4 APP 和 FCP 效果模板；自动注册，无需账号、激活码或付费激活。主 APP 显示古风说明图，窗口显示三秒后自动退出，不影响独立的宿主插件服务。封面人物是生成的宣传插画，非效果前后对比。
+
+`large.png`（640×360）和 `small.png`（192×108）与 `.moef` 同目录，安装器安装后重新锁定。手动复制或从 Git 恢复模板时，需对这两个 PNG 重新执行 `chflags uchg`，不能锁定整个模板目录。FCP 当前分类为「大鱼磨皮瘦脸」，Motion 原生滤镜分类仍为「大鱼」。
+
+仓库属性已设为公开；大鱼站统一 Git 网关目前仍要求登录并校验会员，公开属性并未绕过网关。发布文章另提供可公开下载的当前源码快照，不依赖 Git 登录；安装包始终免费。

@@ -1,6 +1,6 @@
 # 恢复说明
 
-- 私有远程：`https://dayu.media/git/dayu/paintfcp-fxplug.git`
+- 源码远程：`https://dayu.media/git/dayu/paintfcp-fxplug.git`
 - 本地项目根：`/Users/dayu/Documents/PaintFCP`
 - 工作分支：`main`
 - 修改前版本标签：`baseline-20261021`，完整 SHA：`1746f38398588e2367abb37a5c2b31cb64042429`
@@ -12,7 +12,7 @@
 ```sh
 git clone https://dayu.media/git/dayu/paintfcp-fxplug.git
 cd paintfcp-fxplug
-git switch --detach v1.1.2
+git switch --detach v1.2.0
 ```
 
 需要继续编辑时，基于该提交创建新分支。安装 Xcode 与 Apple FxPlug 4 SDK；盘点版本和构建入口见 README.md。SDK/framework 为 Apple 外部开发依赖，应重新安装匹配版本。证书、私钥和公证凭据需从独立加密备份恢复或重新申请；Git 不包含它们。
@@ -88,3 +88,11 @@ FCP模板从 `Templates/大鱼人像美化/` 恢复，将 `.moef` 和 `Drop Zone
 Motion/FCP原生验收范围及未完成项见`docs/verification/v1.1.2/native-qa.json`：数值、重置、隔离短脸/下颌骨响应通过；Motion撤销和保存关闭重开通过。连续步进已改为每步完整宿主action，模拟宿主确认鼠标松开前可发布中间设置；用户于2026-10-22实测确认拖动中持续更新；未指定宿主，未测量逐事件排帧时序。后续人脸素材和全AX只保留本机build，不是产品依赖或上传资源。
 
 最终标签`v1.1.2`完整提交SHA为`e9fddda5e13042f761755762fa39dfe090853c6a`，已独立从远端恢复，158文件的bytes/blob/mode与strict/full fsck通过，产品目录与签名源码a2e33e8逐字节一致，无LFS或子模块，恢复临时目录已清理。详见`docs/verification/v1.1.2/final-tag-recovery.json`；后续main仅补充恢复报告和用户验收记录，产品源码保持不变。
+
+## 1.2.0 恢复入口
+
+源码构建节点为 `696d5f39b30404ed5d1d4c25f61d17475c7fc91b`，版本1.2.0（14）。使用同一 Apple SDK、签名团队与正式安装路径；本次仅改变外层启动器、版本及宣传资源，渲染和面板保留1.1.2验收实现。最终安装包和验证记录随 `v1.2.0` 保存。无 LFS / 子模块。正式 APP 只保留 `/Library/Plug-Ins/FxPlug/beatygril.app`；源代码不包含私钥。
+
+模板恢复到 `~/Movies/Motion Templates.localized/Effects.localized/大鱼磨皮瘦脸/大鱼人像美化/`，需同时保留 `.moef`、`Drop Zone.tiff`、`large.png`、`small.png`。Git 不保存 BSD 文件标志，手工复制后对两张 PNG 执行 `chflags uchg` 并核对 `ls -lO`；不要锁目录和工程。自动安装 PKG 会恢复这两个锁。
+
+仓库已为公开属性，但当前网站 Git 网关仍执行登录 / 会员校验。匿名 `ls-remote` 未通过，不宣称无需登录的 Git 恢复已通过；认证的远端克隆和文章的公开源码快照分别核验。服务端备份边界与前文相同。
