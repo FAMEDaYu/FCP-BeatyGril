@@ -39,12 +39,28 @@
     "face": 116,
     "thin_chin": 394,
     "failures": 0,
-    "maximum_uv_oracle_error": 1.09828022e-05
+    "maximum_uv_oracle_error": 1.09828022e-05,
+    "realVideoASanChecks": 494,
+    "realVideoFrames": 11,
+    "independentAnatomicalChecks": 12,
+    "fullChecks": 904,
+    "hostAdapterASanChecks": 247,
+    "oscASanChecks": 98,
+    "allOriginTagsPixelIdentical": true,
+    "maxByteErrorVsIndependentCIReference": 2
   },
   "limitations": [
     "Seven other shape controls remain approximations.",
     "Combined analytic controls and multi-face resampling order is not fully reference equivalent.",
-    "FxPlug adapter imageOrigin handling is under separate investigation.",
     "Motion/FCP final visual validation is reserved for user."
-  ]
+  ],
+  "adapterCorrection": {
+    "change": "remove imageOrigin-based input/output flips to match reference CI/IOSurface path",
+    "legacyTrackPolicy": "preserve unmarked strings but use realtime follow; reanalysis writes hostCoordinateSpace=iosurface-ci-y-up-v1",
+    "referenceOutputEvidence": [
+      "ev_88a71ec62fade296495f1e3f5428cdb15ad4cda43866e09fb040fa3a4bdb0440",
+      "ev_110d76f7958decb0c56b7daafe292d60a8bc56cd035b40a997f61395cb91ebfe"
+    ],
+    "nativeBufferCaptured": false
+  }
 }

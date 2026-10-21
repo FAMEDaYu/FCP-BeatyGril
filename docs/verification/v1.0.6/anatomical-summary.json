@@ -1,0 +1,15 @@
+{
+  "checks": 12,
+  "cases": 3,
+  "includes_profile": true,
+  "processor_sha256": "fe4f2a6fc28799cc9b81832baaa2d6739320bde9def175ecc8a4494d004d6b28",
+  "max_pupil_sampling_displacement_px": 2.8653327774463833e-05,
+  "peak_distance_to_real_chin_px": [
+    1.1827483260479077,
+    2.8140858161593
+  ],
+  "positive_visual_direction": "toward lower lip",
+  "negative_visual_direction": "away from lower lip",
+  "actual_photos_and_full_geometry": "ignored local build only",
+  "scope": "standalone actual PNG anatomy; bypasses FxPlug adapter; no native host operation"
+}

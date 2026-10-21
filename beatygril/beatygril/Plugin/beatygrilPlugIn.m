@@ -52,15 +52,29 @@ static BOOL PGFail(NSError **error, NSString *message) {
                                       userInfo:@{NSLocalizedDescriptionKey:message}];
     return NO;
 }
+static NSString * const PGHostCoordinateSpace = @"iosurface-ci-y-up-v1";
+static BOOL PGCompatibleHostTrack(NSData *data) {
+    if (!data.length || data.length > 128*1024*1024) return NO;
+    NSDictionary *archive = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:nil error:nil];
+    return [archive isKindOfClass:NSDictionary.class] && [archive[@"hostCoordinateSpace"] isEqual:PGHostCoordinateSpace];
+}
+static NSData *PGMarkHostTrack(NSData *data) {
+    if (!data) return nil;
+    NSMutableDictionary *archive = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainers format:nil error:nil];
+    if (![archive isKindOfClass:NSMutableDictionary.class]) return nil;
+    archive[@"hostCoordinateSpace"] = PGHostCoordinateSpace;
+    return [NSPropertyListSerialization dataWithPropertyList:archive format:NSPropertyListBinaryFormat_v1_0 options:0 error:nil];
+}
 static CIImage *PGImageFromTile(FxImageTile *tile) {
     if (!tile.ioSurface) return nil;
     // The host already supplies video-gamma RGB. Keep those numeric values in
     // every stage; implicit Core Image linearization changes mask thresholds.
     NSDictionary *options = @{kCIImageColorSpace:NSNull.null};
     CIImage *image = [CIImage imageWithIOSurface:(__bridge IOSurfaceRef)tile.ioSurface options:options];
-    if (tile.imageOrigin == kFxImageOrigin_TOP_LEFT) {
-        image = [image imageByApplyingTransform:CGAffineTransformMake(1,0,0,-1,0,image.extent.size.height)];
-    }
+    // Match the reference's CI/IOSurface path. imageOrigin describes the host's
+    // coordinate axes; it is not an instruction to reverse IOSurface scanlines.
+    // An extra input/output flip can hide in passthrough while inverting faces
+    // inside Vision and the analytic shape/mask stages.
     FxRect b = tile.tilePixelBounds;
     return [image imageByApplyingTransform:CGAffineTransformMakeTranslation(b.left,b.bottom)];
 }
@@ -76,6 +90,7 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
 @property BOOL analyzing;
 @property BOOL analysisForward;
 @property (strong) NSArray<NSString *> *loadedTracks;
+@property uint32_t compatibleTrackMask;
 @property BOOL reportedRender;
 @end
 
@@ -239,13 +254,22 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
         @synchronized(_faceProcessor) {
             NSArray *tracks=plist[@"tracks"];
             if(![tracks isKindOfClass:NSArray.class]||tracks.count!=3) return PGFail(error,@"跟踪状态无效。");
+            for(id track in tracks) if(![track isKindOfClass:NSString.class]) return PGFail(error,@"跟踪记录无效。");
             if(![_loadedTracks isEqualToArray:tracks]) {
+                _compatibleTrackMask=0;
                 for(NSUInteger i=0;i<3;i++) {
-                    if(![tracks[i] isKindOfClass:NSString.class]) return PGFail(error,@"跟踪记录无效。");
-                    [_faceProcessor setTrackingData:[[NSData alloc] initWithBase64EncodedString:tracks[i] options:0] forTarget:i];
+                    NSData *data=[[NSData alloc] initWithBase64EncodedString:tracks[i] options:0];
+                    BOOL compatible=PGCompatibleHostTrack(data);
+                    if(compatible) _compatibleTrackMask |= 1u<<i;
+                    [_faceProcessor setTrackingData:compatible?data:nil forTarget:i];
                 }
                 _loadedTracks=[tracks copy];
             }
+            // Previous releases did not record which image-axis contract their
+            // analysis used. Never replay potentially inverted coordinates.
+            // Preserve the user's saved data and use realtime follow until they
+            // reanalyze that target under this coordinate contract.
+            if(s.trackingEnabled && !(_compatibleTrackMask & (1u<<MIN(s.targetIndex,2)))) s.trackingEnabled=0;
             NSError *stageError=nil;
             PGFaceFrame *frame=[_faceProcessor processImage:input settings:s time:time error:&stageError];
             if(!frame) { os_log_error(PGRenderLog(), "face processing failed: %{public}@",stageError); if(error)*error=stageError; return NO; }
@@ -263,7 +287,6 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
         FxRect b=destination.tilePixelBounds;
         output=[output imageByApplyingTransform:CGAffineTransformMakeTranslation(-b.left,-b.bottom)];
         size_t width=IOSurfaceGetWidth((__bridge IOSurfaceRef)destination.ioSurface),height=IOSurfaceGetHeight((__bridge IOSurfaceRef)destination.ioSurface);
-        if(destination.imageOrigin==kFxImageOrigin_TOP_LEFT) output=[output imageByApplyingTransform:CGAffineTransformMake(1,0,0,-1,0,height)];
         @try {[context render:output toIOSurface:(__bridge IOSurfaceRef)destination.ioSurface bounds:CGRectMake(0,0,width,height) colorSpace:nil];}
         @catch(NSException *exception) {return PGFail(error,exception.reason?:@"图像处理失败。");}
         return YES;
@@ -287,7 +310,8 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
     // A separate processor owns the mutable analysis session. Render snapshots
     // cannot overwrite records being accumulated by the analyzer.
     _analysisFaceProcessor=[PGFaceProcessor new];
-    [_analysisFaceProcessor setTrackingData:[[NSData alloc] initWithBase64EncodedString:tracks[s.targetIndex] options:0] forTarget:s.targetIndex];
+    NSData *previous=[[NSData alloc] initWithBase64EncodedString:tracks[s.targetIndex] options:0];
+    [_analysisFaceProcessor setTrackingData:PGCompatibleHostTrack(previous)?previous:nil forTarget:s.targetIndex];
     _analysisSettings=s;_analysisSettings.trackingEnabled=1;_analysisSettings.singleFace=1;
     _analysisForward=forward;_analyzing=YES;
     BOOL ok=forward?[api startForwardAnalysis:kFxAnalysisLocation_CPU error:&error]:[api startBackwardAnalysis:kFxAnalysisLocation_CPU error:&error];
@@ -332,6 +356,7 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
     id<FxParameterSettingAPI_v5> api=[_apiManager apiForProtocol:@protocol(FxParameterSettingAPI_v5)];
     NSData *data=nil;
     @synchronized(_analysisFaceProcessor) {data=[_analysisFaceProcessor trackingDataForTarget:_analysisSettings.targetIndex];}
+    data=PGMarkHostTrack(data);
     @synchronized(_faceProcessor) {_loadedTracks=nil;}
     if(data.length>64*1024*1024) {
         _analyzing=NO;

@@ -1,6 +1,6 @@
 {
-  "version": "1.0.5",
-  "sha256": "ba08de6916cd837b3733aa0c6fcb78f2e8224431d25e1310089ae67d18445f2d",
+  "version": "1.0.6",
+  "sha256": "30ca8edf36801264c5de2c753c40b720aba8052633620713a12401098fcd2409",
   "filterUUID": "FB14B0E6-59B2-4836-916F-CD0C559E9241",
   "publishedFunctionalControls": 46,
   "informationalControls": 2,
@@ -27,8 +27,9 @@
     "date": "2026-10-21",
     "FCP": "Restored input-chain template shows supplied real video; effect parameters and forward analysis responded in independent QA project.",
     "Motion": "1.0.4 installed formal app loaded the real-video QA project and rendered brightness/geometry with a primary box at different playhead positions; offline tracking disabled.",
-    "scope": "1.0.5 native visual QA is reserved for user self-testing; no Motion/FCP UI operations in the slimming repair. Historical input/brightness validation remains scoped to prior releases.",
-    "version105": "Formal 1.0.5 (7) signed/notarized/stapled/installed and PluginKit formal path verified. User closed hosts before replacement; no Motion/FCP UI operated. Native visual testing pending user."
+    "scope": "1.0.6 coordinate/chin repair native visual QA is reserved for user self-testing; no Motion/FCP UI operations. Historical host tests remain scoped to their versions.",
+    "version105": "Formal 1.0.5 (7) signed/notarized/stapled/installed and PluginKit formal path verified. User closed hosts before replacement; no Motion/FCP UI operated. Native visual testing pending user.",
+    "version106": "Source repair under validation, not yet installed."
   },
   "slimValidation": {
     "offlineFullChecks": 604,
@@ -36,5 +37,19 @@
     "extraRealVideoASanChecks": 264,
     "sampledVideoFrames": 11,
     "maxUVOracleError": 1.09828022e-05
+  },
+  "coordinateChinValidation": {
+    "offlineFullChecks": 904,
+    "thinChinChecks": 394,
+    "hostAdapterChecksASan": 247,
+    "oscChecksASan": 98,
+    "extraRealVideoASanChecks": 494,
+    "sampledVideoFrames": 11,
+    "independentAnatomicalChecks": 12,
+    "originCombinations": 16,
+    "allOriginTagsPixelIdentical": true,
+    "maxByteErrorVsIndependentCIReference": 2,
+    "maxUVOracleError": 1.09828022e-05,
+    "nativeVisualQA": "pending user"
   }
 }
