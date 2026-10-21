@@ -1,0 +1,168 @@
+{
+  "schema": 1,
+  "date": "2026-10-21",
+  "scope": "只读静态 REA：原版无需离线分析的自动人脸跟随；未执行原版、未控制宿主 UI、未修改源码或原版。原生运行信息由 root 另行记录，不能把本报告静态结论称为已观察执行。",
+  "target": {
+    "original_binary": "/Applications/MSE18V2.app/Contents/PlugIns/MSE18V2.pluginkit/Contents/MacOS/MSE18V2",
+    "original_sha256": "6c5d74bc844a5c5f745718b48ea10ec6635d08aa08a5b6dc6e62653980849f8a",
+    "analyzed_arm64": "/tmp/paintfcp-rea.b3j9Te/MSE18V2-arm64",
+    "analyzed_sha256": "f01e8c0b7e2676b2961950b0e48efdd2589af218e4b36de7d39f5d1c76852bfb"
+  },
+  "evidence": {
+    "new_bundle": "rea-auto-tracking.json",
+    "existing_bundle": "rea-plugin.json",
+    "parameter_population": "ev_4ab9fb8e1643d141ad84355f7fde14e9269f94adadf9348b1175bf308cbcb7c1",
+    "render": "ev_65936f315a3978bebcafd04e028acc5609c1c092282c05e0ca08cf2b279bc9ad",
+    "procedure_search": "ev_0719399b08d56c80e1ac22c44d76b02e1f05d307dcb5a95eac02f8dd0445ccb9",
+    "detection_temporal_and_optional_tracker": "ev_2d9d2d633ad190e846ba2411ce96b44b9b12c0ee4d7f06e540673e8578628182",
+    "tracker_dossier": "ev_445b4f2ff33a93ce32a49568a2417245fccd4c2fcf18d3bb12fef66e60d6c37b",
+    "association_selection_rewind": "ev_65d6a413bebd10f2af76e06d523cde43146db3a53e7d028e4054e31c4b003990",
+    "jump_guard_axis_guard_landmark_layout": "ev_ede612c32d16a78e3ac8ec9228fa0e71fcf2ffd827d99e649bdd73f5133163a5",
+    "new_bundle_sha256": "dc1007f3798fade5e454bb2ef0b58e4cfe2bb0256948c364070fd9af70a97377"
+  },
+  "conclusion": "原版默认几何链为当前帧 Vision 人脸关键点检测 + 跨帧主要人脸关联 + 防跳范围 + 关键点稳定/保持与回看历史；不需要先按离线分析。仅加一个 VNTrackObjectRequest 或现有逐帧重检测，均不能等价复刻这条链。",
+  "findings": [
+    {
+      "id": "live_entry",
+      "confidence": "high-static",
+      "addresses": [
+        "0x10001cba4",
+        "0x10002e4f4",
+        "0x10002f700"
+      ],
+      "observed": "renderDestinationImage 在需要几何、局部处理或预览时调用 cachedFaceObservations，再在没有持久跟踪框/选择框可用时直接调用 temporalFacePointsForObservations；该调用不以先完成离线分析为条件。原版字符串 vision_temporal 与 vision_temporal_held 位于此分支。",
+      "limitations": "不是所有参数为零时都运行人脸检测；标签只证明代码分支，不能代替宿主运行日志。"
+    },
+    {
+      "id": "detection_cache",
+      "confidence": "high-static",
+      "addresses": [
+        "0x10002e4f4"
+      ],
+      "observed": "缓存比较 CMTime、图像 extent 和 sourceTileRect；相同时间的相同区域可复用。否则创建 VNDetectFaceLandmarksRequest，失败/关键点不足可再试，结果包括空结果会缓存。共享缓存受锁保护。",
+      "limitations": "allowForwardReuse 的可选时长常量未继续还原；render 的主要几何需求路径传 false，不能声称每帧复用旧检测。"
+    },
+    {
+      "id": "default_primary_and_parameters",
+      "confidence": "high-static",
+      "addresses": [
+        "0x10001b84c",
+        "0x10002973c",
+        "0x10002f700",
+        "0x100023b60",
+        "0x10002398c"
+      ],
+      "observed": "id20(0x14)=faceSingleSelection，注册默认0，写入 params+0xf0；它控制显式选点种子，关闭时 temporalFacePoints 仍会自动选一个主要人脸。id39(0x27)=fastMultiFaceMode，注册默认0，写入 params+0xe2；开启时强制清除 faceSingleSelection。无前态、非显式选点时 helper 023b60 按面积与靠近画心的组合得分选一个人脸；有显式选点时 02398c 按选点到脸框中心的平方距离选种子。",
+      "derived_formula": "默认 primary 得分约为 1.8*clamp(框面积,0,1)+1.1*(1-clamp(距画心/0.72,0,1))；以标准化、裁剪后框为准，公式为反编译推导。",
+      "implication": "faceSingleSelection=false 不等于默认处理全部人脸。UI 所谓多人模式对应 fastMultiFaceMode；不要将 id20 命名直译成 all/single 总开关。"
+    },
+    {
+      "id": "association_jump_guard",
+      "confidence": "high-static",
+      "addresses": [
+        "0x10002f700",
+        "0x100031640",
+        "0x1000319b8",
+        "0x100025428"
+      ],
+      "observed": "已有有效参考脸框时，025428 将其围绕中心按 faceJumpGuardRange 倍数扩成矩形并裁剪；031640 只保留脸框中心落在该范围内的候选；0319b8 在候选中选距上一框中心最近者。注册范围1..4，默认1.8即180%。候选不匹配/检测丢失时存在保持之前几何的分支，而非立即跳到画面另一个人。",
+      "implication": "当前 PG 的圆形半径 guard 与原版矩形 guard 不同。原版证据显示几何关联，没有发现此链使用人脸 embedding/实名身份识别。",
+      "limitations": "未建立任意遮挡时长下必然找回同一身份的承诺；不能把几何跟随称为生物识别。",
+      "hold_details": "空检测或范围内无匹配时，valid参考>=77点的路径直接沿用旧点/旧框，返回strength=1，并可推进outputTime。恢复出的该默认控制流未见明确前向hold超时/逐帧衰减阈值；不得将0.35或0.45秒当作此处失检保留时限。"
+    },
+    {
+      "id": "landmark_stability",
+      "confidence": "high-static-structure-medium-exact-math",
+      "addresses": [
+        "0x10002f700",
+        "0x100023e00",
+        "0x100022c70"
+      ],
+      "observed": "022c70 从 allPoints 取76点、变到全图标准坐标后追加一个中心点，后续链要求至少77点。temporalFacePoints 对同长度新旧数组进行混合；小于0.03秒的有效前向间隔有 dt/0.03 因子，一般混合系数由脸部左右几何对称程度调到约0.84..0.96并作0.82..0.96限制；部分点组另做更强稳定，点组59..75有额外修正，部分归一化位移限制为0.075。023e00 比较前后脸部轴向/几何，异常时可把旧点重映射到当前框并保持，render还有 axis_hold 分支。",
+      "limitations": "Ghidra 对 ObjC/CGRect/CMTime ABI 恢复不完整，组名与完全等价公式尚未逐条汇编验证；建议先重建稳定机制再通过原生视频对照调系数，不能声称像素一致。",
+      "axis_guard_constants": "023e00含框重叠约0.08、中心距离阈值max(0.04,0.82*参考框最大边)、轴长有效阈值max(0.003,0.055*较小框高)、轴方向点积阈值约-0.18等组合判定。它检查方向突变/轴翻转，返回后由调用者选择旧点重映射；系数与方向已恢复，整个布尔表达式尚未逐汇编校对。"
+    },
+    {
+      "id": "time_seek_state",
+      "confidence": "high-static",
+      "addresses": [
+        "0x100018fe0",
+        "0x100018c10",
+        "0x100019490",
+        "0x10002f700"
+      ],
+      "observed": "实例含 temporal points/box、detection time、output time、valid 及 rewind points/box/time/frames；历史保存 time/points/box 并排序，上限1200条，时间差<=0.0005秒替换原条目。reference helper 根据当前时间与 allowCurrentTime 选择历史：一个分支取不晚于当前时间的最新记录，另一个分支可选距当前0.0005..0.35秒的最近历史。temporal/reference 对倒退超过0.05秒有额外判定，限制直接沿用当前 temporal 状态。选择点位置变化>0.01与 selection revision 也参与重新选种子。",
+      "limitations": "这不是简单 seek 就全部清空。最近历史分支可能使用时间上晚于请求的缓存，因此不能宣称原版任意乱序渲染严格无未来状态/完全确定性。首次远跳与长时间丢失的全部优先级未继续做运行验证。",
+      "reselection_reset": "显式选择重种子时清理rewind references和部分待选框状态，缓存新的selection坐标与递增revision，随后新几何成为temporal参考。seek主要靠history/time-local reference，不是统一清空。"
+    },
+    {
+      "id": "vn_object_tracker_presence_vs_reachability",
+      "confidence": "high-static-presence-unproven-live-reachability",
+      "addresses": [
+        "0x10002ee74"
+      ],
+      "observed": "trackedFaceBoxForInputImage 内确有 VNSequenceRequestHandler + VNTrackObjectRequest，检测框作 seed、支持 revision 选择、trackingLevel=0(本机 Vision header 为 Accurate)、performRequests:onCIImage:orientation:1、confidence>=0.22、时间间隔0.45秒及倒退/失败重置处理。",
+      "bounded_negative": "该函数 dossier callers=[]，仅两个 DATA incoming references；render/temporal pseudocode中未出现对它的调用，procedure搜索未找到其 objc_stub。",
+      "inference": "它可能是备用/旧版/动态调用路径；当前已建立的 live render 证据是检测+temporal关联链。不得仅因导入存在便把自动跟随归因于 VNTrackObjectRequest。间接 ObjC 调用并未穷尽排除。"
+    },
+    {
+      "id": "multi_and_beauty_scope",
+      "confidence": "high-static",
+      "addresses": [
+        "0x10001cba4",
+        "0x10002ae04"
+      ],
+      "observed": "fastMultiFaceMode开启且有几何需求时，render另走检测矩形/landmark枚举，构建多套point sets并执行多人变形。默认几何使用单套temporal primary点。applySkinSmoothing 在局部美化/牙齿等条件下仍可获得整组faceObservations；全局肤色与皮肤频率处理也不等同于 primary 几何选脸。",
+      "implication": "不要把默认几何单主脸扩大推断为所有美肤/牙齿只能处理一人。",
+      "multi_details": "render fastMulti分支仅当fastMulti开启且非零几何参数产生需求时组装多点集；先枚举landmark候选，再枚举rectangle候选，使用统一block生成points/box，记录rememberFaceThinPointSets。后续points集>=2才走多套变形，只有一个时沿用单套路径。每张脸的具体去重/旧点补全block未继续反编译，不能保证它与默认单主脸temporal滤波完全相同。"
+    }
+  ],
+  "current_implementation_comparison": {
+    "repo_head_at_read": "22cd96a772f84895aacd5ccc1ef24e0711e933fa",
+    "source": "/Users/dayu/Documents/PaintFCP/beatygril/beatygril/Plugin/PGFaceProcessor.m",
+    "source_sha256": "b5b5b57a4baaf1ba6d0d53af6602025c9897207826865b9cf215032f910b47d4",
+    "findings": [
+      "168..185: 每次 observationsInImage 创建 VNImageRequestHandler + VNDetectFaceLandmarksRequest；没有 live 几何缓存。",
+      "214..243: selectOne=singleFace||trackingEnabled，默认两者false时取所有有效脸(最多16)。原版默认几何是单主脸，显式快速多人另开关。",
+      "225..238: 当前 guard 是以max(width,height)*range为半径的圆+宽度比例限制；原版对应 helper 是扩展矩形内的候选中心筛选。",
+      "288..315: trackingEnabled为false时不读取分析记录，也不给geometryForObservations传previous；因此默认实时帧没有跨帧主体关联、防跳、landmark smoothing/hold/replay状态。",
+      "188..211和246..263: _targets是离线分析写入的持久记录；processImage不写历史。它保证当前设计的render顺序独立，但不能提供原版live temporal机制。",
+      "需要自动跟随不等于需要用户点分析；默认检测确实每帧跟随脸部，但多人交叉/遮挡/检测抖动时无法稳定主体与关键点。"
+    ]
+  },
+  "recommended_minimum_alignment": [
+    "仅在PGFaceProcessor新增实例级live状态，与离线_targets分离；无需新增UI或要求点分析。fastMultiFace决定多人几何；否则自动primary，singleFace决定显式选点种子。",
+    "首帧primary按面积+居中评分；随后先用上一框的矩形180% guard筛候选，再选最近中心。选择点/target/revision变更时重新种子；短暂丢失保留几何，超出策略范围时重新检测且明确失效。",
+    "在匹配身份后对同一布局关键点作时间感知平滑，必要时将旧点映射到新框；warp与其局部mask共享同一稳定几何。可以先用清晰的自有公式，再用原生运动片对照调整，不复制反编译文本。",
+    "为相同CMTime/区域缓存结果，维护有界time-keyed几何快照；seek回看从近时历史恢复，离线轨迹优先、live为fallback。extent/来源/epoch/选择变更隔离状态。并发渲染下锁住状态快照和更新，避免跨时间抢写。",
+    "时间乱序应明确定义：可只使用不晚于请求的参考，作为确定性设计选择；这是有意收紧原版最近历史行为，不应宣称完全同算法。",
+    "先实现已证实的检测+关联+稳定链。VNTrackObjectRequest只能作为后续可测的优化/桥接；当前证据不足以将其列为必需对齐项。"
+  ],
+  "meaningful_validation": [
+    "不调用analyzeImage，默认参数但开启可见瘦脸：连续帧人脸移动时主体框/点位移动，分析记录保持空。",
+    "两人接近/交叉：默认只改变primary；guard外更大的旁人不可抢占；显式fastMultiFace开启后双方可变形。",
+    "选点更换另一人：立即重种子，后续移动自动跟随新主体，不反复选择距固定点击点最近的人。",
+    "检测缺失1..数帧后恢复：几何短时保持；未匹配旁人不跳；超过自定hold策略须可验证回退。",
+    "在固定脸框的抖动关键点序列上，输出关键点方差下降；真实平移不应长时间滞后，面部轴向翻转异常不应造成瞬时形变。",
+    "同一时间重复/正向/倒放/远seek/并发请求：不会把远处未来几何写到请求帧，extent或选择变化不复用旧缓存；测试明确原版证据与自有确定性设计的差异。",
+    "原生Motion/FCP使用同视频逐帧对照默认单主脸、显式选点、防跳与快速多人，记录实际主体验证，不能用纯mock替代宿主验收。"
+  ],
+  "unresolved": [
+    "VNTrackObject路径是否通过运行时动态发送调用；当前无运行追踪，静态无caller不等于绝对不可达。",
+    "temporalFace全部系数、按点组语义、首帧/远seek/长丢失保持时间的完全等价行为。",
+    "皮肤mask playbackStabilizedMask另有时序链；本次只确认其存在，未扩展到完整光流/蒙版跟踪还原。",
+    "原生原版UI映射、实际render调用次数和宿主乱序行为由root当前运行观察补充。"
+  ],
+  "documentation_correction": {
+    "file": "/Users/dayu/Documents/PaintFCP/docs/analysis/REA-分析与复刻说明.md",
+    "line": 46,
+    "problem": "“原版OpenCV光流”把二进制依赖/其他代码存在推成当前实时几何主链的已证实实现。",
+    "replacement": "本版离线分析记录与原版默认自动跟随须分开比较。原版实时几何链已证实由Vision检测、temporal主体关联、防跳范围、关键点稳定/保持及回看历史组成；OpenCV动态库和VNTrackObject备用方法存在，但不足以证明它们驱动当前render主链。完整运动、多人交叉、遮挡与切镜行为仍需同视频原生对照。"
+  },
+  "native_observation_by_root": {
+    "host": "Motion 6.4",
+    "test": "Same blue-haired portrait movie; ordinary local 25fps video project with original plugin UUID, face preview enabled and thin/bigEye set to 0.5 through original custom UI.",
+    "result": "Original preview followed moving face during playback without offline analysis; default fast-multi switch read off/single, jump range 180%.",
+    "scope": "Single-person smoke test; no claims of exhaustive identity/occlusion behavior."
+  }
+}

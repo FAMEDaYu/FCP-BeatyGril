@@ -12,7 +12,7 @@
 ```sh
 git clone https://dayu.media/git/dayu/paintfcp-fxplug.git
 cd paintfcp-fxplug
-git switch --detach v1.0.3
+git switch --detach v1.0.4
 ```
 
 需要继续编辑时，基于该提交创建新分支。安装 Xcode 与 Apple FxPlug 4 SDK；盘点版本和构建入口见 README.md。SDK/framework 为 Apple 外部开发依赖，应重新安装匹配版本。证书、私钥和公证凭据需从独立加密备份恢复或重新申请；Git 不包含它们。
@@ -25,9 +25,9 @@ git switch --detach v1.0.3
 
 初始模板存在行尾空白，修改前基线保留原样。本次核验未执行初始 APP 编译、签名、公证、安装或宿主加载；这些将由最终实现阶段单独验证。
 
-## 1.0.3 恢复入口
+## 1.0.4 恢复入口
 
-最终交付标签为 `v1.0.3`，工作分支为 `main`；本次实际编译和独立恢复测试的代码节点为完整 SHA `d561537eed99cc7c5f2fdbfbe3792fe0b52b3ccf`。最终标签还包含验证文档。需要精确恢复已测试源码时可执行 `git switch --detach d561537eed99cc7c5f2fdbfbe3792fe0b52b3ccf`。两者都保留初始模板及全部中间提交。
+最终交付标签为 `v1.0.4`，工作分支为 `main`；本次实际编译和独立恢复测试的代码节点为完整 SHA `22cd96a772f84895aacd5ccc1ef24e0711e933fa`。最终标签还包含验证文档。需要精确恢复已测试源码时可执行 `git switch --detach 22cd96a772f84895aacd5ccc1ef24e0711e933fa`。两者都保留初始模板及全部中间提交。
 
 依赖：Xcode27.1、FxPlug SDK4.3.4、PluginManager1.7.4，系统最低macOS13；Metal与Vision由系统提供。SDK头文件/链接存根安装到 `/Library/Developer/SDKs/FxPlug.sdk/Library/Frameworks`，可执行运行框架在 `/Library/Developer/Frameworks`；不要把SDK链接存根当运行框架嵌入APP。两者属于需重新安装的Apple外部依赖，仓库不保存证书/私钥或登录凭据。
 

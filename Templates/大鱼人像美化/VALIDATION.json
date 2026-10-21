@@ -1,6 +1,6 @@
 {
-  "version": "1.0.3",
-  "sha256": "74b045f0e93baa783f469e776e1a1dddd5f1933d7376afd3cac196c589c944b1",
+  "version": "1.0.4",
+  "sha256": "d234d504eba9e6d37b910b622a46c92458e658c5bbdad2caf5831c2a1463a3e2",
   "filterUUID": "FB14B0E6-59B2-4836-916F-CD0C559E9241",
   "publishedFunctionalControls": 46,
   "informationalControls": 2,
@@ -27,6 +27,6 @@
     "date": "2026-10-21",
     "FCP": "Restored input-chain template shows supplied real video; effect parameters and forward analysis responded in independent QA project.",
     "Motion": "Real-video ordinary project played with midtone=0.5 and brightness=0.75; face boxes followed changing positions.",
-    "scope": "Native smoke and brightness regression; not exhaustive controls/occlusion or cross-host saved-track validation."
+    "scope": "1.0.3 render/brightness smoke passed; 1.0.4 automatic geometry alignment and canvas event native verification pending."
   }
 }
