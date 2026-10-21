@@ -233,7 +233,7 @@ static PGInspectorGlyphButton *PGUIButton(NSString *glyph, NSColor *accent, id t
     _label.alphaValue=master&&enabled?1:.5;_eye.state=enabled?NSControlStateValueOn:NSControlStateValueOff;_eye.enabled=available&&master;
     _reset.enabled=available;_reset.state=fabs(value-[_descriptor[@"default"]doubleValue])>.000001?NSControlStateValueOn:NSControlStateValueOff;
     _slider.enabled=available&&master&&enabled;_slider.doubleValue=value;
-    _valueField.enabled=available&&master&&enabled;if(!_valueField.currentEditor)_valueField.stringValue=PGFormattedValue(_descriptor,value);
+    _valueField.enabled=available&&master&&enabled;if(!_valueField.currentEditor || !_numberHasUnsubmittedEdit)_valueField.stringValue=PGFormattedValue(_descriptor,value);
     _toggle.enabled=available&&master&&enabled;_toggle.state=value>.5?NSControlStateValueOn:NSControlStateValueOff;
     UInt32 identifierForHint=[_descriptor[@"id"]unsignedIntValue];
     _hint.stringValue=identifierForHint==PGFastMulti?(value>.5?@"多人":@"单人"):identifierForHint==PGTrackBoxes?(value>.5?@"预览中":@"隐藏"):(value>.5?@"开启":@"关闭");
@@ -264,7 +264,12 @@ static PGInspectorGlyphButton *PGUIButton(NSString *glyph, NSColor *accent, id t
         [_inspector writeValue:value parameter:[_descriptor[@"id"]unsignedIntValue]];
     }else NSBeep();
     _valueField.stringValue=PGFormattedValue(_descriptor,[_inspector.controller.state valueForParameter:[_descriptor[@"id"]unsignedIntValue]]);
-    if(sender==_valueField && _valueField.currentEditor)[_valueField.window makeFirstResponder:nil];
+    if(sender==_valueField) {
+        [_valueField.window makeFirstResponder:nil];
+        // A remote inspector can retain its field editor after the host has
+        // consumed Return. End the already-submitted edit at the control too.
+        [_valueField abortEditing];
+    }
 }
 - (void)controlTextDidChange:(NSNotification *)notification { (void)notification;_numberHasUnsubmittedEdit=YES; }
 - (void)controlTextDidEndEditing:(NSNotification *)notification {
@@ -343,7 +348,7 @@ static PGInspectorGlyphButton *PGUIButton(NSString *glyph, NSColor *accent, id t
     }
     _status.stringValue=_controller.statusMessage.length?_controller.statusMessage:@"自动跟随 · 无需手动分析";_status.toolTip=_status.stringValue;
 }
-- (BOOL)hasActiveTextEditor { for(PGInspectorCard *card in _cards)for(PGInspectorRow *row in card.rows)if(row.valueField.currentEditor)return YES;return NO; }
+- (BOOL)hasActiveTextEditor { for(PGInspectorCard *card in _cards)for(PGInspectorRow *row in card.rows)if(row.valueField.currentEditor && row.numberHasUnsubmittedEdit)return YES;return NO; }
 - (void)refreshFromHost { if(_interactionDepth || [self hasActiveTextEditor])return;[_controller refresh];[self reloadControls]; }
 - (void)hostParameterChanged { if(_interactionDepth || [self hasActiveTextEditor])return;[_controller documentDidChange];[self reloadControls]; }
 - (void)writeValue:(double)value parameter:(UInt32)identifier { [_controller setValue:value forParameter:identifier];[self reloadControls]; }

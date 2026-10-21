@@ -178,7 +178,17 @@ static void ViewInteractionTests(void) {
     window.releasedWhenClosed=NO;window.contentView=view;
     [number selectText:nil];
     Check(number.currentEditor!=nil,@"offscreen AppKit window supplies a real field editor for Return handling");
-    number.stringValue=@"0.25";Fire(number);
+    changed=[s.values mutableCopy];changed[@(PGChin)]=@.7;
+    api.values[@(PGInspectorPanel)]=[PGInspectorState stateWithValues:changed disabledParameters:s.disabledParameters hasEdits:YES];
+    [view hostParameterChanged];
+    Check(Near([view.controller.state valueForParameter:PGChin],.7) && Near(number.doubleValue,.7),@"a focused but unmodified editor cannot hide a host undo or reset");
+    number.stringValue=@"0.25";
+    [number.delegate controlTextDidChange:[NSNotification notificationWithName:NSControlTextDidChangeNotification object:number]];
+    changed[@(PGChin)]=@.8;
+    api.values[@(PGInspectorPanel)]=[PGInspectorState stateWithValues:changed disabledParameters:s.disabledParameters hasEdits:YES];
+    [view hostParameterChanged];
+    Check(Near(number.doubleValue,.25),@"host refresh preserves genuinely unsubmitted typing");
+    Fire(number);
     Check(number.currentEditor==nil && Near([(PGInspectorState *)api.values[@(PGInspectorPanel)] valueForParameter:PGChin],.25),@"Return commits once and releases the actual AppKit editor before host commands");
     [window close];
     NSButton *preview=(NSButton *)FindControl(view,NSButton.class,@"人脸框预览");preview.state=NSControlStateValueOn;Fire(preview);s=api.values[@(PGInspectorPanel)];Check([s valueForParameter:PGTrackBoxes]==1,@"preview switch events change the automatic face box setting");

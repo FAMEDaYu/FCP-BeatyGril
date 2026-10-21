@@ -156,14 +156,14 @@
   },
   "automatedInspectorValidation": {
     "scope": "offscreen AppKit inspector, real production controller and mocked host callbacks; no Motion/FCP UI",
-    "fullChecks": 1549,
+    "fullChecks": 1551,
     "counts": {
       "beauty": 49,
       "face": 116,
       "thinChinJawShort": 796,
       "hostAdapterASan": 335,
       "oscASan": 98,
-      "inspectorASan": 155
+      "inspectorASan": 157
     },
     "nativeVisualQA": "pending user",
     "manualAnalysisUI": "removed; legacy IDs hidden and buttons disabled",
@@ -189,21 +189,21 @@
   },
   "installation": {
     "version": "1.1.2",
-    "build": "12",
+    "build": "13",
     "status": "pending",
     "previousInstalledVersion": "1.1.1 (interim)"
   },
   "shortJawValidation": {
     "version": "1.1.2",
-    "build": "12",
-    "total": 1549,
+    "build": "13",
+    "total": 1551,
     "counts": {
       "beauty": 49,
       "face": 116,
       "thinChinJawShort": 796,
       "hostAdapterASan": 335,
       "oscASan": 98,
-      "inspectorASan": 155
+      "inspectorASan": 157
     },
     "allPassed": true,
     "extraRealFramesASan": {
