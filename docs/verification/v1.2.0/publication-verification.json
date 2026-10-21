@@ -1,0 +1,59 @@
+{
+  "article_id": 15593,
+  "url": "https://dayu.media/15593/",
+  "status": "publish",
+  "anonymous_http": 200,
+  "category": 3,
+  "free_for_all": true,
+  "featured_media": 15595,
+  "native_code_block_present": true,
+  "seo_tags": {
+    "title": [
+      "大鱼人像美化 1.2.0｜FCP / Motion 免费开源自动美颜插件"
+    ],
+    "description": [
+      "大鱼人像美化是适用于 Final Cut Pro 和 Motion 的免费开源 FxPlug4 插件，支持磨皮、美白、自动人脸跟随及瘦脸调整。提供 Apple 签名公证 PKG 安装包和源码，安装自动注册，无需激活码，并附具体安装、使用及红色警告排查说明。"
+    ],
+    "keywords": [
+      "大鱼人像美化,FCP美颜插件,Motion磨皮,自动瘦脸,自动跟随,FxPlug4,免费开源"
+    ],
+    "unique_and_exact": true
+  },
+  "assets": [
+    {
+      "role": "package",
+      "url": "https://dayu.media/wp-content/uploads/2026/10/1792604749-1ea4dca3cc5a5c3.pkg",
+      "anonymous_http": 200,
+      "bytes": 5011005,
+      "sha256": "5bd77c28b3a7e54f3d4060be1f16bcb145d9bc4d6b9cfb9eb137c01130440243",
+      "matches_local": true
+    },
+    {
+      "role": "source",
+      "url": "https://dayu.media/wp-content/uploads/2026/10/1792604741-f6e09da5b67c006.zip",
+      "anonymous_http": 200,
+      "bytes": 9607987,
+      "sha256": "a235fb3168c09a1e3a4fc5f347b3957cbd9ee2a1c3848e2af1dda2e64afbb870",
+      "matches_local": true
+    },
+    {
+      "role": "cover",
+      "url": "https://dayu.media/wp-content/uploads/2026/10/1792604750-357ca780597c39f.png",
+      "anonymous_http": 200,
+      "bytes": 2776027,
+      "sha256": "a346f06e7793b4e5483ccd4b3b86f34c2036bbe6bbddb7ad9cc70c47e7d014ab",
+      "matches_local": true
+    },
+    {
+      "role": "card",
+      "url": "https://dayu.media/wp-content/uploads/2026/10/1792604743-1c99c2ba53c7614.png",
+      "anonymous_http": 200,
+      "bytes": 3065968,
+      "sha256": "239552eeea738a32fafa70922d3cd1d4c115ff75d672574fa4c5acd941381fba",
+      "matches_local": true
+    }
+  ],
+  "source_article_click_anonymous_verified": true,
+  "fcpx_app_sync_requested": false,
+  "git_visibility": "Gitea public attribute verified; anonymous gateway access still requires membership as disclosed in article"
+}

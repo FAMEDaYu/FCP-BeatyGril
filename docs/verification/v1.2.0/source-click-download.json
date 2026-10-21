@@ -1,0 +1,9 @@
+{
+  "source_click_url": "https://dayu.media?cao_direct_download=1&file_url=https%3A%2F%2Fdayu.media%2Fwp-content%2Fuploads%2F2026%2F10%2F1792604741-f6e09da5b67c006.zip",
+  "http": 200,
+  "content_type": "application/octet-stream",
+  "final_url": "https://dayu.media?cao_direct_download=1&file_url=https%3A%2F%2Fdayu.media%2Fwp-content%2Fuploads%2F2026%2F10%2F1792604741-f6e09da5b67c006.zip",
+  "bytes": 9607987,
+  "sha256": "a235fb3168c09a1e3a4fc5f347b3957cbd9ee2a1c3848e2af1dda2e64afbb870",
+  "click_download_matches_source": true
+}

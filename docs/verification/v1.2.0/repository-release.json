@@ -1,0 +1,10 @@
+{
+  "id": 128,
+  "tag_name": "v1.2.0",
+  "name": "大鱼人像美化 1.2.0",
+  "html_url": "https://dayu.media/git/dayu/paintfcp-fxplug/releases/tag/v1.2.0",
+  "url": "https://dayu.media/git/api/v1/repos/dayu/paintfcp-fxplug/releases/128",
+  "draft": false,
+  "prerelease": false,
+  "body": "大鱼人像美化 1.2.0（14）\n\n免费开源。自动跟随、人像磨皮、美白和脸型调整。新增古风宣传封面与缩略图，主 APP 显示免费开源说明并在窗口显示三秒后退出。\n\nAPP 和 PKG 均已正式签名、Apple 公证并粘附票据。\n\n免费安装包与免 Git 登录源码快照：https://dayu.media/15593/\n\n安装包仓库位置：releases/1.2.0/大鱼人像美化-1.2.0.pkg\nSHA-256：5bd77c28b3a7e54f3d4060be1f16bcb145d9bc4d6b9cfb9eb137c01130440243\n\n当前站点 Git 网关仍需登录；仓库公开属性已设为 public，站外读者可通过文章免费下载源码快照。"
+}

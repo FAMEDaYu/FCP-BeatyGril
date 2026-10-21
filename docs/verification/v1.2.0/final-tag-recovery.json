@@ -1,0 +1,13 @@
+{
+  "tag": "v1.2.0",
+  "commit": "3c7261c3a861b9f4704cfb36055d7b500c239dab",
+  "files_verified": 183,
+  "fsck_full_strict": true,
+  "package_sha256": "5bd77c28b3a7e54f3d4060be1f16bcb145d9bc4d6b9cfb9eb137c01130440243",
+  "recovered_package_signature_and_ticket": true,
+  "xcode_project_readable": true,
+  "lfs": false,
+  "submodules": false,
+  "authentication": "saved member Git credential; anonymous gateway access remains restricted",
+  "temporary_clone_removed": true
+}

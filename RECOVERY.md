@@ -96,3 +96,7 @@ Motion/FCP原生验收范围及未完成项见`docs/verification/v1.1.2/native-q
 模板恢复到 `~/Movies/Motion Templates.localized/Effects.localized/大鱼磨皮瘦脸/大鱼人像美化/`，需同时保留 `.moef`、`Drop Zone.tiff`、`large.png`、`small.png`。Git 不保存 BSD 文件标志，手工复制后对两张 PNG 执行 `chflags uchg` 并核对 `ls -lO`；不要锁目录和工程。自动安装 PKG 会恢复这两个锁。
 
 仓库已为公开属性，但当前网站 Git 网关仍执行登录 / 会员校验。匿名 `ls-remote` 未通过，不宣称无需登录的 Git 恢复已通过；认证的远端克隆和文章的公开源码快照分别核验。服务端备份边界与前文相同。
+
+1.2.0 的最终标签完整 SHA 为 `3c7261c3a861b9f4704cfb36055d7b500c239dab`，已从认证远端独立克隆恢复并比对183个受跟踪文件，strict/full fsck、Xcode工程读取、恢复出的PKG签名和票据验证通过。正式PKG SHA-256 为 `5bd77c28b3a7e54f3d4060be1f16bcb145d9bc4d6b9cfb9eb137c01130440243`。后续main修正发布助手和补充文档，不改变已签名产品源码696d5f3或正式包。
+
+公开文章：https://dayu.media/15593/ ，包含免费安装包、免登录源码快照与仓库链接。源码快照对应 `788ba0d5514595cf349af33074055d70b0754185`；它包含完整构建源码，排除PKG二进制，不包含Git历史。完整历史可从仓库恢复，仍需满足当前站点Git网关登录条件。

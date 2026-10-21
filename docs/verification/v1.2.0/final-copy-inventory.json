@@ -1,0 +1,17 @@
+{
+  "roots": [
+    "/Applications",
+    "/Library/Plug-Ins/FxPlug",
+    "/Users/dayu/Library/Plug-Ins/FxPlug",
+    "/Users/dayu/Documents/PaintFCP",
+    "/tmp/paintfcp-build-20261021"
+  ],
+  "product_paths": [
+    "/Library/Plug-Ins/FxPlug/beatygril.app"
+  ],
+  "errors": [],
+  "removed": [
+    "build/pkg-expanded"
+  ],
+  "scope": "bounded scan; not all mounted volumes"
+}
