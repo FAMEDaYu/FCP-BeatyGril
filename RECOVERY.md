@@ -85,6 +85,6 @@ FCP模板从 `Templates/大鱼人像美化/` 恢复，将 `.moef` 和 `Drop Zone
 
 正式Release已使用固定团队逐层签名，Apple公证Accepted `5f5ce378-8430-467b-ae97-048e6bc81573`，票据、Gatekeeper、通用架构和PluginKit正式路径全部通过。唯一正式安装APP为`/Library/Plug-Ins/FxPlug/beatygril.app`，模板moef SHA256为`e9fa97dc14323d0daa7d3d61b06a78ba4000a70ab9f5e67ebffd750d49df1e15`，TIFF逐字节一致。临时APP、旧APP和公证ZIP已清理，有界目录及现存Spotlight索引产品路径中仅发现正式APP，扫描错误0，不宣称扫描了所有卷。
 
-Motion/FCP原生验收范围及未完成项见`docs/verification/v1.1.2/native-qa.json`：数值、重置、隔离短脸/下颌骨响应通过；Motion撤销和保存关闭重开通过。连续步进已改为每步完整宿主action，模拟宿主确认鼠标松开前可发布中间设置；原生按住鼠标期间的画布时序仍待用户反馈。后续人脸素材和全AX只保留本机build，不是产品依赖或上传资源。
+Motion/FCP原生验收范围及未完成项见`docs/verification/v1.1.2/native-qa.json`：数值、重置、隔离短脸/下颌骨响应通过；Motion撤销和保存关闭重开通过。连续步进已改为每步完整宿主action，模拟宿主确认鼠标松开前可发布中间设置；用户于2026-10-22实测确认拖动中持续更新；未指定宿主，未测量逐事件排帧时序。后续人脸素材和全AX只保留本机build，不是产品依赖或上传资源。
 
-最终标签`v1.1.2`完整提交SHA为`e9fddda5e13042f761755762fa39dfe090853c6a`，已独立从远端恢复，158文件的bytes/blob/mode与strict/full fsck通过，产品目录与签名源码a2e33e8逐字节一致，无LFS或子模块，恢复临时目录已清理。详见`docs/verification/v1.1.2/final-tag-recovery.json`；后续main仅补交本次标签恢复报告。
+最终标签`v1.1.2`完整提交SHA为`e9fddda5e13042f761755762fa39dfe090853c6a`，已独立从远端恢复，158文件的bytes/blob/mode与strict/full fsck通过，产品目录与签名源码a2e33e8逐字节一致，无LFS或子模块，恢复临时目录已清理。详见`docs/verification/v1.1.2/final-tag-recovery.json`；后续main仅补充恢复报告和用户验收记录，产品源码保持不变。

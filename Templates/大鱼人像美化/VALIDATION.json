@@ -62,7 +62,7 @@
     "build": "13",
     "Motion": "pass: native number/reset/undo and save-close-reopen; isolated shape/profile images inspected with identical geometry source",
     "FCP": "pass: formal load, number/reset and same-frame isolated short/jaw render",
-    "continuousPreview": "per-step host completion verified automatically; native held-mouse canvas timing pending user observation"
+    "continuousPreview": "pass: user confirmed held-drag continuous preview on 2026-10-22 (Asia/Shanghai), version1.1.2 build13; host not specified, per-event frame timing not instrumented"
   },
   "customParameter": {
     "id": 210,

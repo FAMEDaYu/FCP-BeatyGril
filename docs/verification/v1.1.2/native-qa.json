@@ -27,7 +27,16 @@
   "continuousPreview": {
     "production": "Each changed continuous step finishes its FxPlug host action before mouse-up; repeated equal steps are deduplicated.",
     "automated": "Three intermediate snapshots published before gesture end; production view/controller exercised under action-scoped mock.",
-    "nativePointerObservation": "Pending user answer: CUA coordinate drag did not reliably exercise the displayed slider; no native mid-drag frame timing claim."
+    "nativePointerObservation": "User confirmed on 2026-10-22 (Asia/Shanghai): 拖动中已持续更新. Native held-drag visual behavior is accepted by the user; the host was not specified and per-event frame timing was not instrumented.",
+    "userAcceptance": {
+      "date": "2026-10-22",
+      "timezone": "Asia/Shanghai",
+      "version": "1.1.2",
+      "build": "13",
+      "response": "拖动中已持续更新",
+      "passed": true,
+      "scope": "User-observed continuous preview during held slider drag in at least one native host; does not establish separate held-drag acceptance in both Motion and FCP or a frame for every mouse event."
+    }
   },
   "limits": [
     "No claim that every mouse event is presented as a separate host frame. Host scheduling and render speed can coalesce rapid updates.",
