@@ -17,23 +17,10 @@
 - (NSArray<VNFaceObservation *> *)observationsInImage:(CIImage *)image settings:(PGBeautySettings)s error:(NSError **)error {return self.authoredDetections?:@[];}
 @end
 
-static NSDictionary *Geometry(CGRect box, double localJitter, BOOL has76) {
-    NSMutableDictionary *g=[@{@"box":@[@(box.origin.x),@(box.origin.y),@(box.size.width),@(box.size.height)]} mutableCopy];
-    for(NSString *name in @[@"leftEye",@"rightEye",@"leftBrow",@"rightBrow",@"nose",@"lips",@"mouth",@"contour"]){
-        double x=[name isEqual:@"rightEye"]?.7:.3;
-        g[name]=@[@[@(box.origin.x+(x+localJitter)*box.size.width),@(box.origin.y+.65*box.size.height)]];
-    }
-    if(has76){
-        NSMutableArray *p=[NSMutableArray new];
-        for(NSUInteger i=0;i<76;i++)[p addObject:@[@.5,@.5]];
-        p[6]=@[@.34,@.65];p[13]=@[@.66,@.65];
-        p[46]=@[@.5,@.68];p[47]=@[@.5,@.60];p[48]=@[@.5,@.52];p[49]=@[@.5,@.45];p[52]=@[@.5,@.42];
-        p[29]=@[@.5,@.39];p[36]=@[@.54,@.36];p[37]=@[@.5,@.35];p[38]=@[@.46,@.36];
-        p[26]=@[@.42,@.40];p[34]=@[@.58,@.40];p[35]=@[@.57,@.36];p[39]=@[@.43,@.36];
-        for(NSUInteger i=0;i<17;i++){double t=M_PI+M_PI*i/16;p[59+i]=@[@(.5+.29*cos(t)),@(.65+.43*sin(t))];}
-        for(NSUInteger i=0;i<76;i++)p[i]=@[@(box.origin.x+([p[i][0] doubleValue]+localJitter)*box.size.width),@(box.origin.y+[p[i][1] doubleValue]*box.size.height)];
-        g[@"points76"]=p;
-    }
+#import "../tests/tracking_fixture.h"
+static NSDictionary *Geometry(CGRect box,double jitter,BOOL has76) {
+    NSMutableDictionary *g=[PGTrackingTestGeometry(box,jitter) mutableCopy];
+    if(!has76)[g removeObjectForKey:@"points76"];
     return g;
 }
 static NSDictionary *Live(PGRealtimeFaceTracker *t,NSArray *g,PGBeautySettings s,int64_t tick){return[t resultForGeometry:g settings:s time:CMTimeMake(tick,1000) extent:CGRectMake(0,0,256,256)];}

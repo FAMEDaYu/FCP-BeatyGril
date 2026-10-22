@@ -9,13 +9,14 @@ parser.add_argument('--version',default=PRODUCT['version'])
 parser.add_argument('--build',default=PRODUCT['build'])
 parser.add_argument('--expanded',default='build/pkg-expanded')
 parser.add_argument('--fixture',default='build/pkg-isolation')
+parser.add_argument('--source-app',default=PRODUCT['installationPath'],help='Signed/stapled APP to compare byte for byte against the payload; may be the prepared delivery staging APP.')
 args=parser.parse_args()
 expanded=root/args.expanded/'Payload.pkg';payload=expanded/'Payload'
-formal=Path('/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app');packed=payload/'Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app'
+formal=Path(args.source_app);packed=payload/'Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app'
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 def files(p):
  return {str(x.relative_to(p)):('symlink:'+os.readlink(x) if x.is_symlink() else sha(x)) for x in p.rglob('*') if x.is_file() or x.is_symlink()}
-assert files(formal)==files(packed),'APP differs from signed installed product'
+assert files(formal)==files(packed),'APP differs from the verified signed source product'
 subprocess.run(['codesign','--verify','--deep','--strict',str(packed)],check=True)
 subprocess.run(['xcrun','stapler','validate',str(packed)],check=True,capture_output=True)
 source=root/'Templates/大鱼人像美化';template=next(payload.rglob('大鱼人像美化.moef')).parent
@@ -73,7 +74,7 @@ assert backups and all('/Movies/' not in str(x) for x in backups)
 package=root/('releases/'+args.version+'/'+PRODUCT['name']+'-'+args.version+'.pkg')
 info=plistlib.loads((packed/'Contents/Info.plist').read_bytes())
 assert info['CFBundleShortVersionString']==args.version and info['CFBundleVersion']==args.build
-report={'package':str(package.relative_to(root)),'bytes':package.stat().st_size,'sha256':sha(package),'version':args.version,'build':args.build,'app_files_compared':len(files(formal)),'app_byte_and_symlink_equality':True,'template_files':{n:sha(template/n) for n in runtime},'locked_relative_paths':['大鱼人像美化/large.png','大鱼人像美化/small.png'],'script_sha256':{'preinstall':sha(expanded/'Scripts/preinstall'),'postinstall':sha(expanded/'Scripts/postinstall')},'isolated_script_tests':['fresh install','replace old locked thumbnail','partial copy failure restores old bytes and locks'],'isolation_changes':['Console identity/home redirected to task fixture','chown replaced with true','FxPlug verification skipped; formal app signature and discovery verified separately'],'real_installer_execution':False,'app_and_template_installed':'APP installed through signed delivery workflow; formal template files matched the specified installed category, not changed by running this PKG','fonts':'No editable third-party font dependency; promotional lettering baked into PNG. No optional font ZIP needed.'}
+report={'package':str(package.relative_to(root)),'bytes':package.stat().st_size,'sha256':sha(package),'version':args.version,'build':args.build,'app_files_compared':len(files(formal)),'app_byte_and_symlink_equality':True,'template_files':{n:sha(template/n) for n in runtime},'locked_relative_paths':['大鱼人像美化/large.png','大鱼人像美化/small.png'],'script_sha256':{'preinstall':sha(expanded/'Scripts/preinstall'),'postinstall':sha(expanded/'Scripts/postinstall')},'isolated_script_tests':['fresh install','replace old locked thumbnail','partial copy failure restores old bytes and locks'],'isolation_changes':['Console identity/home redirected to task fixture','chown replaced with true','FxPlug verification skipped; formal app signature and discovery verified separately'],'real_installer_execution':False,'app_and_template_installed':('APP installed through signed delivery workflow' if formal==Path(PRODUCT['installationPath']) else 'Prepared signed APP verified; formal APP installation pending host exit')+'; template files matched the specified installed category, not changed by running this PKG','fonts':'No editable third-party font dependency; promotional lettering baked into PNG. No optional font ZIP needed.'}
 (root/('docs/verification/v'+args.version+'/pkg-verification.json')).write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n');print(json.dumps(report,ensure_ascii=False,indent=2))
 # This fixture belongs solely to this verifier; remove its locks before cleanup.
 subprocess.run(['chflags','-R','nouchg',str(base)],check=True);shutil.rmtree(base)

@@ -23,19 +23,45 @@ cli = '/Applications/PKG工坊.app/Contents/MacOS/PKG工坊'
 source_template = pathlib.Path('/Users/dayu/Movies/Motion Templates.localized/Effects.localized/大鱼磨皮瘦脸')
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--verify-existing', action='store_true', help='Resume verification of the already Accepted, stapled final package without rebuilding or resubmitting it.')
+parser.add_argument('--prepared-app', action='store_true', help='Package the exact Accepted/stapled delivery staging APP before host exit, keeping the existing formal installation untouched.')
 args = parser.parse_args()
+
+def package_app():
+    formal = pathlib.Path(PRODUCT['installationPath'])
+    receipt = json.loads((ROOT / 'build/delivery/delivery-receipt.json').read_text())
+    hashes = lambda text: [line for line in text.splitlines() if line.startswith('CDHash=')]
+    source = receipt['source']['commit']
+    if run(['git', 'diff', source, '--', PRODUCT['sourceRoot'], 'product.json']).strip():
+        raise RuntimeError('Product source changed since the signed delivery')
+    if not args.prepared_app:
+        if receipt.get('status') not in ('installed', 'installed_user_qa_pending', 'complete'):
+            raise RuntimeError('The recorded delivery is not installed; use --prepared-app for a prepared Release')
+        signature = subprocess.run(['codesign', '-dvvv', str(formal)], check=True, text=True, capture_output=True).stderr
+        if not hashes(signature) or hashes(signature) != hashes(receipt.get('installedSignature', '')):
+            raise RuntimeError('Installed APP signature differs from the recorded delivery source')
+        return formal
+    app = pathlib.Path('/tmp/fcp-beautygirl-release/Build/Products/Release') / (PRODUCT['name'] + '.app')
+    if receipt.get('status') != 'prepared' or receipt.get('notarization', {}).get('status') != 'Accepted':
+        raise RuntimeError('Prepared delivery is not Accepted and ready')
+    if receipt.get('version') != version or receipt.get('build') != PRODUCT['build']:
+        raise RuntimeError('Prepared delivery version mismatch')
+    signature = subprocess.run(['codesign', '-dvvv', str(app)], check=True, text=True, capture_output=True).stderr
+    if not hashes(signature) or hashes(signature) != hashes(receipt['stagingSignature']):
+        raise RuntimeError('Prepared APP signature differs from the Accepted delivery')
+    run(['xcrun', 'stapler', 'validate', str(app)])
+    return app
 
 with delivery_locks():
     if not args.verify_existing:
         if work.exists() or final.exists():
             raise SystemExit('Packaging work or final package already exists; inspect before retrying')
-        work.mkdir(parents=True)
-        release.mkdir(parents=True, exist_ok=True)
-        proof.mkdir(parents=True, exist_ok=True)
-        formal = pathlib.Path(PRODUCT['installationPath'])
+        formal = package_app()
         info = validate_app(formal, PRODUCT['bundleIdentifier'])
         assert info['CFBundleShortVersionString'] == version and info['CFBundleVersion'] == PRODUCT['build']
         assert installer_identity in run(['security', 'find-identity', '-v', '-p', 'basic', keychain])
+        work.mkdir(parents=True)
+        release.mkdir(parents=True, exist_ok=True)
+        proof.mkdir(parents=True, exist_ok=True)
         template = work / 'input/大鱼磨皮瘦脸'
         manifest = []
         for source in sorted(source_template.rglob('*')):
@@ -76,7 +102,7 @@ with delivery_locks():
     else:
         if not work.exists() or not final.exists():
             raise RuntimeError('No prepared package to verify')
-        formal = pathlib.Path(PRODUCT['installationPath'])
+        formal = package_app()
         info = validate_app(formal, PRODUCT['bundleIdentifier'])
         assert info['CFBundleShortVersionString'] == version and info['CFBundleVersion'] == PRODUCT['build']
         result = json.loads((proof / 'pkg-notarization.json').read_text())
@@ -90,7 +116,7 @@ with delivery_locks():
     full = work / 'full'
     try:
         run(['pkgutil', '--expand-full', str(final), str(full)])
-        run([sys.executable, 'scripts/verify-release-package.py', '--version', version, '--build', PRODUCT['build'], '--expanded', str(full), '--fixture', 'build/pkg-isolation-' + version], proof / 'pkg-verification-output.txt')
+        run([sys.executable, 'scripts/verify-release-package.py', '--version', version, '--build', PRODUCT['build'], '--expanded', str(full), '--fixture', 'build/pkg-isolation-' + version, '--source-app', str(formal)], proof / 'pkg-verification-output.txt')
         env = dict(os.environ, FCP_BEAUTYGIRL_POSTINSTALL=str(full / 'Payload.pkg/Scripts/postinstall'))
         run([sys.executable, 'tests/installer_identity_tests.py'], proof / 'installer-tests.txt', env=env)
     finally:

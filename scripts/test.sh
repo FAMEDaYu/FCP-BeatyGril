@@ -11,3 +11,5 @@ xcrun clang "${common[@]}" "$plugin_dir/PGFaceProcessor.m" tests/face_tests.m -o
 "$output_dir/face-tests" "$PWD/tests/fixtures/astronaut.png"
 xcrun clang "${common[@]}" "$plugin_dir/PGFaceProcessor.m" tests/slim_tests.m -o "$output_dir/slim-tests"
 "$output_dir/slim-tests" "$PWD/tests/fixtures/astronaut.png"
+zsh scripts/test-tracking.sh
+zsh scripts/test-eyes.sh

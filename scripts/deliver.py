@@ -9,7 +9,10 @@ parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--wait-for-hosts',action='store_true',help='After notarization, retain the delivery lock and wait for Motion/FCP to exit naturally before installing; never control or quit either host.')
 parser.add_argument('--user-tests',action='store_true',help='After non-UI installed-app verification, record native effect QA as pending user testing and clean known generated copies without the interactive validation prompt.')
 parser.add_argument('--resume-prepared',action='store_true',help='Resume an already Accepted and stapled staged app after checking its recorded signature, version and unchanged product source.')
+parser.add_argument('--prepare-only',action='store_true',help='Build, sign, notarize and staple a staged Release, then release the delivery lock without replacing the installed APP or touching running hosts.')
 args=parser.parse_args()
+class PreparedOnly(Exception):
+    pass
 bundle_id=PRODUCT['bundleIdentifier']
 locks=delivery_locks();locks.__enter__()
 staging=pathlib.Path('/tmp/fcp-beautygirl-release')
@@ -133,6 +136,9 @@ try:
     # old installed version open. This removes only this known staging path.
     unregister_generated_plugin(plugin)
     save_receipt('prepared',signingVerified=True,stapleValidated=True,stagingPluginUnregistered=True)
+    if args.prepare_only:
+        print(json.dumps({'status':'prepared','path':str(app),'notarization':result,'installedAppUnchanged':True}),flush=True)
+        raise PreparedOnly()
     # A live host retains its old XPC/OSC connection. Replacing the bundle while
     # that connection exists can deadlock host shutdown or select stale code.
     await_host_exit()
@@ -184,6 +190,8 @@ try:
     removed=migration.cleanup()+cleanup_known_products()
     save_receipt('installed_user_qa_pending' if args.user_tests else 'complete',removedGeneratedPaths=removed)
     print('Delivery staging and notarization archive cleaned.',flush=True)
+except PreparedOnly:
+    pass
 except BaseException as error:
     save_receipt('failed',failure={'type':type(error).__name__,'message':str(error)})
     raise

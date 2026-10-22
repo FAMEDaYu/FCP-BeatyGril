@@ -1,7 +1,7 @@
 {
   "name": "FCP-BeautyGirl",
-  "version": "1.3.2",
-  "build": "17",
+  "version": "1.3.3",
+  "build": "18",
   "bundleIdentifier": "com.dayu.fcpbeautygirl",
   "pluginName": "FCP-BeautyGirl XPC Service.pluginkit",
   "pluginBundleIdentifier": "com.dayu.fcpbeautygirl.fxplug",

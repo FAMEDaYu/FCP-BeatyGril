@@ -4,6 +4,7 @@
 #import <ImageIO/ImageIO.h>
 #import "PGFaceProcessor.h"
 #include <math.h>
+#import "tracking_fixture.h"
 
 @interface PGFaceProcessor (SlimTest)
 - (CIImage *)warpImage:(CIImage *)image geometry:(NSArray<NSDictionary *> *)geometry settings:(PGBeautySettings)s extent:(CGRect)extent;
@@ -51,9 +52,7 @@ static CGPoint Oracle(CGPoint pixel,NSDictionary *g,CGRect extent,double thin) {
     static const unsigned int anchors[17]={6,13,47,47,47,47,48,48,48,48,49,49,49,49,52,52,47};
     NSArray *raw=g[@"points76"];CGPoint p[76];
     for(NSUInteger i=0;i<76;i++){p[i]=ReadPoint(raw[i]);p[i].y=1-p[i].y;}
-    double width=hypot((p[75].x-p[59].x)*extent.size.width,(p[75].y-p[59].y)*extent.size.height);
-    double height=hypot((p[67].x-(p[74].x+p[60].x)/2)*extent.size.width,(p[67].y-(p[74].y+p[60].y)/2)*extent.size.height);
-    double gain=Clamp(280/fmax(1,fmax(width,2*height)),1,2.25)*.025*Clamp(thin,0,1);
+    double gain=.025*Clamp(thin,0,1); // 2.4.0 pin coefficient has no legacy size amplification.
     CGPoint q=CGPointMake((pixel.x-extent.origin.x)/extent.size.width,1-(pixel.y-extent.origin.y)/extent.size.height);
     for(NSUInteger i=0;i<17;i++) {
         CGPoint a=p[origins[i]],b=p[anchors[i]];
@@ -399,15 +398,19 @@ int main(int argc,const char *argv[]) {@autoreleasepool {
         Check(![Pixels(c,[p processImage:image settings:other time:kCMTimeZero error:&error].image) isEqualToData:source],@"other controls remain available in legacy archives");
     }
     PGRealtimeFaceTracker *tracker=[PGRealtimeFaceTracker new];PGBeautySettings live=PGBeautyDefaults();
-    NSDictionary *a=[tracker resultForGeometry:@[Geometry(0,0)] settings:live time:kCMTimeZero extent:image.extent];
-    NSDictionary *b=[tracker resultForGeometry:@[Geometry(.2,0)] settings:live time:CMTimeMake(1,25) extent:image.extent];
+    NSDictionary *liveFront=PGTrackingTestGeometry(CGRectMake(.15,.15,.7,.6),0),*liveMoved=PGTrackingTestGeometry(CGRectMake(.16,.15,.7,.6),.003);
+    NSDictionary *a=[tracker resultForGeometry:@[liveFront] settings:live time:kCMTimeZero extent:image.extent];
+    NSDictionary *b=[tracker resultForGeometry:@[liveMoved] settings:live time:CMTimeMake(1,25) extent:image.extent];
     Check([a[@"output"][0][@"points76"] count]==76 && [b[@"output"][0][@"points76"] count]==76,@"realtime stabilization retains the complete indexed point layout");
-    Check([b isEqual:[tracker resultForGeometry:@[Geometry(.2,0)] settings:live time:CMTimeMake(1,25) extent:image.extent]],@"repeated rendering does not smooth the 76-point layout again");
+    Check([b[@"output"][0][@"points76"] isEqual:liveMoved[@"points76"]],@"qualified realtime points are copied exactly by the pin-style branch");
+    Check([b isEqual:[tracker resultForGeometry:@[liveMoved] settings:live time:CMTimeMake(1,25) extent:image.extent]],@"repeated rendering does not advance the 76-point sequence again");
     NSDictionary *held=[tracker resultForGeometry:@[] settings:live time:CMTimeMake(2,25) extent:image.extent];
-    Check([held[@"output"][0][@"points76"] isEqual:b[@"output"][0][@"points76"]],@"missing detection holds the complete point layout");
-    NSDictionary *turned=Geometry(1.4,0);
+    NSArray *heldPoints=held[@"output"][0][@"points76"],*acceptedPoints=b[@"output"][0][@"points76"];BOOL sameHeld=heldPoints.count==76&&acceptedPoints.count==76;
+    for(NSUInteger i=0;i<MIN(heldPoints.count,acceptedPoints.count);i++) {CGPoint h=ReadPoint(heldPoints[i]),a=ReadPoint(acceptedPoints[i]);sameHeld=sameHeld&&hypot(h.x-a.x,h.y-a.y)<1e-12;}
+    Check(sameHeld,@"missing detection holds the complete point layout through affine roundoff");
+    NSDictionary *turned=PGTrackingTestGeometry(CGRectMake(.16,.15,.7,.6),.02);
     NSDictionary *back=[tracker resultForGeometry:@[turned] settings:live time:CMTimeMake(3,25) extent:image.extent];
-    Check([back[@"output"][0][@"points76"] isEqual:turned[@"points76"]],@"reacquired side-face points do not blend with a held frontal pose");
+    Check([back[@"output"][0][@"points76"] isEqual:turned[@"points76"]],@"qualified reacquired points do not blend with the held pose");
     for(int index=1;index<argc;index++) {@autoreleasepool {
         CIImage *portrait=[CIImage imageWithContentsOfURL:[NSURL fileURLWithPath:@(argv[index])] options:@{kCIImageColorSpace:NSNull.null}];
         PGFaceProcessor *real=[PGFaceProcessor new];PGBeautySettings rs=PGBeautyDefaults();rs.faceThin=1;

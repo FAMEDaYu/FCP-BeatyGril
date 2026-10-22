@@ -320,15 +320,26 @@ static CIImage *PGPreparedVisionImage(CIImage *image,CGFloat limit) {
 - (NSDictionary *)resultForGeometry:(NSArray<NSDictionary *> *)raw settings:(PGBeautySettings)settings time:(CMTime)time extent:(CGRect)extent image:(CIImage *)image;
 - (CGRect)trackedBoxForImage:(CIImage *)image time:(CMTime)time seedBox:(CGRect)seed;
 - (void)reset;
+- (void)removeCachedResult:(NSDictionary *)result;
 - (NSDictionary *)cacheStatistics;
 @end
 @implementation PGRealtimeFaceTracker
 - (instancetype)init {if((self=[super init])){_mutex=[NSLock new];_entries=[NSMutableArray new];_objectTime=kCMTimeInvalid;}return self;}
 - (void)resetObjectTracker { _sequence=[VNSequenceRequestHandler new];_objectRequest=nil;_objectBox=CGRectNull;_objectTime=kCMTimeInvalid;_objectValid=NO; }
 - (void)reset {[_mutex lock];[_entries removeAllObjects];_estimatedBytes=0;_liveReference=nil;[self resetObjectTracker];[_mutex unlock];}
+- (void)removeCachedResult:(NSDictionary *)result {
+    [_mutex lock];
+    for(NSInteger i=(NSInteger)_entries.count-1;i>=0;i--) {
+        NSDictionary *entry=_entries[(NSUInteger)i];
+        if([entry[@"context"] isEqual:result[@"context"]]&&[entry[@"scope"] isEqual:result[@"scope"]]&&[entry[@"key"] isEqual:result[@"key"]]) {
+            _estimatedBytes-=[entry[@"bytes"] unsignedIntegerValue];[_entries removeObjectAtIndex:(NSUInteger)i];
+        }
+    }
+    [_mutex unlock];
+}
 - (NSDictionary *)cacheStatistics {[_mutex lock];NSDictionary *stats=@{@"frames":@(_entries.count),@"estimatedBytes":@(_estimatedBytes)};[_mutex unlock];return stats;}
 - (CGRect)trackedBoxForImage:(CIImage *)image time:(CMTime)time seedBox:(CGRect)seed {
-    if(!image||!PGTimeKey(time))return CGRectNull;
+    if(!image||!PGTimeKey(time)){[self resetObjectTracker];return CGRectNull;}
     BOOL hasSeed=PGValidRect(seed),hasBox=PGValidRect(_objectBox);
     double dt=PGTimeKey(_objectTime)?CMTimeGetSeconds(CMTimeSubtract(time,_objectTime)):NAN;
     BOOL backward=isfinite(dt)&&dt<0;
@@ -336,7 +347,7 @@ static CIImage *PGPreparedVisionImage(CIImage *image,CGFloat limit) {
     if(!_sequence)_sequence=[VNSequenceRequestHandler new];
     if(!_objectRequest||!_objectValid||backward||(isfinite(dt)&&dt>.2)) {
         if(!backward&&hasBox&&!_objectValid&&isfinite(dt)&&dt<=.45&&(!hasSeed||!PGCompatibleBoxes(seed,_objectBox)))return _objectBox;
-        if(!hasSeed)return CGRectNull;
+        if(!hasSeed){_objectValid=NO;_objectRequest=nil;_sequence=[VNSequenceRequestHandler new];return CGRectNull;}
         _sequence=[VNSequenceRequestHandler new];
         _objectRequest=[[VNTrackObjectRequest alloc] initWithDetectedObjectObservation:[VNDetectedObjectObservation observationWithBoundingBox:seed]];
         NSUInteger revision=VNTrackObjectRequest.defaultRevision;
@@ -461,7 +472,7 @@ static CIImage *PGPreparedVisionImage(CIImage *image,CGFloat limit) {
         _visionContext = [CIContext contextWithOptions:@{kCIContextCacheIntermediates:@NO}];
         _targets = [NSMutableArray arrayWithObjects:[NSMutableDictionary dictionary], [NSMutableDictionary dictionary], [NSMutableDictionary dictionary], nil];
         // Thin/V/chin/jaw/short reconstruct recovered local coordinate math.
-        // Four other controls retain this project's analytic approximation.
+        // Narrow/cheek/small-head retain this project's analytic approximation.
         // Recovered V -> jaw -> chin -> short order follows the reference. Other
         // analytic body controls still precede V, so the full combined chain
         // with narrow/cheek/small-head/eyes is not claimed reference-equivalent.
@@ -518,10 +529,10 @@ static CIImage *PGPreparedVisionImage(CIImage *image,CGFloat limit) {
         [source appendString:@" float weight=mod(crossings,2.0)>0.5?1.0:clamp(1.0-nearest/length(shortAxis),0.0,1.0);"
         " q=clamp(q-shortAxis*shortRatio*weight,vec2(0.0),vec2(1.0));"
         " q.y=1.0-q.y; p=imageOrigin+q*imageSize; }"
-        " vec2 dl = (p-le)/er; float wl = 1.0-smoothstep(0.0,1.0,length(dl));"
-        " p -= (p-le)*bigEye*0.33*wl*wl;"
-        " vec2 dr = (p-re)/er; float wr = 1.0-smoothstep(0.0,1.0,length(dr));"
-        " p -= (p-re)*bigEye*0.33*wr*wr; return p; }"];
+        " vec2 dl=p-le; float lr=er.x;"
+        " if(lr>0.0001) { float wl=clamp(1.0-dot(dl,dl)/(lr*lr),0.0,1.0); p=le+dl*(1.0-bigEye*wl); }"
+        " vec2 dr=p-re; float rr=er.y;"
+        " if(rr>0.0001) { float wr=clamp(1.0-dot(dr,dr)/(rr*rr),0.0,1.0); p=re+dr*(1.0-bigEye*wr); } return p; }"];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         _warp = [CIWarpKernel kernelWithString:source];
@@ -677,7 +688,9 @@ static CIImage *PGPreparedVisionImage(CIImage *image,CGFloat limit) {
             double height = 2*hypot(([points76[67][0] doubleValue]-midX)*extent.size.width,
                                     ([points76[67][1] doubleValue]-midY)*extent.size.height);
             double gain = fmin(2.25,fmax(1,280/fmax(1,fmax(width,height))));
-            thinRatio = PGClamp(s.faceThin,0,1)*.025*gain;
+            // The 2.4.0 pin shader consumes this CPU coefficient directly;
+            // its thin field no longer applies the older 280-pixel size gain.
+            thinRatio = PGClamp(s.faceThin,0,1)*.025;
             float chin = PGClamp(s.faceChin,-1,1);
             chinRatio = chin*(chin>0 ? .04 : .02)*gain;
             jawRatio = PGClamp(s.faceJaw,0,1)*.05*gain;
@@ -693,9 +706,18 @@ static CIImage *PGPreparedVisionImage(CIImage *image,CGFloat limit) {
         CGRect le = PGRegionBounds(face, @"leftEye", PGInFace(box, 0.16, 0.53, 0.25, 0.15));
         CGRect re = PGRegionBounds(face, @"rightEye", PGInFace(box, 0.59, 0.53, 0.25, 0.15));
         CGPoint left = PGCenter(PGToPixels(le, extent)), right = PGCenter(PGToPixels(re, extent));
+        double leftRadius=MAX(2,pixels.size.width*.24),rightRadius=MAX(2,pixels.size.width*.24);
+        if(points76) {
+            CGPoint lp=PGPoint(points76[6]),rp=PGPoint(points76[13]);
+            left=CGPointMake(extent.origin.x+lp.x*extent.size.width,extent.origin.y+lp.y*extent.size.height);
+            right=CGPointMake(extent.origin.x+rp.x*extent.size.width,extent.origin.y+rp.y*extent.size.height);
+            CGPoint a=PGPoint(points76[0]),b=PGPoint(points76[1]),c=PGPoint(points76[7]),d=PGPoint(points76[8]);
+            leftRadius=hypot((a.x-b.x)*extent.size.width,(a.y-b.y)*extent.size.height);
+            rightRadius=hypot((c.x-d.x)*extent.size.width,(c.y-d.y)*extent.size.height);
+        }
         NSMutableArray *arguments = [@[PGVector(PGCenter(pixels)), [CIVector vectorWithX:pixels.size.width Y:pixels.size.height],
-            PGVector(left), PGVector(right), [CIVector vectorWithX:MAX(2, pixels.size.width * 0.24) Y:MAX(2, pixels.size.height * 0.17)],
-            @(thinRatio), @(PGClamp(s.faceBigEye, 0, 1)), @(shortRatio),
+            PGVector(left), PGVector(right), [CIVector vectorWithX:leftRadius Y:rightRadius],
+            @(thinRatio), @(PGClamp(s.faceBigEye, 0, 1)*.15), @(shortRatio),
             @(PGClamp(s.faceNarrow, -1, 1)), @(chinRatio), @(vRatio),
             @(jawRatio), @(PGClamp(s.faceCheekbone, 0, 1)), @(PGClamp(s.faceSmallHead, 0, 1)), @(PGClamp(s.faceSmallHeadRange, 0, 1)),
             [CIVector vectorWithX:extent.origin.x Y:extent.origin.y], [CIVector vectorWithX:extent.size.width Y:extent.size.height]] mutableCopy];
@@ -767,7 +789,13 @@ static CIImage *PGPreparedVisionImage(CIImage *image,CGFloat limit) {
         observations = restored;
     } else {
         NSArray *detected = [self cachedObservationsInImage:image settings:settings time:time error:error];
-        if (!detected) return nil;
+        BOOL transientDetectionFailure=detected==nil;
+        if (!detected) {
+            if(settings.trackingEnabled)return nil;
+            // A failed live detection takes the same shape-hold path as a lost
+            // observation; it must not fail the host's entire render request.
+            detected=@[];if(error)*error=nil;
+        }
         if(settings.trackingEnabled) {
             // Preserve the explicit offline-analysis contract. Its stored
             // identity fallback never reads or writes realtime temporal state.
@@ -784,6 +812,9 @@ static CIImage *PGPreparedVisionImage(CIImage *image,CGFloat limit) {
                 [raw addObject:PGGeometry(observation)];[validObservations addObject:observation];
             }
             NSDictionary *live=[_realtime resultForGeometry:raw settings:settings time:time extent:extent image:image];
+            // A successful empty detection is frozen; an API error is not. Its
+            // temporary held output must allow a same-time retry to acquire a face.
+            if(transientDetectionFailure)[_realtime removeCachedResult:live];
             geometry=live[@"output"];
             if(settings.singleFace && !settings.fastMultiFace) {
                 NSInteger index=[live[@"index"] integerValue];
@@ -803,7 +834,7 @@ static CIImage *PGPreparedVisionImage(CIImage *image,CGFloat limit) {
                 // skin/teeth/eyes support, which still covers the detected group.
                 appearance=raw;observations=validObservations;
             }
-            if([live[@"held"] boolValue] && geometry.count) {
+            if(([live[@"held"] boolValue] || transientDetectionFailure) && geometry.count) {
                 // Keep beauty masks on the same held primary shape as the warp,
                 // while retaining support for independently detected secondary faces.
                 NSMutableArray *supported=[appearance mutableCopy];
