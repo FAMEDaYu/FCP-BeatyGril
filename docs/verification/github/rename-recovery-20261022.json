@@ -1,0 +1,12 @@
+{
+  "remote": "https://github.com/FAMEDaYu/FCP-BeautyGirl.git",
+  "commit": "6a29d52a9ad667665da4acf75017c008fa0a566d",
+  "anonymousClone": true,
+  "trackedFilesCompared": 239,
+  "bytesAndExecutableModesMatched": true,
+  "gitFsckFullStrict": true,
+  "productSourceUnchangedFrom": "cd2e608ec6bb92bb6bb0923e4fb4b7728404c67a",
+  "lfs": false,
+  "submodules": false,
+  "temporaryCloneRemoved": true
+}

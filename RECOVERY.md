@@ -124,3 +124,6 @@ V 脸现在为四组下颌到外唇局部 pin，映射为 V×0.065，无新版�
 
 
 1.3.1最终发行标签为 `v1.3.1`，完整SHA `b35b4a5d1ca252d2f83c798613560a768274de3c`。GitHub已匿名独立克隆恢复并比对232个受跟踪文件的字节/执行位、strict/full fsck和恢复PKG签名/票据；产品源码与签名节点7fa3298完全一致。见 `docs/verification/v1.3.1/final-tag-recovery.json`。两个远端main纳入该标签后继续记录交付文档，不移动标签。文章15593和GitHub/大鱼Release已更新，GitHub与文章安装包/源码下载字节均校验，完整入口见 `docs/GitHub同步说明.md`。
+
+
+GitHub于2026-10-22更正仓库名为 `FCP-BeautyGirl`，远端为 `https://github.com/FAMEDaYu/FCP-BeautyGirl.git`。更名后的恢复检查点 `6a29d52a9ad667665da4acf75017c008fa0a566d` 已通过新地址匿名独立克隆、239个文件字节/执行位和strict/full fsck核验，产品源码与此前正式版相同。Release、附件和原有标签保留，文章及本地远程/仓库目录表均已更新；详见 `docs/verification/github/rename-recovery-20261022.json`。
