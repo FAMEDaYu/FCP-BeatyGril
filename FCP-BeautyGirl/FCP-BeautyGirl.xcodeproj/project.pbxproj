@@ -22,14 +22,14 @@
 			containerPortal = 6945FC833088B7220013E108 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 6945FC953088B7220013E108;
-			remoteInfo = "XPC Service";
+			remoteInfo = "FCP-BeautyGirl XPC Service";
 		};
 		6945FCA43088B7220013E108 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6945FC833088B7220013E108 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 6945FC953088B7220013E108;
-			remoteInfo = "XPC Service";
+			remoteInfo = "FCP-BeautyGirl XPC Service";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -174,8 +174,8 @@
 			fileSystemSynchronizedGroups = (
 				6945FCA63088B7220013E108 /* FCP-BeautyGirl */,
 			);
-			name = "Wrapper Application";
-			productName = "Wrapper Application";
+			name = "FCP-BeautyGirl";
+			productName = "FCP-BeautyGirl";
 			productReference = 6945FC8B3088B7220013E108 /* FCP-BeautyGirl.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -194,8 +194,8 @@
 			fileSystemSynchronizedGroups = (
 				6945FCA63088B7220013E108 /* FCP-BeautyGirl */,
 			);
-			name = "XPC Service";
-			productName = "XPC Service";
+			name = "FCP-BeautyGirl XPC Service";
+			productName = "FCP-BeautyGirl XPC Service";
 			productReference = 6945FC963088B7220013E108 /* FCP-BeautyGirl XPC Service.pluginkit */;
 			productType = "com.apple.product-type.bundle";
 		};
@@ -323,7 +323,7 @@
 				);
 				MACH_O_TYPE = mh_execute;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dayu.fcpbeautygirl.fxplug;
-				PRODUCT_NAME = "FCP-BeautyGirl $(TARGET_NAME)";
+				PRODUCT_NAME = "FCP-BeautyGirl XPC Service";
 				SWIFT_OBJC_BRIDGING_HEADER = "FCP-BeautyGirl/Plugin/XPC Service-Bridging-Header.h";
 				WRAPPER_EXTENSION = pluginkit;
 			};
@@ -346,7 +346,7 @@
 				);
 				MACH_O_TYPE = mh_execute;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dayu.fcpbeautygirl.fxplug;
-				PRODUCT_NAME = "FCP-BeautyGirl $(TARGET_NAME)";
+				PRODUCT_NAME = "FCP-BeautyGirl XPC Service";
 				SWIFT_OBJC_BRIDGING_HEADER = "FCP-BeautyGirl/Plugin/XPC Service-Bridging-Header.h";
 				WRAPPER_EXTENSION = pluginkit;
 			};

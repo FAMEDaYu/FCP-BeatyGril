@@ -9,7 +9,7 @@
   "sourceRoot": "FCP-BeautyGirl",
   "sourceDirectory": "FCP-BeautyGirl/FCP-BeautyGirl",
   "xcodeProject": "FCP-BeautyGirl/FCP-BeautyGirl.xcodeproj",
-  "scheme": "Wrapper Application",
+  "scheme": "FCP-BeautyGirl",
   "installationPath": "/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app",
   "filterUUID": "FB14B0E6-59B2-4836-916F-CD0C559E9241",
   "teamIdentifier": "B3W25FX5H5",
