@@ -1,0 +1,29 @@
+{
+  "status": "prepared",
+  "bundleIdentifier": "com.dayu.fcpbeautygirl",
+  "installationPath": "/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app",
+  "options": {
+    "waitForHosts": false,
+    "userTests": true
+  },
+  "nativeEffectQA": {
+    "status": "pending_user",
+    "performedByScript": false
+  },
+  "source": {
+    "commit": "edf64ace6bc17f4db3b2dba71897997809c1029d",
+    "trackedWorktreeChanges": []
+  },
+  "updatedAt": "2026-10-22T16:11:03.691862+00:00",
+  "version": "1.3.3",
+  "build": "18",
+  "stagingSignature": "Executable=/private/tmp/fcp-beautygirl-release/Build/Products/Release/FCP-BeautyGirl.app/Contents/MacOS/FCP-BeautyGirl\nIdentifier=com.dayu.fcpbeautygirl\nFormat=app bundle with Mach-O universal (x86_64 arm64)\nCodeDirectory v=20500 size=482 flags=0x10000(runtime) hashes=4+7 location=embedded\nHash type=sha256 size=32\nCandidateCDHash sha256=ab996568a91ce3b5c3aa419fa410f5fe7cf46a5f\nCandidateCDHashFull sha256=ab996568a91ce3b5c3aa419fa410f5fe7cf46a5ff9d5aa6bbd21b9f245a13341\nHash choices=sha256\nCMSDigest=ab996568a91ce3b5c3aa419fa410f5fe7cf46a5ff9d5aa6bbd21b9f245a13341\nCMSDigestType=2\nCDHash=ab996568a91ce3b5c3aa419fa410f5fe7cf46a5f\nSignature size=8968\nAuthority=Developer ID Application: zhong luo (B3W25FX5H5)\nAuthority=Developer ID Certification Authority\nAuthority=Apple Root CA\nTimestamp=Oct 23, 2026 at 00:10:40\nInfo.plist entries=23\nTeamIdentifier=B3W25FX5H5\nRuntime Version=27.0.0\nSealed Resources version=2 rules=13 files=5\nInternal requirements count=1 size=184\nTotal signatures=1\nChosen signature=1\n",
+  "notarization": {
+    "id": "379a432b-ccca-4676-9567-30dc49bb2400",
+    "message": "Processing complete",
+    "status": "Accepted"
+  },
+  "signingVerified": true,
+  "stapleValidated": true,
+  "stagingPluginUnregistered": true
+}

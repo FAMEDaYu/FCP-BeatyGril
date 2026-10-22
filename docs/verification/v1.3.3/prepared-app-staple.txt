@@ -1,0 +1,2 @@
+Processing: /tmp/fcp-beautygirl-release/Build/Products/Release/FCP-BeautyGirl.app
+The validate action worked!

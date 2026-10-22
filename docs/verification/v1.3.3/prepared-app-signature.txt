@@ -1,0 +1,24 @@
+Executable=/private/tmp/fcp-beautygirl-release/Build/Products/Release/FCP-BeautyGirl.app/Contents/MacOS/FCP-BeautyGirl
+Identifier=com.dayu.fcpbeautygirl
+Format=app bundle with Mach-O universal (x86_64 arm64)
+CodeDirectory v=20500 size=482 flags=0x10000(runtime) hashes=4+7 location=embedded
+Hash type=sha256 size=32
+CandidateCDHash sha256=ab996568a91ce3b5c3aa419fa410f5fe7cf46a5f
+CandidateCDHashFull sha256=ab996568a91ce3b5c3aa419fa410f5fe7cf46a5ff9d5aa6bbd21b9f245a13341
+Hash choices=sha256
+CMSDigest=ab996568a91ce3b5c3aa419fa410f5fe7cf46a5ff9d5aa6bbd21b9f245a13341
+CMSDigestType=2
+CDHash=ab996568a91ce3b5c3aa419fa410f5fe7cf46a5f
+Signature size=8968
+Authority=Developer ID Application: zhong luo (B3W25FX5H5)
+Authority=Developer ID Certification Authority
+Authority=Apple Root CA
+Timestamp=Oct 23, 2026 at 00:10:40
+Notarization Ticket=stapled
+Info.plist entries=23
+TeamIdentifier=B3W25FX5H5
+Runtime Version=27.0.0
+Sealed Resources version=2 rules=13 files=5
+Internal requirements count=1 size=184
+Total signatures=1
+Chosen signature=1

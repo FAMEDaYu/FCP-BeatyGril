@@ -148,3 +148,12 @@ GitHub用户名现为 `dayumeida`，账号ID117798680保持一致。当前公开
 ## 1.3.2 后续跟踪闪烁分析
 
 分析节点 `a0c5357efd87a63dbee6269d9335e6aa3ba78799` 保留新目标2.4.0静态证据、实际当前FCP草帽素材的469帧独立采样摘要与两个通用诊断入口；产品源码和安装版仍为v1.3.2，未宣布闪烁修复。独立匿名克隆284文件/fsck/合成诊断重建复现通过，无LFS或子模块。具体运行与边界见 `docs/analysis/跟踪闪烁对齐分析.md`，用户素材和完整真实关键点不在仓库中。
+
+
+## 1.3.3 跟踪稳定链
+
+签名产品源码为 `edf64ace6bc17f4db3b2dba71897997809c1029d`，工作分支 `codex/tracking-stability-240`，发行入口 `v1.3.3`。Release通用APP保持固定身份与路径，公证Accepted `379a432b-ccca-4676-9567-30dc49bb2400`；PKG由本机PKG工坊基础包加入已验证的身份迁移脚本后重新签名，公证Accepted `3b44edbb-612d-47b2-8b11-e79874b2c635`，4,905,560 bytes，SHA-256 `214c109af60bce72046c89ff12b364938b6c00c3a348fa3740dabef661649e0d`。包含用户指定“大鱼磨皮瘦脸”分类的moef、Drop Zone.tiff与两张锁定缩略图，payload字节及隔离安装/回滚核验通过；没有执行真实installer。
+
+当前本机正式APP仍为1.3.2，FCP/Motion运行中，待用户保存退出后以 `python3 scripts/deliver.py --resume-prepared --wait-for-hosts --user-tests` 安装已公证精确构建并清理。新机器不存在本机暂存APP时，从标签恢复并按既有 `deliver.py --wait-for-hosts --user-tests` 重新编译签名公证，或安装发行PKG；不要复制本机prepared回执当作新机器已安装证明。
+
+独立匿名GitHub克隆签名源码节点304文件字节/模式及strict/full fsck通过，重建跟踪87项和眼部126项；无需目标APP、用户视频或Apple私钥即可运行这两组合成检查。完整正常回归2122项；目标同点坐标场40例最大误差0.005523px。469帧离线草帽采样均通过质量筛选，不能代表原生时间线闪烁已消除。无LFS/子模块；SDK、签名私钥和公证凭据按本文既有说明独立恢复。最终标签恢复与发布回执补充至 `docs/verification/v1.3.3/`，历史标签不移动。
