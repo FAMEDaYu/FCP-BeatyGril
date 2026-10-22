@@ -1,5 +1,5 @@
 {
-  "scope": "Source and isolated authored synthetic diagnostics plus static REA of the requested 2.4.0 binary; no native host comparison",
+  "scope": "Current source review, isolated authored diagnostics, static REA of requested2.4.0, and independent25fps scan of the user-selected current clip; no native dual-plugin comparison",
   "sourceBaseline": "b58fec1a86db7a2e474e1cc65a5911447b5906b9",
   "installedVersion": "1.3.2 (17)",
   "productSourceUnchanged": true,
@@ -18,14 +18,19 @@
     "scripts/diagnose-tracking.m": "bc758bf5ec4825006930be8997889404f63c28da1fe06ad8872b0901b2795d2c",
     "docs/analysis/tracking-flicker-20261022/synthetic-results.json": "5fdbad4887dd78658c06f5c6d8e70c9e53fd7b54e11a9cc31ee1958631cbc1a8",
     "docs/analysis/tracking-flicker-20261022/rea-evidence.json": "4b367759388c8e061e138623184ae8a6875dbab22659eefd4e474b141b8868fa",
-    "scripts/diagnose-tracking.sh": "c1993ca91cee596a21db1e4f86ba224be85c37495c783f9c3b21872aff210765"
+    "scripts/diagnose-tracking.sh": "c1993ca91cee596a21db1e4f86ba224be85c37495c783f9c3b21872aff210765",
+    "scripts/inspect-tracking-sequence.m": "0b94fc92669acf4d36861ccb25077b767189b8a72647e0d304627dbda5d052eb",
+    "docs/analysis/tracking-flicker-20261022/current-clip-summary.json": "043ba688c606fb9e56449fd02108b34789fd41c4d9a2552cd07f4d3bf78a00f0"
   },
   "limits": [
-    "No user frames or complete user landmark arrays used or uploaded",
-    "No target process executed or host UI controlled",
     "Static reachable/default-configuration branches do not prove runtime branch execution",
     "Same-frame raw cache, hold and out-of-order behavior were isolated using our actual current implementation",
     "No APP rebuild, install, package or article publication for this analysis",
-    "User clarified current FCP timeline: sun-hat subject, 1080p25, fast multi off, faceThin1, bigEye about0.90; exact source/frame analysis in progress"
-  ]
+    "User source decoded only locally; no source frames or complete real landmark arrays uploaded",
+    "User current FCP clip confirmed, all469 offline samples have full76; earlier missing-point synthetic case is not established as this clip cause",
+    "Only scalar clip summary retained; full scalar per-frame diagnostics remain in ignored build",
+    "Approximate timeline offset is not a substitute for verified source in-point/retiming",
+    "Reference was already running; only process executable identity read. Native UI read/reveal/raise only, no effect/timeline edits; no target launch, debugger or geometry trace."
+  ],
+  "currentClipSummary": "current-clip-summary.json"
 }
