@@ -1,6 +1,6 @@
 //
 //  AppDelegate.h
-//  beatygril
+//  FCP-BeautyGirl
 //
 //  Created by dayu on 2026/10/21.
 //

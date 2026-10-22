@@ -1,0 +1,25 @@
+{
+  "name": "FCP-BeautyGirl",
+  "version": "1.3.2",
+  "build": "17",
+  "bundleIdentifier": "com.dayu.fcpbeautygirl",
+  "pluginName": "FCP-BeautyGirl XPC Service.pluginkit",
+  "pluginBundleIdentifier": "com.dayu.fcpbeautygirl.fxplug",
+  "pluginClass": "FCPBeautyGirlPlugIn",
+  "sourceRoot": "FCP-BeautyGirl",
+  "sourceDirectory": "FCP-BeautyGirl/FCP-BeautyGirl",
+  "xcodeProject": "FCP-BeautyGirl/FCP-BeautyGirl.xcodeproj",
+  "scheme": "Wrapper Application",
+  "installationPath": "/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app",
+  "filterUUID": "FB14B0E6-59B2-4836-916F-CD0C559E9241",
+  "teamIdentifier": "B3W25FX5H5",
+  "legacyProducts": [
+    {
+      "name": "beatygril",
+      "bundleIdentifier": "com.dayu.beatygril",
+      "pluginName": "beatygril XPC Service.pluginkit",
+      "pluginBundleIdentifier": "com.dayu.beatygril.fxplug",
+      "installationPath": "/Library/Plug-Ins/FxPlug/beatygril.app"
+    }
+  ]
+}

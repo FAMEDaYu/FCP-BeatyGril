@@ -1,4 +1,4 @@
-#import "beatygrilPlugIn.h"
+#import "FCPBeautyGirlPlugIn.h"
 #import "PGParameterIDs.h"
 #import "PGBeautyRenderer.h"
 #import "PGFaceProcessor.h"
@@ -12,7 +12,7 @@
 
 static os_log_t PGRenderLog(void) {
     static os_log_t log; static dispatch_once_t once;
-    dispatch_once(&once, ^{ log=os_log_create("com.dayu.beatygril", "render"); });
+    dispatch_once(&once, ^{ log=os_log_create("com.dayu.fcpbeautygirl", "render"); });
     return log;
 }
 
@@ -84,7 +84,7 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
     return [image imageByApplyingTransform:CGAffineTransformMakeTranslation(b.left,b.bottom)];
 }
 
-@interface beatygrilPlugIn ()
+@interface FCPBeautyGirlPlugIn ()
 @property (strong) PGBeautyRenderer *beautyRenderer;
 @property (strong) PGFaceProcessor *faceProcessor;
 @property (strong) PGFaceProcessor *analysisFaceProcessor;
@@ -99,7 +99,7 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
 @property (strong) NSHashTable<PGInspectorView *> *inspectorViews;
 @end
 
-@implementation beatygrilPlugIn
+@implementation FCPBeautyGirlPlugIn
 - (instancetype)initWithAPIManager:(id<PROAPIAccessing>)manager {
     if ((self=[super init])) {
         _apiManager=manager;

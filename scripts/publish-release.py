@@ -38,7 +38,7 @@ with zipfile.ZipFile(source_zip) as z:
  assert z.testzip() is None and any(n.endswith('/Wrapper Application/AppDelegate.m') for n in z.namelist())
 status=request('/dayu-publisher/v1/status');assert status['can_publish'] and status['can_upload'] and 'seo' in status['fields']
 source=upload('source',ROOT/'build/Dayu-Portrait-1.2.0-source.zip','application/zip')
-card=upload('card',ROOT/'beatygril/beatygril/Wrapper Application/Resources/LauncherInfo.png','image/png')
+card=upload('card',ROOT/'FCP-BeautyGirl/FCP-BeautyGirl/Wrapper Application/Resources/LauncherInfo.png','image/png')
 content=(ROOT/'releases/1.2.0/article.html').read_text().replace('{{source_url}}',html.escape(source['url'],quote=True)).replace('{{card_url}}',html.escape(card['url'],quote=True))
 seo={
  'title':{'enabled':True,'value':'大鱼人像美化 1.2.0｜FCP / Motion 免费开源自动美颜插件'},

@@ -5,7 +5,7 @@
 #import <Metal/Metal.h>
 #import <CoreVideo/CoreVideo.h>
 #import <ImageIO/ImageIO.h>
-#import "beatygrilPlugIn.h"
+#import "FCPBeautyGirlPlugIn.h"
 #import "PGParameterIDs.h"
 #import "PGFaceProcessor.h"
 #import "PGBeautyRenderer.h"
@@ -209,19 +209,19 @@ static NSData *ExpectedCrop(PGHostTile *source, NSUInteger x, NSUInteger y, NSUI
     }
     return result;
 }
-static NSData *Snapshot(beatygrilPlugIn *plugin, CMTime time) {
+static NSData *Snapshot(FCPBeautyGirlPlugIn *plugin, CMTime time) {
     NSData *state = nil; NSError *error = nil;
     Check([plugin pluginState:&state atTime:time quality:kFxQuality_HIGH error:&error] && state.length > 0 && !error, @"plugin snapshot serializes through host parameter API");
     return state;
 }
-static BOOL Render(beatygrilPlugIn *plugin, PGHostTile *destination, NSArray *sources, NSData *state, CMTime time, NSError **error, BOOL *escaped) {
+static BOOL Render(FCPBeautyGirlPlugIn *plugin, PGHostTile *destination, NSArray *sources, NSData *state, CMTime time, NSError **error, BOOL *escaped) {
     @try { return [plugin renderDestinationImage:destination sourceImages:sources pluginState:state atTime:time error:error]; }
     @catch (NSException *exception) {
         if (escaped) *escaped = YES;
         fprintf(stderr, "EXCEPTION: %s\n", exception.reason.UTF8String); return NO;
     }
 }
-static void RejectState(beatygrilPlugIn *plugin, PGHostTile *destination, PGHostTile *source, NSData *state, NSString *description) {
+static void RejectState(FCPBeautyGirlPlugIn *plugin, PGHostTile *destination, PGHostTile *source, NSData *state, NSString *description) {
     NSError *error = nil; BOOL escaped = NO;
     BOOL rendered = Render(plugin, destination, @[source], state, kCMTimeZero, &error, &escaped);
     Check(!rendered && !escaped && error != nil, description);
@@ -353,7 +353,7 @@ static void PortraitAnatomyTests(NSString *fixture, CIImage *portrait) {
         NSData *originBaseline = nil;
         for (NSUInteger sourceTop = 0; sourceTop < 2; sourceTop++) for (NSUInteger destinationTop = 0; destinationTop < 2; destinationTop++) {
             @autoreleasepool {
-                PGHostAPI *api = [PGHostAPI new]; beatygrilPlugIn *plugin = [[beatygrilPlugIn alloc] initWithAPIManager:api];
+                PGHostAPI *api = [PGHostAPI new]; FCPBeautyGirlPlugIn *plugin = [[FCPBeautyGirlPlugIn alloc] initWithAPIManager:api];
                 Check([plugin addParametersWithError:nil], @"anatomy case creates the real plugin parameters");
                 if (effect) api.values[@(controls[effect])] = @(values[effect]);
                 PGHostTile *input = Tile(width, height, 37, -21, sourceTop ? kFxImageOrigin_TOP_LEFT : kFxImageOrigin_BOTTOM_LEFT);
@@ -406,7 +406,7 @@ static void TrackingCoordinateTests(NSDictionary *archive, NSDictionary *hostVal
     values[@(PGTarget)] = @2; values[@(PGTrackEnabled)] = @YES; values[@(PGBigEye)] = @1; values[@(PGChin)] = @1;
     values[@(PGTrackData3)] = legacyString;
     PGHostAPI *legacyAPI = [PGHostAPI new]; legacyAPI.hostTime = time;
-    beatygrilPlugIn *legacy = [[beatygrilPlugIn alloc] initWithAPIManager:legacyAPI]; [legacy addParametersWithError:nil]; legacyAPI.values = [values mutableCopy];
+    FCPBeautyGirlPlugIn *legacy = [[FCPBeautyGirlPlugIn alloc] initWithAPIManager:legacyAPI]; [legacy addParametersWithError:nil]; legacyAPI.values = [values mutableCopy];
     PGHostTile *output = Tile(512,512,0,0,kFxImageOrigin_TOP_LEFT);
     Check(Render(legacy, output, @[source], Snapshot(legacy,time), time, nil, NULL), @"unmarked old coordinate archive renders through the real adapter");
     NSData *legacyBytes = SurfaceBytes(output);
@@ -420,7 +420,7 @@ static void TrackingCoordinateTests(NSDictionary *archive, NSDictionary *hostVal
     forged[@"hostCoordinateSpace"] = @"iosurface-ci-y-up-v1";
     NSData *trustedTrack = PlistState(forged);
     PGHostAPI *trustedAPI = [PGHostAPI new]; trustedAPI.hostTime = time;
-    beatygrilPlugIn *trusted = [[beatygrilPlugIn alloc] initWithAPIManager:trustedAPI]; [trusted addParametersWithError:nil];
+    FCPBeautyGirlPlugIn *trusted = [[FCPBeautyGirlPlugIn alloc] initWithAPIManager:trustedAPI]; [trusted addParametersWithError:nil];
     trustedAPI.values = [values mutableCopy]; trustedAPI.values[@(PGTrackData3)] = [trustedTrack base64EncodedStringWithOptions:0];
     Check(Render(trusted, output, @[source], Snapshot(trusted,time), time, nil, NULL), @"fresh plugin accepts a snapshot with marked legacy analysis data");
     NSData *trustedBytes = SurfaceBytes(output);
@@ -465,7 +465,7 @@ static BOOL Preview(PGHostTile *before, PGHostTile *after, NSString *path) {
 int main(int argc, const char *argv[]) {
     setbuf(stdout, NULL);
     @autoreleasepool {
-        PGHostAPI *api = [PGHostAPI new]; beatygrilPlugIn *plugin = [[beatygrilPlugIn alloc] initWithAPIManager:api];
+        PGHostAPI *api = [PGHostAPI new]; FCPBeautyGirlPlugIn *plugin = [[FCPBeautyGirlPlugIn alloc] initWithAPIManager:api];
         NSError *error = nil;
         Check([plugin addParametersWithError:&error] && !error, @"host creates complete parameter set");
         UInt32 identifiers[] = {PGAmount,PGBrightness,PGRadius,PGSharpness,PGMix,PGThreshold,PGSoftness,PGEdgeProtect,PGShowMask,PGMidtone,PGHue,PGSaturation,PGHighPass,PGThin,PGFaceBoxes,PGSingleFace,PGSelection,PGShort,PGNarrow,PGChin,PGVFace,PGJaw,PGCheekbone,PGSmallHead,PGSmallHeadRange,PGFeatureProtect,PGTeeth,PGEyeBright,PGBigEye,PGTrackBoxes,PGFastMulti,PGJumpGuard,PGEvenTone,PGTonePreset,PGInvertMask,PGDebugChannel,PGTrackEnabled,PGTarget,PGAnalyzeForward,PGAnalyzeBackward,PGClearTrack,PGStatus,PGTrackData1,PGTrackData2,PGTrackData3,PGSmoothingEnabled,PGColorEnabled,PGShapeEnabled,PGDetailEnabled,PGInspectorPanel};
@@ -589,7 +589,7 @@ int main(int argc, const char *argv[]) {
         TrackingCoordinateTests(trackingArchive,api.values,portraitSource,portrait,api.hostTime);
         Check([api.values[@(PGTrackEnabled)] boolValue] && CMTimeCompare(api.lastSetBoolTime, api.hostTime) == 0, @"analysis enables saved target at host seed time");
         NSData *trackedState = Snapshot(plugin, api.hostTime);
-        beatygrilPlugIn *restoredPlugin = [[beatygrilPlugIn alloc] initWithAPIManager:api];
+        FCPBeautyGirlPlugIn *restoredPlugin = [[FCPBeautyGirlPlugIn alloc] initWithAPIManager:api];
         Check(Render(restoredPlugin, portraitOutput, @[portraitSource], trackedState, api.hostTime, &error, NULL), @"fresh plugin instance uses automatic follow despite serialized legacy analysis settings");
         [plugin analyzeBackward];
         Check(api.backwardRequests == 1, @"backward analyze button calls host API");
@@ -598,7 +598,7 @@ int main(int argc, const char *argv[]) {
         [plugin setupAnalysisForTimeRange:desired frameDuration:CMTimeMake(1, 24) error:&error]; [plugin cleanupAnalysis:&error];
         [plugin clearTracking]; Check([api.values[@(PGTrackData3)] length] == 0, @"clear button uses current host target");
         PGHostAPI *writeFailureAPI = [PGHostAPI new];
-        beatygrilPlugIn *writeFailurePlugin = [[beatygrilPlugIn alloc] initWithAPIManager:writeFailureAPI];
+        FCPBeautyGirlPlugIn *writeFailurePlugin = [[FCPBeautyGirlPlugIn alloc] initWithAPIManager:writeFailureAPI];
         [writeFailurePlugin addParametersWithError:&error]; [writeFailurePlugin analyzeForward];
         [writeFailurePlugin setupAnalysisForTimeRange:clip frameDuration:CMTimeMake(1, 24) error:&error];
         [writeFailurePlugin analyzeFrame:portraitSource atTime:writeFailureAPI.hostTime error:&error];
@@ -608,7 +608,7 @@ int main(int argc, const char *argv[]) {
         [writeFailurePlugin analyzeForward];
         Check(writeFailureAPI.forwardRequests == 2, @"persistence failure releases analysis busy state for retry");
         PGHostAPI *unavailable = [PGHostAPI new]; [unavailable.disabledAPIs addObject:@"FxParameterCreationAPI_v5"];
-        beatygrilPlugIn *missingPlugin = [[beatygrilPlugIn alloc] initWithAPIManager:unavailable];
+        FCPBeautyGirlPlugIn *missingPlugin = [[FCPBeautyGirlPlugIn alloc] initWithAPIManager:unavailable];
         error = nil; Check(![missingPlugin addParametersWithError:&error] && error != nil, @"missing host creation API reports error");
         [unavailable.disabledAPIs removeAllObjects]; unavailable.rejectedParameter = PGThin;
         error = nil; Check(![missingPlugin addParametersWithError:&error] && error != nil, @"host rejecting one control fails complete parameter creation");

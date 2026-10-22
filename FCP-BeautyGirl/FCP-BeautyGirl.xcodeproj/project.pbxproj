@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6945FC8F3088B7220013E108 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6945FC8E3088B7220013E108 /* Cocoa.framework */; };
-		6945FC973088B7220013E108 /* beatygril XPC Service.pluginkit in Embed PlugIns */ = {isa = PBXBuildFile; fileRef = 6945FC963088B7220013E108 /* beatygril XPC Service.pluginkit */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6945FC973088B7220013E108 /* FCP-BeautyGirl XPC Service.pluginkit in Embed PlugIns */ = {isa = PBXBuildFile; fileRef = 6945FC963088B7220013E108 /* FCP-BeautyGirl XPC Service.pluginkit */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6945FC9B3088B7220013E108 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6945FC9A3088B7220013E108 /* Foundation.framework */; };
 		6945FC9D3088B7220013E108 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6945FC9C3088B7220013E108 /* AppKit.framework */; };
 		6945FC9F3088B7220013E108 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6945FC9E3088B7220013E108 /* Accelerate.framework */; };
@@ -39,16 +39,16 @@
 			dstPath = "";
 			dstSubfolder = PlugIns;
 			files = (
-				6945FC973088B7220013E108 /* beatygril XPC Service.pluginkit in Embed PlugIns */,
+				6945FC973088B7220013E108 /* FCP-BeautyGirl XPC Service.pluginkit in Embed PlugIns */,
 			);
 			name = "Embed PlugIns";
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6945FC8B3088B7220013E108 /* beatygril.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = beatygril.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6945FC8B3088B7220013E108 /* FCP-BeautyGirl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FCP-BeautyGirl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6945FC8E3088B7220013E108 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		6945FC963088B7220013E108 /* beatygril XPC Service.pluginkit */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "beatygril XPC Service.pluginkit"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6945FC963088B7220013E108 /* FCP-BeautyGirl XPC Service.pluginkit */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FCP-BeautyGirl XPC Service.pluginkit"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6945FC9A3088B7220013E108 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6945FC9C3088B7220013E108 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6945FC9E3088B7220013E108 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -57,12 +57,12 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		6945FCCB3088B7220013E108 /* Exceptions for "beatygril" folder in "Wrapper Application" target */ = {
+		6945FCCB3088B7220013E108 /* Exceptions for "FCP-BeautyGirl" folder in "Wrapper Application" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"/Localized: Plugin/InfoPlist.strings",
 				"/Localized: Plugin/Localizable.strings",
-				Plugin/beatygrilPlugIn.m,
+				Plugin/FCPBeautyGirlPlugIn.m,
 				Plugin/Info.plist,
 				Plugin/main.m,
 				Plugin/PGBeautyRenderer.m,
@@ -74,7 +74,7 @@
 			);
 			target = 6945FC8A3088B7220013E108 /* Wrapper Application */;
 		};
-		6945FCD33088B7220013E108 /* Exceptions for "beatygril" folder in "XPC Service" target */ = {
+		6945FCD33088B7220013E108 /* Exceptions for "FCP-BeautyGirl" folder in "XPC Service" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"/Localized: Wrapper Application/Credits.rtf",
@@ -91,13 +91,13 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		6945FCA63088B7220013E108 /* beatygril */ = {
+		6945FCA63088B7220013E108 /* FCP-BeautyGirl */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				6945FCCB3088B7220013E108 /* Exceptions for "beatygril" folder in "Wrapper Application" target */,
-				6945FCD33088B7220013E108 /* Exceptions for "beatygril" folder in "XPC Service" target */,
+				6945FCCB3088B7220013E108 /* Exceptions for "FCP-BeautyGirl" folder in "Wrapper Application" target */,
+				6945FCD33088B7220013E108 /* Exceptions for "FCP-BeautyGirl" folder in "XPC Service" target */,
 			);
-			path = beatygril;
+			path = FCP-BeautyGirl;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -125,7 +125,7 @@
 		6945FC823088B7220013E108 = {
 			isa = PBXGroup;
 			children = (
-				6945FCA63088B7220013E108 /* beatygril */,
+				6945FCA63088B7220013E108 /* FCP-BeautyGirl */,
 				6945FC8D3088B7220013E108 /* Frameworks */,
 				6945FC8C3088B7220013E108 /* Products */,
 			);
@@ -134,8 +134,8 @@
 		6945FC8C3088B7220013E108 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6945FC8B3088B7220013E108 /* beatygril.app */,
-				6945FC963088B7220013E108 /* beatygril XPC Service.pluginkit */,
+				6945FC8B3088B7220013E108 /* FCP-BeautyGirl.app */,
+				6945FC963088B7220013E108 /* FCP-BeautyGirl XPC Service.pluginkit */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -172,11 +172,11 @@
 				6945FCA53088B7220013E108 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				6945FCA63088B7220013E108 /* beatygril */,
+				6945FCA63088B7220013E108 /* FCP-BeautyGirl */,
 			);
 			name = "Wrapper Application";
 			productName = "Wrapper Application";
-			productReference = 6945FC8B3088B7220013E108 /* beatygril.app */;
+			productReference = 6945FC8B3088B7220013E108 /* FCP-BeautyGirl.app */;
 			productType = "com.apple.product-type.application";
 		};
 		6945FC953088B7220013E108 /* XPC Service */ = {
@@ -192,11 +192,11 @@
 			buildRules = (
 			);
 			fileSystemSynchronizedGroups = (
-				6945FCA63088B7220013E108 /* beatygril */,
+				6945FCA63088B7220013E108 /* FCP-BeautyGirl */,
 			);
 			name = "XPC Service";
 			productName = "XPC Service";
-			productReference = 6945FC963088B7220013E108 /* beatygril XPC Service.pluginkit */;
+			productReference = 6945FC963088B7220013E108 /* FCP-BeautyGirl XPC Service.pluginkit */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -216,7 +216,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6945FC863088B7220013E108 /* Build configuration list for PBXProject "beatygril" */;
+			buildConfigurationList = 6945FC863088B7220013E108 /* Build configuration list for PBXProject "FCP-BeautyGirl" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -316,15 +316,15 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				INFOPLIST_FILE = beatygril/Plugin/Info.plist;
+				INFOPLIST_FILE = FCP-BeautyGirl/Plugin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@loader_path/../Frameworks",
 				);
 				MACH_O_TYPE = mh_execute;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dayu.beatygril.fxplug;
-				PRODUCT_NAME = "beatygril $(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "beatygril/Plugin/XPC Service-Bridging-Header.h";
+				PRODUCT_BUNDLE_IDENTIFIER = com.dayu.fcpbeautygirl.fxplug;
+				PRODUCT_NAME = "FCP-BeautyGirl $(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FCP-BeautyGirl/Plugin/XPC Service-Bridging-Header.h";
 				WRAPPER_EXTENSION = pluginkit;
 			};
 			name = Debug;
@@ -339,15 +339,15 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				INFOPLIST_FILE = beatygril/Plugin/Info.plist;
+				INFOPLIST_FILE = FCP-BeautyGirl/Plugin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@loader_path/../Frameworks",
 				);
 				MACH_O_TYPE = mh_execute;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dayu.beatygril.fxplug;
-				PRODUCT_NAME = "beatygril $(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "beatygril/Plugin/XPC Service-Bridging-Header.h";
+				PRODUCT_BUNDLE_IDENTIFIER = com.dayu.fcpbeautygirl.fxplug;
+				PRODUCT_NAME = "FCP-BeautyGirl $(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FCP-BeautyGirl/Plugin/XPC Service-Bridging-Header.h";
 				WRAPPER_EXTENSION = pluginkit;
 			};
 			name = Release;
@@ -355,7 +355,7 @@
 		6945FCD13088B7220013E108 /* Debug configuration for PBXNativeTarget "Wrapper Application" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "beatygril/Wrapper Application/SandboxEntitlements.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "FCP-BeautyGirl/Wrapper Application/SandboxEntitlements.entitlements";
 				OTHER_LDFLAGS = ("$(inherited)", "-framework", CoreServices, );
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
@@ -363,17 +363,17 @@
 				DEVELOPMENT_TEAM = B3W25FX5H5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				INFOPLIST_FILE = "beatygril/Wrapper Application/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dayu.beatygril;
-				PRODUCT_NAME = beatygril;
-				SWIFT_OBJC_BRIDGING_HEADER = "beatygril/Wrapper Application/Wrapper Application-Bridging-Header.h";
+				INFOPLIST_FILE = "FCP-BeautyGirl/Wrapper Application/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.dayu.fcpbeautygirl;
+				PRODUCT_NAME = FCP-BeautyGirl;
+				SWIFT_OBJC_BRIDGING_HEADER = "FCP-BeautyGirl/Wrapper Application/Wrapper Application-Bridging-Header.h";
 			};
 			name = Debug;
 		};
 		6945FCD23088B7220013E108 /* Release configuration for PBXNativeTarget "Wrapper Application" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "beatygril/Wrapper Application/SandboxEntitlements.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "FCP-BeautyGirl/Wrapper Application/SandboxEntitlements.entitlements";
 				OTHER_LDFLAGS = ("$(inherited)", "-framework", CoreServices, );
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
@@ -381,14 +381,14 @@
 				DEVELOPMENT_TEAM = B3W25FX5H5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				INFOPLIST_FILE = "beatygril/Wrapper Application/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dayu.beatygril;
-				PRODUCT_NAME = beatygril;
-				SWIFT_OBJC_BRIDGING_HEADER = "beatygril/Wrapper Application/Wrapper Application-Bridging-Header.h";
+				INFOPLIST_FILE = "FCP-BeautyGirl/Wrapper Application/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.dayu.fcpbeautygirl;
+				PRODUCT_NAME = FCP-BeautyGirl;
+				SWIFT_OBJC_BRIDGING_HEADER = "FCP-BeautyGirl/Wrapper Application/Wrapper Application-Bridging-Header.h";
 			};
 			name = Release;
 		};
-		6945FCD43088B7220013E108 /* Debug configuration for PBXProject "beatygril" */ = {
+		6945FCD43088B7220013E108 /* Debug configuration for PBXProject "FCP-BeautyGirl" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ADDITIONAL_SDKS = /Library/Developer/SDKs/FxPlug.sdk;
@@ -461,7 +461,7 @@
 			};
 			name = Debug;
 		};
-		6945FCD53088B7220013E108 /* Release configuration for PBXProject "beatygril" */ = {
+		6945FCD53088B7220013E108 /* Release configuration for PBXProject "FCP-BeautyGirl" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ADDITIONAL_SDKS = /Library/Developer/SDKs/FxPlug.sdk;
@@ -531,11 +531,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6945FC863088B7220013E108 /* Build configuration list for PBXProject "beatygril" */ = {
+		6945FC863088B7220013E108 /* Build configuration list for PBXProject "FCP-BeautyGirl" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6945FCD43088B7220013E108 /* Debug configuration for PBXProject "beatygril" */,
-				6945FCD53088B7220013E108 /* Release configuration for PBXProject "beatygril" */,
+				6945FCD43088B7220013E108 /* Debug configuration for PBXProject "FCP-BeautyGirl" */,
+				6945FCD53088B7220013E108 /* Release configuration for PBXProject "FCP-BeautyGirl" */,
 			);
 			defaultConfigurationName = Release;
 		};

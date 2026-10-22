@@ -8,7 +8,7 @@
 
 @implementation AppDelegate
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
-    self.window.title = @"大鱼人像美化 · 免费开源";
+    self.window.title = @"FCP-BeautyGirl · 大鱼人像美化";
     [self.window setContentSize:NSMakeSize(800, 450)];
     self.window.styleMask &= ~NSWindowStyleMaskResizable;
     self.window.backgroundColor = [NSColor colorWithRed:0.94 green:0.92 blue:0.85 alpha:1];

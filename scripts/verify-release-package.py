@@ -10,7 +10,7 @@ parser.add_argument('--expanded',default='build/pkg-expanded')
 parser.add_argument('--fixture',default='build/pkg-isolation')
 args=parser.parse_args()
 expanded=root/args.expanded/'Payload.pkg';payload=expanded/'Payload'
-formal=Path('/Library/Plug-Ins/FxPlug/beatygril.app');packed=payload/'Library/Plug-Ins/FxPlug/beatygril.app'
+formal=Path('/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app');packed=payload/'Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app'
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 def files(p):
  return {str(x.relative_to(p)):('symlink:'+os.readlink(x) if x.is_symlink() else sha(x)) for x in p.rglob('*') if x.is_file() or x.is_symlink()}
@@ -33,7 +33,7 @@ base=root/args.fixture;base.mkdir(exist_ok=False)
 volume=base/'volume';home=base/'user';home.mkdir()
 start=post.index('CURRENT_ACTIVE=0')
 isolated='#!/bin/zsh\nset -eu\nTARGET_VOLUME="'+str(volume)+'"\nCONSOLE_USER="'+os.getlogin()+'"\nCONSOLE_UID="'+str(os.getuid())+'"\nCONSOLE_GROUP="staff"\nUSER_HOME="'+str(home)+'"\n'+post[start:]
-isolated=isolated[:isolated.index('fx_verify_app "${TARGET_VOLUME%/}/Library/Plug-Ins/FxPlug/beatygril.app"')]+'exit 0\n'
+isolated=isolated[:isolated.index('fx_verify_app "${TARGET_VOLUME%/}/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app"')]+'exit 0\n'
 isolated=isolated.replace('/usr/sbin/chown -R','/usr/bin/true')
 new_copy=next(l for l in isolated.splitlines() if l.startswith('/usr/bin/ditto "${TARGET_VOLUME%/}'))
 def refill():

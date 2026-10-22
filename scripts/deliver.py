@@ -9,7 +9,7 @@ parser.add_argument('--wait-for-hosts',action='store_true',help='After notarizat
 parser.add_argument('--user-tests',action='store_true',help='After non-UI installed-app verification, record native effect QA as pending user testing and clean known generated copies without the interactive validation prompt.')
 parser.add_argument('--resume-prepared',action='store_true',help='Resume an already Accepted and stapled staged app after checking its recorded signature, version and unchanged product source.')
 args=parser.parse_args()
-bundle_id='com.dayu.beatygril'
+bundle_id='com.dayu.fcpbeautygirl'
 lock=pathlib.Path('/Users/dayu/.codex/app-delivery-locks')/(bundle_id+'.lock')
 lock.parent.mkdir(parents=True,exist_ok=True)
 try:lock.mkdir()
@@ -17,12 +17,12 @@ except FileExistsError:raise SystemExit('Delivery lock occupied; inspect owner.j
 (lock/'owner.json').write_text(json.dumps({'pid':os.getpid(),'cwd':str(root),'bundle_id':bundle_id}))
 staging=pathlib.Path('/tmp/paintfcp-build-20261021')
 logs=root/'build'/'delivery';logs.mkdir(parents=True,exist_ok=True)
-app=staging/'Build/Products/Release/beatygril.app'
-installed=pathlib.Path('/Library/Plug-Ins/FxPlug/beatygril.app')
+app=staging/'Build/Products/Release/FCP-BeautyGirl.app'
+installed=pathlib.Path('/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app')
 archive=logs/'notarization.zip'
 identity='Developer ID Application: zhong luo (B3W25FX5H5)'
 keychain='/Users/dayu/Library/Keychains/login.keychain-db'
-previous=logs/'previous-beatygril.app'
+previous=logs/'previous-FCP-BeautyGirl.app'
 receipt_path=logs/'delivery-receipt.json'
 receipt={'status':'preparing','bundleIdentifier':bundle_id,'installationPath':str(installed),
          'options':{'waitForHosts':args.wait_for_hosts,'userTests':args.user_tests},
@@ -80,7 +80,7 @@ def cleanup_known_products():
 try:
     delivery_source={'commit':run(['git','rev-parse','HEAD']).strip(),
                      'trackedWorktreeChanges':run(['git','status','--porcelain','--untracked-files=no']).splitlines()}
-    plugin=app/'Contents/PlugIns/beatygril XPC Service.pluginkit'
+    plugin=app/'Contents/PlugIns/FCP-BeautyGirl XPC Service.pluginkit'
     if args.resume_prepared:
         old_receipt=json.loads(receipt_path.read_text())
         result=old_receipt.get('notarization',{})
@@ -94,7 +94,7 @@ try:
         if not expected or not actual or expected.group(1)!=actual.group(1):raise RuntimeError('Prepared signature hash changed')
         if info.get('CFBundleShortVersionString')!=old_receipt.get('version') or info.get('CFBundleVersion')!=old_receipt.get('build'):raise RuntimeError('Prepared version changed')
         source_commit=old_receipt.get('source',{}).get('commit')
-        if not source_commit or run(['git','diff',source_commit,'--','beatygril']).strip():raise RuntimeError('Product source changed since prepared build')
+        if not source_commit or run(['git','diff',source_commit,'--','FCP-BeautyGirl']).strip():raise RuntimeError('Product source changed since prepared build')
         receipt.update(old_receipt);receipt.pop('failure',None)
         receipt['resumedBy']=delivery_source
         receipt['options']={'waitForHosts':args.wait_for_hosts,'userTests':args.user_tests,'resumePrepared':True}
@@ -107,14 +107,14 @@ try:
         identities=run(['security','find-identity','-v','-p','codesigning',keychain])
         if identity not in identities:raise RuntimeError('Valid Developer ID Application identity is unavailable')
         print('Building universal Release…',flush=True)
-        run(['xcodebuild','-project','beatygril/beatygril.xcodeproj','-scheme','Wrapper Application','-configuration','Release','-derivedDataPath',str(staging),'-destination','generic/platform=macOS','build'],logs/'build.log')
+        run(['xcodebuild','-project','FCP-BeautyGirl/FCP-BeautyGirl.xcodeproj','-scheme','Wrapper Application','-configuration','Release','-derivedDataPath',str(staging),'-destination','generic/platform=macOS','build'],logs/'build.log')
         # Xcode can register a fresh build. Remove this known generated path before
         # lengthy signing/notarization while a user may still be testing the old app.
         unregister_generated_plugin(plugin)
         for framework in sorted((plugin/'Contents/Frameworks').glob('*.framework')):
             run(['codesign','--force','--timestamp','--options','runtime','--sign',identity,str(framework)])
         run(['codesign','--force','--timestamp','--options','runtime','--sign',identity,str(plugin)])
-        run(['codesign','--force','--timestamp','--options','runtime','--entitlements',str(root/'beatygril/beatygril/Wrapper Application/SandboxEntitlements.entitlements'),'--sign',identity,str(app)])
+        run(['codesign','--force','--timestamp','--options','runtime','--entitlements',str(root/'FCP-BeautyGirl/FCP-BeautyGirl/Wrapper Application/SandboxEntitlements.entitlements'),'--sign',identity,str(app)])
         run(['codesign','--verify','--deep','--strict',str(app)])
         info=require_product(app)
         receipt['version']=info.get('CFBundleShortVersionString');receipt['build']=info.get('CFBundleVersion')
@@ -156,11 +156,11 @@ try:
         signature=subprocess.run(['codesign','-dvvv',str(installed)],capture_output=True,text=True,check=True).stderr
         if info.get('CFBundleIdentifier')!=bundle_id or 'TeamIdentifier=B3W25FX5H5' not in signature:raise RuntimeError('Installed app identity mismatch')
         (logs/'installed-signature.txt').write_text(signature)
-        run(['pluginkit','-a',str(installed/'Contents/PlugIns/beatygril XPC Service.pluginkit')])
+        run(['pluginkit','-a',str(installed/'Contents/PlugIns/FCP-BeautyGirl XPC Service.pluginkit')])
         # Xcode may register its build product. Only the installed plugin should
         # be discoverable while native host validation is in progress.
         unregister_generated_plugin(plugin)
-        installed_plugin=installed/'Contents/PlugIns/beatygril XPC Service.pluginkit'
+        installed_plugin=installed/'Contents/PlugIns/FCP-BeautyGirl XPC Service.pluginkit'
         plugin_info=plistlib.loads((installed_plugin/'Contents/Info.plist').read_bytes())
         discovered=run(['pluginkit','-m','-A','-D','-v','-i',plugin_info['CFBundleIdentifier']])
         if str(installed_plugin) not in discovered:raise RuntimeError('PluginKit did not report the formal installed plug-in path')

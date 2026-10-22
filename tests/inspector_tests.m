@@ -56,7 +56,7 @@ static PGInspectorState *State(NSDictionary *values,NSSet *disabled) {
     return [PGInspectorState stateWithValues:values disabledParameters:disabled?:[NSSet set] hasEdits:YES];
 }
 static void RegistrationTests(void) {
-    PGHostAPI *api=[PGHostAPI new];beatygrilPlugIn *plugin=[[beatygrilPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
+    PGHostAPI *api=[PGHostAPI new];FCPBeautyGirlPlugIn *plugin=[[FCPBeautyGirlPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
     NSUInteger visible=0;for(NSNumber *key in api.definitions){NSDictionary *d=api.definitions[key];if(!([d[@"flags"]unsignedIntValue]&kFxParameterFlag_HIDDEN)){visible++;Check(key.unsignedIntValue==PGInspectorPanel,@"only the custom panel is visible in the native parameter list");}}
     Check(visible==1,@"all duplicate standard controls and manual-analysis groups are hidden");
     FxParameterFlags flags=[api.definitions[@(PGInspectorPanel)][@"flags"]unsignedIntValue];
@@ -136,7 +136,7 @@ static void ModelTests(void) {
     Check(s.faceChin==0 && s.faceBigEye==0 && s.skinBrightness==0 && s.skinTonePreset==0 && s.midtoneDetail==0 && s.highPassDetail==0 && s.showTrackBox==0,@"card eye switches bypass the complete associated effect group");
 }
 static void ControllerTests(void) {
-    PGInspectorTestAPI *api=[PGInspectorTestAPI new];beatygrilPlugIn *plugin=[[beatygrilPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
+    PGInspectorTestAPI *api=[PGInspectorTestAPI new];FCPBeautyGirlPlugIn *plugin=[[FCPBeautyGirlPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
     api.values[@(PGMidtone)]=@.5;
     PGInspectorController *c=[[PGInspectorController alloc]initWithAPIManager:api];[c refresh];
     Check(c.available && Near([c.state valueForParameter:PGMidtone],.5) && !c.state.hasEdits,@"initial UI reads the current legacy/template values instead of replacing them");
@@ -169,7 +169,7 @@ static void ControllerTests(void) {
     [c setValue:.1 forParameter:PGBrightness];Check(Near([c.state valueForParameter:PGChin],-.8),@"new-time edits preserve the other controls from that time instead of a stale prior frame");
     api.values=[api.undoValues mutableCopy];[c documentDidChange];
     Check(Near([c.state valueForParameter:PGBrightness],[seekValues[@(PGBrightness)]doubleValue]),@"a host undo notification refreshes same-time state immediately without a timed wait");
-    PGHostAPI *legacy=[PGHostAPI new];beatygrilPlugIn *legacyPlugin=[[beatygrilPlugIn alloc]initWithAPIManager:legacy];[legacyPlugin addParametersWithError:nil];
+    PGHostAPI *legacy=[PGHostAPI new];FCPBeautyGirlPlugIn *legacyPlugin=[[FCPBeautyGirlPlugIn alloc]initWithAPIManager:legacy];[legacyPlugin addParametersWithError:nil];
     legacy.values[@(PGDetailEnabled)]=@NO;legacy.values[@(PGHighPass)]=@.6;legacy.values[@(PGSharpness)]=@.4;
     PGInspectorController *imported=[[PGInspectorController alloc]initWithAPIManager:legacy];[imported refresh];[imported setValue:.3 forParameter:PGBrightness];
     PGBeautySettings migrated=PGSettingsWithInspectorState(PGBeautyDefaults(),imported.state);
@@ -185,7 +185,7 @@ static void ControllerTests(void) {
     Check(!offline.available && ![offline setValue:.2 forParameter:PGChin],@"missing host actions disable editing instead of unsafe parameter access");
 }
 static void ViewInteractionTests(void) {
-    PGHostAPI *api=[PGHostAPI new];beatygrilPlugIn *plugin=[[beatygrilPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
+    PGHostAPI *api=[PGHostAPI new];FCPBeautyGirlPlugIn *plugin=[[FCPBeautyGirlPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
     PGInspectorView *view=(PGInspectorView *)[plugin createViewForParameterID:PGInspectorPanel];[view refreshFromHost];
     NSSlider *chin=(NSSlider *)FindControl(view,NSSlider.class,@"下巴");Check(chin!=nil && chin.enabled,@"custom view exposes an accessible native chin slider");
     chin.doubleValue=-.75;Fire(chin);PGInspectorState *s=api.values[@(PGInspectorPanel)];
@@ -238,7 +238,7 @@ static void ViewInteractionTests(void) {
     }
 }
 static void BeautyControlInteractionTests(void) {
-    PGInspectorTestAPI *api=[PGInspectorTestAPI new];beatygrilPlugIn *plugin=[[beatygrilPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
+    PGInspectorTestAPI *api=[PGInspectorTestAPI new];FCPBeautyGirlPlugIn *plugin=[[FCPBeautyGirlPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
     api.values[@(PGFeatureProtectionAmount)]=@.37;api.values[@(PGHighPass)]=@.63;api.values[@(PGHue)]=@12;api.values[@(PGBrightness)]=@.3;
     PGInspectorView *view=(PGInspectorView *)[plugin createViewForParameterID:PGInspectorPanel];[view refreshFromHost];
     Check(Near([view.controller.state valueForParameter:PGFeatureProtectionAmount],.37) && !view.controller.state.hasEdits,@"an untouched inspector preserves native fractional protection when the legacy boolean is enabled");
@@ -276,7 +276,7 @@ static void BeautyControlInteractionTests(void) {
     Check(api.actionDepth==0 && api.actionStarts==api.actionEnds && api.accessViolations==0,@"all new numeric, bypass, reset and master interactions use balanced host actions");
 }
 static void HostHandshakeTests(void) {
-    PGInspectorTestAPI *api=[PGInspectorTestAPI new];beatygrilPlugIn *plugin=[[beatygrilPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
+    PGInspectorTestAPI *api=[PGInspectorTestAPI new];FCPBeautyGirlPlugIn *plugin=[[FCPBeautyGirlPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
     api.values[@(PGMidtone)]=@.5;
     api.parameterAPIsRequireAction=YES;api.actionRequiresView=YES;
     PGInspectorView *view=(PGInspectorView *)[plugin createViewForParameterID:PGInspectorPanel];[view refreshFromHost];
@@ -293,7 +293,7 @@ static void HostHandshakeTests(void) {
     Check(api.accessViolations==0 && api.actionDepth==0 && api.actionStarts==api.actionEnds,@"action-scoped connection, edits, failure and reconnection remain balanced");
 }
 static void ContinuousPreviewTests(void) {
-    PGInspectorTestAPI *api=[PGInspectorTestAPI new];beatygrilPlugIn *plugin=[[beatygrilPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
+    PGInspectorTestAPI *api=[PGInspectorTestAPI new];FCPBeautyGirlPlugIn *plugin=[[FCPBeautyGirlPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
     api.parameterAPIsRequireAction=YES;api.actionRequiresView=YES;
     PGInspectorView *view=(PGInspectorView *)[plugin createViewForParameterID:PGInspectorPanel];[view refreshFromHost];
     NSArray *names=@[@"短脸",@"五官保护",@"非肤色区保护",@"微细锐化"],*ids=@[@(PGShort),@(PGFeatureProtectionAmount),@(PGNonSkinProtection),@(PGMicroDetail)];
@@ -319,7 +319,7 @@ static void ContinuousPreviewTests(void) {
 static void OptionalInspectorPreview(void) {
     NSString *path=NSProcessInfo.processInfo.environment[@"PAINTFCP_INSPECTOR_PNG"];
     if(!path.length)return;
-    PGHostAPI *api=[PGHostAPI new];beatygrilPlugIn *plugin=[[beatygrilPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
+    PGHostAPI *api=[PGHostAPI new];FCPBeautyGirlPlugIn *plugin=[[FCPBeautyGirlPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
     api.values[@(PGMidtone)]=@.4;
     PGInspectorView *view=(PGInspectorView *)[plugin createViewForParameterID:PGInspectorPanel];[view refreshFromHost];
     [view setFrameSize:NSMakeSize(380,20)];

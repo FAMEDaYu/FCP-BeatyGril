@@ -5,7 +5,7 @@
 #include <math.h>
 #include <float.h>
 
-static NSString * const PGFaceErrorDomain = @"media.dayu.PaintFCP.Face";
+static NSString * const PGFaceErrorDomain = @"com.dayu.fcpbeautygirl.face";
 // Contour origin / internal anchor, in the reference's recovered pin order.
 // The unused middle entry of each reference triplet is intentionally omitted.
 static const uint8_t PGThinPins[17][2] = {

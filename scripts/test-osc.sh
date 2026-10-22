@@ -1,13 +1,13 @@
 #!/bin/zsh
 set -euo pipefail
 cd "${0:A:h:h}"
-output_dir=$(mktemp -d /tmp/paintfcp-osc-tests.XXXXXX)
+output_dir=$(mktemp -d /tmp/fcp-beautygirl-osc-tests.XXXXXX)
 trap 'rm -rf "$output_dir"' EXIT
-plugin_dir="$PWD/beatygril/beatygril/Plugin"
+plugin_dir="$PWD/FCP-BeautyGirl/FCP-BeautyGirl/Plugin"
 sdk_frameworks=/Library/Developer/SDKs/FxPlug.sdk/Library/Frameworks
 runtime_frameworks=/Library/Developer/Frameworks
 compiler_extra=()
-if [[ "${PAINTFCP_OSC_ASAN:-0}" == 1 ]]; then
+if [[ "${FCP_BEAUTYGIRL_OSC_ASAN:-0}" == 1 ]]; then
   compiler_extra=(-fsanitize=address -g)
 fi
 xcrun clang "${compiler_extra[@]}" -fobjc-arc -fmodules -Wall -Wextra -Wno-unused-parameter \
