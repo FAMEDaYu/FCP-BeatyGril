@@ -1,0 +1,23 @@
+{
+  "product": "FCP-BeautyGirl",
+  "version": "1.3.3",
+  "build": "18",
+  "normalRegressionChecks": 2122,
+  "suites": {
+    "beauty": 57,
+    "face": 123,
+    "shape": 1034,
+    "tracking": 87,
+    "eyes": 126,
+    "hostASan": 370,
+    "oscASan": 98,
+    "inspectorASan": 227
+  },
+  "localOriginalShaderComparison": {
+    "checks": 211,
+    "cases": 40,
+    "maximumCoordinateErrorPixels": 0.0055225868709385395
+  },
+  "nativeTimelineFlickerConfirmedResolved": false,
+  "sourceSha256": "37152e095d5732bf4c8fe1b9553d9a478404e483338539cc6eec0b497732bc40"
+}
