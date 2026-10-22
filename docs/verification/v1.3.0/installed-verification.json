@@ -1,0 +1,38 @@
+{
+  "status": "verified",
+  "date": "2026-10-22",
+  "timezone": "Asia/Shanghai",
+  "installedProduct": {
+    "path": "/Library/Plug-Ins/FxPlug/beatygril.app",
+    "version": "1.3.0",
+    "build": "15"
+  },
+  "signatureAllArchitecturesVerified": true,
+  "duplicateInventory": {
+    "scope": "Listed local paths and existing explicit related PaintFCP paths on mounted volumes; Spotlight additionally queried. Not a full scan of every volume.",
+    "roots": [
+      "/Applications",
+      "/Library/Plug-Ins/FxPlug",
+      "/Users/dayu/Library/Plug-Ins/FxPlug",
+      "/Users/dayu/Documents/PaintFCP",
+      "/Users/dayu/Desktop",
+      "/Users/dayu/Downloads",
+      "/Users/dayu/Library/Developer/Xcode/DerivedData",
+      "/tmp/paintfcp-build-20261021"
+    ],
+    "products": [
+      {
+        "path": "/Library/Plug-Ins/FxPlug/beatygril.app",
+        "version": "1.3.0",
+        "build": "15"
+      }
+    ],
+    "errors": []
+  },
+  "temporaryPathsRemoved": [
+    "/tmp/paintfcp-build-20261021",
+    "build/delivery/previous-beatygril.app",
+    "build/delivery/notarization.zip"
+  ],
+  "nativeEffectQA": "pending_user"
+}
