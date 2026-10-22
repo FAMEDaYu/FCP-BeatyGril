@@ -25,6 +25,8 @@ xcodebuild -project beatygril/beatygril.xcodeproj -scheme 'Wrapper Application' 
 
 公开源码：[GitHub · FCP-BeatyGril](https://github.com/FAMEDaYu/FCP-BeatyGril)。大鱼站备份：`https://dayu.media/git/dayu/paintfcp-fxplug.git`。恢复入口见 [RECOVERY.md](RECOVERY.md)，当前验证记录见 [验证记录](docs/验证记录.md)。原始模板保存在 `baseline-20261021` 标签。
 
+继续开发或移交时先读[项目交接文档](docs/项目交接.md)，包含当前发布状态、源码入口、坐标与交互约定、验收边界，以及签名打包和双远端保存流程。
+
 ## 1.0.5 瘦脸修复
 
 瘦脸现固定使用Vision revision 3的76点配置，以17组轮廓到鼻部/瞳孔锚点的局部逆向采样替代脸框水平挤压，包含原版尺寸增益与滑块强度映射。完整点阵贯通实时稳定与离线存储；旧分析记录没有完整76点时跳过瘦脸，重新分析可补齐。其他脸型项仍使用原有近似实现，不能将本次对齐扩张为全部脸型逐像素等价。
