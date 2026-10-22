@@ -1,0 +1,66 @@
+{
+  "status": "verified",
+  "version": "1.3.3",
+  "releaseTag": "v1.3.3",
+  "releaseCommit": "20896de9ee9390d8e6f8ee113cfb04d4461ecc3e",
+  "signedProductSourceCommit": "edf64ace6bc17f4db3b2dba71897997809c1029d",
+  "githubRelease": "https://github.com/dayumeida/FCP-BeautyGirl/releases/tag/v1.3.3",
+  "dayuRelease": "https://dayu.media/git/dayu/paintfcp-fxplug/releases/tag/v1.3.3",
+  "dayuReleaseAssetNameAndSizeReadback": true,
+  "dayuReleaseDownloadByteReadback": false,
+  "dayuReleaseGateway": "Site login/member gateway retained; not bypassed",
+  "article": "https://dayu.media/15593/",
+  "articleId": 15593,
+  "authorCoverCategoriesTagsAndAccessRulesPreserved": true,
+  "articleCodeBlocks": 1,
+  "downloadChecks": [
+    {
+      "url": "https://github.com/dayumeida/FCP-BeautyGirl/releases/download/v1.3.3/FCP-BeautyGirl-1.3.3-source.zip",
+      "name": "FCP-BeautyGirl-1.3.3-source.zip",
+      "bytes": 10089451,
+      "sha256": "c0870136466e402d05cf6f1014b9da40ef7630e9ddaefc9311a9d8057a6cc3e7",
+      "anonymousByteReadback": true
+    },
+    {
+      "url": "https://github.com/dayumeida/FCP-BeautyGirl/releases/download/v1.3.3/FCP-BeautyGirl-1.3.3.pkg",
+      "name": "FCP-BeautyGirl-1.3.3.pkg",
+      "bytes": 4905560,
+      "sha256": "214c109af60bce72046c89ff12b364938b6c00c3a348fa3740dabef661649e0d",
+      "anonymousByteReadback": true
+    },
+    {
+      "role": "package",
+      "url": "https://dayu.media/wp-content/uploads/2026/10/1792685921-21254e414ee4bb9.pkg",
+      "bytes": 4905560,
+      "sha256": "214c109af60bce72046c89ff12b364938b6c00c3a348fa3740dabef661649e0d",
+      "anonymousByteReadback": true
+    },
+    {
+      "role": "source",
+      "url": "https://dayu.media/wp-content/uploads/2026/10/1792685918-748c0d0a9cee189.zip",
+      "bytes": 10089451,
+      "sha256": "c0870136466e402d05cf6f1014b9da40ef7630e9ddaefc9311a9d8057a6cc3e7",
+      "anonymousByteReadback": true
+    }
+  ],
+  "frontends": [
+    {
+      "url": "https://dayu.media/15593/",
+      "versionAndInstallCommand": true,
+      "singleCustomDescriptionAndKeywords": true,
+      "seoTitle": "大鱼人像美化 1.3.3｜FCP / Motion 免费开源自动美颜插件",
+      "allThreeBodyImagesPresent": true,
+      "anonymousFreeAndLoginPromptVisible": true
+    },
+    {
+      "url": "https://dayu.media/15593/?release_check=1792686012",
+      "versionAndInstallCommand": true,
+      "singleCustomDescriptionAndKeywords": true,
+      "seoTitle": "大鱼人像美化 1.3.3｜FCP / Motion 免费开源自动美颜插件",
+      "allThreeBodyImagesPresent": true,
+      "anonymousFreeAndLoginPromptVisible": true
+    }
+  ],
+  "testOrderPlaced": false,
+  "nativeTimelineFlickerConfirmedResolved": false
+}

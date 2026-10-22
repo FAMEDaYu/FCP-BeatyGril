@@ -1,0 +1,29 @@
+{
+  "removed": [
+    {
+      "path": "/var/folders/t4/kbc10sqs43b0rjf3nfh51nmw0000gn/T/PKGForge-29DB45B7-A84F-49E5-8FAD-5C4F3E6880B3/PayloadRoot/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app",
+      "bundleId": "com.dayu.fcpbeautygirl",
+      "version": "1.3.3",
+      "signatureTeamAndFilterUUIDVerified": true
+    },
+    {
+      "path": "/var/folders/t4/kbc10sqs43b0rjf3nfh51nmw0000gn/T/PKGForge-46E246DF-38CB-4ABC-927B-4F6AF084E402/PayloadRoot/Library/Plug-Ins/FxPlug/beatygril.app",
+      "bundleId": "com.dayu.beatygril",
+      "version": "1.3.1",
+      "signatureTeamAndFilterUUIDVerified": true
+    },
+    {
+      "path": "/var/folders/t4/kbc10sqs43b0rjf3nfh51nmw0000gn/T/PKGForge-A2D1A9E9-45E8-4172-A612-386EAD4AB078/PayloadRoot/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app",
+      "bundleId": "com.dayu.fcpbeautygirl",
+      "version": "1.3.2",
+      "signatureTeamAndFilterUUIDVerified": true
+    },
+    {
+      "path": "/var/folders/t4/kbc10sqs43b0rjf3nfh51nmw0000gn/T/PKGForge-EA39FE9F-52C9-4529-8ECD-C24E751456A2/PayloadRoot/Library/Plug-Ins/FxPlug/beatygril.app",
+      "bundleId": "com.dayu.beatygril",
+      "version": "1.2.0",
+      "signatureTeamAndFilterUUIDVerified": true
+    }
+  ],
+  "unrelatedNumberPayloadsPreserved": true
+}

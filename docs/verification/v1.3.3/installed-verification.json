@@ -1,0 +1,41 @@
+{
+  "status": "verified",
+  "installedProduct": {
+    "path": "/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app",
+    "bundleId": "com.dayu.fcpbeautygirl",
+    "version": "1.3.3",
+    "build": "18"
+  },
+  "signatureAllArchitecturesVerified": true,
+  "stapleValidated": true,
+  "gatekeeperAccepted": true,
+  "formalPathPluginKitDiscovered": true,
+  "filterUUIDPreserved": "FB14B0E6-59B2-4836-916F-CD0C559E9241",
+  "scopedInventory": {
+    "roots": [
+      "/Applications",
+      "/Library/Plug-Ins/FxPlug",
+      "/Users/dayu/Library/Plug-Ins/FxPlug",
+      "/Users/dayu/Documents/PaintFCP",
+      "/Users/dayu/Desktop",
+      "/Users/dayu/Downloads",
+      "/Users/dayu/Library/Developer/Xcode/DerivedData",
+      "/tmp",
+      "/var/folders/t4/kbc10sqs43b0rjf3nfh51nmw0000gn/T"
+    ],
+    "products": [
+      {
+        "path": "/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app",
+        "bundleId": "com.dayu.fcpbeautygirl",
+        "version": "1.3.3"
+      }
+    ],
+    "errors": [],
+    "spotlightIndexedExistingCandidatesAlsoInspected": true,
+    "scope": "Listed local roots plus matching Spotlight-indexed product IDs/names; no assertion about unindexed or inaccessible mounted volumes"
+  },
+  "knownGeneratedCopiesAndNotarizationZipRemoved": true,
+  "templateBytesAndThumbnailLocksUnchanged": true,
+  "nativeTimelineFlickerConfirmedResolved": false,
+  "nativeEffectQA": "pending_user"
+}

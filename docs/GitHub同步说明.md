@@ -2,7 +2,7 @@
 
 公开源码：https://github.com/dayumeida/FCP-BeautyGirl
 
-正式安装包：https://github.com/dayumeida/FCP-BeautyGirl/releases/tag/v1.3.2
+正式安装包：https://github.com/dayumeida/FCP-BeautyGirl/releases/tag/v1.3.3
 
 本地 `github` 远端指向上述 GitHub 仓库，`origin` 继续指向大鱼仓库，`main` 仍跟随 `origin/main`。当前项目的完整提交历史、main 和全部现有版本标签已推送，两端引用与本地一致；未改写历史或覆盖标签。后续更新需要分别推送到 origin 和 github，不会自动定时同步。
 
@@ -48,3 +48,10 @@ GitHub仓库从 `FAMEDaYu/FCP-BeatyGril` 更名为 `FAMEDaYu/FCP-BeautyGirl`，�
 
 
 1.3.2 标签完整 SHA `8a70d38b7cd17e0ea530c5226f2be8c2df4308b3`，双远端引用回读一致。已匿名独立克隆核对 271 个文件、strict/full fsck、Xcode 工程和恢复包签名/票据/Gatekeeper。正式包 SHA256 `20a88dacf68cc8812f5af86cfe94c1c0614414a68a019eaeac7ca9d078165ae1`，源码 ZIP SHA256 `c75a516192375c45e446b3f0170615773ec2bd63b0430c3441a87282ba8b6834`；GitHub 与文章四项匿名下载均与本地字节一致。文章作者、封面和免费规则保留，正常及新请求前台版本/路径/SEO通过。大鱼 Release 只回读附件名称/大小，未绕过站点登录网关。
+
+
+## 1.3.3 跟踪稳定链发行
+
+发行标签 `v1.3.3` 固定SHA `20896de9ee9390d8e6f8ee113cfb04d4461ecc3e`，签名产品源码 `edf64ace6bc17f4db3b2dba71897997809c1029d`。双远端main、工作分支和标签已同步并回读；后续main补充交付回执，不移动标签。匿名独立恢复320文件字节/blob/模式、strict/full fsck、Xcode工程和恢复PKG签名/票据/Gatekeeper通过，签名源码节点另重建跟踪87项和眼部126项，临时克隆已清理。
+
+GitHub与大鱼Release提供 `FCP-BeautyGirl-1.3.3.pkg`（4,905,560 bytes，SHA256 `214c109af60bce72046c89ff12b364938b6c00c3a348fa3740dabef661649e0d`）与标签源码ZIP（10,089,451 bytes，SHA256 `c0870136466e402d05cf6f1014b9da40ef7630e9ddaefc9311a9d8057a6cc3e7`）。GitHub及文章四项匿名下载字节核验通过；大鱼Release仍只回读附件名/大小，未绕过登录网关。文章15593保留封面、作者、分类和免费规则，正常/新请求前台版本、原生代码区块与SEO通过。APP已正式安装，原生时间线闪烁改善尚待用户实测；详见 verification/v1.3.3。

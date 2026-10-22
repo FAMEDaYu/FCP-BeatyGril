@@ -1,0 +1,2 @@
+     com.dayu.fcpbeautygirl.fxplug(1.1)	F1DFAC58-1F4B-453E-ACE0-D679FC99C1EE	2026-10-22 16:18:55 +0000	/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app/Contents/PlugIns/FCP-BeautyGirl XPC Service.pluginkit
+ (1 plug-in)
