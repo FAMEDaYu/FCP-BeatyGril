@@ -127,3 +127,6 @@ V 脸现在为四组下颌到外唇局部 pin，映射为 V×0.065，无新版�
 
 
 GitHub于2026-10-22更正仓库名为 `FCP-BeautyGirl`，远端为 `https://github.com/dayumeida/FCP-BeautyGirl.git`。更名后的恢复检查点 `6a29d52a9ad667665da4acf75017c008fa0a566d` 已通过新地址匿名独立克隆、239个文件字节/执行位和strict/full fsck核验，产品源码与此前正式版相同。Release、附件和原有标签保留，文章及本地远程/仓库目录表均已更新；详见 `docs/verification/github/rename-recovery-20261022.json`。
+
+
+GitHub用户名现为 `dayumeida`，账号ID117798680保持一致。当前公开远端 `https://github.com/dayumeida/FCP-BeautyGirl.git` 的恢复检查点 `2faf7de77929cf7707645ebb38095b03d5729647` 已通过匿名独立克隆、241文件字节/执行位和strict/full fsck核验，产品源码与账号更名前一致。两个仓库的全部分支/标签及Release附件均保留；当前文章、本地github远端和仓库目录表已同步。回执见 `docs/verification/github/username-recovery-20261022.json`。
