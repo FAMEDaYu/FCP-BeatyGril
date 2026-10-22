@@ -469,7 +469,9 @@ int main(int argc, const char *argv[]) {
         Check([plugin addParametersWithError:&error] && !error, @"host creates complete parameter set");
         UInt32 identifiers[] = {PGAmount,PGBrightness,PGRadius,PGSharpness,PGMix,PGThreshold,PGSoftness,PGEdgeProtect,PGShowMask,PGMidtone,PGHue,PGSaturation,PGHighPass,PGThin,PGFaceBoxes,PGSingleFace,PGSelection,PGShort,PGNarrow,PGChin,PGVFace,PGJaw,PGCheekbone,PGSmallHead,PGSmallHeadRange,PGFeatureProtect,PGTeeth,PGEyeBright,PGBigEye,PGTrackBoxes,PGFastMulti,PGJumpGuard,PGEvenTone,PGTonePreset,PGInvertMask,PGDebugChannel,PGTrackEnabled,PGTarget,PGAnalyzeForward,PGAnalyzeBackward,PGClearTrack,PGStatus,PGTrackData1,PGTrackData2,PGTrackData3,PGSmoothingEnabled,PGColorEnabled,PGShapeEnabled,PGDetailEnabled,PGInspectorPanel};
         for (NSUInteger i = 0; i < sizeof(identifiers) / sizeof(UInt32); i++) Check(api.definitions[@(identifiers[i])] != nil, [NSString stringWithFormat:@"required parameter %u exists", identifiers[i]]);
-        Check(api.depth == 0 && !api.duplicate && api.definitions.count == sizeof(identifiers) / sizeof(UInt32) + 6, @"parameter groups close and IDs are unique");
+        for(NSNumber *identifier in @[@(PGFeatureProtectionAmount),@(PGNonSkinProtection),@(PGMicroDetail)])
+            Check(api.definitions[identifier]!=nil,@"new protection/detail float parameter is registered");
+        Check(api.depth == 0 && !api.duplicate && api.definitions.count == sizeof(identifiers) / sizeof(UInt32) + 10, @"parameter groups close and IDs are unique");
         Check([api.values[@(PGMidtone)] doubleValue] == 0 && [api.values[@(PGMix)] doubleValue] == 1, @"default detail and mix form identity filter");
         Check([api.definitions[@(PGShort)][@"min"] doubleValue] == -1 && [api.definitions[@(PGShort)][@"max"] doubleValue] == 1, @"signed face control exposes both directions");
         Check([api.definitions[@(PGTrackData1)][@"flags"] unsignedLongLongValue] & kFxParameterFlag_HIDDEN, @"persistent tracking data stays hidden in host UI");
@@ -480,7 +482,7 @@ int main(int argc, const char *argv[]) {
         NSDictionary *decoded = [NSPropertyListSerialization propertyListWithData:state options:0 format:nil error:nil];
         Check([decoded[@"tracks"] count] == 3 && [decoded[@"settings"] length] == sizeof(PGBeautySettings), @"snapshot contains fixed settings schema and three target slots");
         PGBeautySettings settings; [decoded[@"settings"] getBytes:&settings length:sizeof(settings)];
-        Check(settings.version == 1 && settings.mix == 1 && settings.midtoneDetail == 0, @"snapshot round-trips default numeric state");
+        Check(settings.version == PGBeautySettingsVersion && settings.mix == 1 && settings.midtoneDetail == 0 && settings.featureProtectionAmount==1 && settings.nonSkinProtection==1 && settings.microDetail==0, @"snapshot round-trips v2 with neutral defaults for the new controls");
         api.values[@(PGThin)] = @5; api.values[@(PGRadius)] = @(-9); api.values[@(PGSelection)] = @[@(-1), @2];
         settings = [plugin settingsAtTime:api.hostTime];
         Check(settings.faceThin == 1 && settings.radius == 1 && settings.selectionX == 0 && settings.selectionY == 1, @"host parameter limits and normalized selection are enforced");
@@ -493,6 +495,12 @@ int main(int argc, const char *argv[]) {
         NSUInteger difference = MaximumDifference(SurfaceBytes(source), SurfaceBytes(destination));
         printf("Default IOSurface maximum byte difference: %lu\n", (unsigned long)difference);
         Check(difference <= 1, @"default adapter output preserves gamma-video numeric samples");
+        PGBeautySettings old=PGBeautyDefaults();old.version=1;
+        NSData *legacy=PlistState(@{@"settings":[NSData dataWithBytes:&old length:PGBeautySettingsV1Size],@"tracks":@[@"",@"",@""]});
+        Check(Render(plugin,destination,@[source],legacy,kCMTimeZero,&error,NULL) && MaximumDifference(SurfaceBytes(source),SurfaceBytes(destination))<=1,@"160-byte v1 snapshots migrate with neutral new controls and preserve original pixels");
+        RejectState(plugin,destination,source,PlistState(@{@"settings":[NSData dataWithBytes:&old length:sizeof(old)],@"tracks":@[@"",@"",@""]}),@"v1 with the new structure length is rejected instead of guessing its layout");
+        old.version=PGBeautySettingsVersion;
+        RejectState(plugin,destination,source,PlistState(@{@"settings":[NSData dataWithBytes:&old length:PGBeautySettingsV1Size],@"tracks":@[@"",@"",@""]}),@"v2 with a truncated legacy-sized payload is rejected");
         CGColorSpaceRelease(destination.space); destination.space = CGColorSpaceCreateWithName(kCGColorSpaceLinearSRGB);
         Check(Render(plugin, destination, @[source], state, kCMTimeZero, &error, NULL), @"numeric host render accepts destination color-space metadata");
         difference = MaximumDifference(SurfaceBytes(source), SurfaceBytes(destination));
@@ -510,7 +518,7 @@ int main(int argc, const char *argv[]) {
         RejectState(plugin, destination, source, PlistState(@{@"settings":[NSData data], @"tracks":@[@"",@"",@""]}), @"wrong settings size is rejected safely");
         settings = PGBeautyDefaults(); settings.version = 99;
         RejectState(plugin, destination, source, PlistState(@{@"settings":[NSData dataWithBytes:&settings length:sizeof(settings)], @"tracks":@[@"",@"",@""]}), @"unknown saved settings version is rejected safely");
-        settings.version = 1;
+        settings.version = PGBeautySettingsVersion;
         RejectState(plugin, destination, source, PlistState(@{@"settings":[NSData dataWithBytes:&settings length:sizeof(settings)], @"tracks":@[@"",@""]}), @"wrong target slot count is rejected safely");
         RejectState(plugin, destination, source, PlistState(@{@"settings":[NSData dataWithBytes:&settings length:sizeof(settings)], @"tracks":@[@"",@7,@""]}), @"non-string target slot is rejected safely");
         for (NSUInteger top = 0; top < 2; top++) {

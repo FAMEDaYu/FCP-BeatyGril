@@ -103,6 +103,46 @@ int main(void) { @autoreleasepool {
     s=PGBeautyDefaults();s.midtoneDetail=1;s.maskSoftness=0;s.maskEdgeProtect=0;s.featureProtection=1;
     float *protected=Render(context,[renderer processImage:source settings:s skinMask:white teethMask:nil eyeMask:half error:&error],extent);
     Check(Difference(base,protected,6,40)<0.00001 && Texture(protected,56,88)<Texture(base,56,88)*0.82,@"Feature protection retains eye detail while smoothing nearby skin");free(protected);
+    // Independent protection controls use fractional coverage; neither changes
+    // exposure coverage nor invents smoothing when the smoothing amount is zero.
+    s=PGBeautyDefaults();s.midtoneDetail=1;s.maskSoftness=0;s.maskEdgeProtect=0;
+    float *featureFull=Render(context,[renderer processImage:source settings:s skinMask:white teethMask:nil eyeMask:half error:&error],extent);
+    s.featureProtectionAmount=.5;
+    float *featureHalf=Render(context,[renderer processImage:source settings:s skinMask:white teethMask:nil eyeMask:half error:&error],extent);
+    s.featureProtectionAmount=0;
+    float *featureNone=Render(context,[renderer processImage:source settings:s skinMask:white teethMask:nil eyeMask:half error:&error],extent);
+    float fullDelta=Difference(base,featureFull,6,40),halfDelta=Difference(base,featureHalf,6,40),noneDelta=Difference(base,featureNone,6,40);
+    Check(fullDelta<.00001 && halfDelta>fullDelta+.001 && noneDelta>halfDelta+.001,@"Five-feature protection has distinct ordered 0/50/100 percent pixel effects");
+    Check(Difference(featureFull,featureNone,56,88)<noneDelta*.25,@"Feature slider primarily changes marked features rather than nearby skin texture");
+    free(featureFull);free(featureHalf);free(featureNone);
+    s=PGBeautyDefaults();s.midtoneDetail=1;s.maskSoftness=0;s.maskEdgeProtect=0;s.featureProtection=0;
+    float *skinFull=Render(context,[renderer processImage:source settings:s skinMask:half teethMask:nil eyeMask:nil error:&error],extent);
+    s.nonSkinProtection=.5;
+    float *skinHalf=Render(context,[renderer processImage:source settings:s skinMask:half teethMask:nil eyeMask:nil error:&error],extent);
+    s.nonSkinProtection=0;
+    float *skinNone=Render(context,[renderer processImage:source settings:s skinMask:half teethMask:nil eyeMask:nil error:&error],extent);
+    Check(Difference(base,skinFull,56,88)<.00001 && Difference(base,skinHalf,56,88)>.001 && Difference(base,skinNone,56,88)>Difference(base,skinHalf,56,88)+.001,@"Non-skin protection progressively admits background into the local smoothing mask");
+    Check(Difference(skinFull,skinNone,6,40)<.00001,@"Non-skin protection leaves already-covered skin strength unchanged");
+    free(skinFull);free(skinHalf);free(skinNone);
+    s.midtoneDetail=0;
+    float *noSmoothing=Render(context,[renderer processImage:source settings:s skinMask:half teethMask:nil eyeMask:nil error:&error],extent);
+    Check(Difference(base,noSmoothing,4,W-4)<.00001,@"Releasing non-skin protection alone does not enable an independent global smoothing effect");free(noSmoothing);
+    s=PGBeautyDefaults();s.microDetail=1;s.maskSoftness=0;s.maskEdgeProtect=0;
+    float *micro=Render(context,[renderer processImage:source settings:s skinMask:half teethMask:nil eyeMask:nil error:&error],extent);
+    Check(Texture(micro,6,40)>Texture(base,6,40)*1.05 && Difference(base,micro,56,88)<.00001,@"Micro detail recovers texture within smoothing support, including without smoothing");
+    free(micro);
+    s=PGBeautyDefaults();s.skinBrightness=.7;s.maskSoftness=0;s.maskEdgeProtect=0;
+    float *colorProtected=Render(context,[renderer processImage:source settings:s skinMask:half colorMask:half teethMask:nil eyeMask:nil error:&error],extent);
+    s.nonSkinProtection=0;s.featureProtectionAmount=0;
+    float *colorReleased=Render(context,[renderer processImage:source settings:s skinMask:half colorMask:half teethMask:nil eyeMask:nil error:&error],extent);
+    Check(Difference(colorProtected,colorReleased,4,W-4)<.00001,@"Both new protection sliders leave skin exposure coverage unchanged");
+    free(colorProtected);free(colorReleased);
+    s=PGBeautyDefaults();s.skinBrightness=.7;s.maskSoftness=0;s.maskEdgeProtect=0;
+    colorProtected=Render(context,[renderer processImage:source settings:s skinMask:white teethMask:half eyeMask:half error:&error],extent);
+    s.featureProtectionAmount=0;s.featureProtection=0;s.nonSkinProtection=0;
+    colorReleased=Render(context,[renderer processImage:source settings:s skinMask:white teethMask:half eyeMask:half error:&error],extent);
+    Check(Difference(colorProtected,colorReleased,4,W-4)<.00001,@"Standalone renderer also keeps eye/teeth protection independent from exposure when the legacy bool changes");
+    free(colorProtected);free(colorReleased);
     // A skin exposure adjustment must stay continuous across detail-protection
     // holes. This models the eye/nose islands reported on the real beach clip.
     s=PGBeautyDefaults();s.skinBrightness=1;s.featureProtection=1;
@@ -192,6 +232,7 @@ int main(void) { @autoreleasepool {
     // Every operation must preserve transparency rather than creating halos/opaque pixels.
     for(int i=0;i<W*H;i++){p[i*4]*=0.4;p[i*4+1]*=0.4;p[i*4+2]*=0.4;p[i*4+3]=0.4;}
     CIImage *transparent=Image(p,extent);s=PGBeautyDefaults();s.midtoneDetail=1;s.skinBrightness=1;s.teethWhitening=1;s.eyeBrightening=1;s.skinTonePreset=3;s.highPassDetail=1;
+    s.microDetail=.7;s.nonSkinProtection=.3;s.featureProtectionAmount=.4;
     float *alpha=Render(context,[renderer processImage:transparent settings:s skinMask:white teethMask:half eyeMask:half error:&error],extent);
     BOOL alphaOK=YES,finite=YES;
     for(int i=0;i<W*H;i++){if(fabsf(alpha[i*4+3]-0.4f)>0.0002)alphaOK=NO;for(int c=0;c<4;c++)if(!isfinite(alpha[i*4+c]))finite=NO;}

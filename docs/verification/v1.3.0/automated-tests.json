@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-22",
+  "timezone": "Asia/Shanghai",
+  "version": "1.3.0",
+  "build": "15",
+  "status": "passed",
+  "checks": {
+    "beauty": 57,
+    "face": 116,
+    "geometry": 796,
+    "host_adapter_asan": 341,
+    "osc_asan": 98,
+    "inspector_asan_including_optional_preview": 228
+  },
+  "total": 1636,
+  "commands": [
+    "./scripts/test.sh",
+    "PAINTFCP_HOST_ASAN=1 ./scripts/test-host.sh",
+    "PAINTFCP_OSC_ASAN=1 ./scripts/test-osc.sh",
+    "PAINTFCP_INSPECTOR_ASAN=1 PAINTFCP_INSPECTOR_PNG=<local-path> ./scripts/test-inspector.sh"
+  ],
+  "notes": [
+    "OSC passed before the later standalone beauty fallback and legacy inspector numeric-read fixes; those fixes do not change OSC code.",
+    "Core, host adapter and inspector rerun after all source fixes.",
+    "Inspector includes one optional offscreen PNG write assertion.",
+    "No native Motion/FCP interaction test performed for this version; active user hosts are preserved.",
+    "Reference interpretation and implementation limitations are in docs/analysis/新版磨皮参数迁移.md."
+  ]
+}

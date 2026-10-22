@@ -202,6 +202,8 @@ static PGInspectorGlyphButton *PGUIButton(NSString *glyph, NSColor *accent, id t
             }
         }
         NSString *key=[descriptor[@"id"]stringValue];
+        NSString *tooltip=descriptor[@"tooltip"];
+        if(tooltip.length){self.toolTip=tooltip;_label.toolTip=tooltip;_toggle.toolTip=tooltip;_slider.toolTip=tooltip;_valueField.toolTip=tooltip;}
         _slider.identifier=[@"pg.value."stringByAppendingString:key];_valueField.identifier=[@"pg.number."stringByAppendingString:key];
         _toggle.identifier=[@"pg.toggle."stringByAppendingString:key];_eye.identifier=[@"pg.enable."stringByAppendingString:key];_reset.identifier=[@"pg.reset."stringByAppendingString:key];
     }return self;
@@ -282,11 +284,11 @@ static PGInspectorGlyphButton *PGUIButton(NSString *glyph, NSColor *accent, id t
 @implementation PGInspectorCard
 - (BOOL)isFlipped { return YES; }
 - (CGFloat)heightForWidth:(CGFloat)width {
-    if(!_expanded)return 44;CGFloat height=49;for(PGInspectorRow *row in _rows){height+=[row heightForWidth:MAX(0,width-24)];if([row.descriptor[@"id"]unsignedIntValue]==PGJumpGuard)height+=8;}return height+7;
+    if(!_expanded)return 44;CGFloat height=49;for(PGInspectorRow *row in _rows){height+=[row heightForWidth:MAX(0,width-24)];if([row.descriptor[@"id"]unsignedIntValue]==PGFastMulti)height+=8;}return height+7;
 }
 - (void)layout {
     [super layout];CGFloat w=NSWidth(self.bounds);_titleLabel.frame=NSMakeRect(25,13,MAX(70,w-80),22);_master.frame=NSMakeRect(w-39,10,25,25);
-    CGFloat y=49;for(PGInspectorRow *row in _rows){row.hidden=!_expanded;if(!_expanded)continue;CGFloat h=[row heightForWidth:w-24];row.frame=NSMakeRect(12,y,w-24,h);y+=h;if([row.descriptor[@"id"]unsignedIntValue]==PGJumpGuard)y+=8;}
+    CGFloat y=49;for(PGInspectorRow *row in _rows){row.hidden=!_expanded;if(!_expanded)continue;CGFloat h=[row heightForWidth:w-24];row.frame=NSMakeRect(12,y,w-24,h);y+=h;if([row.descriptor[@"id"]unsignedIntValue]==PGFastMulti)y+=8;}
 }
 - (void)drawRect:(NSRect)dirtyRect {
     (void)dirtyRect;NSBezierPath *shape=[NSBezierPath bezierPathWithRoundedRect:NSInsetRect(self.bounds,.5,.5) xRadius:13 yRadius:13];
@@ -294,7 +296,7 @@ static PGInspectorGlyphButton *PGUIButton(NSString *glyph, NSColor *accent, id t
     [[_accent colorWithAlphaComponent:.22]setStroke];shape.lineWidth=.8;[shape stroke];
     NSRect pill=NSMakeRect(12,10,MAX(53,[_heading length]*13+20),25);[[_accent colorWithAlphaComponent:.10]setFill];NSBezierPath *p=[NSBezierPath bezierPathWithRoundedRect:pill xRadius:8 yRadius:8];[p fill];[[_accent colorWithAlphaComponent:.32]setStroke];p.lineWidth=.7;[p stroke];
     if(_expanded){[[PGUIMuted() colorWithAlphaComponent:.20]setStroke];NSBezierPath *line=[NSBezierPath bezierPath];[line moveToPoint:NSMakePoint(12,43)];[line lineToPoint:NSMakePoint(NSWidth(self.bounds)-12,43)];line.lineWidth=.5;[line stroke];
-        for(PGInspectorRow *row in _rows)if([row.descriptor[@"id"]unsignedIntValue]==PGJumpGuard){CGFloat y=NSMaxY(row.frame)+4;[line removeAllPoints];[line moveToPoint:NSMakePoint(12,y)];[line lineToPoint:NSMakePoint(NSWidth(self.bounds)-12,y)];[line stroke];}
+        for(PGInspectorRow *row in _rows)if([row.descriptor[@"id"]unsignedIntValue]==PGFastMulti){CGFloat y=NSMaxY(row.frame)+4;[line removeAllPoints];[line moveToPoint:NSMakePoint(12,y)];[line lineToPoint:NSMakePoint(NSWidth(self.bounds)-12,y)];[line stroke];}
     }
 }
 @end

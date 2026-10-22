@@ -82,6 +82,26 @@ static NSDictionary<NSString *, CIColorKernel *> *PGKernels(void) {
             "kernel vec4 pgMaskedMix(__sample source,__sample effect,__sample mask,float amount) {"
             "vec4 s=unpremultiply(source); vec4 e=unpremultiply(effect);"
             "return premultiply(vec4(mix(s.rgb,e.rgb,clamp(mask.r*amount,0.0,1.0)),s.a)); }");
+        // Keep smoothing support separate from the exposure/color mask. The
+        // two new controls independently release feature cutouts and background.
+        k[@"smoothingSupport"] = PGKernel(@
+            "kernel vec4 pgSmoothingSupport(__sample protectedMask,__sample baseMask,float featureProtection,float skinProtection) {"
+            "float base=clamp(baseMask.r,0.0,1.0);float protectedValue=clamp(protectedMask.r,0.0,1.0);"
+            "float value=mix(base,protectedValue,featureProtection);"
+            "if(skinProtection<1.0){float extended=1.0-skinProtection*(1.0-base);"
+            "float retention=base>0.00001?clamp(protectedValue/base,0.0,1.0):1.0;"
+            "value=extended*mix(1.0,retention,featureProtection);}"
+            "return vec4(value,value,value,1.0); }");
+        k[@"microDetail"] = PGKernel(@
+            "kernel vec4 pgMicroDetail(__sample processed,__sample original,__sample low,__sample coverage,float amount) {"
+            "vec4 outPixel=unpremultiply(processed);vec3 src=unpremultiply(original).rgb;"
+            "vec3 high=src-unpremultiply(low).rgb;vec3 weights=vec3(0.299,0.587,0.114);"
+            "float y=dot(src,weights);float detailY=dot(high,weights);float size=length(high);"
+            "float lightGate=smoothstep(0.07,0.22,y)*(1.0-smoothstep(0.86,0.99,y));"
+            "float textureGate=smoothstep(0.0015,0.010,size)*(1.0-smoothstep(0.16,0.36,size));"
+            "float gain=amount*clamp(coverage.r,0.0,1.0)*lightGate*textureGate*1.18;"
+            "vec3 detail=vec3(detailY*0.92)+(high-vec3(detailY))*0.28;"
+            "return premultiply(vec4(clamp(outPixel.rgb+detail*gain,0.0,1.0),outPixel.a)); }");
         k[@"colorCoverage"] = PGKernel(@
             "kernel vec4 pgColorCoverage(__sample coverage,__sample image,float invert) {"
             "vec3 c=unpremultiply(image).rgb; float y=dot(c,vec3(0.299,0.587,0.114));"
@@ -157,7 +177,7 @@ static NSDictionary<NSString *, CIColorKernel *> *PGKernels(void) {
     float mix = PGClamp(s.mix, 0, 1);
     if (mix == 0 && !s.showMask) return image;
     NSDictionary *k = PGKernels();
-    if (k.count != 11) {
+    if (k.count != 13) {
         if (error) *error = [NSError errorWithDomain:@"PGBeautyRenderer" code:2
                        userInfo:@{NSLocalizedDescriptionKey:@"The beauty image kernels could not be compiled."}];
         return nil;
@@ -173,7 +193,10 @@ static NSDictionary<NSString *, CIColorKernel *> *PGKernels(void) {
         float sharpness = PGClamp(s.sharpness,0,2);
         float teeth = PGClamp(s.teethWhitening,0,1);
         float eyes = PGClamp(s.eyeBrightening,0,1);
-        BOOL needsSkin = local*amount>0 || brightness>0 || hue!=0 || saturation!=0 || even>0 ||
+        float protection = s.featureProtection ? PGClamp(s.featureProtectionAmount,0,1) : 0;
+        float skinProtection = PGClamp(s.nonSkinProtection,0,1);
+        float micro = PGClamp(s.microDetail,0,1)*amount;
+        BOOL needsSkin = local*amount>0 || micro>0 || brightness>0 || hue!=0 || saturation!=0 || even>0 ||
                          (s.skinTonePreset>0 && s.skinTonePreset<=6) || (s.showMask && s.debugChannel==0);
         CIImage *black = [[CIImage imageWithColor:[CIColor colorWithRed:0 green:0 blue:0 alpha:1]] imageByCroppingToRect:extent];
         CIImage *teethInput = teethMask ? [teethMask imageByCroppingToRect:extent] : black;
@@ -200,12 +223,29 @@ static NSDictionary<NSString *, CIColorKernel *> *PGKernels(void) {
             float invert = s.debugChannel==1 || s.debugChannel==2 ? (s.invertMask ? 1 : 0) : 0;
             return PGApply(k[@"debug"],extent,@[image,preview,@(invert)]);
         }
+        CIImage *smoothingMask=mask;
+        if((local*amount>0 || micro>0) && (protection<1 || skinProtection<1)) {
+            CIImage *baseRaw=colorMask ? [colorMask imageByCroppingToRect:extent] : raw;
+            float soft=PGClamp(s.maskSoftness,0,1);
+            CIImage *baseMask=PGApply(k[@"mask"],extent,@[baseRaw,PGBlur(baseRaw,0.35+soft*radius*0.35,extent),
+                image,PGBlur(image,1.5,extent),eyeInput,teethInput,
+                @(PGClamp(s.maskThreshold,0,255)/255.f),@(soft),@(PGClamp(s.maskEdgeProtect,0,1)),@0,@(s.invertMask?1:0)]);
+            smoothingMask=PGApply(k[@"smoothingSupport"],extent,@[mask,baseMask,@(protection),@(skinProtection)]);
+        }
         // Detail protection may contain small eye, brow, nose and lip cutouts.
         // Exposure and color must not reuse those holes or sharpen a face ellipse
         // with the detail threshold; that creates visible rings and islands.
         CIImage *toneMask=mask;
         BOOL changesColor=brightness>0 || hue!=0 || saturation!=0 || even>0 ||
                           (s.skinTonePreset>0 && s.skinTonePreset<=6);
+        if(!colorMask && changesColor && s.featureProtection) {
+            // Standalone callers may not supply the separate uncut coverage.
+            // At least keep our eye/teeth cutouts out of their color adjustment.
+            float soft=PGClamp(s.maskSoftness,0,1);
+            toneMask=PGApply(k[@"mask"],extent,@[raw,PGBlur(raw,0.35+soft*radius*0.35,extent),
+                image,PGBlur(image,1.5,extent),eyeInput,teethInput,
+                @(PGClamp(s.maskThreshold,0,255)/255.f),@(soft),@(PGClamp(s.maskEdgeProtect,0,1)),@0,@(s.invertMask?1:0)]);
+        }
         if(colorMask && changesColor) {
             CGFloat feather=MAX(3,MIN(extent.size.width,extent.size.height)*0.03);
             CIImage *support=[colorMask imageByCroppingToRect:extent];
@@ -219,8 +259,12 @@ static NSDictionary<NSString *, CIColorKernel *> *PGKernels(void) {
             CGFloat broad = fmin(16,(2.55+0.45*local)*fine+1.1+1.3*local);
             float compression = 0.12+2.4*powf(local,2.15)+1.25*local;
             CIImage *detail = PGApply(k[@"detail"],extent,@[result,PGBlur(result,fine,extent),
-                            PGBlur(result,broad,extent),@(compression),@(s.featureProtection ? 1 : 0)]);
-            result = PGApply(k[@"maskedMix"],extent,@[result,detail,mask,@(amount)]);
+                            PGBlur(result,broad,extent),@(compression),@(protection)]);
+            result = PGApply(k[@"maskedMix"],extent,@[result,detail,smoothingMask,@(amount)]);
+        }
+        if(micro>0) {
+            CGFloat fine=fmin(7.4,2.275+3.15*pow(local,0.72)+0.95*local);
+            result=PGApply(k[@"microDetail"],extent,@[result,image,PGBlur(image,fine,extent),smoothingMask,@(micro)]);
         }
         CIImage *color = result;
         if (brightness>0) {

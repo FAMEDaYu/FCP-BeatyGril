@@ -11,9 +11,10 @@ NSArray<NSDictionary *> *PGInspectorControls(void) {
 #define ITEM(ID,NAME,FIELD,SECTION,KIND,FORMAT,MIN,MAX,BYPASS,STORAGE) \
         [items addObject:@{@"id":@(ID),@"name":@NAME,@"section":@SECTION,@"kind":@KIND,@"format":@FORMAT,@"min":@(MIN),@"max":@(MAX),@"default":@(defaults.FIELD),@"bypass":@(BYPASS),@"offset":@(offsetof(PGBeautySettings,FIELD)),@"storage":@STORAGE}]
         ITEM(PGSmoothingEnabled,"磨皮",featureProtection,"smooth","master","integer",0,1,NO,"master");
-        ITEM(PGMidtone,"局部磨皮",midtoneDetail,"smooth","slider","percent",0,1,YES,"float");
-        ITEM(PGHighPass,"全局磨皮",highPassDetail,"smooth","slider","percent",0,1,YES,"float");
-        ITEM(PGFeatureProtect,"五官保护",featureProtection,"smooth","toggle","integer",0,1,NO,"uint");
+        ITEM(PGMidtone,"磨皮程度",midtoneDetail,"smooth","slider","percent",0,1,YES,"float");
+        ITEM(PGMicroDetail,"微细锐化",microDetail,"smooth","slider","percent",0,1,YES,"float");
+        ITEM(PGFeatureProtectionAmount,"五官保护",featureProtectionAmount,"smooth","slider","percent",0,1,YES,"float");
+        ITEM(PGNonSkinProtection,"非肤色区保护",nonSkinProtection,"smooth","slider","percent",0,1,YES,"float");
         ITEM(PGColorEnabled,"美白",featureProtection,"color","master","integer",0,1,NO,"master");
         ITEM(PGTonePreset,"肤色",skinTonePreset,"color","preset","integer",0,6,NO,"uint");
         NSMutableDictionary *preset=[items.lastObject mutableCopy];
@@ -22,9 +23,10 @@ NSArray<NSDictionary *> *PGInspectorControls(void) {
         ITEM(PGTeeth,"白牙",teethWhitening,"color","slider","percent",0,1,YES,"float");
         ITEM(PGHue,"皮肤色相",skinHue,"color","slider","degrees",-30,30,YES,"float");
         ITEM(PGShapeEnabled,"瘦脸",featureProtection,"shape","master","integer",0,1,NO,"master");
-        ITEM(PGTrackBoxes,"人脸框预览",showTrackBox,"shape","toggle","integer",0,1,NO,"uint");
+        ITEM(PGTrackBoxes,"检测框预览",showTrackBox,"shape","toggle","integer",0,1,NO,"uint");
         ITEM(PGFastMulti,"多人模式",fastMultiFace,"shape","toggle","integer",0,1,NO,"uint");
-        ITEM(PGJumpGuard,"防跳脸范围",faceJumpGuardRange,"shape","slider","percent",1,4,NO,"float");
+        NSMutableDictionary *multi=[items.lastObject mutableCopy];
+        multi[@"tooltip"]=@"多人模式易抖动，请谨慎使用";items[items.count-1]=multi;
         ITEM(PGThin,"瘦脸",faceThin,"shape","slider","signed",0,1,YES,"float");
         ITEM(PGBigEye,"大眼",faceBigEye,"shape","slider","signed",0,1,YES,"float");
         ITEM(PGShort,"短脸",faceShort,"shape","slider","signed",-1,1,YES,"float");
@@ -36,11 +38,13 @@ NSArray<NSDictionary *> *PGInspectorControls(void) {
         ITEM(PGSmallHead,"小头",faceSmallHead,"shape","slider","signed",0,1,YES,"float");
         ITEM(PGSmallHeadRange,"小头范围",faceSmallHeadRange,"shape","slider","percent",0,1,NO,"float");
         ITEM(PGAmount,"磨皮强度",amount,"more","slider","percent",0,1,YES,"float");
+        ITEM(PGHighPass,"全局磨皮",highPassDetail,"more","slider","percent",0,1,YES,"float");
         ITEM(PGRadius,"磨皮半径",radius,"more","slider","radius",1,30,NO,"float");
         ITEM(PGSaturation,"肤色饱和度",skinSaturation,"more","slider","percent",-100,100,YES,"float");
         ITEM(PGEvenTone,"均匀肤色",skinEvenTone,"more","slider","percent",0,1,YES,"float");
         ITEM(PGEyeBright,"眼睛提亮",eyeBrightening,"more","slider","percent",0,1,YES,"float");
         ITEM(PGSharpness,"锐化",sharpness,"more","slider","percent",0,1,YES,"float");
+        ITEM(PGJumpGuard,"防跳脸范围",faceJumpGuardRange,"more","slider","percent",1,4,NO,"float");
         ITEM(PGMix,"整体混合",mix,"more","slider","percent",0,1,NO,"float");
 #undef ITEM
         controls=[items copy];
@@ -62,7 +66,12 @@ static double PGControlValue(id raw,NSDictionary *d) {
 + (instancetype)stateWithValues:(NSDictionary *)values disabledParameters:(NSSet *)disabled hasEdits:(BOOL)edited {
     PGInspectorState *state=[self new]; NSMutableDictionary *safe=[NSMutableDictionary new];NSMutableSet *bypassed=[NSMutableSet new];
     for(NSDictionary *d in PGInspectorControls()) {
-        NSNumber *key=d[@"id"];safe[key]=@(PGControlValue(values[key],d));
+        NSNumber *key=d[@"id"];id raw=values[key];
+        // Schema 1 documents stored five-feature protection as the legacy bool.
+        // New numeric values win when present; old archives gain its exact 0/1.
+        if(key.unsignedIntValue==PGFeatureProtectionAmount && !raw && [values[@(PGFeatureProtect)] isKindOfClass:NSNumber.class])
+            raw=@([values[@(PGFeatureProtect)] boolValue]?1:0);
+        safe[key]=@(PGControlValue(raw,d));
         if([d[@"bypass"] boolValue] && [disabled containsObject:key]) [bypassed addObject:key];
     }
     state->_values=[safe copy];state->_disabledParameters=[bypassed copy];state->_hasEdits=edited;return state;
@@ -115,7 +124,8 @@ PGBeautySettings PGSettingsWithInspectorState(PGBeautySettings s,PGInspectorStat
         if([storage isEqual:@"float"]) *(float *)((uint8_t *)&s+offset)=value;
         else *(uint32_t *)((uint8_t *)&s+offset)=(uint32_t)value;
     }
-    if(![state valueForParameter:PGSmoothingEnabled])s.amount=s.midtoneDetail=s.highPassDetail=0;
+    s.featureProtection=s.featureProtectionAmount>0;
+    if(![state valueForParameter:PGSmoothingEnabled])s.amount=s.midtoneDetail=s.highPassDetail=s.microDetail=0;
     if(![state valueForParameter:PGColorEnabled]) {s.skinBrightness=s.skinHue=s.skinSaturation=s.skinEvenTone=s.teethWhitening=s.eyeBrightening=0;s.skinTonePreset=0;}
     if(![state valueForParameter:PGShapeEnabled]) {s.faceThin=s.faceBigEye=s.faceShort=s.faceNarrow=s.faceChin=s.faceV=s.faceJaw=s.faceCheekbone=s.faceSmallHead=0;s.showTrackBox=0;}
     return s;
@@ -189,6 +199,12 @@ PGBeautySettings PGSettingsWithInspectorState(PGBeautySettings s,PGInspectorStat
         else [api getFloatValue:&value fromParameter:key atTime:time];
         values[@(key)]=@(value);
     }
+    // The old bool can still disable protection. A true value must preserve a
+    // numeric setting already read above; its registered default is one for
+    // old documents that have no independently stored numeric parameter.
+    BOOL legacyFeatureProtection=YES;
+    if([api getBoolValue:&legacyFeatureProtection fromParameter:PGFeatureProtect atTime:time] && !legacyFeatureProtection)
+        values[@(PGFeatureProtectionAmount)]=@0;
     BOOL legacyDetail=YES;[api getBoolValue:&legacyDetail fromParameter:PGDetailEnabled atTime:time];
     NSMutableSet *disabled=legacyDetail?[NSMutableSet set]:[NSMutableSet setWithObjects:@(PGHighPass),@(PGSharpness),nil];
     // Earlier versions put high-pass smoothing under a different group. Keep
@@ -196,7 +212,7 @@ PGBeautySettings PGSettingsWithInspectorState(PGBeautySettings s,PGInspectorStat
     // off, rather than turning a still-active global effect off on first edit.
     if(![values[@(PGSmoothingEnabled)] boolValue] && legacyDetail && [values[@(PGHighPass)] doubleValue]>0) {
         values[@(PGSmoothingEnabled)]=@YES;
-        [disabled addObject:@(PGMidtone)];[disabled addObject:@(PGAmount)];
+        [disabled addObject:@(PGMidtone)];[disabled addObject:@(PGAmount)];[disabled addObject:@(PGMicroDetail)];
     }
     _state=[PGInspectorState stateWithValues:values disabledParameters:disabled hasEdits:NO];
 }
@@ -232,6 +248,11 @@ PGBeautySettings PGSettingsWithInspectorState(PGBeautySettings s,PGInspectorStat
         else if([d[@"kind"] isEqual:@"toggle"] || [d[@"kind"] isEqual:@"master"]) [api setBoolValue:value!=0 toParameter:key atTime:time];
         else [api setFloatValue:value toParameter:key atTime:time];
     }
+    BOOL featureProtection=[next isParameterEnabled:PGFeatureProtectionAmount] && [next valueForParameter:PGFeatureProtectionAmount]>0;
+    id<FxParameterRetrievalAPI_v6> reader=[_manager apiForProtocol:@protocol(FxParameterRetrievalAPI_v6)];
+    BOOL previousProtection=!featureProtection;
+    if(![reader getBoolValue:&previousProtection fromParameter:PGFeatureProtect atTime:time] || previousProtection!=featureProtection)
+        [api setBoolValue:featureProtection toParameter:PGFeatureProtect atTime:time];
     _state=next;_pendingUntil=NSDate.timeIntervalSinceReferenceDate+.35;_pendingTime=time;_statusMessage=@"";return YES;
 }
 - (BOOL)setValue:(double)value forParameter:(UInt32)identifier {

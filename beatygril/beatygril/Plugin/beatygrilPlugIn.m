@@ -30,6 +30,9 @@ static const PGSlider PGSliders[] = {
     PGS(PGEyeBright,"眼睛提亮",eyeBrightening,0,1,.01,YES),
     PGS(PGHighPass,"高频细节平滑",highPassDetail,0,1,.01,YES),
     PGS(PGSharpness,"锐化",sharpness,0,1,.01,YES),
+    PGS(PGFeatureProtectionAmount,"五官保护强度",featureProtectionAmount,0,1,.01,YES),
+    PGS(PGNonSkinProtection,"非肤色区保护",nonSkinProtection,0,1,.01,YES),
+    PGS(PGMicroDetail,"微细锐化",microDetail,0,1,.01,YES),
     PGS(PGThin,"瘦脸",faceThin,0,1,.01,YES),
     PGS(PGBigEye,"大眼",faceBigEye,0,1,.01,YES),
     PGS(PGShort,"短脸",faceShort,-1,1,.01,NO),
@@ -141,6 +144,7 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
     void (^end)(void)=^{ok=[api endParameterSubGroup]&&ok;};
     group(@"磨皮",100); toggle(@"启用磨皮",PGSmoothingEnabled,YES);
     slider(PGAmount); slider(PGMidtone); slider(PGRadius); toggle(@"保护五官",PGFeatureProtect,YES); end();
+    group(@"磨皮保护与细节",106); slider(PGFeatureProtectionAmount); slider(PGNonSkinProtection); slider(PGMicroDetail); end();
     group(@"肤色",101); toggle(@"启用肤色",PGColorEnabled,YES);
     ok=[api addPopupMenuWithName:@"肤色风格" parameterID:PGTonePreset defaultValue:0 menuEntries:@[@"原色",@"自然白",@"冷白",@"暖白",@"红润白",@"小麦",@"古铜"] parameterFlags:kFxParameterFlag_HIDDEN]&&ok;
     slider(PGBrightness); slider(PGHue); slider(PGSaturation); slider(PGEvenTone); slider(PGTeeth); slider(PGEyeBright); end();
@@ -207,7 +211,7 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
     double x=.5,y=.5; [api getXValue:&x YValue:&y fromParameter:PGSelection atTime:time];
     s.selectionX=isfinite(x)?fmin(1,fmax(0,x)):.5; s.selectionY=isfinite(y)?fmin(1,fmax(0,y)):.5;
     BOOL enabled=YES;
-    [api getBoolValue:&enabled fromParameter:PGSmoothingEnabled atTime:time]; if(!enabled) s.amount=s.midtoneDetail=0;
+    [api getBoolValue:&enabled fromParameter:PGSmoothingEnabled atTime:time]; if(!enabled) s.amount=s.midtoneDetail=s.microDetail=0;
     enabled=YES; [api getBoolValue:&enabled fromParameter:PGColorEnabled atTime:time];
     if(!enabled) {s.skinBrightness=s.skinHue=s.skinSaturation=s.skinEvenTone=s.teethWhitening=s.eyeBrightening=0;s.skinTonePreset=0;}
     enabled=YES; [api getBoolValue:&enabled fromParameter:PGDetailEnabled atTime:time]; if(!enabled) s.highPassDetail=s.sharpness=0;
@@ -263,9 +267,16 @@ static CIImage *PGImageFromTile(FxImageTile *tile) {
 - (BOOL)renderDestinationImage:(FxImageTile *)destination sourceImages:(NSArray<FxImageTile *> *)sources pluginState:(NSData *)state atTime:(CMTime)time error:(NSError **)error {
     if(sources.count==0||!sources.firstObject.ioSurface||!destination.ioSurface||![state isKindOfClass:NSData.class]||state.length==0||state.length>320*1024*1024) return PGFail(error,@"宿主传入的画面或状态无效。");
         NSDictionary *plist=[NSPropertyListSerialization propertyListWithData:state options:NSPropertyListImmutable format:nil error:error];
-        if(![plist isKindOfClass:NSDictionary.class]||![plist[@"settings"] isKindOfClass:NSData.class]||[plist[@"settings"] length]!=sizeof(PGBeautySettings)) return PGFail(error,@"渲染状态版本无效。");
-        PGBeautySettings s;[plist[@"settings"] getBytes:&s length:sizeof(s)];
-        if(s.version!=1) return PGFail(error,@"此版本不支持保存的渲染状态。");
+        if(![plist isKindOfClass:NSDictionary.class]||![plist[@"settings"] isKindOfClass:NSData.class]) return PGFail(error,@"渲染状态版本无效。");
+        NSData *encoded=plist[@"settings"]; uint32_t version=0;
+        if(encoded.length<sizeof(version)) return PGFail(error,@"渲染状态版本无效。");
+        [encoded getBytes:&version length:sizeof(version)];
+        PGBeautySettings s=PGBeautyDefaults();
+        if(version==1 && encoded.length==PGBeautySettingsV1Size) {
+            [encoded getBytes:&s length:PGBeautySettingsV1Size];s.version=PGBeautySettingsVersion;
+        } else if(version==PGBeautySettingsVersion && encoded.length==sizeof(s)) {
+            [encoded getBytes:&s length:sizeof(s)];
+        } else return PGFail(error,@"此版本不支持保存的渲染状态。");
         s.trackingEnabled=0;s.singleFace=0;
         CIImage *input=PGImageFromTile(sources.firstObject); if(!input) return PGFail(error,@"无法读取 IOSurface。");
         @synchronized(self) {

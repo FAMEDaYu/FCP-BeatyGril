@@ -14,5 +14,6 @@ enum {
     PGTrackData1=60, PGTrackData2=61, PGTrackData3=62,
     PGSmoothingEnabled=70, PGColorEnabled=71, PGShapeEnabled=72,
     PGDetailEnabled=73, PGHelp=74,
+    PGFeatureProtectionAmount=75, PGNonSkinProtection=76, PGMicroDetail=77,
     PGInspectorPanel=210
 };

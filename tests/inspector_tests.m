@@ -52,6 +52,9 @@ static NSControl *FindControl(NSView *view,Class type,NSString *label) {
 }
 static void Fire(NSControl *control) {[control sendAction:control.action to:control.target];}
 static BOOL Near(double a,double b) {return fabs(a-b)<.00001;}
+static PGInspectorState *State(NSDictionary *values,NSSet *disabled) {
+    return [PGInspectorState stateWithValues:values disabledParameters:disabled?:[NSSet set] hasEdits:YES];
+}
 static void RegistrationTests(void) {
     PGHostAPI *api=[PGHostAPI new];beatygrilPlugIn *plugin=[[beatygrilPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
     NSUInteger visible=0;for(NSNumber *key in api.definitions){NSDictionary *d=api.definitions[key];if(!([d[@"flags"]unsignedIntValue]&kFxParameterFlag_HIDDEN)){visible++;Check(key.unsignedIntValue==PGInspectorPanel,@"only the custom panel is visible in the native parameter list");}}
@@ -65,10 +68,46 @@ static void RegistrationTests(void) {
         NSNumber *key=d[@"id"];Check(api.definitions[key]!=nil,@"every inspector control maps to an existing stable parameter ID");
         if([d[@"kind"]isEqual:@"slider"])Check(Near([d[@"min"]doubleValue],[api.definitions[key][@"min"]doubleValue]) && Near([d[@"max"]doubleValue],[api.definitions[key][@"max"]doubleValue]),@"UI and renderer enforce the same slider range");
     }
+    NSMutableArray *smoothIDs=[NSMutableArray new];
+    for(NSDictionary *d in PGInspectorControls())if([d[@"section"]isEqual:@"smooth"] && ![d[@"kind"]isEqual:@"master"])[smoothIDs addObject:d[@"id"]];
+    Check([smoothIDs isEqual:@[@(PGMidtone),@(PGMicroDetail),@(PGFeatureProtectionAmount),@(PGNonSkinProtection)]],@"primary smoothing card exposes the four new controls in reference order");
+    Check(PGInspectorDescriptor(PGFeatureProtect)==nil && [PGInspectorDescriptor(PGHighPass)[@"section"]isEqual:@"more"] && [PGInspectorDescriptor(PGSharpness)[@"section"]isEqual:@"more"],@"legacy boolean stays hidden while legacy global smoothing and sharpening remain available in more settings");
     api.values[@(PGTrackEnabled)]=@YES;api.values[@(PGSingleFace)]=@YES;api.values[@(PGShowMask)]=@YES;
     PGBeautySettings s=[plugin settingsAtTime:kCMTimeZero];Check(!s.trackingEnabled && !s.singleFace && !s.showMask,@"old manual analysis, selection and debug flags cannot override automatic output");
     NSData *snapshot=Snapshot(plugin,kCMTimeZero);NSDictionary *plist=[NSPropertyListSerialization propertyListWithData:snapshot options:0 format:nil error:nil];
     Check([plist[@"tracks"]isEqual:@[@"",@"",@""]],@"automatic render snapshots do not transfer persisted manual-analysis payloads");
+}
+static void BeautyControlModelTests(void) {
+    PGInspectorState *defaults=State(@{},nil);
+    Check([defaults valueForParameter:PGFeatureProtectionAmount]==1 && [defaults valueForParameter:PGNonSkinProtection]==1 && [defaults valueForParameter:PGMicroDetail]==0,@"new controls default to full five-feature/non-skin protection and zero micro detail");
+    for(NSNumber *legacy in @[@NO,@YES]) {
+        PGInspectorState *migrated=State(@{@(PGFeatureProtect):legacy,@(PGHighPass):@.63},nil);
+        PGBeautySettings s=PGSettingsWithInspectorState(PGBeautyDefaults(),migrated);
+        Check([migrated valueForParameter:PGFeatureProtectionAmount]==legacy.boolValue && s.featureProtection==legacy.boolValue && Near(s.highPassDetail,.63) && s.nonSkinProtection==1,@"old schema dictionaries migrate five-feature bool without reinterpreting legacy global smoothing");
+    }
+    PGInspectorState *explicit=State(@{@(PGFeatureProtect):@NO,@(PGFeatureProtectionAmount):@.37},nil);
+    Check(Near([explicit valueForParameter:PGFeatureProtectionAmount],.37),@"an explicit numeric protection setting takes precedence over the old boolean");
+    NSDictionary *values=@{@(PGFeatureProtectionAmount):@.25,@(PGNonSkinProtection):@.6,@(PGMicroDetail):@.8,@(PGMidtone):@.7,@(PGHighPass):@.4,@(PGSharpness):@.5,@(PGHue):@12,@(PGBrightness):@.3,@(PGTonePreset):@2};
+    PGInspectorState *a=State(values,nil);
+    NSData *archive=[NSKeyedArchiver archivedDataWithRootObject:a requiringSecureCoding:YES error:nil];
+    PGInspectorState *restored=[NSKeyedUnarchiver unarchivedObjectOfClass:PGInspectorState.class fromData:archive error:nil];
+    Check([restored isEqual:a] && Near([restored valueForParameter:PGFeatureProtectionAmount],.25) && Near([restored valueForParameter:PGNonSkinProtection],.6) && Near([restored valueForParameter:PGMicroDetail],.8),@"secure document archive retains all three independent numeric controls");
+    NSMutableDictionary *right=[values mutableCopy];right[@(PGFeatureProtectionAmount)]=@.75;right[@(PGNonSkinProtection)]=@.2;right[@(PGMicroDetail)]=@.4;
+    PGInspectorState *mid=(PGInspectorState *)[a interpolateBetween:State(right,nil) withWeight:.5];
+    Check(Near([mid valueForParameter:PGFeatureProtectionAmount],.5) && Near([mid valueForParameter:PGNonSkinProtection],.4) && Near([mid valueForParameter:PGMicroDetail],.6),@"new floating-point protection and micro-detail keyframes interpolate independently");
+    for(NSNumber *key in @[@(PGFeatureProtectionAmount),@(PGNonSkinProtection),@(PGMicroDetail)]) {
+        PGInspectorState *bypassed=State(values,[NSSet setWithObject:key]);
+        PGBeautySettings s=PGSettingsWithInspectorState(PGBeautyDefaults(),bypassed);
+        Check(Near(s.featureProtectionAmount,key.unsignedIntValue==PGFeatureProtectionAmount?0:.25) && Near(s.nonSkinProtection,key.unsignedIntValue==PGNonSkinProtection?0:.6) && Near(s.microDetail,key.unsignedIntValue==PGMicroDetail?0:.8),@"each new bypass affects only its own render setting");
+        Check(s.featureProtection==(s.featureProtectionAmount>0) && Near(s.skinHue,12) && Near(s.skinBrightness,.3) && s.skinTonePreset==2 && Near(s.highPassDetail,.4) && Near(s.sharpness,.5),@"protection bypass preserves color and legacy detail settings and derives the old feature bool");
+    }
+    NSMutableDictionary *off=[values mutableCopy];off[@(PGSmoothingEnabled)]=@0;
+    PGBeautySettings s=PGSettingsWithInspectorState(PGBeautyDefaults(),State(off,nil));
+    Check(s.amount==0 && s.midtoneDetail==0 && s.highPassDetail==0 && s.microDetail==0 && Near(s.skinHue,12) && Near(s.skinBrightness,.3),@"smoothing master bypass also disables micro detail while preserving color adjustments");
+    PGInspectorState *untouched=[PGInspectorState stateWithValues:@{@(PGFeatureProtect):@NO} disabledParameters:[NSSet set] hasEdits:NO];
+    PGBeautySettings original=PGBeautyDefaults();original.featureProtectionAmount=.8;original.nonSkinProtection=.2;original.microDetail=.7;
+    PGBeautySettings result=PGSettingsWithInspectorState(original,untouched);
+    Check(memcmp(&original,&result,sizeof(result))==0,@"an untouched migrated inspector still leaves existing document settings unchanged");
 }
 static void ModelTests(void) {
     PGInspectorState *plain=[PGInspectorState stateWithValues:@{} disabledParameters:[NSSet set] hasEdits:NO];
@@ -191,12 +230,50 @@ static void ViewInteractionTests(void) {
     Fire(number);
     Check(number.currentEditor==nil && Near([(PGInspectorState *)api.values[@(PGInspectorPanel)] valueForParameter:PGChin],.25),@"Return commits once and releases the actual AppKit editor before host commands");
     [window close];
-    NSButton *preview=(NSButton *)FindControl(view,NSButton.class,@"人脸框预览");preview.state=NSControlStateValueOn;Fire(preview);s=api.values[@(PGInspectorPanel)];Check([s valueForParameter:PGTrackBoxes]==1,@"preview switch events change the automatic face box setting");
+    NSButton *preview=(NSButton *)FindControl(view,NSButton.class,@"检测框预览");preview.state=NSControlStateValueOn;Fire(preview);s=api.values[@(PGInspectorPanel)];Check([s valueForParameter:PGTrackBoxes]==1,@"preview switch events change the automatic face box setting");
     for(NSNumber *width in @[@280,@320,@380,@520]) {
         [view setFrameSize:NSMakeSize(width.doubleValue,20)];[view layoutSubtreeIfNeeded];
         Check(view.frame.size.height>500 && Near(view.frame.size.height,view.fittingSize.height) && Near(view.frame.size.height,view.intrinsicContentSize.height),@"width changes produce a complete consistent intrinsic/fitting height");
         for(NSView *card in view.subviews)if(!card.hidden)Check(NSMaxY(card.frame)<=NSHeight(view.bounds)+1 && NSMaxX(card.frame)<=NSWidth(view.bounds)+1,@"every visible card and footer remains inside the panel at all inspector widths");
     }
+}
+static void BeautyControlInteractionTests(void) {
+    PGInspectorTestAPI *api=[PGInspectorTestAPI new];beatygrilPlugIn *plugin=[[beatygrilPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
+    api.values[@(PGFeatureProtectionAmount)]=@.37;api.values[@(PGHighPass)]=@.63;api.values[@(PGHue)]=@12;api.values[@(PGBrightness)]=@.3;
+    PGInspectorView *view=(PGInspectorView *)[plugin createViewForParameterID:PGInspectorPanel];[view refreshFromHost];
+    Check(Near([view.controller.state valueForParameter:PGFeatureProtectionAmount],.37) && !view.controller.state.hasEdits,@"an untouched inspector preserves native fractional protection when the legacy boolean is enabled");
+    [view.controller setValue:.35 forParameter:PGBrightness];
+    Check(Near([(PGInspectorState *)api.values[@(PGInspectorPanel)] valueForParameter:PGFeatureProtectionAmount],.37) && Near([api.values[@(PGFeatureProtectionAmount)]doubleValue],.37),@"first unrelated edit captures native fractional protection without replacing it with the legacy true value");
+    api.values[@(PGInspectorPanel)]=[PGInspectorState stateWithValues:@{} disabledParameters:[NSSet set] hasEdits:NO];
+    api.values[@(PGFeatureProtect)]=@NO;[view hostParameterChanged];
+    Check([view.controller.state valueForParameter:PGFeatureProtectionAmount]==0 && !view.controller.state.hasEdits,@"untouched inspector imports the old host five-feature boolean into the new numeric control");
+    [view.controller setValue:.35 forParameter:PGBrightness];
+    Check(![api.values[@(PGFeatureProtect)]boolValue] && Near([view.controller.state valueForParameter:PGFeatureProtectionAmount],0),@"first unrelated edit preserves disabled legacy feature protection");
+    NSArray *ids=@[@(PGFeatureProtectionAmount),@(PGNonSkinProtection),@(PGMicroDetail)],*names=@[@"五官保护",@"非肤色区保护",@"微细锐化"];
+    for(NSUInteger i=0;i<ids.count;i++) {
+        UInt32 key=[ids[i]unsignedIntValue];NSString *name=names[i];
+        NSSlider *slider=(NSSlider *)FindControl(view,NSSlider.class,name);
+        NSTextField *number=(NSTextField *)FindControl(view,NSTextField.class,[name stringByAppendingString:@"数值"]);
+        Check(slider && number && slider.enabled && number.enabled,@"each new control exposes an enabled native slider and numeric field");
+        number.stringValue=@"27%";Fire(number);
+        Check(Near([view.controller.state valueForParameter:key],.27) && [number.stringValue isEqual:@"27%"],@"new numeric controls accept direct percentages without inverse interpretation");
+        slider.doubleValue=.42;Fire(slider);
+        Check(Near([view.controller.state valueForParameter:key],.42) && [number.stringValue isEqual:@"42%"],@"actual new slider events publish their direct amount and update the percentage display");
+        NSButton *eye=(NSButton *)FindControl(view,NSButton.class,[@"启用 / 停用 · "stringByAppendingString:name]);Fire(eye);
+        Check(![view.controller.state isParameterEnabled:key] && Near([view.controller.state valueForParameter:key],.42) && !slider.enabled,@"new individual bypass preserves its value and disables its native controls");
+        if(key==PGFeatureProtectionAmount)Check(![api.values[@(PGFeatureProtect)]boolValue],@"bypassed numeric feature protection mirrors false into the legacy hidden boolean");
+        NSButton *reset=(NSButton *)FindControl(view,NSButton.class,[@"重置 · "stringByAppendingString:name]);Fire(reset);
+        Check([view.controller.state isParameterEnabled:key] && [view.controller.state valueForParameter:key]==(key==PGMicroDetail?0:1) && slider.enabled,@"new individual reset restores the proper default and clears bypass");
+    }
+    Check([api.values[@(PGFeatureProtect)]boolValue] && Near([view.controller.state valueForParameter:PGHighPass],.63) && Near([view.controller.state valueForParameter:PGHue],12) && Near([view.controller.state valueForParameter:PGBrightness],.35),@"new resets restore the legacy feature bool without modifying global smoothing, hue or brightness");
+    NSButton *multi=(NSButton *)FindControl(view,NSButton.class,@"多人模式");Check([multi.toolTip containsString:@"易抖动"],@"multi-face mode exposes its instability notice as a tooltip");
+    [view.controller setValue:.6 forParameter:PGMicroDetail];
+    NSButton *master=(NSButton *)FindControl(view,NSButton.class,@"磨皮");master.state=NSControlStateValueOff;Fire(master);
+    PGBeautySettings s=PGSettingsWithInspectorState(PGBeautyDefaults(),view.controller.state);
+    Check(s.microDetail==0 && s.midtoneDetail==0 && s.highPassDetail==0 && Near(s.skinHue,12) && Near(s.skinBrightness,.35),@"actual smoothing master event disables new detail processing independently from whitening");
+    master.state=NSControlStateValueOn;Fire(master);
+    Check(Near(PGSettingsWithInspectorState(PGBeautyDefaults(),view.controller.state).microDetail,.6),@"reenabling the master restores the stored micro-detail amount");
+    Check(api.actionDepth==0 && api.actionStarts==api.actionEnds && api.accessViolations==0,@"all new numeric, bypass, reset and master interactions use balanced host actions");
 }
 static void HostHandshakeTests(void) {
     PGInspectorTestAPI *api=[PGInspectorTestAPI new];beatygrilPlugIn *plugin=[[beatygrilPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
@@ -219,24 +296,45 @@ static void ContinuousPreviewTests(void) {
     PGInspectorTestAPI *api=[PGInspectorTestAPI new];beatygrilPlugIn *plugin=[[beatygrilPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
     api.parameterAPIsRequireAction=YES;api.actionRequiresView=YES;
     PGInspectorView *view=(PGInspectorView *)[plugin createViewForParameterID:PGInspectorPanel];[view refreshFromHost];
-    NSSlider *slider=(NSSlider *)FindControl(view,NSSlider.class,@"短脸");
-    void (^began)(void)=[slider valueForKey:@"interactionBegan"], (^ended)(void)=[slider valueForKey:@"interactionEnded"];
-    Check(slider.continuous && began && ended,@"native slider emits continuous events and exposes balanced gesture callbacks");
-    began();
-    for(NSNumber *value in @[@.2,@.5,@1]) {
-        NSUInteger publications=api.previewPublications;slider.doubleValue=value.doubleValue;Fire(slider);
-        PGInspectorState *visible=api.previewValues[@(PGInspectorPanel)];
-        Check(api.actionDepth==0 && api.previewPublications==publications+1 && Near([visible valueForParameter:PGShort],value.doubleValue),@"every drag step publishes a completed host snapshot before mouse-up");
-        Check(visible && Near(PGSettingsWithInspectorState(PGBeautyDefaults(),visible).faceShort,value.doubleValue),@"published frame settings contain each intermediate short-face value while gesture is still open");
+    NSArray *names=@[@"短脸",@"五官保护",@"非肤色区保护",@"微细锐化"],*ids=@[@(PGShort),@(PGFeatureProtectionAmount),@(PGNonSkinProtection),@(PGMicroDetail)];
+    for(NSUInteger i=0;i<names.count;i++) {
+        UInt32 key=[ids[i]unsignedIntValue];NSSlider *slider=(NSSlider *)FindControl(view,NSSlider.class,names[i]);
+        void (^began)(void)=[slider valueForKey:@"interactionBegan"], (^ended)(void)=[slider valueForKey:@"interactionEnded"];
+        Check(slider.continuous && began && ended,@"native slider emits continuous events and exposes balanced gesture callbacks");
+        began();
+        for(NSNumber *value in @[@.2,@.5,@1]) {
+            NSUInteger publications=api.previewPublications;slider.doubleValue=value.doubleValue;Fire(slider);
+            PGInspectorState *visible=api.previewValues[@(PGInspectorPanel)];
+            Check(api.actionDepth==0 && api.previewPublications==publications+1 && Near([visible valueForParameter:key],value.doubleValue),@"every old and new slider step publishes a completed host snapshot before mouse-up");
+            PGBeautySettings s=PGSettingsWithInspectorState(PGBeautyDefaults(),visible);
+            double actual=key==PGShort?s.faceShort:key==PGFeatureProtectionAmount?s.featureProtectionAmount:key==PGNonSkinProtection?s.nonSkinProtection:s.microDetail;
+            Check(visible && Near(actual,value.doubleValue),@"published frame settings contain each intermediate new protection/detail value while gesture is still open");
+        }
+        NSUInteger publications=api.previewPublications;Fire(slider);
+        Check(api.previewPublications==publications,@"unchanged drag events do not enqueue redundant previews");
+        ended();
     }
-    NSUInteger publications=api.previewPublications;Fire(slider);
-    Check(api.previewPublications==publications,@"unchanged drag events do not enqueue redundant previews");
-    ended();
     Check(api.actionDepth==0 && api.actionStarts==api.actionEnds && api.accessViolations==0 && api.invalidActionSenders==0,@"step-wise publication preserves action-scoped APIs and the actual view sender");
+}
+static void OptionalInspectorPreview(void) {
+    NSString *path=NSProcessInfo.processInfo.environment[@"PAINTFCP_INSPECTOR_PNG"];
+    if(!path.length)return;
+    PGHostAPI *api=[PGHostAPI new];beatygrilPlugIn *plugin=[[beatygrilPlugIn alloc]initWithAPIManager:api];[plugin addParametersWithError:nil];
+    api.values[@(PGMidtone)]=@.4;
+    PGInspectorView *view=(PGInspectorView *)[plugin createViewForParameterID:PGInspectorPanel];[view refreshFromHost];
+    [view setFrameSize:NSMakeSize(380,20)];
+    NSWindow *window=[[NSWindow alloc]initWithContentRect:view.bounds styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
+    window.releasedWhenClosed=NO;window.appearance=[NSAppearance appearanceNamed:NSAppearanceNameDarkAqua];window.contentView=view;
+    [window setContentSize:view.frame.size];[view layoutSubtreeIfNeeded];[window displayIfNeeded];
+    NSBitmapImageRep *bitmap=[view bitmapImageRepForCachingDisplayInRect:view.bounds];
+    [view cacheDisplayInRect:view.bounds toBitmapImageRep:bitmap];
+    NSData *png=[bitmap representationUsingType:NSBitmapImageFileTypePNG properties:@{}];
+    Check(png.length>0 && [png writeToFile:path atomically:YES],@"optional offscreen inspector PNG is written to the requested review path");
+    [window close];
 }
 int main(int argc,const char **argv) {@autoreleasepool {
     [NSApplication sharedApplication];[NSApp setActivationPolicy:NSApplicationActivationPolicyProhibited];
-    RegistrationTests();ModelTests();ControllerTests();ViewInteractionTests();HostHandshakeTests();ContinuousPreviewTests();
+    RegistrationTests();ModelTests();BeautyControlModelTests();ControllerTests();ViewInteractionTests();BeautyControlInteractionTests();HostHandshakeTests();ContinuousPreviewTests();OptionalInspectorPreview();
     if(argc>2) {
         NSData *inner=[NSData dataWithContentsOfFile:@(argv[1])],*outer=[NSData dataWithContentsOfFile:@(argv[2])];NSError *error=nil;
         NSKeyedUnarchiver *reader=[[NSKeyedUnarchiver alloc]initForReadingFromData:inner error:&error];reader.requiresSecureCoding=YES;
