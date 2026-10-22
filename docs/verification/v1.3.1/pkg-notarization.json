@@ -1,0 +1,114 @@
+{
+  "logFormatVersion": 1,
+  "jobId": "78105340-306f-4629-8670-772760d4cb9a",
+  "status": "Accepted",
+  "statusSummary": "Ready for distribution",
+  "statusCode": 0,
+  "archiveFilename": "大鱼人像美化-1.3.1.pkg",
+  "uploadDate": "2026-10-22T08:54:36.516Z",
+  "sha256": "e64eda56bedc889bdab4759ad5118beaa83e56aaa92d24c7f96fe993caaa10ff",
+  "ticketContents": [
+    {
+      "path": "大鱼人像美化-1.3.1.pkg/Payload.pkg Contents/Payload/Library/Plug-Ins/FxPlug/beatygril.app",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "70b387db43f4fd65efc5ebd5f1795f72561dc523",
+      "arch": "x86_64"
+    },
+    {
+      "path": "大鱼人像美化-1.3.1.pkg/Payload.pkg Contents/Payload/Library/Plug-Ins/FxPlug/beatygril.app",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "d3bf91f8c8589b1acc19779f5578cc4f4055d267",
+      "arch": "arm64"
+    },
+    {
+      "path": "大鱼人像美化-1.3.1.pkg/Payload.pkg Contents/Payload/Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "00d0b69489a21f9c4464b38d284a0b8be7fd73c3",
+      "arch": "x86_64"
+    },
+    {
+      "path": "大鱼人像美化-1.3.1.pkg/Payload.pkg Contents/Payload/Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "8411931c0e2f6fd7b21a168a268b641808cdb558",
+      "arch": "arm64"
+    },
+    {
+      "path": "大鱼人像美化-1.3.1.pkg/Payload.pkg Contents/Payload/Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit/Contents/Frameworks/FxPlug.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "54cf6701245852c5c86f0c664fae4ce99f3e9346",
+      "arch": "x86_64"
+    },
+    {
+      "path": "大鱼人像美化-1.3.1.pkg/Payload.pkg Contents/Payload/Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit/Contents/Frameworks/FxPlug.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "0eb927b742d37499cd49b950b2c88dca9af31987",
+      "arch": "arm64"
+    },
+    {
+      "path": "大鱼人像美化-1.3.1.pkg/Payload.pkg Contents/Payload/Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit/Contents/Frameworks/PluginManager.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "b018110c18ea61de312c47ca584e020d6e307bfd",
+      "arch": "x86_64"
+    },
+    {
+      "path": "大鱼人像美化-1.3.1.pkg/Payload.pkg Contents/Payload/Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit/Contents/Frameworks/PluginManager.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "26bcc6c218f15e8d6c96eec52104de495b8de2ff",
+      "arch": "arm64"
+    },
+    {
+      "path": "大鱼人像美化-1.3.1.pkg/Payload.pkg Contents/Payload/Library/Plug-Ins/FxPlug/beatygril.app/Contents/MacOS/beatygril",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "70b387db43f4fd65efc5ebd5f1795f72561dc523",
+      "arch": "x86_64"
+    },
+    {
+      "path": "大鱼人像美化-1.3.1.pkg/Payload.pkg Contents/Payload/Library/Plug-Ins/FxPlug/beatygril.app/Contents/MacOS/beatygril",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "d3bf91f8c8589b1acc19779f5578cc4f4055d267",
+      "arch": "arm64"
+    },
+    {
+      "path": "大鱼人像美化-1.3.1.pkg/Payload.pkg Contents/Payload/Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit/Contents/MacOS/beatygril XPC Service",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "00d0b69489a21f9c4464b38d284a0b8be7fd73c3",
+      "arch": "x86_64"
+    },
+    {
+      "path": "大鱼人像美化-1.3.1.pkg/Payload.pkg Contents/Payload/Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit/Contents/MacOS/beatygril XPC Service",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "8411931c0e2f6fd7b21a168a268b641808cdb558",
+      "arch": "arm64"
+    },
+    {
+      "path": "大鱼人像美化-1.3.1.pkg/Payload.pkg Contents/Payload/Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit/Contents/Frameworks/PluginManager.framework/Versions/B/PluginManager",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "b018110c18ea61de312c47ca584e020d6e307bfd",
+      "arch": "x86_64"
+    },
+    {
+      "path": "大鱼人像美化-1.3.1.pkg/Payload.pkg Contents/Payload/Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit/Contents/Frameworks/PluginManager.framework/Versions/B/PluginManager",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "26bcc6c218f15e8d6c96eec52104de495b8de2ff",
+      "arch": "arm64"
+    },
+    {
+      "path": "大鱼人像美化-1.3.1.pkg/Payload.pkg Contents/Payload/Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit/Contents/Frameworks/FxPlug.framework/Versions/A/FxPlug",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "54cf6701245852c5c86f0c664fae4ce99f3e9346",
+      "arch": "x86_64"
+    },
+    {
+      "path": "大鱼人像美化-1.3.1.pkg/Payload.pkg Contents/Payload/Library/Plug-Ins/FxPlug/beatygril.app/Contents/PlugIns/beatygril XPC Service.pluginkit/Contents/Frameworks/FxPlug.framework/Versions/A/FxPlug",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "0eb927b742d37499cd49b950b2c88dca9af31987",
+      "arch": "arm64"
+    },
+    {
+      "path": "大鱼人像美化-1.3.1.pkg",
+      "digestAlgorithm": "SHA-1",
+      "cdhash": "99c6067f2b58a458edfc534895b160317ba13c65"
+    }
+  ],
+  "issues": null
+}

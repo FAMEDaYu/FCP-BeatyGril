@@ -1,0 +1,40 @@
+{
+  "status": "verified",
+  "date": "2026-10-22",
+  "installedProduct": {
+    "path": "/Library/Plug-Ins/FxPlug/beatygril.app",
+    "version": "1.3.1",
+    "build": "16"
+  },
+  "signatureAllArchitecturesVerified": true,
+  "duplicateInventory": {
+    "scope": "Listed local roots only; not a full scan of all mounted volumes.",
+    "roots": [
+      "/Applications",
+      "/Library/Plug-Ins/FxPlug",
+      "/Users/dayu/Library/Plug-Ins/FxPlug",
+      "/Users/dayu/Documents/PaintFCP",
+      "/Users/dayu/Desktop",
+      "/Users/dayu/Downloads",
+      "/Users/dayu/Library/Developer/Xcode/DerivedData",
+      "/tmp/paintfcp-build-20261021"
+    ],
+    "products": [
+      {
+        "path": "/Library/Plug-Ins/FxPlug/beatygril.app",
+        "version": "1.3.1",
+        "build": "16"
+      }
+    ],
+    "errors": []
+  },
+  "temporaryPathsRemoved": [
+    "/tmp/paintfcp-build-20261021",
+    "build/delivery/previous-beatygril.app",
+    "build/delivery/notarization.zip",
+    "build/release-input-1.3.1",
+    "build/pkg-expanded-1.3.1"
+  ],
+  "nativeEffectQA": "pending_user",
+  "hostExit": "Motion exited by user; FCP remained running and was quit normally via UI after the user confirmed exit. No project edits."
+}

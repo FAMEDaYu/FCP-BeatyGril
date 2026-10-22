@@ -1,0 +1,32 @@
+{
+  "status": "verified",
+  "sourceApp": "/Library/Plug-Ins/FxPlug/beatygril.app",
+  "sourceCommit": "7fa3298e022946e77dfd8cfba1bb5ff2c2a6361f",
+  "motionSource": "/Users/dayu/Movies/Motion Templates.localized/Effects.localized/大鱼磨皮瘦脸",
+  "motionFiles": {
+    "大鱼人像美化.moef": "e9fa97dc14323d0daa7d3d61b06a78ba4000a70ab9f5e67ebffd750d49df1e15",
+    "Drop Zone.tiff": "a7f8e3a2a431dbb3ce9e777040bb55e701cfe9ab9632e8cbb10359732bc8692e",
+    "large.png": "a02ddb255b1ae255c749bb837a759e2dee1c3b8ffb9bdc1167957761bd5a1b97",
+    "small.png": "1552b838dd88f60dee0795e20aaca652f9c558ecefc93500e895fbff77c2a4d5"
+  },
+  "lockedFiles": [
+    "大鱼人像美化/large.png",
+    "大鱼人像美化/small.png"
+  ],
+  "package": "releases/1.3.1/大鱼人像美化-1.3.1.pkg",
+  "bytes": 5011286,
+  "sha256": "a6bb7262c9066e7abca8d1f21eaeaf1ba6a1d0d51b4859d39307aa7d7b0bc927",
+  "notarization": {
+    "createdDate": "2026-10-22T08:54:34.655Z",
+    "message": "Successfully received submission info",
+    "id": "78105340-306f-4629-8670-772760d4cb9a",
+    "status": "Accepted",
+    "name": "大鱼人像美化-1.3.1.pkg"
+  },
+  "checks": {
+    "installerSignature": "Package \"大鱼人像美化-1.3.1.pkg\":\n   Status: signed by a developer certificate issued by Apple for distribution\n   Notarization: trusted by the Apple notary service\n   Signed with a trusted timestamp on: 2026-10-22 08:54:32 +0000\n   Certificate Chain:\n    1. Developer ID Installer: zhong luo (B3W25FX5H5)\n       Expires: 2027-02-01 22:12:15 +0000\n       SHA256 Fingerprint:\n           4D AC CD 04 A5 4C 7E F8 13 13 A2 ED D1 C2 C0 D0 29 EF FA BF 7B 53 \n           5A 43 C8 72 4D C4 0A A3 94 34\n       ------------------------------------------------------------------------\n    2. Developer ID Certification Authority\n       Expires: 2027-02-01 22:12:15 +0000\n       SHA256 Fingerprint:\n           7A FC 9D 01 A6 2F 03 A2 DE 96 37 93 6D 4A FE 68 09 0D 2D E1 8D 03 \n           F2 9C 88 CF B0 B1 BA 63 58 7F\n       ------------------------------------------------------------------------\n    3. Apple Root CA\n       Expires: 2035-02-09 21:40:36 +0000\n       SHA256 Fingerprint:\n           B0 B1 73 0E CB C7 FF 45 05 14 2C 49 F1 29 5E 6E DA 6B CA ED 7E 2C \n           68 C5 BE 91 B5 A1 10 01 F0 24\n\n",
+    "ticket": "Processing: /Users/dayu/Documents/PaintFCP/releases/1.3.1/大鱼人像美化-1.3.1.pkg\nThe validate action worked!\n",
+    "gatekeeper": "/Users/dayu/Documents/PaintFCP/releases/1.3.1/大鱼人像美化-1.3.1.pkg: accepted\nsource=Notarized Developer ID\norigin=Developer ID Installer: zhong luo (B3W25FX5H5)\n"
+  },
+  "realInstallerExecuted": false
+}

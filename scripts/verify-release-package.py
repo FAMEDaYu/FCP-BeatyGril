@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 """Verify an expanded release payload and run template-only update/rollback in isolation."""
 from pathlib import Path
-import hashlib,json,os,plistlib,shutil,subprocess,sys
+import argparse,hashlib,json,os,plistlib,shutil,subprocess,sys
 root=Path(__file__).resolve().parent.parent
-expanded=root/'build/pkg-expanded/Payload.pkg';payload=expanded/'Payload'
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--version',default='1.2.0')
+parser.add_argument('--build',default='14')
+parser.add_argument('--expanded',default='build/pkg-expanded')
+parser.add_argument('--fixture',default='build/pkg-isolation')
+args=parser.parse_args()
+expanded=root/args.expanded/'Payload.pkg';payload=expanded/'Payload'
 formal=Path('/Library/Plug-Ins/FxPlug/beatygril.app');packed=payload/'Library/Plug-Ins/FxPlug/beatygril.app'
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 def files(p):
@@ -23,7 +29,7 @@ assert len(locks)==2 and any('/large.png' in l for l in locks) and any('/small.p
 assert 'Template Backups' in post and 'restore_original_locks' in post
 # Keep the exact generated functions and template body. Only identity lookup,
 # chown and external FxPlug registration are replaced to confine execution.
-base=root/'build/pkg-isolation';base.mkdir(exist_ok=False)
+base=root/args.fixture;base.mkdir(exist_ok=False)
 volume=base/'volume';home=base/'user';home.mkdir()
 start=post.index('CURRENT_ACTIVE=0')
 isolated='#!/bin/zsh\nset -eu\nTARGET_VOLUME="'+str(volume)+'"\nCONSOLE_USER="'+os.getlogin()+'"\nCONSOLE_UID="'+str(os.getuid())+'"\nCONSOLE_GROUP="staff"\nUSER_HOME="'+str(home)+'"\n'+post[start:]
@@ -60,8 +66,10 @@ assert files(final)==original
 assert all((final/n).stat().st_flags & 2 for n in ['large.png','small.png'])
 backups=list((home/'Library/Application Support/PKGForge/Template Backups').rglob('.locked-paths'))
 assert backups and all('/Movies/' not in str(x) for x in backups)
-package=root/'releases/1.2.0/大鱼人像美化-1.2.0.pkg'
-report={'package':str(package.relative_to(root)),'bytes':package.stat().st_size,'sha256':sha(package),'version':'1.2.0','build':'14','app_files_compared':len(files(formal)),'app_byte_and_symlink_equality':True,'template_files':{n:sha(template/n) for n in runtime},'locked_relative_paths':['大鱼人像美化/large.png','大鱼人像美化/small.png'],'script_sha256':{'preinstall':sha(expanded/'Scripts/preinstall'),'postinstall':sha(expanded/'Scripts/postinstall')},'isolated_script_tests':['fresh install','replace old locked thumbnail','partial copy failure restores old bytes and locks'],'isolation_changes':['Console identity/home redirected to task fixture','chown replaced with true','FxPlug verification skipped; formal app signature and discovery verified separately'],'real_installer_execution':False,'app_and_template_installed':'APP installed through signed delivery workflow; user thumbnail directory updated separately, not by running this PKG','fonts':'No editable third-party font dependency; promotional lettering baked into PNG. No optional font ZIP needed.'}
-(root/'docs/verification/v1.2.0/pkg-verification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n');print(json.dumps(report,ensure_ascii=False,indent=2))
+package=root/('releases/'+args.version+'/大鱼人像美化-'+args.version+'.pkg')
+info=plistlib.loads((packed/'Contents/Info.plist').read_bytes())
+assert info['CFBundleShortVersionString']==args.version and info['CFBundleVersion']==args.build
+report={'package':str(package.relative_to(root)),'bytes':package.stat().st_size,'sha256':sha(package),'version':args.version,'build':args.build,'app_files_compared':len(files(formal)),'app_byte_and_symlink_equality':True,'template_files':{n:sha(template/n) for n in runtime},'locked_relative_paths':['大鱼人像美化/large.png','大鱼人像美化/small.png'],'script_sha256':{'preinstall':sha(expanded/'Scripts/preinstall'),'postinstall':sha(expanded/'Scripts/postinstall')},'isolated_script_tests':['fresh install','replace old locked thumbnail','partial copy failure restores old bytes and locks'],'isolation_changes':['Console identity/home redirected to task fixture','chown replaced with true','FxPlug verification skipped; formal app signature and discovery verified separately'],'real_installer_execution':False,'app_and_template_installed':'APP installed through signed delivery workflow; formal template files matched the specified installed category, not changed by running this PKG','fonts':'No editable third-party font dependency; promotional lettering baked into PNG. No optional font ZIP needed.'}
+(root/('docs/verification/v'+args.version+'/pkg-verification.json')).write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n');print(json.dumps(report,ensure_ascii=False,indent=2))
 # This fixture belongs solely to this verifier; remove its locks before cleanup.
 subprocess.run(['chflags','-R','nouchg',str(base)],check=True);shutil.rmtree(base)

@@ -1,0 +1,36 @@
+{
+  "package": "releases/1.3.1/大鱼人像美化-1.3.1.pkg",
+  "bytes": 5011286,
+  "sha256": "a6bb7262c9066e7abca8d1f21eaeaf1ba6a1d0d51b4859d39307aa7d7b0bc927",
+  "version": "1.3.1",
+  "build": "16",
+  "app_files_compared": 34,
+  "app_byte_and_symlink_equality": true,
+  "template_files": {
+    "大鱼人像美化.moef": "e9fa97dc14323d0daa7d3d61b06a78ba4000a70ab9f5e67ebffd750d49df1e15",
+    "Drop Zone.tiff": "a7f8e3a2a431dbb3ce9e777040bb55e701cfe9ab9632e8cbb10359732bc8692e",
+    "large.png": "a02ddb255b1ae255c749bb837a759e2dee1c3b8ffb9bdc1167957761bd5a1b97",
+    "small.png": "1552b838dd88f60dee0795e20aaca652f9c558ecefc93500e895fbff77c2a4d5"
+  },
+  "locked_relative_paths": [
+    "大鱼人像美化/large.png",
+    "大鱼人像美化/small.png"
+  ],
+  "script_sha256": {
+    "preinstall": "b0562f7705c84a2f34e31df67a4f0d429e60083bab122dad99f56a4b266c0174",
+    "postinstall": "f7a1cedbac82d8c7946adc4767d253268bf5e9bbf6aa5b492264f6965092fccb"
+  },
+  "isolated_script_tests": [
+    "fresh install",
+    "replace old locked thumbnail",
+    "partial copy failure restores old bytes and locks"
+  ],
+  "isolation_changes": [
+    "Console identity/home redirected to task fixture",
+    "chown replaced with true",
+    "FxPlug verification skipped; formal app signature and discovery verified separately"
+  ],
+  "real_installer_execution": false,
+  "app_and_template_installed": "APP installed through signed delivery workflow; formal template files matched the specified installed category, not changed by running this PKG",
+  "fonts": "No editable third-party font dependency; promotional lettering baked into PNG. No optional font ZIP needed."
+}
