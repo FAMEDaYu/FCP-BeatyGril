@@ -1,0 +1,71 @@
+MSE18V2 2.4.0 AIR excerpt; original complete-text line numbers.
+SHA256: 1d5bd8d5a3917afbb3b4fe1c40b44480760614102685ac826e84ad2e30a450f9
+
+3364: 158:                                              ; preds = %109, %85
+3365:   %159 = phi <2 x float> [ %155, %109 ], [ %86, %85 ]
+3366:   %160 = tail call fast float @air.fast_fabs.f32(float %5) #2
+3367:   %161 = fcmp fast ogt float %160, 0x3EB0C6F7A0000000
+3368:   br i1 %161, label %162, label %209
+3369:
+3370: 162:                                              ; preds = %158
+3371:   %163 = bitcast [4 x <2 x i32>]* %17 to i8*
+3372:   call void @llvm.lifetime.start.p0i8(i64 32, i8* nonnull %163) #10
+3373:   %164 = getelementptr inbounds [4 x <2 x i32>], [4 x <2 x i32>]* %17, i64 0, i64 0
+3374:   store <2 x i32> <i32 69, i32 39>, <2 x i32>* %164, align 8
+3375:   %165 = getelementptr inbounds [4 x <2 x i32>], [4 x <2 x i32>]* %17, i64 0, i64 1
+3376:   store <2 x i32> <i32 65, i32 35>, <2 x i32>* %165, align 8
+3377:   %166 = getelementptr inbounds [4 x <2 x i32>], [4 x <2 x i32>]* %17, i64 0, i64 2
+3378:   store <2 x i32> <i32 70, i32 26>, <2 x i32>* %166, align 8
+3379:   %167 = getelementptr inbounds [4 x <2 x i32>], [4 x <2 x i32>]* %17, i64 0, i64 3
+3380:   store <2 x i32> <i32 64, i32 34>, <2 x i32>* %167, align 8
+3381:   %168 = insertelement <2 x float> undef, float %5, i64 0
+3382:   %169 = shufflevector <2 x float> %168, <2 x float> undef, <2 x i32> zeroinitializer
+3383:   br label %171
+3384:
+3385: 170:                                              ; preds = %205
+3386:   call void @llvm.lifetime.end.p0i8(i64 32, i8* nonnull %163) #10
+3387:   br label %209
+3388:
+3389: 171:                                              ; preds = %205, %162
+3390:   %172 = phi <2 x float> [ %159, %162 ], [ %206, %205 ]
+3391:   %173 = phi i32 [ 0, %162 ], [ %207, %205 ]
+3392:   %174 = zext i32 %173 to i64
+3393:   %175 = getelementptr inbounds [4 x <2 x i32>], [4 x <2 x i32>]* %17, i64 0, i64 %174
+3394:   %176 = load <2 x i32>, <2 x i32>* %175, align 8
+3395:   %177 = extractelement <2 x i32> %176, i64 0
+3396:   %178 = add nsw i32 %177, %2
+3397:   %179 = sext i32 %178 to i64
+3398:   %180 = getelementptr inbounds %struct.MSSFaceThinPoint, %struct.MSSFaceThinPoint addrspace(2)* %1, i64 %179, i32 0
+3399:   %181 = load <2 x float>, <2 x float> addrspace(2)* %180, align 8, !tbaa !74
+3400:   %182 = extractelement <2 x i32> %176, i64 1
+3401:   %183 = add nsw i32 %182, %2
+3402:   %184 = sext i32 %183 to i64
+3403:   %185 = getelementptr inbounds %struct.MSSFaceThinPoint, %struct.MSSFaceThinPoint addrspace(2)* %1, i64 %184, i32 0
+3404:   %186 = load <2 x float>, <2 x float> addrspace(2)* %185, align 8, !tbaa !74
+3405:   %187 = fsub fast <2 x float> %181, %186
+3406:   %188 = tail call fast float @air.dot.v2f32(<2 x float> %187, <2 x float> %187) #2
+3407:   %189 = tail call fast float @air.fast_sqrt.f32(float %188) #2
+3408:   %190 = fcmp fast ugt float %189, 0x3F1A36E2E0000000
+3409:   br i1 %190, label %191, label %205
+3410:
+3411: 191:                                              ; preds = %171
+3412:   %192 = fsub fast <2 x float> %186, %181
+3413:   %193 = fsub fast <2 x float> %172, %181
+3414:   %194 = tail call fast float @air.dot.v2f32(<2 x float> %193, <2 x float> %193) #2
+3415:   %195 = tail call fast float @air.fast_sqrt.f32(float %194) #2
+3416:   %196 = fdiv fast float %195, %189
+3417:   %197 = fsub fast float 1.000000e+00, %196
+3418:   %198 = tail call fast float @air.fast_clamp.f32(float %197, float 0.000000e+00, float 1.000000e+00) #2
+3419:   %199 = insertelement <2 x float> undef, float %198, i64 0
+3420:   %200 = shufflevector <2 x float> %199, <2 x float> undef, <2 x i32> zeroinitializer
+3421:   %201 = fmul fast <2 x float> %192, %169
+3422:   %202 = fmul fast <2 x float> %201, %200
+3423:   %203 = fsub fast <2 x float> %172, %202
+3424:   %204 = tail call fast <2 x float> @air.fast_clamp.v2f32(<2 x float> %203, <2 x float> zeroinitializer, <2 x float> <float 1.000000e+00, float 1.000000e+00>) #2
+3425:   br label %205
+3426:
+3427: 205:                                              ; preds = %191, %171
+3428:   %206 = phi <2 x float> [ %204, %191 ], [ %172, %171 ]
+3429:   %207 = add nuw nsw i32 %173, 1
+3430:   %208 = icmp eq i32 %207, 4
+3431:   br i1 %208, label %170, label %171, !llvm.loop !89

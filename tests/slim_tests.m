@@ -28,6 +28,7 @@ static NSDictionary *Geometry(double yaw,double roll) {
     p[46]=@[@.5,@.68];p[47]=@[@.5,@.60];p[48]=@[@.5,@.52];p[49]=@[@.5,@.45];p[52]=@[@.5,@.42];
     p[29]=@[@.5,@.39];
     p[36]=@[@.54,@.36];p[37]=@[@.5,@.35];p[38]=@[@.46,@.36];
+    p[26]=@[@.42,@.40];p[34]=@[@.58,@.40];p[35]=@[@.57,@.36];p[39]=@[@.43,@.36];
     for(NSUInteger i=0;i<17;i++) {
         double t=M_PI+M_PI*i/16;
         p[59+i]=@[@(.5+.29*cos(t)),@(.65+.43*sin(t))];
@@ -79,7 +80,7 @@ static CGPoint ChinOracle(CGPoint pixel,NSDictionary *g,CGRect e,double thin,dou
     return CGPointMake(q.x,1-q.y);
 }
 
-// Independent double-precision reconstruction of AIR's jaw and short-face
+// Independent double-precision reconstruction of AIR's V, jaw and short-face
 // branches. This does not call or inspect the production kernel/parameter table.
 // Jaw's support uses the adjacent contour edge, not the much longer lip vector.
 // Short-face uses a filled lower-contour polygon and its distance envelope.
@@ -108,6 +109,15 @@ static double ReferencePolygonWeight(CGPoint q,CGPoint p[76]) {
 static CGPoint JawShortOracle(CGPoint pixel,NSDictionary *g,CGRect e,PGBeautySettings s) {
     CGPoint p[76];for(NSUInteger i=0;i<76;i++)p[i]=ReadPoint(g[@"points76"][i]);
     double gain=ReferenceSizeGain(p,e);CGPoint q=Oracle(pixel,g,e,s.faceThin);q.y=1-q.y;
+    // 2.4.0 consumes the CPU's .065 V ratio directly, without the old size gain.
+    const unsigned int vOrigins[]={69,65,70,64},vAnchors[]={39,35,26,34};
+    double vRatio=Clamp(s.faceV,0,1)*.065;
+    if(vRatio>1e-6)for(NSUInteger i=0;i<4;i++){
+        CGPoint a=ReferencePoint(p,vOrigins[i]),b=ReferencePoint(p,vAnchors[i]);
+        double radius=hypot(b.x-a.x,b.y-a.y);if(radius<=.0001)continue;
+        double influence=Clamp(1-hypot(q.x-a.x,q.y-a.y)/radius,0,1);
+        q.x=Clamp(q.x-(b.x-a.x)*vRatio*influence,0,1);q.y=Clamp(q.y-(b.y-a.y)*vRatio*influence,0,1);
+    }
     const unsigned int origin[]={72,62,71,63,70,64},neighbour[]={71,63,70,64,71,63};
     double jaw=Clamp(s.faceJaw,0,1)*.05*gain;
     if(fabs(jaw)>1e-6)for(NSUInteger i=0;i<6;i++){
@@ -251,6 +261,21 @@ static void JawShortAnatomicalChecks(CIContext *context,PGFaceProcessor *process
         }
     }
 }
+static void VFaceAnatomicalChecks(CIContext *context,PGFaceProcessor *processor,NSDictionary *geometry,CGRect extent) {
+    CIImage *ramp=CoordinateImage(extent);PGBeautySettings settings=PGBeautyDefaults();settings.faceV=1;
+    CIImage *output=[processor warpImage:ramp geometry:@[geometry] settings:settings extent:extent];
+    NSArray *points=geometry[@"points76"];double lowerMove=0;
+    for(NSNumber *index in @[@69,@65,@70,@64]) {
+        CGPoint motion=Displacement(context,ramp,output,ReadPoint(points[index.unsignedIntegerValue]));
+        lowerMove=fmax(lowerMove,hypot(motion.x,motion.y));
+    }
+    Check(lowerMove>.1,@"V-face moves the actual lower-jaw contour");
+    for(NSNumber *index in @[@6,@13]) {
+        CGPoint motion=Displacement(context,ramp,output,ReadPoint(points[index.unsignedIntegerValue]));
+        if(hypot(motion.x,motion.y)>=.002)fprintf(stderr,"V-face pupil %u moved %.6f pixels\n",index.unsignedIntValue,hypot(motion.x,motion.y));
+        Check(hypot(motion.x,motion.y)<.002,@"isolated V-face leaves the physical pupils unchanged");
+    }
+}
 static void JawShortSupportChecks(CIContext *context,PGFaceProcessor *processor) {
     NSDictionary *g=Geometry(0,0);CGPoint points[76];for(NSUInteger i=0;i<76;i++)points[i]=ReadPoint(g[@"points76"][i]);
     CGPoint probe=CGPointMake((points[72].x+points[29].x)/2,(points[72].y+points[29].y)/2);
@@ -267,16 +292,18 @@ static void JawShortSupportChecks(CIContext *context,PGFaceProcessor *processor)
     Check(ReferenceSizeGain(points,e)==2.25,@"small-face numerical case reaches the recovered gain cap");
     NumericLocalCase(context,processor,e,small,settings,@"small face jaw max gain");settings.faceJaw=0;settings.faceShort=1;
     NumericLocalCase(context,processor,e,small,settings,@"small face short max gain");
+    settings.faceShort=0;settings.faceV=1;
+    NumericLocalCase(context,processor,e,small,settings,@"small face V excludes legacy size gain");
     for(NSUInteger i=0;i<76;i++)points[i]=ReadPoint(g[@"points76"][i]);Check(ReferenceSizeGain(points,CGRectMake(0,0,1600,1600))==1,@"large-face numerical case reaches gain floor");
     // Four full process masks must use exactly the same new warp as the image.
     [processor setTrackingData:Archive(g) forTarget:0];settings=PGBeautyDefaults();settings.trackingEnabled=1;
     PGFaceFrame *neutral=[processor processImage:ramp settings:settings time:kCMTimeZero error:nil];
-    for(NSUInteger mode=0;mode<3;mode++){
-        PGBeautySettings shape=settings;shape.faceJaw=mode!=1?1:0;shape.faceShort=mode!=0?-.65:0;
+    for(NSUInteger mode=0;mode<4;mode++){
+        PGBeautySettings shape=settings;shape.faceJaw=(mode==0||mode==2)?1:0;shape.faceShort=(mode==1||mode==2)?-.65:0;shape.faceV=mode==3?1:0;
         PGFaceFrame *frame=[processor processImage:ramp settings:shape time:kCMTimeZero error:nil];
-        Check([Pixels(context,frame.image)isEqualToData:Pixels(context,[processor warpImage:ramp geometry:@[g] settings:shape extent:e])],@"process image uses the new common jaw/short field");
+        Check([Pixels(context,frame.image)isEqualToData:Pixels(context,[processor warpImage:ramp geometry:@[g] settings:shape extent:e])],@"process image uses the common V/jaw/short field");
         NSArray *before=@[neutral.skinMask,neutral.colorMask,neutral.teethMask,neutral.eyeMask],*after=@[frame.skinMask,frame.colorMask,frame.teethMask,frame.eyeMask];
-        for(NSUInteger i=0;i<4;i++)Check([Pixels(context,after[i])isEqualToData:Pixels(context,[processor warpImage:before[i] geometry:@[g] settings:shape extent:e])],@"every image support mask shares the jaw/short coordinate field");
+        for(NSUInteger i=0;i<4;i++)Check([Pixels(context,after[i])isEqualToData:Pixels(context,[processor warpImage:before[i] geometry:@[g] settings:shape extent:e])],@"every image support mask shares the V/jaw/short coordinate field");
     }
 }
 static void IndependentImageLandmarkCheck(NSString *path,NSDictionary *geometry) {
@@ -318,16 +345,21 @@ int main(int argc,const char *argv[]) {@autoreleasepool {
     NumericSettingsCase(c,p,extents[2],Geometry(-.6,-.2),1,-1,@"thin plus negative chin");
     NumericSettingsCase(c,p,extents[0],Geometry(0,0),0,.5,@"half positive chin");
     NumericSettingsCase(c,p,extents[0],Geometry(0,0),0,-.5,@"half negative chin");
-    for(NSUInteger e=0;e<4;e++)for(NSUInteger y=0;y<3;y++)for(NSUInteger r=0;r<3;r++)for(NSUInteger mode=0;mode<3;mode++){
-        PGBeautySettings local=PGBeautyDefaults();if(mode==0)local.faceJaw=1;else local.faceShort=mode==1?1:-1;
+    for(NSUInteger e=0;e<4;e++)for(NSUInteger y=0;y<3;y++)for(NSUInteger r=0;r<3;r++)for(NSUInteger mode=0;mode<4;mode++){
+        PGBeautySettings local=PGBeautyDefaults();if(mode==0)local.faceJaw=1;else if(mode==3)local.faceV=1;else local.faceShort=mode==1?1:-1;
         double angle=y==0?0:(y==1?1.4:-1.4);
         NumericLocalCase(c,p,extents[e],Geometry(angle,roll[r]),local,
             [NSString stringWithFormat:@"local size%lu yaw%lu roll%lu mode%lu",(unsigned long)e,(unsigned long)y,(unsigned long)r,(unsigned long)mode]);
+        if(mode==3)VFaceAnatomicalChecks(c,p,Geometry(angle,roll[r]),extents[e]);
     }
     PGBeautySettings combined=PGBeautyDefaults();combined.faceThin=.7;combined.faceJaw=.8;combined.faceChin=-.6;combined.faceShort=.75;
     NumericLocalCase(c,p,extents[2],Geometry(.8,.45),combined,@"ordered thin jaw chin short positive");
     combined.faceShort=-.75;combined.faceChin=.7;
     NumericLocalCase(c,p,extents[1],Geometry(-.8,-.45),combined,@"ordered thin jaw chin short negative");
+    combined.faceV=.85;
+    NumericLocalCase(c,p,extents[3],Geometry(.6,.2),combined,@"thin V jaw chin short combined sequential order");
+    PGBeautySettings vHalf=PGBeautyDefaults();vHalf.faceV=.5;
+    NumericLocalCase(c,p,extents[2],Geometry(-.6,-.4),vHalf,@"half V strength tilted portrait");
     combined=PGBeautyDefaults();combined.faceJaw=.5;combined.faceShort=-.5;
     NumericLocalCase(c,p,extents[1],Geometry(0,0),combined,@"half signed short plus jaw");
     JawShortSupportChecks(c,p);
@@ -361,6 +393,8 @@ int main(int argc,const char *argv[]) {@autoreleasepool {
         Check([Pixels(c,[p processImage:image settings:shortOnly time:kCMTimeZero error:&error].image) isEqualToData:source],@"legacy/malformed indexed points skip recovered short-face field exactly");
         PGBeautySettings jawOnly=s;jawOnly.faceThin=0;jawOnly.faceJaw=1;
         Check([Pixels(c,[p processImage:image settings:jawOnly time:kCMTimeZero error:&error].image) isEqualToData:source],@"legacy/malformed indexed points skip recovered jaw field exactly");
+        PGBeautySettings vOnly=s;vOnly.faceThin=0;vOnly.faceV=1;
+        Check([Pixels(c,[p processImage:image settings:vOnly time:kCMTimeZero error:&error].image) isEqualToData:source],@"legacy/malformed indexed points skip recovered V-face without a guessed face-box band");
         PGBeautySettings other=s;other.faceNarrow=.5;
         Check(![Pixels(c,[p processImage:image settings:other time:kCMTimeZero error:&error].image) isEqualToData:source],@"other controls remain available in legacy archives");
     }
@@ -385,6 +419,7 @@ int main(int argc,const char *argv[]) {@autoreleasepool {
         Check([Pixels(c,[copy processImage:portrait settings:rs time:kCMTimeZero error:&error].image) isEqualToData:Pixels(c,f.image)],@"real pose replays from persisted 76 points with identical pixels");
         AnatomicalChecks(c,real,f.deformationGeometry.firstObject,portrait.extent);
         JawShortAnatomicalChecks(c,real,f.deformationGeometry.firstObject,portrait.extent);
+        VFaceAnatomicalChecks(c,real,f.deformationGeometry.firstObject,portrait.extent);
         IndependentImageLandmarkCheck(@(argv[index]),f.deformationGeometry.firstObject);
     }}
     printf("PASS: %lu slim alignment checks; maximum UV oracle error %.9g\n",(unsigned long)checks,maxOracleError);return 0;

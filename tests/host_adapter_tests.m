@@ -337,15 +337,16 @@ static void PortraitAnatomyTests(NSString *fixture, CIImage *portrait) {
     }
     lowerFace = CGRectInset(lowerFace, -fw*.15, -fh*.15);
     CGRect upsideDownFace = CGRectMake(box.origin.x*width, box.origin.y*height, fw, fh);
-    const UInt32 controls[] = {0, PGBigEye, PGChin, PGChin, PGShort, PGShort, PGJaw};
-    const double values[] = {0, 1, 1, -1, 1, -1, 1};
-    NSArray<NSString *> *names = @[@"default", @"big-eye", @"chin-positive", @"chin-negative", @"short-positive", @"short-negative", @"jaw"];
+    const UInt32 controls[] = {0, PGBigEye, PGChin, PGChin, PGShort, PGShort, PGJaw, PGVFace};
+    const double values[] = {0, 1, 1, -1, 1, -1, 1, 1};
+    NSArray<NSString *> *names = @[@"default", @"big-eye", @"chin-positive", @"chin-negative", @"short-positive", @"short-negative", @"jaw", @"v-face"];
     for (NSUInteger effect = 0; effect < names.count; effect++) {
         PGBeautySettings settings = PGBeautyDefaults();
         if (effect == 1) settings.faceBigEye = 1;
         else if (effect == 2 || effect == 3) settings.faceChin = values[effect];
         else if (effect == 4 || effect == 5) settings.faceShort = values[effect];
         else if (effect == 6) settings.faceJaw = values[effect];
+        else if (effect == 7) settings.faceV = values[effect];
         NSData *expected = ImageBytes(context, ProcessedReference(portrait, settings, kCMTimeZero, nil));
         Check(expected.length == canonical.length, [names[effect] stringByAppendingString:@" independent upright face/beauty chain renders"]);
         if (expected.length != canonical.length) continue;

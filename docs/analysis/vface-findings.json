@@ -1,0 +1,258 @@
+{
+  "authority": "Static shipped Apple AIR and Mach-O byte/assembly inspection; target app and shaders not executed",
+  "sources": {
+    "metallib": "/Users/dayu/Downloads/MSE18V2.app/Contents/PlugIns/MSE18V2.pluginkit/Contents/Resources/default.metallib",
+    "metallib_sha256": "856849c45cea2c8f083eeba06a9e318c450f4a56694b438d1a5ba8ef752a0ee0",
+    "command": [
+      "xcrun",
+      "metal-objdump",
+      "--metallib",
+      "--disassemble",
+      "/Users/dayu/Downloads/MSE18V2.app/Contents/PlugIns/MSE18V2.pluginkit/Contents/Resources/default.metallib"
+    ],
+    "air_sha256": "1d5bd8d5a3917afbb3b4fe1c40b44480760614102685ac826e84ad2e30a450f9",
+    "binary": "/Users/dayu/Downloads/MSE18V2.app/Contents/PlugIns/MSE18V2.pluginkit/Contents/MacOS/MSE18V2",
+    "binary_arm64_sha256": "afc71d0d21fd3c1ca95ca745ddafcd729e36ad95f17d8638009f2e45d9b7e8df",
+    "double065_file_offsets_in_arm64_slice": [
+      548512
+    ]
+  },
+  "new_version_vface": {
+    "struct_field": "MSSFaceShapeParams.vlian offset8; helper parameter5",
+    "render_params_field": "faceV double offset0x90",
+    "cpu_function": "0x10002fb74",
+    "cpu_coefficient_address": "0x100085ea0",
+    "cpu_coefficient": 0.065,
+    "cpu_ratio": "float(clamp(faceV,0,1)*0.065*double(float(clamp(commonStrength,0,1))))",
+    "pin_order": [
+      [
+        69,
+        39
+      ],
+      [
+        65,
+        35
+      ],
+      [
+        70,
+        26
+      ],
+      [
+        64,
+        34
+      ]
+    ],
+    "pin_fields": [
+      "origin",
+      "direction/radius anchor"
+    ],
+    "coordinate_system": "full-image normalized UV; q and points must share the same vertical axis",
+    "radius": "length(Panchor-Porigin), unscaled UV metric; skip radius<=0.0001",
+    "weight": "clamp(1-length(q-Porigin)/radius,0,1)",
+    "step": "q=clamp(q-(Panchor-Porigin)*ratio*weight,0,1)",
+    "sequential": true,
+    "ratio_threshold": 1e-06,
+    "shader_lines": {
+      "helper": 3159,
+      "vface_gate": 3364,
+      "pins": [
+        3374,
+        3376,
+        3378,
+        3380
+      ],
+      "loop": 3389,
+      "radius": 3405,
+      "offset": 3412,
+      "clamp": 3424,
+      "count": 3430,
+      "metadata": 4132
+    },
+    "order": "thin17 -> narrow16 -> V4 -> jaw6 -> cheek6 -> chin3 -> short -> smallHead -> bigEye",
+    "helper_copies": [
+      {
+        "start_line": 3159,
+        "v_pins": [
+          [
+            69,
+            39
+          ],
+          [
+            65,
+            35
+          ],
+          [
+            70,
+            26
+          ],
+          [
+            64,
+            34
+          ]
+        ],
+        "has_old_pixel_gain_constant": false
+      },
+      {
+        "start_line": 6840,
+        "v_pins": [
+          [
+            69,
+            39
+          ],
+          [
+            65,
+            35
+          ],
+          [
+            70,
+            26
+          ],
+          [
+            64,
+            34
+          ]
+        ],
+        "has_old_pixel_gain_constant": false
+      },
+      {
+        "start_line": 8682,
+        "v_pins": [
+          [
+            69,
+            39
+          ],
+          [
+            65,
+            35
+          ],
+          [
+            70,
+            26
+          ],
+          [
+            64,
+            34
+          ]
+        ],
+        "has_old_pixel_gain_constant": false
+      }
+    ]
+  },
+  "version_difference": {
+    "old_air": "build/pose-analysis/face-thin.air.txt",
+    "old_gain_lines": [
+      592,
+      633
+    ],
+    "old_vface_lines": [
+      830,
+      897
+    ],
+    "old_cpu_coefficient_address": "0x10005f9a0",
+    "coefficient_unchanged": true,
+    "old_extra_gain": "clamp(280/max(length((P75-P59)*pixelSize),2*length((P67-(P74+P60)/2)*pixelSize),1),1,2.25)",
+    "new_extra_gain": "Absent from all3 new shader helper copies and the complete new AIR text; CPU helper is plain clamped-control*.065*commonStrength",
+    "anatomy": "Origin indices64,65,69,70 are lower contour; anchor indices26,34,35,39 are outer lips; eyes0..13 are not controls."
+  },
+  "eye_support_probe": {
+    "authority": "Derived from existing local public-API Vision probe; no new image coordinates or original plug-in execution",
+    "settings": {
+      "vface": 1,
+      "common_strength": 1,
+      "coefficient": 0.065,
+      "pins": [
+        [
+          69,
+          39
+        ],
+        [
+          65,
+          35
+        ],
+        [
+          70,
+          26
+        ],
+        [
+          64,
+          34
+        ]
+      ]
+    },
+    "samples": [
+      {
+        "seconds": 0,
+        "minimum_eye_distance_over_pin_radius": 2.86112178668839,
+        "max_eye_weight": 0,
+        "max_sequential_eye_displacement_pixels": 0
+      },
+      {
+        "seconds": 2,
+        "minimum_eye_distance_over_pin_radius": 2.7386373955689196,
+        "max_eye_weight": 0,
+        "max_sequential_eye_displacement_pixels": 0
+      },
+      {
+        "seconds": 4,
+        "minimum_eye_distance_over_pin_radius": 2.0723834235969316,
+        "max_eye_weight": 0,
+        "max_sequential_eye_displacement_pixels": 0
+      },
+      {
+        "seconds": 6,
+        "minimum_eye_distance_over_pin_radius": 2.7994186406360964,
+        "max_eye_weight": 0,
+        "max_sequential_eye_displacement_pixels": 0
+      },
+      {
+        "seconds": 8,
+        "minimum_eye_distance_over_pin_radius": 2.720538093620307,
+        "max_eye_weight": 0,
+        "max_sequential_eye_displacement_pixels": 0
+      },
+      {
+        "seconds": 10,
+        "minimum_eye_distance_over_pin_radius": 2.7459899006401245,
+        "max_eye_weight": 0,
+        "max_sequential_eye_displacement_pixels": 0
+      },
+      {
+        "seconds": 12,
+        "minimum_eye_distance_over_pin_radius": 2.8522571566241655,
+        "max_eye_weight": 0,
+        "max_sequential_eye_displacement_pixels": 0
+      },
+      {
+        "seconds": 14,
+        "minimum_eye_distance_over_pin_radius": 2.7849986024852744,
+        "max_eye_weight": 0,
+        "max_sequential_eye_displacement_pixels": 0
+      },
+      {
+        "seconds": 16,
+        "minimum_eye_distance_over_pin_radius": 2.86097776991491,
+        "max_eye_weight": 0,
+        "max_sequential_eye_displacement_pixels": 0
+      },
+      {
+        "seconds": 18,
+        "minimum_eye_distance_over_pin_radius": 2.4994391012873294,
+        "max_eye_weight": 0,
+        "max_sequential_eye_displacement_pixels": 0
+      },
+      {
+        "seconds": 20,
+        "minimum_eye_distance_over_pin_radius": 2.3076941598447127,
+        "max_eye_weight": 0,
+        "max_sequential_eye_displacement_pixels": 0
+      }
+    ]
+  },
+  "limits": [
+    "No reference shader runtime or pixel comparison performed.",
+    "The commonStrength caller-source semantics are not fully traced; formula reports the helper input.",
+    "CPU prechecks/license/module gates are observed but are outside the independently authored geometry reconstruction.",
+    "Eye support results apply to the11 existing saved Vision samples, not every possible pose.",
+    "No product sources, app build, host session or Git were changed."
+  ]
+}

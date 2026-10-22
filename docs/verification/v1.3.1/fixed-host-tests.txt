@@ -1,0 +1,37 @@
+2026-10-22 16:21:55.726 host-tests[22385:8017721] FBBA: creating VNFaceBBoxAligner from VNFaceDetectorRevision2: VNFaceDetectorRevision2
+Default IOSurface maximum byte difference: 0
+Alternate destination tag maximum byte difference: 0
+Anatomy default       0/0 max=0 mean=0.0000000 eye=0/0 chin=0 inverted=0
+Anatomy default       0/1 max=0 mean=0.0000000 eye=0/0 chin=0 inverted=0
+Anatomy default       1/0 max=0 mean=0.0000000 eye=0/0 chin=0 inverted=0
+Anatomy default       1/1 max=0 mean=0.0000000 eye=0/0 chin=0 inverted=0
+Anatomy big-eye       0/0 max=2 mean=0.0008917 eye=33510/33880 chin=0 inverted=0
+Anatomy big-eye       0/1 max=2 mean=0.0008917 eye=33510/33880 chin=0 inverted=0
+Anatomy big-eye       1/0 max=2 mean=0.0008917 eye=33510/33880 chin=0 inverted=0
+Anatomy big-eye       1/1 max=2 mean=0.0008917 eye=33510/33880 chin=0 inverted=0
+Anatomy chin-positive 0/0 max=1 mean=0.0001459 eye=0/0 chin=116812 inverted=0
+Anatomy chin-positive 0/1 max=1 mean=0.0001459 eye=0/0 chin=116812 inverted=0
+Anatomy chin-positive 1/0 max=1 mean=0.0001459 eye=0/0 chin=116812 inverted=0
+Anatomy chin-positive 1/1 max=1 mean=0.0001459 eye=0/0 chin=116812 inverted=0
+Anatomy chin-negative 0/0 max=1 mean=0.0000849 eye=0/0 chin=60426 inverted=0
+Anatomy chin-negative 0/1 max=1 mean=0.0000849 eye=0/0 chin=60426 inverted=0
+Anatomy chin-negative 1/0 max=1 mean=0.0000849 eye=0/0 chin=60426 inverted=0
+Anatomy chin-negative 1/1 max=1 mean=0.0000849 eye=0/0 chin=60426 inverted=0
+Anatomy short-positive 0/0 max=2 mean=0.0011072 eye=0/0 chin=285953 inverted=0
+Anatomy short-positive 0/1 max=2 mean=0.0011072 eye=0/0 chin=285953 inverted=0
+Anatomy short-positive 1/0 max=2 mean=0.0011072 eye=0/0 chin=285953 inverted=0
+Anatomy short-positive 1/1 max=2 mean=0.0011072 eye=0/0 chin=285953 inverted=0
+Anatomy short-negative 0/0 max=2 mean=0.0008583 eye=0/0 chin=225648 inverted=0
+Anatomy short-negative 0/1 max=2 mean=0.0008583 eye=0/0 chin=225648 inverted=0
+Anatomy short-negative 1/0 max=2 mean=0.0008583 eye=0/0 chin=225648 inverted=0
+Anatomy short-negative 1/1 max=2 mean=0.0008583 eye=0/0 chin=225648 inverted=0
+Anatomy jaw           0/0 max=1 mean=0.0001974 eye=0/0 chin=12951 inverted=0
+Anatomy jaw           0/1 max=1 mean=0.0001974 eye=0/0 chin=12951 inverted=0
+Anatomy jaw           1/0 max=1 mean=0.0001974 eye=0/0 chin=12951 inverted=0
+Anatomy jaw           1/1 max=1 mean=0.0001974 eye=0/0 chin=12951 inverted=0
+Anatomy v-face        0/0 max=1 mean=0.0001240 eye=0/0 chin=39246 inverted=0
+Anatomy v-face        0/1 max=1 mean=0.0001240 eye=0/0 chin=39246 inverted=0
+Anatomy v-face        1/0 max=1 mean=0.0001240 eye=0/0 chin=39246 inverted=0
+Anatomy v-face        1/1 max=1 mean=0.0001240 eye=0/0 chin=39246 inverted=0
+Legacy fallback upright comparison: max=2 mean=0.0010357
+Host adapter: 370 checks, 0 failures
