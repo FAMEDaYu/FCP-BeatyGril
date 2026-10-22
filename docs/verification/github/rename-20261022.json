@@ -1,0 +1,58 @@
+{
+  "repositoryId": 1428817365,
+  "oldName": "FAMEDaYu/FCP-BeatyGril",
+  "newName": "FAMEDaYu/FCP-BeautyGirl",
+  "url": "https://github.com/FAMEDaYu/FCP-BeautyGirl",
+  "baselineCommit": "cd2e608ec6bb92bb6bb0923e4fb4b7728404c67a",
+  "allBranchAndTagRefsUnchanged": true,
+  "releaseAndAssetIdsUnchanged": true,
+  "githubRemote": "https://github.com/FAMEDaYu/FCP-BeautyGirl.git",
+  "sourceProductUnchanged": true,
+  "date": "2026-10-22",
+  "links": {
+    "redirects": [
+      {
+        "old": "https://github.com/FAMEDaYu/FCP-BeatyGril",
+        "new": "https://github.com/FAMEDaYu/FCP-BeautyGirl",
+        "redirectCode": 301,
+        "newURLStatus": 200
+      },
+      {
+        "old": "https://github.com/FAMEDaYu/FCP-BeatyGril/releases/tag/v1.3.1",
+        "new": "https://github.com/FAMEDaYu/FCP-BeautyGirl/releases/tag/v1.3.1",
+        "redirectCode": 301,
+        "newURLStatus": 200
+      }
+    ],
+    "articleCanonicalLinksVerified": true
+  },
+  "globalRepositoryIndex": {
+    "remote": "https://dayu.media/git/dayu/codex-global-rules.git",
+    "baseline": "8d3558429efd22af8bad49c03060da326cb231d3",
+    "commit": "750b430b75e4ccdf5badae8ee3f88a07144b3a9e",
+    "trackedFilesCompared": 11,
+    "independentCloneAndFsck": true,
+    "changedFile": "REPOSITORIES.md"
+  },
+  "githubReleaseNotes": [
+    {
+      "id": 420500792,
+      "tag": "v1.3.1",
+      "assetsUnchanged": true
+    }
+  ],
+  "dayuReleaseNotes": [
+    {
+      "id": 136,
+      "tag": "v1.3.1",
+      "assetsUnchanged": true
+    }
+  ],
+  "article": {
+    "id": 15593,
+    "url": "https://dayu.media/15593/",
+    "change": "GitHub repository name/URL only",
+    "downloadCoverSeoAndAccessPreserved": true
+  },
+  "immutableArtifacts": "Existing version tags, notarized APP/PKG and published source ZIP bytes retained; no rebuild or installer upload."
+}

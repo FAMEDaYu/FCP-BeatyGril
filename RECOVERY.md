@@ -1,7 +1,7 @@
 # 恢复说明
 
 - 大鱼备份远程（origin）：`https://dayu.media/git/dayu/paintfcp-fxplug.git`
-- GitHub 公开远程（github）：`https://github.com/FAMEDaYu/FCP-BeatyGril.git`
+- GitHub 公开远程（github）：`https://github.com/FAMEDaYu/FCP-BeautyGirl.git`
 - 本地项目根：`/Users/dayu/Documents/PaintFCP`
 - 工作分支：`main`
 - 修改前版本标签：`baseline-20261021`，完整 SHA：`1746f38398588e2367abb37a5c2b31cb64042429`
@@ -104,7 +104,7 @@ Motion/FCP原生验收范围及未完成项见`docs/verification/v1.1.2/native-q
 
 ## GitHub 公开恢复副本
 
-GitHub 远端 `https://github.com/FAMEDaYu/FCP-BeatyGril.git` 已完成完整历史与七个标签的推送，`origin` 及其 main 上游保持大鱼仓库。独立匿名克隆恢复节点为 `356683b41af702d6c0143ad7fa5f540d752d6e14`，197 文件逐字节核验、strict/full fsck 和全部标签回读通过。后续 main 补充发布说明与验证文档，产品源码保持相同。GitHub Release 的公证安装包已匿名下载核对哈希、签名和票据。详见 `docs/GitHub同步说明.md` 和 `docs/verification/github/`。
+GitHub 远端 `https://github.com/FAMEDaYu/FCP-BeautyGirl.git` 已完成完整历史与七个标签的推送，`origin` 及其 main 上游保持大鱼仓库。独立匿名克隆恢复节点为 `356683b41af702d6c0143ad7fa5f540d752d6e14`，197 文件逐字节核验、strict/full fsck 和全部标签回读通过。后续 main 补充发布说明与验证文档，产品源码保持相同。GitHub Release 的公证安装包已匿名下载核对哈希、签名和票据。详见 `docs/GitHub同步说明.md` 和 `docs/verification/github/`。
 
 
 ## 1.3.0 新面板参数恢复

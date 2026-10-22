@@ -3,7 +3,7 @@
 修复V脸作用区域，改为四组实际下颌轮廓到外唇的局部采样；同时包含1.3.0的微细锐化、连续五官保护与非肤色区保护。1901项自动回归通过，另有1561项重叠真实帧几何ASan检查；新效果在原生宿主中的最终视觉仍待用户结合素材实测。
 
 - 文章：https://dayu.media/15593/
-- GitHub：https://github.com/FAMEDaYu/FCP-BeatyGril
+- GitHub：https://github.com/FAMEDaYu/FCP-BeautyGirl
 - 大鱼备份：https://dayu.media/git/dayu/paintfcp-fxplug
 - 发布标签：v1.3.1
 - 正式APP源码：7fa3298e022946e77dfd8cfba1bb5ff2c2a6361f
