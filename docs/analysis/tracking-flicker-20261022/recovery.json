@@ -1,0 +1,14 @@
+{
+  "status": "verified",
+  "repository": "https://github.com/dayumeida/FCP-BeautyGirl.git",
+  "anonymousClone": true,
+  "commit": "a0c5357efd87a63dbee6269d9335e6aa3ba78799",
+  "trackedFilesByteBlobAndModeCompared": 284,
+  "strictFullFsck": true,
+  "syntheticDiagnosticRebuiltAndReproduced": true,
+  "productSourceUnchangedFromRelease": "v1.3.2",
+  "lfs": false,
+  "submodules": false,
+  "temporaryCloneRemoved": true,
+  "mediaBoundary": "User source clip not included; clip scalar summary and static/synthetic evidence retained"
+}
