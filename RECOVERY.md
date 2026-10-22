@@ -1,5 +1,8 @@
 # 恢复说明
 
+当前产品身份自1.3.2（17）统一为FCP-BeautyGirl：工程 `FCP-BeautyGirl/FCP-BeautyGirl.xcodeproj`、scheme `FCP-BeautyGirl`、APP `/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app`、主ID `com.dayu.fcpbeautygirl`、插件ID `com.dayu.fcpbeautygirl.fxplug`。签名源码 `767bba8ac11e9bf9268a1e02d1a06d3c120c46aa`，APP公证Accepted `559eedf0-048f-4d0e-b013-6a187695f2da`，已安装并迁移清理旧APP；程序与滤镜参数、UUID保持兼容。中央身份定义见product.json，旧名称只用于经过ID、签名团队和滤镜UUID验证的迁移。下文历史版本保留各自当时的名称与路径。
+
+
 - 大鱼备份远程（origin）：`https://dayu.media/git/dayu/paintfcp-fxplug.git`
 - GitHub 公开远程（github）：`https://github.com/dayumeida/FCP-BeautyGirl.git`
 - 本地项目根：`/Users/dayu/Documents/PaintFCP`
@@ -130,3 +133,10 @@ GitHub于2026-10-22更正仓库名为 `FCP-BeautyGirl`，远端为 `https://gith
 
 
 GitHub用户名现为 `dayumeida`，账号ID117798680保持一致。当前公开远端 `https://github.com/dayumeida/FCP-BeautyGirl.git` 的恢复检查点 `2faf7de77929cf7707645ebb38095b03d5729647` 已通过匿名独立克隆、241文件字节/执行位和strict/full fsck核验，产品源码与账号更名前一致。两个仓库的全部分支/标签及Release附件均保留；当前文章、本地github远端和仓库目录表已同步。回执见 `docs/verification/github/username-recovery-20261022.json`。
+
+
+## 1.3.2 统一产品身份
+
+发行入口为 `v1.3.2`；正式 APP 源码为 `767bba8ac11e9bf9268a1e02d1a06d3c120c46aa`。新机器按 `product.json` 的工程、scheme 与路径恢复，运行 `python3 scripts/deliver.py --wait-for-hosts --user-tests`；旧产品先验证 Bundle ID、签名团队和滤镜 UUID，再迁移并支持失败回滚。最终包为 `releases/1.3.2/FCP-BeautyGirl-1.3.2.pkg`，SHA-256 `20a88dacf68cc8812f5af86cfe94c1c0614414a68a019eaeac7ca9d078165ae1`，签名、公证 Accepted `4a831775-2317-4372-a4cc-102415657ea3`、票据和 Gatekeeper 均通过。正式 APP 已安装并清理旧身份。1901 项自动回归、8 项 APP 迁移、8 项最终 PKG 身份脚本迁移与模板隔离测试通过；未运行真实 installer，原生旧工程重开仍待用户检查。
+
+源码包须从发行标签导出，排除 PKG 二进制并加入 SOURCE-SNAPSHOT.json。发布与独立克隆恢复回执位于 `docs/verification/v1.3.2/`，不包含用户人脸素材、签名私钥或公证凭据。历史标签和旧版本安装包保留，不覆盖。

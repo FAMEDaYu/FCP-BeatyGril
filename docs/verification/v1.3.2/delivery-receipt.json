@@ -1,0 +1,50 @@
+{
+  "status": "installed_user_qa_pending",
+  "bundleIdentifier": "com.dayu.fcpbeautygirl",
+  "installationPath": "/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app",
+  "options": {
+    "waitForHosts": true,
+    "userTests": true
+  },
+  "nativeEffectQA": {
+    "status": "pending_user",
+    "performedByScript": false
+  },
+  "source": {
+    "commit": "767bba8ac11e9bf9268a1e02d1a06d3c120c46aa",
+    "trackedWorktreeChanges": []
+  },
+  "updatedAt": "2026-10-22T10:38:29.383549+00:00",
+  "version": "1.3.2",
+  "build": "17",
+  "stagingSignature": "Executable=/private/tmp/fcp-beautygirl-release/Build/Products/Release/FCP-BeautyGirl.app/Contents/MacOS/FCP-BeautyGirl\nIdentifier=com.dayu.fcpbeautygirl\nFormat=app bundle with Mach-O universal (x86_64 arm64)\nCodeDirectory v=20500 size=482 flags=0x10000(runtime) hashes=4+7 location=embedded\nHash type=sha256 size=32\nCandidateCDHash sha256=28f0e84981124d854690d9be80e8ecb7a855ed02\nCandidateCDHashFull sha256=28f0e84981124d854690d9be80e8ecb7a855ed02e3de84009119fc616e22aecd\nHash choices=sha256\nCMSDigest=28f0e84981124d854690d9be80e8ecb7a855ed02e3de84009119fc616e22aecd\nCMSDigestType=2\nCDHash=28f0e84981124d854690d9be80e8ecb7a855ed02\nSignature size=8968\nAuthority=Developer ID Application: zhong luo (B3W25FX5H5)\nAuthority=Developer ID Certification Authority\nAuthority=Apple Root CA\nTimestamp=Oct 22, 2026 at 18:38:05\nInfo.plist entries=23\nTeamIdentifier=B3W25FX5H5\nRuntime Version=27.0.0\nSealed Resources version=2 rules=13 files=5\nInternal requirements count=1 size=184\nTotal signatures=1\nChosen signature=1\n",
+  "notarization": {
+    "id": "559eedf0-048f-4d0e-b013-6a187695f2da",
+    "message": "Processing complete",
+    "status": "Accepted"
+  },
+  "signingVerified": true,
+  "stapleValidated": true,
+  "stagingPluginUnregistered": true,
+  "runningHosts": [],
+  "installedSignature": "Executable=/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app/Contents/MacOS/FCP-BeautyGirl\nIdentifier=com.dayu.fcpbeautygirl\nFormat=app bundle with Mach-O universal (x86_64 arm64)\nCodeDirectory v=20500 size=482 flags=0x10000(runtime) hashes=4+7 location=embedded\nHash type=sha256 size=32\nCandidateCDHash sha256=28f0e84981124d854690d9be80e8ecb7a855ed02\nCandidateCDHashFull sha256=28f0e84981124d854690d9be80e8ecb7a855ed02e3de84009119fc616e22aecd\nHash choices=sha256\nCMSDigest=28f0e84981124d854690d9be80e8ecb7a855ed02e3de84009119fc616e22aecd\nCMSDigestType=2\nCDHash=28f0e84981124d854690d9be80e8ecb7a855ed02\nSignature size=8968\nAuthority=Developer ID Application: zhong luo (B3W25FX5H5)\nAuthority=Developer ID Certification Authority\nAuthority=Apple Root CA\nTimestamp=Oct 22, 2026 at 18:38:05\nNotarization Ticket=stapled\nInfo.plist entries=23\nTeamIdentifier=B3W25FX5H5\nRuntime Version=27.0.0\nSealed Resources version=2 rules=13 files=5\nInternal requirements count=1 size=184\nTotal signatures=1\nChosen signature=1\n",
+  "installedSignatureVerified": true,
+  "installedStapleValidated": true,
+  "gatekeeperAccepted": true,
+  "identityMigration": {
+    "legacyInstallationsRemoved": [
+      "/Library/Plug-Ins/FxPlug/beatygril.app"
+    ],
+    "filterUUIDPreserved": "FB14B0E6-59B2-4836-916F-CD0C559E9241"
+  },
+  "pluginDiscovery": {
+    "bundleIdentifier": "com.dayu.fcpbeautygirl.fxplug",
+    "formalPath": "/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app/Contents/PlugIns/FCP-BeautyGirl XPC Service.pluginkit",
+    "output": "     com.dayu.fcpbeautygirl.fxplug(1.1)\t6C990AD2-B58E-4C2F-91A4-927849E7AA10\t2026-10-22 10:38:29 +0000\t/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app/Contents/PlugIns/FCP-BeautyGirl XPC Service.pluginkit\n (1 plug-in)\n"
+  },
+  "removedGeneratedPaths": [
+    "/Users/dayu/Documents/PaintFCP/build/delivery/legacy-beatygril.app",
+    "/tmp/fcp-beautygirl-release",
+    "/Users/dayu/Documents/PaintFCP/build/delivery/notarization.zip"
+  ]
+}

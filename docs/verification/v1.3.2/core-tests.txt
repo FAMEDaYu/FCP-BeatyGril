@@ -1,0 +1,5 @@
+Beauty renderer: 57 checks, 0 failures (Metal).
+2026-10-22 18:30:09.786 face-tests[35177:8446323] FBBA: creating VNFaceBBoxAligner from VNFaceDetectorRevision2: VNFaceDetectorRevision2
+Face processing: 116 checks passed
+2026-10-22 18:30:23.734 slim-tests[35267:8446747] FBBA: creating VNFaceBBoxAligner from VNFaceDetectorRevision2: VNFaceDetectorRevision2
+PASS: 1033 slim alignment checks; maximum UV oracle error 1.09828022e-05

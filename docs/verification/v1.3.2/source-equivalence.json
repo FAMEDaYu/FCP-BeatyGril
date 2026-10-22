@@ -1,0 +1,24 @@
+{
+  "baseline": "d1137edd836cc360c53d21c104a06f2435382441",
+  "signedSource": "767bba8ac11e9bf9268a1e02d1a06d3c120c46aa",
+  "renderAndStateFilesCompared": [
+    "PGFaceSelectOSC.m",
+    "PGParameterIDs.h",
+    "PGInspectorState.m",
+    "PGBeautyTypes.h",
+    "PGBeautyRenderer.m",
+    "PGFaceProcessor.h",
+    "FCPBeautyGirlPlugIn.h",
+    "PGInspectorView.m",
+    "main.m",
+    "PGFaceProcessor.m",
+    "PGBeautyRenderer.h",
+    "PGInspectorState.h",
+    "FCPBeautyGirlPlugIn.m",
+    "PGInspectorView.h"
+  ],
+  "normalization": "Only entry class/header names, log subsystem and NSError domain differ; pixel and archived-state logic bytes unchanged.",
+  "regressionChecks": 1901,
+  "migrationUnitScenarios": 8,
+  "installerMigrationScenarios": "7 runtime scenarios passed; final package-block check runs after build."
+}

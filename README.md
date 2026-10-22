@@ -1,4 +1,4 @@
-# 大鱼人像美化 · beatygril
+# 大鱼人像美化 · FCP-BeautyGirl
 
 基于本仓库的 FxPlug4 初始工程制作的人像美化滤镜，支持 Motion 和 Final Cut Pro。源码使用 Objective-C、Vision、Core Image 与 Metal。
 
@@ -6,15 +6,17 @@
 
 功能包括磨皮、肤色、细节、牙齿美白、眼睛提亮、九类脸型调整、自动人脸跟随和多人处理。原版 MSE18V2 的静态分析依据、近似实现与尚未对齐的部分见 [分析说明](docs/analysis/REA-分析与复刻说明.md)。本版尚未完成原版逐像素与复杂运动跟踪对照。
 
+1.3.2（17）已统一工程、APP、插件类名和应用ID，正式安装为 `FCP-BeautyGirl.app` / `com.dayu.fcpbeautygirl`，嵌套插件ID为 `com.dayu.fcpbeautygirl.fxplug`。旧APP已迁移清理，滤镜UUID、参数编号和归档格式保持兼容。1901项自动回归及身份迁移检查通过；APP和含配套模板的PKG均已签名、公证、粘附票据和验证。更名后的旧工程重开仍由用户实测。
+
 ## 使用
 
-正式安装路径为 `/Library/Plug-Ins/FxPlug/beatygril.app`。Motion 滤镜分类为「大鱼」，滤镜名「大鱼人像美化」。Final Cut Pro 在「效果 → 大鱼磨皮瘦脸 → 大鱼人像美化」中使用配套 Motion 效果，模板目录必须同时保留 `.moef` 与 `Drop Zone.tiff`。美化会随当前帧的人脸自动更新，不需要点击分析。界面以磨皮、美白、瘦脸三张卡片呈现，默认跟随主要人脸；多人模式对多脸变形。单项眼睛可暂时停用并保留数值，右侧箭头恢复默认；磨皮半径、饱和度、锐化和整体混合等收在「更多设置」。旧手动分析与调试参数仅保留隐藏兼容，实际输出统一使用实时自动跟随。
+正式安装路径为 `/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app`。Motion 滤镜分类为「大鱼」，滤镜名「大鱼人像美化」。Final Cut Pro 在「效果 → 大鱼磨皮瘦脸 → 大鱼人像美化」中使用配套 Motion 效果，模板目录必须同时保留 `.moef` 与 `Drop Zone.tiff`。美化会随当前帧的人脸自动更新，不需要点击分析。界面以磨皮、美白、瘦脸三张卡片呈现，默认跟随主要人脸；多人模式对多脸变形。单项眼睛可暂时停用并保留数值，右侧箭头恢复默认；磨皮半径、饱和度、锐化和整体混合等收在「更多设置」。旧手动分析与调试参数仅保留隐藏兼容，实际输出统一使用实时自动跟随。
 
 1.3.0 的磨皮卡片依次提供「磨皮程度、微细锐化、五官保护、非肤色区保护」。两种保护默认 100%；降低五官保护让五官区域参与更多磨皮，降低非肤色区保护则扩大磨皮范围，均不扩大肤色提亮范围。微细锐化在局部支持区域恢复纹理；旧全局磨皮和全局锐化仍保留在更多设置，旧工程的参数与归档继续兼容。迁移证据、实现边界与验证见[新版磨皮参数迁移](docs/analysis/新版磨皮参数迁移.md)。1.3.0 的新增参数已随 1.3.1 一并提供。
 
 1.3.1（16）修复 V 脸影响眼区的问题，改为四组下颌轮廓到外唇的局部采样，并对齐新目标的 0.065 强度映射。1901 项自动检查通过，APP 与本机 PKG 工坊制作的安装包均已签名、公证和验证。正式 APP 已安装；新效果的原生宿主视觉仍由用户实测。原理与边界见 [V 脸下颌区域修复](docs/analysis/V脸下颌区域修复.md)。
 
-当前 [1.3.1 正式下载](https://github.com/dayumeida/FCP-BeautyGirl/releases/tag/v1.3.1) 与 [大鱼文章](https://dayu.media/15593/) 已更新，安装包包含「大鱼磨皮瘦脸」分类的配套效果及资源，源码快照也已同步。
+当前 [1.3.2 正式下载](https://github.com/dayumeida/FCP-BeautyGirl/releases/tag/v1.3.2) 与 [大鱼文章](https://dayu.media/15593/) 是本版发布入口，安装包包含「大鱼磨皮瘦脸」分类的配套效果及资源，源码快照也已同步。
 
 ## 开发和恢复
 
@@ -22,9 +24,9 @@
 
 ```sh
 ./scripts/test.sh
-PAINTFCP_HOST_ASAN=1 ./scripts/test-host.sh
-PAINTFCP_OSC_ASAN=1 ./scripts/test-osc.sh
-xcodebuild -project beatygril/beatygril.xcodeproj -scheme 'Wrapper Application' -configuration Release -derivedDataPath /tmp/paintfcp-build -destination 'generic/platform=macOS' build
+FCP_BEAUTYGIRL_HOST_ASAN=1 ./scripts/test-host.sh
+FCP_BEAUTYGIRL_OSC_ASAN=1 ./scripts/test-osc.sh
+xcodebuild -project FCP-BeautyGirl/FCP-BeautyGirl.xcodeproj -scheme 'FCP-BeautyGirl' -configuration Release -derivedDataPath /tmp/fcp-beautygirl-build -destination 'generic/platform=macOS' build
 ```
 
 工程从 `/Library/Developer/SDKs/FxPlug.sdk` 读取头文件与链接信息，从 `/Library/Developer/Frameworks` 嵌入可运行的 Apple 框架。构建默认使用团队 B3W25FX5H5 的 Developer ID Application 身份；正式交付使用 `python3 scripts/deliver.py` 完成公证、粘附和安装；安装前先关闭 Motion 与 FCP，脚本在检测到宿主仍运行时保留原安装版并停止。原生验收完成后继续脚本的清理阶段，清除临时注册与 APP 副本。

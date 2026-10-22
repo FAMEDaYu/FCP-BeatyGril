@@ -2,7 +2,7 @@
 
 公开源码：https://github.com/dayumeida/FCP-BeautyGirl
 
-正式安装包：https://github.com/dayumeida/FCP-BeautyGirl/releases/tag/v1.3.1
+正式安装包：https://github.com/dayumeida/FCP-BeautyGirl/releases/tag/v1.3.2
 
 本地 `github` 远端指向上述 GitHub 仓库，`origin` 继续指向大鱼仓库，`main` 仍跟随 `origin/main`。当前项目的完整提交历史、main 和全部现有版本标签已推送，两端引用与本地一致；未改写历史或覆盖标签。后续更新需要分别推送到 origin 和 github，不会自动定时同步。
 
@@ -23,7 +23,7 @@ git switch --detach 356683b41af702d6c0143ad7fa5f540d752d6e14
 源代码编写署名：代码由 OpenAI + Codex 全程编写，站长仅参与调试和测试。
 
 
-## 1.3.1 当前发行与恢复
+## 1.3.1 发行与恢复
 
 main已快进纳入1.3.0磨皮参数和1.3.1的V脸下颌修复；origin和github的main及v1.3.1引用已回读核验。v1.3.1固定完整SHA为 `b35b4a5d1ca252d2f83c798613560a768274de3c`，签名APP源码为 `7fa3298e022946e77dfd8cfba1bb5ff2c2a6361f`。独立匿名GitHub克隆232文件字节与执行位一致、strict/full fsck和恢复PKG签名/票据通过。无LFS或子模块。后续main仅补充发布记录，不改写标签。
 
@@ -40,3 +40,8 @@ GitHub仓库从 `FAMEDaYu/FCP-BeatyGril` 更名为 `FAMEDaYu/FCP-BeautyGirl`，�
 ## 2026-10-22 用户名更改
 
 用户将GitHub登录名从 `FAMEDaYu` 改为 `dayumeida`，账号ID117798680保持不变。两个公开仓库迁移到dayumeida名下：FCP-BeautyGirl（ID1428817365）和FCPX-（ID904215594）。更名前后全部分支/标签SHA及Release/附件ID、名称、大小一致。当前项目github远端为 `https://github.com/dayumeida/FCP-BeautyGirl.git`，origin及main上游保持原大鱼仓库；文章15593、活动文档和Release说明更新为新地址。正式版本标签、公证APP/PKG和源码快照保留原始字节，不为账号更名重新构建。个人主页新地址为 `https://github.com/dayumeida`，旧个人主页不提供重定向；仓库旧地址由GitHub重定向。历史验证回执保留当时用户名。账号更名核验见verification/github/username-20261022.json。
+
+
+## 1.3.2 产品身份统一
+
+发行标签 `v1.3.2`，正式 APP 签名源码 `767bba8ac11e9bf9268a1e02d1a06d3c120c46aa`。新工程和 APP 名为 FCP-BeautyGirl，应用标识及安装路径见 product.json；旧身份仅保留经过验证的迁移入口。GitHub、大鱼 Release 和文章 15593 使用新名称安装包及源码快照，历史发行资料不改写。当前交付与发布核验保存在 verification/v1.3.2。

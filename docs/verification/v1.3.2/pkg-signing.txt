@@ -1,0 +1,5 @@
+productsign: using timestamp authority for signature
+productsign: signing product with identity "Developer ID Installer: zhong luo (B3W25FX5H5)" from keychain /Users/dayu/Library/Keychains/login.keychain-db
+productsign: adding certificate "Developer ID Certification Authority"
+productsign: adding certificate "Apple Root CA"
+productsign: Wrote signed product archive to /Users/dayu/Documents/PaintFCP/releases/1.3.2/FCP-BeautyGirl-1.3.2.pkg

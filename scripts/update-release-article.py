@@ -3,6 +3,7 @@
 Only --publish performs writes. Credentials stay in memory and go only to Dayu.
 """
 import argparse, base64, hashlib, html, json, pathlib, ssl, subprocess, urllib.parse, urllib.request, uuid, zipfile
+from product_identity import PRODUCT
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--version', required=True)
@@ -49,8 +50,8 @@ if not args.publish:
     raise SystemExit(0)
 baseline = json.loads((work / 'article-before.json').read_text())['article']
 payload = json.loads((release / 'article-payload.json').read_text())
-package = release / ('大鱼人像美化-' + args.version + '.pkg')
-source = root / 'build' / ('Dayu-Portrait-' + args.version + '-source.zip')
+package = release / (PRODUCT['name'] + '-' + args.version + '.pkg')
+source = root / 'build' / (PRODUCT['name'] + '-' + args.version + '-source.zip')
 with zipfile.ZipFile(source) as z:
     assert z.testzip() is None and any(n.endswith('/Wrapper Application/AppDelegate.m') for n in z.namelist())
     assert not any(n.endswith(('.app', '.pkg', '.p12', '.key', '.env')) for n in z.namelist())
@@ -77,7 +78,7 @@ assert '{{' not in payload['content']
 if not state.get('response'):
     boundary = 'DayuRelease' + state['idempotencyKey'].replace('-', '')
     parts = []
-    for name, data, filename, mime in [('payload', json.dumps(payload, ensure_ascii=False).encode(), None, 'application/json'), ('package', package.read_bytes(), 'Dayu-Portrait-' + args.version + '.pkg', 'application/octet-stream')]:
+    for name, data, filename, mime in [('payload', json.dumps(payload, ensure_ascii=False).encode(), None, 'application/json'), ('package', package.read_bytes(), package.name, 'application/octet-stream')]:
         head = '--' + boundary + '\r\nContent-Disposition: form-data; name="' + name + '"'
         if filename:
             head += '; filename="' + filename + '"'

@@ -1,0 +1,41 @@
+{
+  "status": "verified",
+  "version": "1.3.2",
+  "build": "17",
+  "package": "releases/1.3.2/FCP-BeautyGirl-1.3.2.pkg",
+  "bytes": 4889706,
+  "sha256": "20a88dacf68cc8812f5af86cfe94c1c0614414a68a019eaeac7ca9d078165ae1",
+  "sourceApp": "/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app",
+  "sourceCommit": "767bba8ac11e9bf9268a1e02d1a06d3c120c46aa",
+  "motionSource": "/Users/dayu/Movies/Motion Templates.localized/Effects.localized/大鱼磨皮瘦脸",
+  "motionFiles": [
+    {
+      "file": "大鱼人像美化/Drop Zone.tiff",
+      "sha256": "a7f8e3a2a431dbb3ce9e777040bb55e701cfe9ab9632e8cbb10359732bc8692e",
+      "locked": false
+    },
+    {
+      "file": "大鱼人像美化/large.png",
+      "sha256": "a02ddb255b1ae255c749bb837a759e2dee1c3b8ffb9bdc1167957761bd5a1b97",
+      "locked": true
+    },
+    {
+      "file": "大鱼人像美化/small.png",
+      "sha256": "1552b838dd88f60dee0795e20aaca652f9c558ecefc93500e895fbff77c2a4d5",
+      "locked": true
+    },
+    {
+      "file": "大鱼人像美化/大鱼人像美化.moef",
+      "sha256": "e9fa97dc14323d0daa7d3d61b06a78ba4000a70ab9f5e67ebffd750d49df1e15",
+      "locked": false
+    }
+  ],
+  "packager": "/Applications/PKG工坊.app/Contents/MacOS/PKG工坊",
+  "productMigration": "PKG Forge base plus identity-checked backup/rollback block; final package freshly signed, notarized and stapled",
+  "notarization": {
+    "message": "Processing complete",
+    "id": "4a831775-2317-4372-a4cc-102415657ea3",
+    "status": "Accepted"
+  },
+  "realInstallerExecuted": false
+}

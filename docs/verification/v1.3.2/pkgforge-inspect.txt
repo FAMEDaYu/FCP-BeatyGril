@@ -1,0 +1,11 @@
+识别到 2 个安装内容：
+- FCP-BeautyGirl.app
+  类型：FxPlug 插件
+  目录：/Library/Plug-Ins/FxPlug
+  状态：已签名并公证，保留隔离属性，自动验证并修复注册；失败时打开 APP 所在目录
+- 大鱼磨皮瘦脸
+  类型：FCP 效果
+  目录：~/Movies/Motion Templates.localized/Effects.localized
+  状态：非 APP，保留隔离属性
+
+识别完成，未生成安装包。
