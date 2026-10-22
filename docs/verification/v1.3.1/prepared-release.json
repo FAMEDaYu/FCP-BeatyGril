@@ -1,0 +1,39 @@
+{
+  "status": "waiting_for_host_exit",
+  "bundleIdentifier": "com.dayu.beatygril",
+  "installationPath": "/Library/Plug-Ins/FxPlug/beatygril.app",
+  "options": {
+    "waitForHosts": true,
+    "userTests": true
+  },
+  "nativeEffectQA": {
+    "status": "pending_user",
+    "performedByScript": false
+  },
+  "source": {
+    "commit": "7fa3298e022946e77dfd8cfba1bb5ff2c2a6361f",
+    "trackedWorktreeChanges": []
+  },
+  "updatedAt": "2026-10-22T08:27:51.067234+00:00",
+  "version": "1.3.1",
+  "build": "16",
+  "stagingSignature": "Executable=/private/tmp/paintfcp-build-20261021/Build/Products/Release/beatygril.app/Contents/MacOS/beatygril\nIdentifier=com.dayu.beatygril\nFormat=app bundle with Mach-O universal (x86_64 arm64)\nCodeDirectory v=20500 size=478 flags=0x10000(runtime) hashes=4+7 location=embedded\nHash type=sha256 size=32\nCandidateCDHash sha256=d3bf91f8c8589b1acc19779f5578cc4f4055d267\nCandidateCDHashFull sha256=d3bf91f8c8589b1acc19779f5578cc4f4055d2678f10767fbb5d935ffea426a6\nHash choices=sha256\nCMSDigest=d3bf91f8c8589b1acc19779f5578cc4f4055d2678f10767fbb5d935ffea426a6\nCMSDigestType=2\nCDHash=d3bf91f8c8589b1acc19779f5578cc4f4055d267\nSignature size=8968\nAuthority=Developer ID Application: zhong luo (B3W25FX5H5)\nAuthority=Developer ID Certification Authority\nAuthority=Apple Root CA\nTimestamp=Oct 22, 2026 at 16:27:24\nInfo.plist entries=22\nTeamIdentifier=B3W25FX5H5\nRuntime Version=27.0.0\nSealed Resources version=2 rules=13 files=5\nInternal requirements count=1 size=180\nTotal signatures=1\nChosen signature=1\n",
+  "notarization": {
+    "message": "Processing complete",
+    "status": "Accepted",
+    "id": "e353b701-2fc2-4fcc-b03e-69af7735400f"
+  },
+  "signingVerified": true,
+  "stapleValidated": true,
+  "stagingPluginUnregistered": true,
+  "runningHosts": [
+    {
+      "pid": 15637,
+      "executable": "/Applications/Final Cut Pro.app/Contents/MacOS/Final Cut Pro"
+    },
+    {
+      "pid": 21055,
+      "executable": "/Applications/Motion.app/Contents/MacOS/Motion"
+    }
+  ]
+}

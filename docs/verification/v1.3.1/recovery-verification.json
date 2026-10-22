@@ -1,0 +1,13 @@
+{
+  "status": "verified",
+  "date": "2026-10-22",
+  "commit": "7fa3298e022946e77dfd8cfba1bb5ff2c2a6361f",
+  "remote": "https://dayu.media/git/dayu/paintfcp-fxplug.git",
+  "branch": "codex/v-face-jaw-fix",
+  "trackedFilesCompared": 219,
+  "gitFsckFullStrict": true,
+  "xcodeProjectReadable": true,
+  "lfs": false,
+  "submodules": false,
+  "resources": "All tracked bytes and executable modes matched, including source/template/artwork. Private QA inputs and signing credentials are external."
+}

@@ -114,3 +114,10 @@ GitHub 远端 `https://github.com/FAMEDaYu/FCP-BeatyGril.git` 已完成完整历
 本节点增加五官保护强度、非肤色区保护和局部微细锐化，PGBeautySettings v2 兼容旧 160 字节 v1 状态，面板归档仍为 schema 1。测试命令不变，1636 项通过。恢复签名源码时克隆并切换该分支，或 `git switch --detach 2f2c081980dc610ac810f8daf92da8966f310802`。
 
 1.3.0（15）已正式安装到 `/Library/Plug-Ins/FxPlug/beatygril.app`。签名、通用架构、公证票据、Gatekeeper 和 PluginKit 正式路径均通过，已清理本次构建、旧 APP 备份和公证 ZIP。最终回执见 `docs/verification/v1.3.0/delivery-receipt.json`、`installed-verification.json`；`prepared-release.json` 保留安装前状态。`v1.3.0` 标签包含签名源码及后续交付文档。本次没有生成新 PKG 或更新文章，1.2.0 的公开发行资料继续有效；新滑杆的原生宿主视觉仍由用户测试。
+
+
+## 1.3.1 V 脸下颌修复恢复
+
+签名源码完整 SHA 为 `7fa3298e022946e77dfd8cfba1bb5ff2c2a6361f`，APP 1.3.1（16），分支 `codex/v-face-jaw-fix`。origin 与 github 同名分支已推送并回读一致。已从 origin 独立克隆该节点，219个受跟踪文件字节和执行位一致、strict/full fsck及Xcode工程读取通过，无LFS或子模块；见 `docs/verification/v1.3.1/recovery-verification.json`。恢复依赖和签名入口沿用本文现有配置，用户帧和私钥不作为源码依赖保存。
+
+V 脸现在为四组下颌到外唇局部 pin，映射为 V×0.065，无新版目标已取消的旧尺寸增益。此前瘦脸/下巴/短脸/下颌骨仍保留旧版本映射，大眼/窄脸/颧骨/小头和整体组合保留近似边界。1901项全套及1561项重叠真实帧几何ASan通过。Apple公证 Accepted `e353b701-2fc2-4fcc-b03e-69af7735400f`、staple/validate通过；当前等待用户保存并退出两个宿主，正式安装仍为1.3.0。完成状态以同版本交付回执和验证记录为准。
