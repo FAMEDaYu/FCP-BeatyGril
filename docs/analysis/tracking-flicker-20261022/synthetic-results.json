@@ -1,0 +1,81 @@
+{
+  "authoredTwoFaceCrossing" : {
+    "rawIndex0" : "same authored identity A moved by .10",
+    "rawIndex1" : "different authored identity B moved within .01 of old center",
+    "selectedRawIndex" : 1
+  },
+  "defaultAppearanceOnDetectionLoss" : {
+    "geometryFacesAfter" : 1,
+    "geometryFacesBefore" : 1,
+    "meanColorMaskAfter" : 0,
+    "meanColorMaskBefore" : 0.39522577568114048,
+    "meanSkinMaskAfter" : 0,
+    "meanSkinMaskBefore" : 0.29670316041502076
+  },
+  "landmarkWeightsByFrameRate" : [
+    {
+      "currentLandmarkWeight" : 0.89999999999999925,
+      "fps" : 25
+    },
+    {
+      "currentLandmarkWeight" : 0.89999999999999925,
+      "fps" : 30
+    },
+    {
+      "currentLandmarkWeight" : 0.5,
+      "fps" : 60
+    },
+    {
+      "currentLandmarkWeight" : 0.25,
+      "fps" : 120
+    }
+  ],
+  "outOfOrderCachedMissingFrame" : {
+    "initial40OutputFaces" : 0,
+    "ordered0Then40OutputFaces" : 1,
+    "replay40AfterAdding0OutputFaces" : 0
+  },
+  "pureBBoxTranslationJitter" : {
+    "fps" : 25,
+    "frames" : 20,
+    "maximumOutputVsRawPointError" : 0,
+    "outputOverRawAmplitude" : 1,
+    "outputStepNormalized" : 0.0080000000000000071,
+    "rawStepNormalized" : 0.0080000000000000071
+  },
+  "reacquisition" : {
+    "continuousPoint69x" : 0.60288473677011323,
+    "rawPoint69x" : 0.60568473677011325,
+    "reacquiredPoint69x" : 0.60568473677011325
+  },
+  "scope" : "Authored synthetic geometry and image only; actual current PGFaceProcessor implementation linked; no target binary or user media.",
+  "topologyValidMissingValid" : {
+    "held" : [
+      false,
+      false,
+      false
+    ],
+    "pixelDifferencesFromUnwarpedInput" : [
+      {
+        "changedChannelsAbove1e_6" : 85835,
+        "maxChannelDifference" : 0.89999997615814209,
+        "meanChannelDifference" : 0.055795646515334418
+      },
+      {
+        "changedChannelsAbove1e_6" : 0,
+        "maxChannelDifference" : 0,
+        "meanChannelDifference" : 0
+      },
+      {
+        "changedChannelsAbove1e_6" : 85835,
+        "maxChannelDifference" : 0.89999997615814209,
+        "meanChannelDifference" : 0.055795646515334418
+      }
+    ],
+    "points76Counts" : [
+      76,
+      0,
+      76
+    ]
+  }
+}

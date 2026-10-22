@@ -1,0 +1,31 @@
+{
+  "scope": "Source and isolated authored synthetic diagnostics plus static REA of the requested 2.4.0 binary; no native host comparison",
+  "sourceBaseline": "b58fec1a86db7a2e474e1cc65a5911447b5906b9",
+  "installedVersion": "1.3.2 (17)",
+  "productSourceUnchanged": true,
+  "selectedTarget": {
+    "path": "/Users/dayu/Downloads/MSE18V2.app",
+    "version": "2.4.0",
+    "build": "20260724150000",
+    "universalPluginSha256": "577303e0de72e07feb576c882e82382b3f056b023a7e987d990ffb37f6b16109",
+    "arm64Sha256": "afc71d0d21fd3c1ca95ca745ddafcd729e36ad95f17d8638009f2e45d9b7e8df"
+  },
+  "comparisonCaution": "Existing auto-follow-report.json describes the older /Applications target; its temporal weights/history must not be asserted as 2.4.0 default behavior",
+  "evidenceRecordsRetained": 17,
+  "checks": {
+    "FCP-BeautyGirl/FCP-BeautyGirl/Plugin/PGFaceProcessor.m": "cca826d5602b45b2c79ea3c3c78be7c78ad1defe7b062ed8ec54c311d53ac395",
+    "FCP-BeautyGirl/FCP-BeautyGirl/Plugin/FCPBeautyGirlPlugIn.m": "9d3d30d1f7f6467c634e8d6e832d2330618b9ff240de37f57de9bc48e2792de8",
+    "scripts/diagnose-tracking.m": "bc758bf5ec4825006930be8997889404f63c28da1fe06ad8872b0901b2795d2c",
+    "docs/analysis/tracking-flicker-20261022/synthetic-results.json": "5fdbad4887dd78658c06f5c6d8e70c9e53fd7b54e11a9cc31ee1958631cbc1a8",
+    "docs/analysis/tracking-flicker-20261022/rea-evidence.json": "4b367759388c8e061e138623184ae8a6875dbab22659eefd4e474b141b8868fa",
+    "scripts/diagnose-tracking.sh": "c1993ca91cee596a21db1e4f86ba224be85c37495c783f9c3b21872aff210765"
+  },
+  "limits": [
+    "No user frames or complete user landmark arrays used or uploaded",
+    "No target process executed or host UI controlled",
+    "Static reachable/default-configuration branches do not prove runtime branch execution",
+    "Same-frame raw cache, hold and out-of-order behavior were isolated using our actual current implementation",
+    "No APP rebuild, install, package or article publication for this analysis",
+    "User clarified current FCP timeline: sun-hat subject, 1080p25, fast multi off, faceThin1, bigEye about0.90; exact source/frame analysis in progress"
+  ]
+}
