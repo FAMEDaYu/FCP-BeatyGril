@@ -121,3 +121,6 @@ GitHub 远端 `https://github.com/FAMEDaYu/FCP-BeatyGril.git` 已完成完整历
 签名源码完整 SHA 为 `7fa3298e022946e77dfd8cfba1bb5ff2c2a6361f`，APP 1.3.1（16），分支 `codex/v-face-jaw-fix`。origin 与 github 同名分支已推送并回读一致。已从 origin 独立克隆该节点，219个受跟踪文件字节和执行位一致、strict/full fsck及Xcode工程读取通过，无LFS或子模块；见 `docs/verification/v1.3.1/recovery-verification.json`。恢复依赖和签名入口沿用本文现有配置，用户帧和私钥不作为源码依赖保存。
 
 V 脸现在为四组下颌到外唇局部 pin，映射为 V×0.065，无新版目标已取消的旧尺寸增益。此前瘦脸/下巴/短脸/下颌骨仍保留旧版本映射，大眼/窄脸/颧骨/小头和整体组合保留近似边界。1901项全套及1561项重叠真实帧几何ASan通过。Apple公证 Accepted `e353b701-2fc2-4fcc-b03e-69af7735400f`、staple/validate通过；已在用户确认退出宿主后完成1.3.1正式安装、身份/票据/注册核验和临时副本清理。后续FCP仍有后台进程，通过正常退出菜单结束后才替换APP。PKG由本机PKG工坊CLI制作，包含用户指定分类4项资源，Installer签名、公证Accepted 78105340-306f-4629-8670-772760d4cb9a、票据、Gatekeeper、载荷及隔离脚本均通过；详见同版本交付回执和验证记录。
+
+
+1.3.1最终发行标签为 `v1.3.1`，完整SHA `b35b4a5d1ca252d2f83c798613560a768274de3c`。GitHub已匿名独立克隆恢复并比对232个受跟踪文件的字节/执行位、strict/full fsck和恢复PKG签名/票据；产品源码与签名节点7fa3298完全一致。见 `docs/verification/v1.3.1/final-tag-recovery.json`。两个远端main纳入该标签后继续记录交付文档，不移动标签。文章15593和GitHub/大鱼Release已更新，GitHub与文章安装包/源码下载字节均校验，完整入口见 `docs/GitHub同步说明.md`。

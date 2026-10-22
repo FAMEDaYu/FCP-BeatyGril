@@ -1,0 +1,13 @@
+{
+  "status": "verified",
+  "tag": "v1.3.1",
+  "commit": "b35b4a5d1ca252d2f83c798613560a768274de3c",
+  "anonymousGitHubClone": true,
+  "trackedFilesCompared": 232,
+  "byteAndExecutableModesMatch": true,
+  "gitFsckFullStrict": true,
+  "productMatchesSignedSource": "7fa3298e022946e77dfd8cfba1bb5ff2c2a6361f",
+  "restoredPkgSignatureAndTicketVerified": true,
+  "lfs": false,
+  "submodules": false
+}

@@ -1,0 +1,10 @@
+{
+  "sourceCommit": "b35b4a5d1ca252d2f83c798613560a768274de3c",
+  "tag": "v1.3.1",
+  "files": 230,
+  "bytes": 9682532,
+  "sha256": "7c335f54717a73e710ef484fc9f7b90864211c128a0f217bf170aa092333f228",
+  "excludes": [
+    "releases/**/*.pkg"
+  ]
+}
