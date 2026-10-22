@@ -45,3 +45,6 @@ GitHub仓库从 `FAMEDaYu/FCP-BeatyGril` 更名为 `FAMEDaYu/FCP-BeautyGirl`，�
 ## 1.3.2 产品身份统一
 
 发行标签 `v1.3.2`，正式 APP 签名源码 `767bba8ac11e9bf9268a1e02d1a06d3c120c46aa`。新工程和 APP 名为 FCP-BeautyGirl，应用标识及安装路径见 product.json；旧身份仅保留经过验证的迁移入口。GitHub、大鱼 Release 和文章 15593 使用新名称安装包及源码快照，历史发行资料不改写。当前交付与发布核验保存在 verification/v1.3.2。
+
+
+1.3.2 标签完整 SHA `8a70d38b7cd17e0ea530c5226f2be8c2df4308b3`，双远端引用回读一致。已匿名独立克隆核对 271 个文件、strict/full fsck、Xcode 工程和恢复包签名/票据/Gatekeeper。正式包 SHA256 `20a88dacf68cc8812f5af86cfe94c1c0614414a68a019eaeac7ca9d078165ae1`，源码 ZIP SHA256 `c75a516192375c45e446b3f0170615773ec2bd63b0430c3441a87282ba8b6834`；GitHub 与文章四项匿名下载均与本地字节一致。文章作者、封面和免费规则保留，正常及新请求前台版本/路径/SEO通过。大鱼 Release 只回读附件名称/大小，未绕过站点登录网关。

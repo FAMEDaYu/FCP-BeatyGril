@@ -1,0 +1,17 @@
+{
+  "status": "verified",
+  "repository": "https://github.com/dayumeida/FCP-BeautyGirl.git",
+  "anonymousClone": true,
+  "tag": "v1.3.2",
+  "commit": "8a70d38b7cd17e0ea530c5226f2be8c2df4308b3",
+  "trackedFilesByteBlobAndExecutableModeCompared": 271,
+  "resourceEntries": 13,
+  "strictFullFsck": true,
+  "lfs": false,
+  "submodules": false,
+  "xcodeProjectRead": true,
+  "signedProductSourceUnchangedFrom": "767bba8ac11e9bf9268a1e02d1a06d3c120c46aa",
+  "packageSha256": "20a88dacf68cc8812f5af86cfe94c1c0614414a68a019eaeac7ca9d078165ae1",
+  "recoveredPackageSignatureTicketAndGatekeeper": true,
+  "temporaryCloneRemoved": true
+}

@@ -140,3 +140,6 @@ GitHub用户名现为 `dayumeida`，账号ID117798680保持一致。当前公开
 发行入口为 `v1.3.2`；正式 APP 源码为 `767bba8ac11e9bf9268a1e02d1a06d3c120c46aa`。新机器按 `product.json` 的工程、scheme 与路径恢复，运行 `python3 scripts/deliver.py --wait-for-hosts --user-tests`；旧产品先验证 Bundle ID、签名团队和滤镜 UUID，再迁移并支持失败回滚。最终包为 `releases/1.3.2/FCP-BeautyGirl-1.3.2.pkg`，SHA-256 `20a88dacf68cc8812f5af86cfe94c1c0614414a68a019eaeac7ca9d078165ae1`，签名、公证 Accepted `4a831775-2317-4372-a4cc-102415657ea3`、票据和 Gatekeeper 均通过。正式 APP 已安装并清理旧身份。1901 项自动回归、8 项 APP 迁移、8 项最终 PKG 身份脚本迁移与模板隔离测试通过；未运行真实 installer，原生旧工程重开仍待用户检查。
 
 源码包须从发行标签导出，排除 PKG 二进制并加入 SOURCE-SNAPSHOT.json。发布与独立克隆恢复回执位于 `docs/verification/v1.3.2/`，不包含用户人脸素材、签名私钥或公证凭据。历史标签和旧版本安装包保留，不覆盖。
+
+
+1.3.2 发行标签完整 SHA 为 `8a70d38b7cd17e0ea530c5226f2be8c2df4308b3`。独立匿名 GitHub 克隆 271 个文件的字节/blob/执行位、strict/full fsck、Xcode 工程读取和恢复包签名/票据/Gatekeeper 均通过，无 LFS/子模块，临时克隆已清理。见 `docs/verification/v1.3.2/final-tag-recovery.json`。GitHub 与文章的安装包、源码快照已匿名下载核对哈希，源 ZIP 对应本标签；后续 main 补充回执，不移动发行标签或改变已签名产品源码。

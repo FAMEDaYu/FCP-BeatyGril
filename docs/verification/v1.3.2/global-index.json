@@ -1,0 +1,10 @@
+{
+  "remote": "https://dayu.media/git/dayu/codex-global-rules.git",
+  "before": "dde7e2ee26eae18627eefda9b956a6aca52354ad",
+  "commit": "4c3085861e26d34d82973483d0aae636b5fc7487",
+  "remoteRefVerified": true,
+  "independentCloneVerified": true,
+  "filesByteAndModeCompared": 11,
+  "strictFullFsck": true,
+  "temporaryCloneRemoved": true
+}

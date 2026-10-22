@@ -31,5 +31,17 @@
   "legacyPluginOriginalPathAbsent": true,
   "filterUUIDPreserved": "FB14B0E6-59B2-4836-916F-CD0C559E9241",
   "templateBytesUnchanged": true,
-  "nativeOldProjectReopen": "pending_user"
+  "nativeOldProjectReopen": "pending_user",
+  "afterPackagingCleanup": {
+    "buildPackageWorkAbsent": true,
+    "spotlightIndexedProductPaths": [
+      {
+        "path": "/Library/Plug-Ins/FxPlug/FCP-BeautyGirl.app",
+        "bundleId": "com.dayu.fcpbeautygirl"
+      }
+    ],
+    "newFormalPluginRegistered": true,
+    "legacyFormalPluginNotRegistered": true,
+    "appSignatureAndTicketRechecked": true
+  }
 }

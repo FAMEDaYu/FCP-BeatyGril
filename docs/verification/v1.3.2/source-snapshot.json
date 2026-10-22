@@ -1,0 +1,13 @@
+{
+  "tag": "v1.3.2",
+  "commit": "8a70d38b7cd17e0ea530c5226f2be8c2df4308b3",
+  "file": "build/FCP-BeautyGirl-1.3.2-source.zip",
+  "bytes": 9728489,
+  "sha256": "c75a516192375c45e446b3f0170615773ec2bd63b0430c3441a87282ba8b6834",
+  "sourceFileCount": 268,
+  "excluded": [
+    "releases/1.2.0/\u5927\u9c7c\u4eba\u50cf\u7f8e\u5316-1.2.0.pkg",
+    "releases/1.3.1/\u5927\u9c7c\u4eba\u50cf\u7f8e\u5316-1.3.1.pkg",
+    "releases/1.3.2/FCP-BeautyGirl-1.3.2.pkg"
+  ]
+}
