@@ -1,9 +1,9 @@
 # 大鱼人像美化 1.2.0（14）
 
 - 发布文章：https://dayu.media/15593/
-- 公开源码：https://github.com/FAMEDaYu/FCP-BeautyGirl
+- 公开源码：https://github.com/dayumeida/FCP-BeautyGirl
 - 大鱼备份：https://dayu.media/git/dayu/paintfcp-fxplug
-- GitHub Release：https://github.com/FAMEDaYu/FCP-BeautyGirl/releases/tag/v1.2.0
+- GitHub Release：https://github.com/dayumeida/FCP-BeautyGirl/releases/tag/v1.2.0
 - 大鱼 Release：https://dayu.media/git/dayu/paintfcp-fxplug/releases/tag/v1.2.0
 - 标签完整 SHA：3c7261c3a861b9f4704cfb36055d7b500c239dab
 - 正式 APP 源码：696d5f39b30404ed5d1d4c25f61d17475c7fc91b

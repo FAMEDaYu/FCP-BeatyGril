@@ -1,7 +1,7 @@
 # 恢复说明
 
 - 大鱼备份远程（origin）：`https://dayu.media/git/dayu/paintfcp-fxplug.git`
-- GitHub 公开远程（github）：`https://github.com/FAMEDaYu/FCP-BeautyGirl.git`
+- GitHub 公开远程（github）：`https://github.com/dayumeida/FCP-BeautyGirl.git`
 - 本地项目根：`/Users/dayu/Documents/PaintFCP`
 - 工作分支：`main`
 - 修改前版本标签：`baseline-20261021`，完整 SHA：`1746f38398588e2367abb37a5c2b31cb64042429`
@@ -104,7 +104,7 @@ Motion/FCP原生验收范围及未完成项见`docs/verification/v1.1.2/native-q
 
 ## GitHub 公开恢复副本
 
-GitHub 远端 `https://github.com/FAMEDaYu/FCP-BeautyGirl.git` 已完成完整历史与七个标签的推送，`origin` 及其 main 上游保持大鱼仓库。独立匿名克隆恢复节点为 `356683b41af702d6c0143ad7fa5f540d752d6e14`，197 文件逐字节核验、strict/full fsck 和全部标签回读通过。后续 main 补充发布说明与验证文档，产品源码保持相同。GitHub Release 的公证安装包已匿名下载核对哈希、签名和票据。详见 `docs/GitHub同步说明.md` 和 `docs/verification/github/`。
+GitHub 远端 `https://github.com/dayumeida/FCP-BeautyGirl.git` 已完成完整历史与七个标签的推送，`origin` 及其 main 上游保持大鱼仓库。独立匿名克隆恢复节点为 `356683b41af702d6c0143ad7fa5f540d752d6e14`，197 文件逐字节核验、strict/full fsck 和全部标签回读通过。后续 main 补充发布说明与验证文档，产品源码保持相同。GitHub Release 的公证安装包已匿名下载核对哈希、签名和票据。详见 `docs/GitHub同步说明.md` 和 `docs/verification/github/`。
 
 
 ## 1.3.0 新面板参数恢复
@@ -126,4 +126,4 @@ V 脸现在为四组下颌到外唇局部 pin，映射为 V×0.065，无新版�
 1.3.1最终发行标签为 `v1.3.1`，完整SHA `b35b4a5d1ca252d2f83c798613560a768274de3c`。GitHub已匿名独立克隆恢复并比对232个受跟踪文件的字节/执行位、strict/full fsck和恢复PKG签名/票据；产品源码与签名节点7fa3298完全一致。见 `docs/verification/v1.3.1/final-tag-recovery.json`。两个远端main纳入该标签后继续记录交付文档，不移动标签。文章15593和GitHub/大鱼Release已更新，GitHub与文章安装包/源码下载字节均校验，完整入口见 `docs/GitHub同步说明.md`。
 
 
-GitHub于2026-10-22更正仓库名为 `FCP-BeautyGirl`，远端为 `https://github.com/FAMEDaYu/FCP-BeautyGirl.git`。更名后的恢复检查点 `6a29d52a9ad667665da4acf75017c008fa0a566d` 已通过新地址匿名独立克隆、239个文件字节/执行位和strict/full fsck核验，产品源码与此前正式版相同。Release、附件和原有标签保留，文章及本地远程/仓库目录表均已更新；详见 `docs/verification/github/rename-recovery-20261022.json`。
+GitHub于2026-10-22更正仓库名为 `FCP-BeautyGirl`，远端为 `https://github.com/dayumeida/FCP-BeautyGirl.git`。更名后的恢复检查点 `6a29d52a9ad667665da4acf75017c008fa0a566d` 已通过新地址匿名独立克隆、239个文件字节/执行位和strict/full fsck核验，产品源码与此前正式版相同。Release、附件和原有标签保留，文章及本地远程/仓库目录表均已更新；详见 `docs/verification/github/rename-recovery-20261022.json`。

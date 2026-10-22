@@ -1,0 +1,79 @@
+{
+  "oldLogin": "FAMEDaYu",
+  "newLogin": "dayumeida",
+  "accountId": 117798680,
+  "profileURL": "https://github.com/dayumeida",
+  "repositories": [
+    {
+      "id": 1428817365,
+      "oldName": "FAMEDaYu/FCP-BeautyGirl",
+      "newName": "dayumeida/FCP-BeautyGirl",
+      "allRefsUnchanged": true,
+      "releasesAndAssetsUnchanged": true
+    },
+    {
+      "id": 904215594,
+      "oldName": "FAMEDaYu/FCPX-",
+      "newName": "dayumeida/FCPX-",
+      "allRefsUnchanged": true,
+      "releasesAndAssetsUnchanged": true
+    }
+  ],
+  "localGithubRemote": "https://github.com/dayumeida/FCP-BeautyGirl.git",
+  "date": "2026-10-22",
+  "links": {
+    "redirects": [
+      {
+        "old": "https://github.com/FAMEDaYu/FCP-BeautyGirl",
+        "final": "https://github.com/dayumeida/FCP-BeautyGirl",
+        "status": 200
+      },
+      {
+        "old": "https://github.com/FAMEDaYu/FCP-BeatyGril",
+        "final": "https://github.com/dayumeida/FCP-BeautyGirl",
+        "status": 200
+      },
+      {
+        "old": "https://github.com/FAMEDaYu/FCP-BeautyGirl/releases/tag/v1.3.1",
+        "final": "https://github.com/dayumeida/FCP-BeautyGirl/releases/tag/v1.3.1",
+        "status": 200
+      },
+      {
+        "old": "https://github.com/FAMEDaYu/FCPX-",
+        "final": "https://github.com/dayumeida/FCPX-",
+        "status": 200
+      }
+    ],
+    "newProfileStatus": 200,
+    "articleLinksVerified": true
+  },
+  "globalRepositoryIndex": {
+    "remote": "https://dayu.media/git/dayu/codex-global-rules.git",
+    "baseline": "750b430b75e4ccdf5badae8ee3f88a07144b3a9e",
+    "commit": "dde7e2ee26eae18627eefda9b956a6aca52354ad",
+    "trackedFilesCompared": 11,
+    "independentCloneAndFsck": true,
+    "changedFile": "REPOSITORIES.md"
+  },
+  "githubReleaseNotes": [
+    {
+      "id": 420500792,
+      "tag": "v1.3.1",
+      "assetsUnchanged": true
+    }
+  ],
+  "dayuReleaseNotes": [
+    {
+      "id": 136,
+      "tag": "v1.3.1",
+      "assetsUnchanged": true
+    }
+  ],
+  "article": {
+    "id": 15593,
+    "url": "https://dayu.media/15593/",
+    "change": "GitHub owner URL only",
+    "downloadCoverSeoAndAccessPreserved": true
+  },
+  "sourceArtifacts": "No change to product source or APP/PKG/source ZIP bytes. Historical verification evidence retains the prior username."
+}

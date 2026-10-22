@@ -1,8 +1,8 @@
 # GitHub 同步与恢复
 
-公开源码：https://github.com/FAMEDaYu/FCP-BeautyGirl
+公开源码：https://github.com/dayumeida/FCP-BeautyGirl
 
-正式安装包：https://github.com/FAMEDaYu/FCP-BeautyGirl/releases/tag/v1.3.1
+正式安装包：https://github.com/dayumeida/FCP-BeautyGirl/releases/tag/v1.3.1
 
 本地 `github` 远端指向上述 GitHub 仓库，`origin` 继续指向大鱼仓库，`main` 仍跟随 `origin/main`。当前项目的完整提交历史、main 和全部现有版本标签已推送，两端引用与本地一致；未改写历史或覆盖标签。后续更新需要分别推送到 origin 和 github，不会自动定时同步。
 
@@ -13,7 +13,7 @@
 安装包：`Dayu-Portrait-1.2.0.pkg`，5,011,005 bytes，SHA-256 `5bd77c28b3a7e54f3d4060be1f16bcb145d9bc4d6b9cfb9eb137c01130440243`。Release 标签 `v1.2.0` 仍指向 `3c7261c3a861b9f4704cfb36055d7b500c239dab`，没有重新编译或改动正式安装包。
 
 ```sh
-git clone https://github.com/FAMEDaYu/FCP-BeautyGirl.git
+git clone https://github.com/dayumeida/FCP-BeautyGirl.git
 cd FCP-BeautyGirl
 git switch --detach 356683b41af702d6c0143ad7fa5f540d752d6e14
 ```
@@ -34,4 +34,9 @@ GitHub Release已提供 `Dayu-Portrait-1.3.1.pkg`（5,011,286 bytes，SHA256 `a6
 
 ## 2026-10-22 仓库名称拼写更正
 
-GitHub仓库从 `FAMEDaYu/FCP-BeatyGril` 更名为 `FAMEDaYu/FCP-BeautyGirl`，仓库ID `1428817365` 保持一致。更名前后全部分支/标签SHA、Release与附件ID/大小一致，未另建仓库或改写历史。本地github远端已改为 `https://github.com/FAMEDaYu/FCP-BeautyGirl.git`，origin和main上游仍为原大鱼仓库。现有发布标签、已公证APP/PKG及源码快照保留原始字节，旧快照里的旧链接由GitHub重定向到新地址；当前文档、文章和Release说明使用新地址。插件APP产品名、Bundle ID和安装路径沿用原配置。更名核验见verification/github/rename-20261022.json。
+GitHub仓库从 `FAMEDaYu/FCP-BeatyGril` 更名为 `FAMEDaYu/FCP-BeautyGirl`，仓库ID `1428817365` 保持一致。更名前后全部分支/标签SHA、Release与附件ID/大小一致，未另建仓库或改写历史。本地github远端已改为 `https://github.com/dayumeida/FCP-BeautyGirl.git`，origin和main上游仍为原大鱼仓库。现有发布标签、已公证APP/PKG及源码快照保留原始字节，旧快照里的旧链接由GitHub重定向到新地址；当前文档、文章和Release说明使用新地址。插件APP产品名、Bundle ID和安装路径沿用原配置。更名核验见verification/github/rename-20261022.json。
+
+
+## 2026-10-22 用户名更改
+
+用户将GitHub登录名从 `FAMEDaYu` 改为 `dayumeida`，账号ID117798680保持不变。两个公开仓库迁移到dayumeida名下：FCP-BeautyGirl（ID1428817365）和FCPX-（ID904215594）。更名前后全部分支/标签SHA及Release/附件ID、名称、大小一致。当前项目github远端为 `https://github.com/dayumeida/FCP-BeautyGirl.git`，origin及main上游保持原大鱼仓库；文章15593、活动文档和Release说明更新为新地址。正式版本标签、公证APP/PKG和源码快照保留原始字节，不为账号更名重新构建。个人主页新地址为 `https://github.com/dayumeida`，旧个人主页不提供重定向；仓库旧地址由GitHub重定向。历史验证回执保留当时用户名。账号更名核验见verification/github/username-20261022.json。

@@ -14,7 +14,7 @@
 
 1.3.1（16）修复 V 脸影响眼区的问题，改为四组下颌轮廓到外唇的局部采样，并对齐新目标的 0.065 强度映射。1901 项自动检查通过，APP 与本机 PKG 工坊制作的安装包均已签名、公证和验证。正式 APP 已安装；新效果的原生宿主视觉仍由用户实测。原理与边界见 [V 脸下颌区域修复](docs/analysis/V脸下颌区域修复.md)。
 
-当前 [1.3.1 正式下载](https://github.com/FAMEDaYu/FCP-BeautyGirl/releases/tag/v1.3.1) 与 [大鱼文章](https://dayu.media/15593/) 已更新，安装包包含「大鱼磨皮瘦脸」分类的配套效果及资源，源码快照也已同步。
+当前 [1.3.1 正式下载](https://github.com/dayumeida/FCP-BeautyGirl/releases/tag/v1.3.1) 与 [大鱼文章](https://dayu.media/15593/) 已更新，安装包包含「大鱼磨皮瘦脸」分类的配套效果及资源，源码快照也已同步。
 
 ## 开发和恢复
 
@@ -29,7 +29,7 @@ xcodebuild -project beatygril/beatygril.xcodeproj -scheme 'Wrapper Application' 
 
 工程从 `/Library/Developer/SDKs/FxPlug.sdk` 读取头文件与链接信息，从 `/Library/Developer/Frameworks` 嵌入可运行的 Apple 框架。构建默认使用团队 B3W25FX5H5 的 Developer ID Application 身份；正式交付使用 `python3 scripts/deliver.py` 完成公证、粘附和安装；安装前先关闭 Motion 与 FCP，脚本在检测到宿主仍运行时保留原安装版并停止。原生验收完成后继续脚本的清理阶段，清除临时注册与 APP 副本。
 
-公开源码：[GitHub · FCP-BeautyGirl](https://github.com/FAMEDaYu/FCP-BeautyGirl)。大鱼站备份：`https://dayu.media/git/dayu/paintfcp-fxplug.git`。恢复入口见 [RECOVERY.md](RECOVERY.md)，当前验证记录见 [验证记录](docs/验证记录.md)。原始模板保存在 `baseline-20261021` 标签。
+公开源码：[GitHub · FCP-BeautyGirl](https://github.com/dayumeida/FCP-BeautyGirl)。大鱼站备份：`https://dayu.media/git/dayu/paintfcp-fxplug.git`。恢复入口见 [RECOVERY.md](RECOVERY.md)，当前验证记录见 [验证记录](docs/验证记录.md)。原始模板保存在 `baseline-20261021` 标签。
 
 继续开发或移交时先读[项目交接文档](docs/项目交接.md)，包含当前发布状态、源码入口、坐标与交互约定、验收边界，以及签名打包和双远端保存流程。
 
@@ -67,4 +67,4 @@ xcodebuild -project beatygril/beatygril.xcodeproj -scheme 'Wrapper Application' 
 
 `large.png`（640×360）和 `small.png`（192×108）与 `.moef` 同目录，安装器安装后重新锁定。手动复制或从 Git 恢复模板时，需对这两个 PNG 重新执行 `chflags uchg`，不能锁定整个模板目录。FCP 当前分类为「大鱼磨皮瘦脸」，Motion 原生滤镜分类仍为「大鱼」。
 
-GitHub 提供公开源码、提交历史和版本标签；[1.2.0 Release](https://github.com/FAMEDaYu/FCP-BeautyGirl/releases/tag/v1.2.0) 提供正式签名公证安装包。大鱼站 Git 备份仍受站点登录与会员网关限制，发布文章另提供公开源码快照；安装包始终免费。
+GitHub 提供公开源码、提交历史和版本标签；[1.2.0 Release](https://github.com/dayumeida/FCP-BeautyGirl/releases/tag/v1.2.0) 提供正式签名公证安装包。大鱼站 Git 备份仍受站点登录与会员网关限制，发布文章另提供公开源码快照；安装包始终免费。
