@@ -1,0 +1,12 @@
+{
+  "status": "verified",
+  "date": "2026-10-22",
+  "commit": "2f2c081980dc610ac810f8daf92da8966f310802",
+  "remote": "https://dayu.media/git/dayu/paintfcp-fxplug.git",
+  "branch": "codex/new-beauty-controls",
+  "trackedFilesCompared": 205,
+  "gitFsckFullStrict": true,
+  "lfs": false,
+  "submodules": false,
+  "resources": "All tracked source, template and artwork bytes match; user QA media/signing credentials are external and not required to compile source."
+}

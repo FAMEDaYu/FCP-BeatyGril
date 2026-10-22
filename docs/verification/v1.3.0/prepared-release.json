@@ -1,0 +1,21 @@
+{
+  "status": "waiting_for_host_exit",
+  "bundleIdentifier": "com.dayu.beatygril",
+  "installationPath": "/Library/Plug-Ins/FxPlug/beatygril.app",
+  "version": "1.3.0",
+  "build": "15",
+  "source": {
+    "commit": "2f2c081980dc610ac810f8daf92da8966f310802",
+    "trackedWorktreeChanges": []
+  },
+  "notarization": {
+    "id": "ca96837f-bf33-44fa-8d58-799026ce5c7d",
+    "message": "Processing complete",
+    "status": "Accepted"
+  },
+  "signingVerified": true,
+  "stapleValidated": true,
+  "stagingPluginUnregistered": true,
+  "nativeEffectQA": "pending_user",
+  "note": "Prepared Release is Accepted and stapled; installation is waiting for existing user hosts to close. The installed product has not been replaced."
+}

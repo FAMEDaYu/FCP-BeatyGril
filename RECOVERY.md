@@ -105,3 +105,12 @@ Motion/FCP原生验收范围及未完成项见`docs/verification/v1.1.2/native-q
 ## GitHub 公开恢复副本
 
 GitHub 远端 `https://github.com/FAMEDaYu/FCP-BeatyGril.git` 已完成完整历史与七个标签的推送，`origin` 及其 main 上游保持大鱼仓库。独立匿名克隆恢复节点为 `356683b41af702d6c0143ad7fa5f540d752d6e14`，197 文件逐字节核验、strict/full fsck 和全部标签回读通过。后续 main 补充发布说明与验证文档，产品源码保持相同。GitHub Release 的公证安装包已匿名下载核对哈希、签名和票据。详见 `docs/GitHub同步说明.md` 和 `docs/verification/github/`。
+
+
+## 1.3.0 新面板参数候选
+
+签名源码节点 `2f2c081980dc610ac810f8daf92da8966f310802` 已推送并读回核验 origin 与 github 的 `codex/new-beauty-controls` 分支。两个远端地址沿用本文既有配置。独立远端克隆与 strict/full fsck、205 个受跟踪文件逐字节比较通过，见 `docs/verification/v1.3.0/recovery-verification.json`。无 LFS、子模块；依赖与签名凭据仍需单独恢复。
+
+本节点增加五官保护强度、非肤色区保护和局部微细锐化，PGBeautySettings v2 兼容旧 160 字节 v1 状态，面板归档仍为 schema 1。测试命令不变，1636 项通过。恢复候选源码时克隆并切换该分支，或 `git switch --detach 2f2c081980dc610ac810f8daf92da8966f310802`。
+
+1.3.0（15）已签名、通过 Apple 公证及票据校验，当前等待现有 Motion/FCP 退出后安装；正式安装仍为 1.2.0。候选状态见 `docs/verification/v1.3.0/prepared-release.json`；本次没有生成新 PKG 或更新文章，1.2.0 的发行资料继续有效。
