@@ -90,7 +90,7 @@ static NSArray *PGSanitizedPoints76(id value) {
     return [points copy];
 }
 static NSArray *PGFullPoints76(VNFaceLandmarkRegion2D *region, CGRect box) {
-    if (region.pointCount != 76 || !region.normalizedPoints) return nil;
+    if (region.pointCount < 76 || !region.normalizedPoints) return nil;
     const CGPoint *raw = region.normalizedPoints;
     NSMutableArray *points = [NSMutableArray arrayWithCapacity:76];
     for (NSUInteger i=0; i<76; i++) {
@@ -110,6 +110,7 @@ static NSDictionary *PGGeometry(VNFaceObservation *observation) {
              @"mouth": PGRegion(lm.innerLips, box), @"contour": PGRegion(lm.faceContour, box)} mutableCopy];
     NSArray *points = PGFullPoints76(lm.allPoints, box);
     if (points) geometry[@"points76"] = points;
+    geometry[@"landmarkConfidence"] = @(lm ? lm.confidence : 0);
     return [geometry copy];
 }
 static NSDictionary *PGSanitizedGeometry(id value) {
@@ -133,6 +134,7 @@ static NSDictionary *PGSanitizedGeometry(id value) {
     // thin/chin/jaw/short fields without discarding otherwise usable old records.
     NSArray *points76 = PGSanitizedPoints76(value[@"points76"]);
     if (points76) result[@"points76"] = points76;
+    if ([value[@"landmarkConfidence"] isKindOfClass:NSNumber.class]) result[@"landmarkConfidence"] = value[@"landmarkConfidence"];
     return [result copy];
 }
 static CGRect PGRegionBounds(NSDictionary *geometry, NSString *name, CGRect fallback) {
@@ -178,154 +180,259 @@ static CGPoint PGRemapPoint(NSArray *point, CGRect old, CGRect current) {
     return CGPointMake(current.origin.x+([point[0] doubleValue]-old.origin.x)*current.size.width/old.size.width,
                        current.origin.y+([point[1] doubleValue]-old.origin.y)*current.size.height/old.size.height);
 }
-static NSDictionary *PGStableGeometry(NSDictionary *current, NSDictionary *previous, double dt, BOOL stabilizePoints76) {
-    CGRect old=PGArrayRect(previous[@"box"]),box=PGArrayRect(current[@"box"]);
-    if(!PGValidRect(old) || !PGValidRect(box))return current;
-    // Independent stabilization: translate/scale old landmarks into the current
-    // detection box first, so normal head motion does not accumulate box lag.
-    double weight=.9*fmin(1,fmax(0,dt/.03));
-    CGPoint oldLE=PGCenter(PGRegionBounds(previous,@"leftEye",PGInFace(old,.16,.53,.25,.15)));
-    CGPoint oldRE=PGCenter(PGRegionBounds(previous,@"rightEye",PGInFace(old,.59,.53,.25,.15)));
-    CGPoint newLE=PGCenter(PGRegionBounds(current,@"leftEye",PGInFace(box,.16,.53,.25,.15)));
-    CGPoint newRE=PGCenter(PGRegionBounds(current,@"rightEye",PGInFace(box,.59,.53,.25,.15)));
-    double ox=oldRE.x-oldLE.x,oy=oldRE.y-oldLE.y,nx=newRE.x-newLE.x,ny=newRE.y-newLE.y;
-    double oldLength=hypot(ox,oy),newLength=hypot(nx,ny);
-    BOOL axisHold=oldLength>MAX(.003,.055*MIN(old.size.height,box.size.height)) &&
-        newLength>MAX(.003,.055*MIN(old.size.height,box.size.height)) &&
-        (ox*nx+oy*ny)/(oldLength*newLength)<-.18;
-    NSMutableDictionary *stable=[NSMutableDictionary dictionaryWithObject:current[@"box"] forKey:@"box"];
-    for(NSString *name in PGGeometryRegions()) {
-        NSArray *a=previous[name],*b=current[name];
-        if(!a.count || (!axisHold && a.count!=b.count)) {stable[name]=b;continue;}
-        NSMutableArray *points=[NSMutableArray arrayWithCapacity:a.count];
-        for(NSUInteger i=0;i<a.count;i++) {
-            CGPoint p=PGRemapPoint(a[i],old,box);
-            if(!axisHold) {p.x+=( [b[i][0] doubleValue]-p.x)*weight;p.y+=([b[i][1] doubleValue]-p.y)*weight;}
-            [points addObject:@[@(p.x),@(p.y)]];
-        }
-        stable[name]=[points copy];
+// 2.4.0's default pin path accepts good points without a temporal blend.
+// Geometry remains in our existing bottom-left coordinate convention; distances,
+// dot products and the two-axis sign test are invariant to the reference's Y flip.
+static CGPoint PGPoint(NSArray *p) { return CGPointMake([p[0] doubleValue], [p[1] doubleValue]); }
+static CGPoint PGMeanPoints(NSArray *points, NSUInteger first, NSUInteger count) {
+    if (!count || first+count>points.count) return CGPointMake(NAN,NAN);
+    CGPoint sum=CGPointZero;
+    for(NSUInteger i=first;i<first+count;i++) {CGPoint p=PGPoint(points[i]);sum.x+=p.x;sum.y+=p.y;}
+    return CGPointMake(sum.x/count,sum.y/count);
+}
+static CGPoint PGLocalPoint(CGPoint p,CGRect box) {
+    return CGPointMake((p.x-box.origin.x)/box.size.width,(p.y-box.origin.y)/box.size.height);
+}
+static NSString *PGGeometryQualityReason(NSDictionary *g) {
+    CGRect box=PGArrayRect(g[@"box"]);NSArray *points=PGSanitizedPoints76(g[@"points76"]),*contour=g[@"contour"];
+    if(!PGValidRect(box)||points.count!=76)return @"incomplete76";
+    if(contour.count<=10)return @"contour";
+    double confidence=g[@"landmarkConfidence"]?[g[@"landmarkConfidence"] doubleValue]:1;
+    if(!isfinite(confidence)||confidence<.55)return @"confidence";
+    for(NSArray *point in points) {
+        CGPoint p=PGLocalPoint(PGPoint(point),box);
+        if(!isfinite(p.x)||!isfinite(p.y)||p.x<-.35||p.x>1.35||p.y<-.35||p.y>1.35)return @"localBounds";
     }
-    NSArray *current76 = PGSanitizedPoints76(current[@"points76"]);
-    NSArray *previous76 = PGSanitizedPoints76(previous[@"points76"]);
-    if (current76) {
-        if (stabilizePoints76 && previous76) {
-            NSMutableArray *points = [NSMutableArray arrayWithCapacity:76];
-            for (NSUInteger i=0; i<76; i++) {
-                CGPoint p = PGRemapPoint(previous76[i], old, box);
-                if (!axisHold) {
-                    p.x += ([current76[i][0] doubleValue]-p.x)*weight;
-                    p.y += ([current76[i][1] doubleValue]-p.y)*weight;
-                }
-                [points addObject:@[@(p.x),@(p.y)]];
-            }
-            stable[@"points76"] = [points copy];
-        } else {
-            // Reacquired detections and changes from/to incomplete topology do
-            // not borrow a held face's old projected pose or invent missing points.
-            stable[@"points76"] = current76;
-        }
+    CGPoint centers[5];NSArray *names=@[@"leftEye",@"rightEye",@"nose",@"lips"];
+    for(NSUInteger i=0;i<4;i++) {
+        NSArray *region=g[names[i]];if(!region.count)return @"missingRegion";
+        centers[i]=PGLocalPoint(PGMeanPoints(region,0,region.count),box);
+        if(!isfinite(centers[i].x)||!isfinite(centers[i].y))return @"regionBounds";
     }
-    return [stable copy];
+    centers[4]=PGLocalPoint(PGMeanPoints(contour,contour.count/2-1,3),box);
+    CGPoint left=centers[0],right=centers[1],nose=centers[2],mouth=centers[3],chin=centers[4];
+    double dx=right.x-left.x,dy=right.y-left.y,length=hypot(dx,dy);
+    if(!isfinite(length)||length<.1)return @"eyeDistance";
+    dx/=length;dy/=length;
+    CGPoint eye=CGPointMake((left.x+right.x)*.5,(left.y+right.y)*.5);
+    double vx=-dy,vy=dx;
+    if(vx*(mouth.x-eye.x)+vy*(mouth.y-eye.y)<0){vx=-vx;vy=-vy;}
+    double mouthProjection=vx*(mouth.x-eye.x)+vy*(mouth.y-eye.y);
+    double noseProjection=vx*(nose.x-eye.x)+vy*(nose.y-eye.y);
+    double chinProjection=vx*(chin.x-eye.x)+vy*(chin.y-eye.y);
+    double lateral=dx*(chin.x-eye.x)+dy*(chin.y-eye.y);
+    if(!isfinite(chinProjection)||mouthProjection<.08||chinProjection-mouthProjection<.06||chinProjection<.2)return @"anatomy";
+    if(noseProjection<-.12||noseProjection>mouthProjection+.16||fabs(lateral)>length*.5+.3)return @"anatomy";
+    return @"";
+}
+static double PGBoxIoU(CGRect a,CGRect b) {
+    CGRect intersection=CGRectIntersection(a,b);double area=CGRectIsNull(intersection)?0:intersection.size.width*intersection.size.height;
+    double total=a.size.width*a.size.height+b.size.width*b.size.height-area;return total>0?area/total:0;
+}
+static BOOL PGCompatibleBoxes(CGRect a,CGRect b) {
+    if(!PGValidRect(a)||!PGValidRect(b))return NO;
+    CGPoint x=PGCenter(a),y=PGCenter(b);
+    return hypot(x.x-y.x,x.y-y.y)<=MAX(.04,.82*MAX(b.size.width,b.size.height))||PGBoxIoU(a,b)>=.08;
+}
+static CGPoint PGChinAxis(NSDictionary *g) {
+    NSArray *p=g[@"points76"];if(p.count!=76)return CGPointMake(NAN,NAN);
+    CGPoint a=PGPoint(p[66]),b=PGPoint(p[67]),c=PGPoint(p[68]),center=PGCenter(PGArrayRect(g[@"box"]));
+    return CGPointMake((a.x+1.65*b.x+c.x)/3.65-center.x,(a.y+1.65*b.y+c.y)/3.65-center.y);
+}
+static BOOL PGGeometryAxisFlip(NSDictionary *current,NSDictionary *previous) {
+    CGRect a=PGArrayRect(current[@"box"]),b=PGArrayRect(previous[@"box"]);
+    if(!PGCompatibleBoxes(a,b))return NO;
+    CGPoint x=PGChinAxis(current),y=PGChinAxis(previous);double lx=hypot(x.x,x.y),ly=hypot(y.x,y.y);
+    double threshold=MAX(.003,.055*MIN(a.size.height,b.size.height));
+    if(!isfinite(lx)||!isfinite(ly)||lx<.0008||ly<.0008||lx<threshold||ly<threshold)return NO;
+    if(x.y*y.y>=0||fabs(x.y)<.35*threshold||fabs(y.y)<.35*threshold)return NO;
+    double cosine=fmax(-1,fmin(1,(x.x*y.x+x.y*y.y)/(lx*ly)));
+    return cosine<=-.18||fabs(x.y-y.y)>=threshold;
+}
+static NSDictionary *PGRemappedGeometry(NSDictionary *previous,CGRect box) {
+    CGRect old=PGArrayRect(previous[@"box"]);if(!PGValidRect(old)||!PGValidRect(box))return previous;
+    NSMutableDictionary *result=[previous mutableCopy];result[@"box"]=PGRectArray(box);
+    NSMutableArray *names=[PGGeometryRegions() mutableCopy];[names addObject:@"points76"];
+    for(NSString *name in names) {
+        NSMutableArray *points=[NSMutableArray new];
+        for(NSArray *point in previous[name]) {CGPoint p=PGRemapPoint(point,old,box);[points addObject:@[@(p.x),@(p.y)]];}
+        if(points.count)result[name]=points;
+    }
+    return result;
+}
+// Reference hold validation uses the 76 points plus the box center. Keep our
+// persisted topology at 76 and reconstruct the center rather than changing archives.
+static BOOL PGValidHeldGeometry(NSDictionary *g) {
+    CGRect box=PGArrayRect(g[@"box"]);NSArray *p=PGSanitizedPoints76(g[@"points76"]);
+    if(!PGValidRect(box)||p.count!=76)return NO;
+    CGRect expanded=CGRectInset(box,-.4*box.size.width,-.4*box.size.height);
+    double minX=CGRectGetMidX(box),maxX=minX,minY=CGRectGetMidY(box),maxY=minY;
+    double contourMinX=DBL_MAX,contourMaxX=-DBL_MAX,contourMinY=DBL_MAX,contourMaxY=-DBL_MAX,left=0,mid=0,right=0;
+    for(NSUInteger i=0;i<76;i++) {
+        CGPoint point=PGPoint(p[i]);
+        if(point.x<-.25||point.x>1.25||point.y<-.25||point.y>1.25)return NO;
+        minX=MIN(minX,point.x);maxX=MAX(maxX,point.x);minY=MIN(minY,point.y);maxY=MAX(maxY,point.y);
+        if(i<59)continue;
+        if(!CGRectContainsPoint(expanded,point))return NO;
+        contourMinX=MIN(contourMinX,point.x);contourMaxX=MAX(contourMaxX,point.x);
+        contourMinY=MIN(contourMinY,point.y);contourMaxY=MAX(contourMaxY,point.y);
+        if(i<66)left+=point.x;else if(i<=68)mid+=point.x;else right+=point.x;
+    }
+    double w=box.size.width,h=box.size.height,cw=contourMaxX-contourMinX,ch=contourMaxY-contourMinY;
+    left/=7;mid/=3;right/=7;
+    return maxX-minX>=.25*w&&maxY-minY>=.25*h&&cw>=.2*w&&ch>=.04*h&&cw<=1.85*w&&ch<=1.85*h&&
+        fabs(right-left)>=.12*w&&mid>=MIN(left,right)-.35*w&&mid<=MAX(left,right)+.35*w;
+}
+static NSString *PGGeometryTransitionReason(NSDictionary *current,NSDictionary *previous) {
+    CGRect box=PGArrayRect(current[@"box"]),old=PGArrayRect(previous[@"box"]);
+    if(!PGCompatibleBoxes(box,old))return @"";
+    if(PGGeometryAxisFlip(current,previous))return @"axisFlip";
+    NSArray *a=current[@"points76"],*b=previous[@"points76"];
+    if(a.count!=76||b.count!=76)return @"";
+    NSMutableArray *distances=[NSMutableArray new];double scale=MAX(box.size.width,box.size.height);
+    for(NSUInteger i=0;i<76;i++) {
+        CGPoint p=PGRemapPoint(b[i],old,box),q=PGPoint(a[i]);
+        [distances addObject:@(hypot(p.x-q.x,p.y-q.y)/scale)];
+    }
+    [distances sortUsingSelector:@selector(compare:)];
+    return [distances[38] doubleValue]>.30||[distances[67] doubleValue]>.58?@"pointJump":@"";
+}
+static CIImage *PGPreparedVisionImage(CIImage *image,CGFloat limit) {
+    CGRect e=image.extent;
+    CIImage *prepared=[image imageByApplyingTransform:CGAffineTransformMakeTranslation(-e.origin.x,-e.origin.y)];
+    CGFloat scale=MIN(1,limit/MAX(e.size.width,e.size.height));
+    if(scale<1)prepared=[prepared imageByApplyingTransform:CGAffineTransformMakeScale(scale,scale)];
+    return [prepared imageByCroppingToRect:CGRectMake(0,0,MAX(1,floor(e.size.width*scale)),MAX(1,floor(e.size.height*scale)))];
 }
 
-// This live selector is deliberately independent of _targets. Its past-only
-// .35s reference window is a documented project policy, not a recovered exact
-// vendor formula. Continuous held outputs advance time, so this is not a hold
-// timeout. Locks protect state, not global render-order equivalence: a cold seek
-// cannot reconstruct frames the host has never supplied.
 @interface PGRealtimeFaceTracker : NSObject {
     NSLock *_mutex;
     NSMutableArray<NSDictionary *> *_entries;
     NSUInteger _estimatedBytes;
+    NSDictionary *_liveReference;
+    VNSequenceRequestHandler *_sequence;
+    VNTrackObjectRequest *_objectRequest;
+    CGRect _objectBox;
+    CMTime _objectTime;
+    BOOL _objectValid;
 }
 - (NSDictionary *)resultForGeometry:(NSArray<NSDictionary *> *)raw settings:(PGBeautySettings)settings time:(CMTime)time extent:(CGRect)extent;
+- (NSDictionary *)resultForGeometry:(NSArray<NSDictionary *> *)raw settings:(PGBeautySettings)settings time:(CMTime)time extent:(CGRect)extent image:(CIImage *)image;
+- (CGRect)trackedBoxForImage:(CIImage *)image time:(CMTime)time seedBox:(CGRect)seed;
 - (void)reset;
 - (NSDictionary *)cacheStatistics;
 @end
 @implementation PGRealtimeFaceTracker
-- (instancetype)init {if((self=[super init])){_mutex=[NSLock new];_entries=[NSMutableArray new];}return self;}
-- (void)reset {[_mutex lock];[_entries removeAllObjects];_estimatedBytes=0;[_mutex unlock];}
+- (instancetype)init {if((self=[super init])){_mutex=[NSLock new];_entries=[NSMutableArray new];_objectTime=kCMTimeInvalid;}return self;}
+- (void)resetObjectTracker { _sequence=[VNSequenceRequestHandler new];_objectRequest=nil;_objectBox=CGRectNull;_objectTime=kCMTimeInvalid;_objectValid=NO; }
+- (void)reset {[_mutex lock];[_entries removeAllObjects];_estimatedBytes=0;_liveReference=nil;[self resetObjectTracker];[_mutex unlock];}
 - (NSDictionary *)cacheStatistics {[_mutex lock];NSDictionary *stats=@{@"frames":@(_entries.count),@"estimatedBytes":@(_estimatedBytes)};[_mutex unlock];return stats;}
-- (NSDictionary *)resultForGeometry:(NSArray<NSDictionary *> *)input settings:(PGBeautySettings)s time:(CMTime)time extent:(CGRect)extent {
+- (CGRect)trackedBoxForImage:(CIImage *)image time:(CMTime)time seedBox:(CGRect)seed {
+    if(!image||!PGTimeKey(time))return CGRectNull;
+    BOOL hasSeed=PGValidRect(seed),hasBox=PGValidRect(_objectBox);
+    double dt=PGTimeKey(_objectTime)?CMTimeGetSeconds(CMTimeSubtract(time,_objectTime)):NAN;
+    BOOL backward=isfinite(dt)&&dt<0;
+    if(hasBox&&_objectValid&&isfinite(dt)&&fabs(dt)<=.0005)return _objectBox;
+    if(!_sequence)_sequence=[VNSequenceRequestHandler new];
+    if(!_objectRequest||!_objectValid||backward||(isfinite(dt)&&dt>.2)) {
+        if(!backward&&hasBox&&!_objectValid&&isfinite(dt)&&dt<=.45&&(!hasSeed||!PGCompatibleBoxes(seed,_objectBox)))return _objectBox;
+        if(!hasSeed)return CGRectNull;
+        _sequence=[VNSequenceRequestHandler new];
+        _objectRequest=[[VNTrackObjectRequest alloc] initWithDetectedObjectObservation:[VNDetectedObjectObservation observationWithBoundingBox:seed]];
+        NSUInteger revision=VNTrackObjectRequest.defaultRevision;
+        if(![VNTrackObjectRequest.supportedRevisions containsIndex:revision])revision=VNTrackObjectRequest.currentRevision;
+        if([VNTrackObjectRequest.supportedRevisions containsIndex:revision])_objectRequest.revision=revision;
+        _objectRequest.trackingLevel=VNRequestTrackingLevelAccurate;
+        _objectBox=seed;_objectTime=time;_objectValid=YES;return seed;
+    }
+    NSError *error=nil;
+    BOOL ok=[_sequence performRequests:@[_objectRequest] onCIImage:PGPreparedVisionImage(image,960) orientation:kCGImagePropertyOrientationUp error:&error];
+    VNDetectedObjectObservation *result=ok?_objectRequest.results.firstObject:nil;
+    CGRect box=result.boundingBox;
+    if(result&&result.confidence>=.22&&PGValidRect(box)) {
+        _objectRequest.inputObservation=result;_objectRequest.trackingLevel=VNRequestTrackingLevelAccurate;
+        _objectBox=box;_objectTime=time;_objectValid=YES;return box;
+    }
+    _objectRequest=nil;_sequence=[VNSequenceRequestHandler new];_objectValid=NO;
+    return hasBox?_objectBox:(hasSeed?seed:CGRectNull);
+}
+- (NSDictionary *)resultForGeometry:(NSArray<NSDictionary *> *)raw settings:(PGBeautySettings)s time:(CMTime)time extent:(CGRect)extent {
+    return [self resultForGeometry:raw settings:s time:time extent:extent image:nil];
+}
+- (NSDictionary *)resultForGeometry:(NSArray<NSDictionary *> *)input settings:(PGBeautySettings)s time:(CMTime)time extent:(CGRect)extent image:(CIImage *)image {
     NSMutableArray *valid=[NSMutableArray new];
-    for(id item in input) {NSDictionary *g=PGSanitizedGeometry(item);if(g && valid.count<16)[valid addObject:g];}
-    NSArray *raw=[valid copy];
-    NSUInteger mode=s.fastMultiFace?2:(s.singleFace?1:0);
+    for(id item in input) {NSDictionary *g=PGSanitizedGeometry(item);if(g&&valid.count<16)[valid addObject:g];}
+    NSArray *raw=[valid copy];NSUInteger mode=s.fastMultiFace?2:(s.singleFace?1:0);
     NSString *key=PGTimeKey(time);
     NSString *context=[NSString stringWithFormat:@"%lu/%u/%lld/%.17g/%.17g/%.17g/%.17g/%.9g",(unsigned long)mode,s.targetIndex,
         (long long)time.epoch,extent.origin.x,extent.origin.y,extent.size.width,extent.size.height,s.faceJumpGuardRange];
     [_mutex lock];
-    NSDictionary *head=nil;
-    for(NSDictionary *record in _entries) if([record[@"context"] isEqual:context] &&
-        (!head || CMTimeCompare(PGRecordTime(record),PGRecordTime(head))>=0)) head=record;
-    NSString *scope=@"automatic";
+    BOOL contextChanged=![_liveReference[@"context"] isEqual:context];
+    NSDictionary *reference=contextChanged?nil:_liveReference;
+    if(contextChanged) {
+        // Fast-multi bypasses pin selection. Returning to a prior mode can use
+        // its accepted shape, but must never continue another mode's VN sequence.
+        for(NSDictionary *record in _entries)if([record[@"context"] isEqual:context]&&CMTimeCompare(PGRecordTime(record),time)<=0&&
+            (!reference||CMTimeCompare(PGRecordTime(record),PGRecordTime(reference))>0))reference=record;
+    }
     double seedX=PGClamp(s.selectionX,0,1),seedY=PGClamp(s.selectionY,0,1);
-    if(mode==1) {
-        // A real point change (> .01) starts a new identity scope. Older render
-        // snapshots may use their own past scope, but never replace a newer head.
-        NSDictionary *seedRecord=head;
-        if(seedRecord && CMTimeCompare(time,PGRecordTime(seedRecord))<0) {
-            seedRecord=nil;
-            for(NSDictionary *record in _entries) if([record[@"context"] isEqual:context] && PGSeedDistance(record,s)<=.01 &&
-                CMTimeCompare(PGRecordTime(record),time)<=0 && (!seedRecord || CMTimeCompare(PGRecordTime(record),PGRecordTime(seedRecord))>=0))seedRecord=record;
-        }
-        if(seedRecord && PGSeedDistance(seedRecord,s)<=.01) {
-            scope=seedRecord[@"scope"];seedX=[seedRecord[@"seedX"] doubleValue];seedY=[seedRecord[@"seedY"] doubleValue];
-        } else scope=[NSString stringWithFormat:@"%@/%.9g/%.9g",key?:@"invalid",seedX,seedY];
-    }
-    NSDictionary *reference=nil;
-    if(key) for(NSDictionary *record in _entries) {
-        if(![record[@"context"] isEqual:context] || ![record[@"scope"] isEqual:scope])continue;
-        if([record[@"key"] isEqual:key] && [record[@"raw"] isEqual:raw]) {[_mutex unlock];return record;}
-        CMTime stored=PGRecordTime(record);
-        // Same-time changed detections recompute from an earlier frame, never
-        // feed an already smoothed result into another pass at that same time.
-        if(CMTimeCompare(stored,time)>=0)continue;
-        double dt=CMTimeGetSeconds(CMTimeSubtract(time,stored));
-        if(dt<=.35 && (!reference || CMTimeCompare(stored,PGRecordTime(reference))>0))reference=record;
-    }
-    NSArray *prior=reference[@"output"];
-    NSDictionary *previous=prior.count?prior.firstObject:nil;
+    NSString *scope=mode==1?[NSString stringWithFormat:@"%.9g/%.9g",seedX,seedY]:@"automatic";
+    if(mode==1&&reference&&PGSeedDistance(reference,s)<=.01){scope=reference[@"scope"];seedX=[reference[@"seedX"] doubleValue];seedY=[reference[@"seedY"] doubleValue];}
+    if(reference&&![reference[@"scope"] isEqual:scope])reference=nil;
+    // Exact frame reuse is independent of a second Vision result or render count.
+    // A new uncached rewind clears live geometry and the stateful sequence handler.
+    NSDictionary *cached=nil;
+    if(key)for(NSDictionary *record in _entries)if([record[@"context"] isEqual:context]&&[record[@"scope"] isEqual:scope]&&[record[@"key"] isEqual:key]){cached=record;break;}
+    BOOL backward=reference&&CMTimeCompare(time,PGRecordTime(reference))<0;
+    if(contextChanged||!reference||backward)[self resetObjectTracker];
+    if(cached){_liveReference=cached;[_mutex unlock];return cached;}
+    if(backward||!key)reference=nil;
+    NSDictionary *previous=reference[@"accepted"];
     CGRect previousBox=PGArrayRect(previous[@"box"]);
+    CGRect tracked=mode==2?CGRectNull:[self trackedBoxForImage:image time:time seedBox:CGRectNull];
+    CGRect selectionBox=PGValidRect(tracked)?tracked:previousBox;
     NSInteger index=-1;double best=-DBL_MAX;
-    if(mode!=2) for(NSUInteger i=0;i<raw.count;i++) {
+    if(mode!=2)for(NSUInteger i=0;i<raw.count;i++) {
         CGRect box=PGArrayRect(raw[i][@"box"]);CGPoint center=PGCenter(box);double score;
         if(PGValidRect(previousBox)) {
             CGFloat factor=PGClamp(s.faceJumpGuardRange,1,4);
             CGRect guard=CGRectIntersection(CGRectMake(0,0,1,1),CGRectInset(previousBox,-previousBox.size.width*(factor-1)*.5,-previousBox.size.height*(factor-1)*.5));
-            if(center.x<CGRectGetMinX(guard)||center.x>CGRectGetMaxX(guard)||center.y<CGRectGetMinY(guard)||center.y>CGRectGetMaxY(guard))continue;
-            CGPoint p=PGCenter(previousBox);score=-((center.x-p.x)*(center.x-p.x)+(center.y-p.y)*(center.y-p.y));
-        } else if(mode==1) score=-((center.x-seedX)*(center.x-seedX)+(center.y-seedY)*(center.y-seedY));
+            if(!CGRectContainsPoint(guard,center))continue;
+        }
+        if(PGValidRect(selectionBox)) {
+            CGPoint p=PGCenter(selectionBox);double distance=hypot(center.x-p.x,center.y-p.y);
+            score=8*PGBoxIoU(box,selectionBox)+3.2*(1-MIN(1,distance/.32))-.35*distance;
+            if(CGRectContainsPoint(box,p))score+=1.2;
+        }else if(mode==1)score=-hypot(center.x-seedX,center.y-seedY);
         else {CGRect clipped=CGRectIntersection(box,CGRectMake(0,0,1,1));CGPoint p=PGCenter(clipped);
             score=1.8*fmin(1,clipped.size.width*clipped.size.height)+1.1*(1-fmin(1,hypot(p.x-.5,p.y-.5)/.72));}
-        if(index<0 || score>best) {index=(NSInteger)i;best=score;}
+        if(index<0||score>best){index=(NSInteger)i;best=score;}
     }
-    NSArray *output;BOOL held=NO;
-    if(mode==2) output=raw;
-    else if(index>=0) {
-        NSDictionary *current=raw[(NSUInteger)index];
-        double dt=reference?CMTimeGetSeconds(CMTimeSubtract(time,PGRecordTime(reference))):0;
-        output=@[previous?PGStableGeometry(current,previous,dt,![reference[@"held"] boolValue]):current];
-    } else {output=prior?:@[];held=output.count>0;}
+    NSDictionary *current=index>=0?raw[(NSUInteger)index]:nil;
+    if(mode!=2&&!PGValidRect(tracked)&&current)tracked=[self trackedBoxForImage:image time:time seedBox:PGArrayRect(current[@"box"])];
+    NSString *reason=current?PGGeometryQualityReason(current):@"missingFace";
+    if(!reason.length&&previous)reason=PGGeometryTransitionReason(current,previous);
+    BOOL held=NO;NSArray *output=@[];NSDictionary *accepted=previous;
+    if(mode==2){output=raw;accepted=nil;reason=@"fastMulti";}
+    else if(!reason.length){output=@[current];accepted=current;}
+    else if(previous) {
+        CGRect box=PGValidRect(tracked)?tracked:(current?PGArrayRect(current[@"box"]):previousBox);
+        NSDictionary *mapped=PGRemappedGeometry(previous,box);
+        output=@[PGValidHeldGeometry(mapped)?mapped:previous];held=YES;
+    }
     NSMutableDictionary *record=[@{@"context":context,@"scope":scope,@"key":key?:@"invalid",@"value":@(time.value),@"scale":@(time.timescale),@"epoch":@(time.epoch),
-        @"seedX":@(seedX),@"seedY":@(seedY),@"raw":raw,@"output":output,@"index":@(index),@"held":@(held),@"referenceKey":reference[@"key"]?:@""} mutableCopy];
+        @"seedX":@(seedX),@"seedY":@(seedY),@"raw":raw,@"output":output,@"index":@(index),@"held":@(held),@"reason":reason,
+        @"trackedBox":PGValidRect(tracked)?PGRectArray(tracked):@[],@"referenceKey":reference[@"key"]?:@""} mutableCopy];
+    if(accepted)record[@"accepted"]=accepted;
+    // Keep the accepted time distinct from the output/held time for diagnostics.
+    record[@"acceptedKey"]=(!reason.length?key:reference[@"acceptedKey"])?:@"";
     if(key) {
         NSData *serialized=[NSPropertyListSerialization dataWithPropertyList:record format:NSPropertyListBinaryFormat_v1_0 options:0 error:nil];
-        NSUInteger bytes=serialized.length+512;
-        record[@"bytes"]=@(bytes);
-        // Replace changed raw geometry at the same timestamp rather than letting
-        // callbacks grow history or make smoothing depend on redraw count.
-        for(NSInteger i=(NSInteger)_entries.count-1;i>=0;i--) {
-            NSDictionary *old=_entries[(NSUInteger)i];
-            if([old[@"context"] isEqual:context] && [old[@"scope"] isEqual:scope] && [old[@"key"] isEqual:key]) {
-                _estimatedBytes-=[old[@"bytes"] unsignedIntegerValue];[_entries removeObjectAtIndex:(NSUInteger)i];
-            }
-        }
-        if(bytes<=16*1024*1024) {[_entries addObject:[record copy]];_estimatedBytes+=bytes;}
-        while(_entries.count>1200 || _estimatedBytes>16*1024*1024) {
-            _estimatedBytes-=[_entries.firstObject[@"bytes"] unsignedIntegerValue];[_entries removeObjectAtIndex:0];
-        }
-    }
+        NSUInteger bytes=serialized.length+512;record[@"bytes"]=@(bytes);
+        if(bytes<=16*1024*1024){[_entries addObject:[record copy]];_estimatedBytes+=bytes;}
+        while(_entries.count>1200||_estimatedBytes>16*1024*1024){_estimatedBytes-=[_entries.firstObject[@"bytes"] unsignedIntegerValue];[_entries removeObjectAtIndex:0];}
+        _liveReference=[record copy];
+    }else{_liveReference=nil;[self resetObjectTracker];}
     [_mutex unlock];return [record copy];
 }
 @end
@@ -338,6 +445,8 @@ static NSDictionary *PGStableGeometry(NSDictionary *current, NSDictionary *previ
     CIColorKernel *_subtract;
     CIColorKernel *_box;
     PGRealtimeFaceTracker *_realtime;
+    NSMutableArray<NSDictionary *> *_observationCache;
+    CIContext *_visionContext;
 }
 @end
 
@@ -348,6 +457,8 @@ static NSDictionary *PGStableGeometry(NSDictionary *current, NSDictionary *previ
     if (self) {
         _lock = [[NSLock alloc] init];
         _realtime = [PGRealtimeFaceTracker new];
+        _observationCache = [NSMutableArray new];
+        _visionContext = [CIContext contextWithOptions:@{kCIContextCacheIntermediates:@NO}];
         _targets = [NSMutableArray arrayWithObjects:[NSMutableDictionary dictionary], [NSMutableDictionary dictionary], [NSMutableDictionary dictionary], nil];
         // Thin/V/chin/jaw/short reconstruct recovered local coordinate math.
         // Four other controls retain this project's analytic approximation.
@@ -423,25 +534,52 @@ static NSDictionary *PGStableGeometry(NSDictionary *current, NSDictionary *previ
 }
 
 - (NSArray<VNFaceObservation *> *)observationsInImage:(CIImage *)image settings:(PGBeautySettings)settings error:(NSError **)error {
-    CGRect extent = image.extent;
-    CGFloat longest = MAX(extent.size.width, extent.size.height);
-    CGFloat scale = MIN(1.0, (settings.fastMultiFace ? 720.0 : 1280.0) / longest);
-    CIImage *prepared = [image imageByApplyingTransform:CGAffineTransformMakeTranslation(-extent.origin.x, -extent.origin.y)];
-    prepared = [prepared imageByApplyingTransform:CGAffineTransformMakeScale(scale, scale)];
-    VNDetectFaceLandmarksRequest *request = [[VNDetectFaceLandmarksRequest alloc] init];
-    request.revision = VNDetectFaceLandmarksRequestRevision3;
-    request.constellation = VNRequestFaceLandmarksConstellation76Points;
-    // An image request handler is intentionally local to one invocation. A shared
-    // sequence handler would make parallel / reverse render order observable.
-    VNImageRequestHandler *handler = [[VNImageRequestHandler alloc] initWithCIImage:prepared options:@{}];
-    if (![handler performRequests:@[request] error:error]) return nil;
-    NSArray<VNFaceObservation *> *faces = request.results ?: @[];
-    return [faces sortedArrayUsingComparator:^NSComparisonResult(VNFaceObservation *a, VNFaceObservation *b) {
-        CGRect x = a.boundingBox, y = b.boundingBox;
-        if (CGRectGetMidX(x) != CGRectGetMidX(y)) return CGRectGetMidX(x) < CGRectGetMidX(y) ? NSOrderedAscending : NSOrderedDescending;
-        if (CGRectGetMidY(x) != CGRectGetMidY(y)) return CGRectGetMidY(x) < CGRectGetMidY(y) ? NSOrderedAscending : NSOrderedDescending;
-        return x.size.width > y.size.width ? NSOrderedAscending : NSOrderedDescending;
+    // 2.4.0 defaults to a 960-pixel long edge (its configurable downsample
+    // limit), not the former 1280-pixel path. The explicit fast mode keeps its
+    // lower-cost detector. Both handlers receive an upright, zero-origin image.
+    CIImage *prepared=PGPreparedVisionImage(image,settings.fastMultiFace?720:960);
+    VNDetectFaceLandmarksRequest *(^newRequest)(void)=^{
+        VNDetectFaceLandmarksRequest *r=[VNDetectFaceLandmarksRequest new];
+        r.revision=VNDetectFaceLandmarksRequestRevision3;r.constellation=VNRequestFaceLandmarksConstellation76Points;return r;
+    };
+    VNDetectFaceLandmarksRequest *request=newRequest();NSError *firstError=nil;
+    VNImageRequestHandler *handler=[[VNImageRequestHandler alloc] initWithCIImage:prepared orientation:kCGImagePropertyOrientationUp options:@{}];
+    BOOL ok=[handler performRequests:@[request] error:&firstError];
+    NSArray<VNFaceObservation *> *faces=ok?(request.results?:@[]):@[];
+    NSUInteger count=0;for(VNFaceObservation *face in faces)count=MAX(count,face.landmarks.allPoints.pointCount);
+    if(!ok||!faces.count||count<76) {
+        // The reference retries a materialized RGBA image, not the same lazy
+        // CIImage request. Retain a successful first result if retry finds none.
+        CGColorSpaceRef space=CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
+        CGImageRef cg=[_visionContext createCGImage:prepared fromRect:prepared.extent format:kCIFormatRGBA8 colorSpace:space];
+        CGColorSpaceRelease(space);
+        if(cg) {
+            VNDetectFaceLandmarksRequest *retry=newRequest();NSError *retryError=nil;
+            VNImageRequestHandler *fallback=[[VNImageRequestHandler alloc] initWithCGImage:cg orientation:kCGImagePropertyOrientationUp options:@{}];
+            BOOL retried=[fallback performRequests:@[retry] error:&retryError];CGImageRelease(cg);
+            if(retried){ok=YES;firstError=nil;if(retry.results.count)faces=retry.results;}
+            else if(!ok)firstError=retryError?:firstError;
+        }
+    }
+    if(!ok){if(error)*error=firstError;return nil;}
+    return [faces sortedArrayUsingComparator:^NSComparisonResult(VNFaceObservation *a,VNFaceObservation *b) {
+        CGRect x=a.boundingBox,y=b.boundingBox;
+        if(CGRectGetMidX(x)!=CGRectGetMidX(y))return CGRectGetMidX(x)<CGRectGetMidX(y)?NSOrderedAscending:NSOrderedDescending;
+        if(CGRectGetMidY(x)!=CGRectGetMidY(y))return CGRectGetMidY(x)<CGRectGetMidY(y)?NSOrderedAscending:NSOrderedDescending;
+        return x.size.width>y.size.width?NSOrderedAscending:NSOrderedDescending;
     }];
+}
+- (NSArray<VNFaceObservation *> *)cachedObservationsInImage:(CIImage *)image settings:(PGBeautySettings)settings time:(CMTime)time error:(NSError **)error {
+    NSString *key=PGTimeKey(time);CGRect e=image.extent;
+    NSString *context=[NSString stringWithFormat:@"%u/%.17g/%.17g/%.17g/%.17g",settings.fastMultiFace,e.origin.x,e.origin.y,e.size.width,e.size.height];
+    @synchronized(_observationCache) {
+        if(key)for(NSDictionary *entry in _observationCache)if([entry[@"key"] isEqual:key]&&[entry[@"context"] isEqual:context])return entry[@"faces"];
+        NSArray *faces=[self observationsInImage:image settings:settings error:error];
+        // A transient API error is retriable; a successful empty result is a
+        // real frame result and is cached, so redraws cannot toggle the effect.
+        if(key&&faces){[_observationCache addObject:@{@"key":key,@"context":context,@"faces":faces}];while(_observationCache.count>120)[_observationCache removeObjectAtIndex:0];}
+        return faces;
+    }
 }
 
 - (NSDictionary *)recordForTime:(CMTime)time target:(NSUInteger)target nearest:(BOOL)nearest {
@@ -508,7 +646,7 @@ static NSDictionary *PGStableGeometry(NSDictionary *current, NSDictionary *previ
         if (error) *error = [NSError errorWithDomain:PGFaceErrorDomain code:1 userInfo:@{NSLocalizedDescriptionKey:@"Face analysis requires a finite image and valid frame time."}];
         return NO;
     }
-    NSArray *observations = [self observationsInImage:image settings:settings error:error];
+    NSArray *observations = [self cachedObservationsInImage:image settings:settings time:time error:error];
     if (!observations) return NO;
     NSUInteger target = MIN((NSUInteger)settings.targetIndex, 2);
     NSDictionary *prior = [self recordForTime:time target:target nearest:YES];
@@ -628,7 +766,7 @@ static NSDictionary *PGStableGeometry(NSDictionary *current, NSDictionary *previ
         for (NSDictionary *face in geometry) [restored addObject:[VNFaceObservation faceObservationWithRequestRevision:VNDetectFaceLandmarksRequestRevision3 boundingBox:PGArrayRect(face[@"box"]) roll:nil yaw:nil pitch:nil]];
         observations = restored;
     } else {
-        NSArray *detected = [self observationsInImage:image settings:settings error:error];
+        NSArray *detected = [self cachedObservationsInImage:image settings:settings time:time error:error];
         if (!detected) return nil;
         if(settings.trackingEnabled) {
             // Preserve the explicit offline-analysis contract. Its stored
@@ -645,7 +783,7 @@ static NSDictionary *PGStableGeometry(NSDictionary *current, NSDictionary *previ
             for(VNFaceObservation *observation in detected) if(PGValidRect(observation.boundingBox) && raw.count<16) {
                 [raw addObject:PGGeometry(observation)];[validObservations addObject:observation];
             }
-            NSDictionary *live=[_realtime resultForGeometry:raw settings:settings time:time extent:extent];
+            NSDictionary *live=[_realtime resultForGeometry:raw settings:settings time:time extent:extent image:image];
             geometry=live[@"output"];
             if(settings.singleFace && !settings.fastMultiFace) {
                 NSInteger index=[live[@"index"] integerValue];
@@ -664,6 +802,16 @@ static NSDictionary *PGStableGeometry(NSDictionary *current, NSDictionary *previ
                 // Default single-primary geometry does not narrow the separate
                 // skin/teeth/eyes support, which still covers the detected group.
                 appearance=raw;observations=validObservations;
+            }
+            if([live[@"held"] boolValue] && geometry.count) {
+                // Keep beauty masks on the same held primary shape as the warp,
+                // while retaining support for independently detected secondary faces.
+                NSMutableArray *supported=[appearance mutableCopy];
+                NSInteger index=[live[@"index"] integerValue];
+                if(!settings.singleFace && index>=0 && (NSUInteger)index<supported.count) supported[(NSUInteger)index]=geometry.firstObject;
+                else if(settings.singleFace || !supported.count) supported=[geometry mutableCopy];
+                else [supported addObjectsFromArray:geometry];
+                appearance=supported;
             }
         }
     }
@@ -724,6 +872,7 @@ static NSDictionary *PGStableGeometry(NSDictionary *current, NSDictionary *previ
     for (NSMutableDictionary *target in _targets) [target removeAllObjects];
     [_lock unlock];
     [_realtime reset];
+    @synchronized(_observationCache) { [_observationCache removeAllObjects]; }
 }
 
 - (NSData *)trackingDataForTarget:(NSUInteger)target {

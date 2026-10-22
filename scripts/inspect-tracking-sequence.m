@@ -68,7 +68,7 @@ int main(int argc,const char *argv[]) {@autoreleasepool {
         NSMutableArray *raw=[NSMutableArray new],*faces=[NSMutableArray new];
         for(VNFaceObservation *face in observations)if(PGValidRect(face.boundingBox)&&raw.count<16){[raw addObject:PGGeometry(face)];[faces addObject:face];}
         CMTime time=CMTimeAdd(CMTimeMake(frame,fps),CMTimeMakeWithSeconds(offset,60000));
-        NSDictionary *r=[tracker resultForGeometry:raw settings:settings time:time extent:image.extent];
+        NSDictionary *r=[tracker resultForGeometry:raw settings:settings time:time extent:image.extent image:image];
         NSInteger index=[r[@"index"] integerValue];NSDictionary *current=(index>=0&&(NSUInteger)index<raw.count)?raw[index]:nil;
         VNFaceObservation *face=(index>=0&&(NSUInteger)index<faces.count)?faces[index]:nil;
         NSDictionary *stable=[r[@"output"] firstObject];
@@ -86,7 +86,7 @@ int main(int argc,const char *argv[]) {@autoreleasepool {
         }
         NSMutableDictionary *row=[@{@"frame":@(frame),@"requestedSeconds":@(requested),@"actualSeconds":@(CMTimeGetSeconds(actual)),
             @"faceCount":@(raw.count),@"points76Count":@([current[@"points76"] count]),@"held":r[@"held"],
-            @"landmarkConfidence":NumberOrNull(confidence),@"faceConfidence":NumberOrNull(face?face.confidence:NAN),
+            @"qualityReason":current?PGGeometryQualityReason(current):@"missingFace",@"resultReason":r[@"reason"]?:@"",@"trackedBoxAvailable":@([r[@"trackedBox"] count]==4),@"landmarkConfidence":NumberOrNull(confidence),@"faceConfidence":NumberOrNull(face?face.confidence:NAN),
             @"rawContourShapeStep":NumberOrNull(ShapeRMS(priorRaw,current,59,75)),
             @"outputContourShapeStep":NumberOrNull(ShapeRMS(priorOutput,stable,59,75)),
             @"rawAllShapeStep":NumberOrNull(ShapeRMS(priorRaw,current,0,75)),
